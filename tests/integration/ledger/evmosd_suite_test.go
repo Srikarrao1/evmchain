@@ -33,7 +33,7 @@ import (
 	cosmosledger "github.com/cosmos/cosmos-sdk/crypto/ledger"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	clientkeys "github.com/shido/shido/v2/client/keys"
-	evmoskeyring "github.com/shido/shido/v2/crypto/keyring"
+	shidokeyring "github.com/shido/shido/v2/crypto/keyring"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -45,7 +45,7 @@ var s *LedgerTestSuite
 type LedgerTestSuite struct {
 	suite.Suite
 
-	app *app.Evmos
+	app *app.Shido
 	ctx sdk.Context
 
 	ledger       *mocks.SECP256K1
@@ -62,7 +62,7 @@ func TestLedger(t *testing.T) {
 	suite.Run(t, s)
 
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Evmosd Suite")
+	RunSpecs(t, "Shidod Suite")
 }
 
 func (suite *LedgerTestSuite) SetupTest() {
@@ -81,7 +81,7 @@ func (suite *LedgerTestSuite) SetupTest() {
 	suite.accAddr = sdk.AccAddress(ethAddr.Bytes())
 }
 
-func (suite *LedgerTestSuite) SetupEvmosApp() {
+func (suite *LedgerTestSuite) SetupShidoApp() {
 	consAddress := sdk.ConsAddress(utiltx.GenerateAddress().Bytes())
 
 	// init app
@@ -144,7 +144,7 @@ func (suite *LedgerTestSuite) NewKeyringAndCtxs(krHome string, input io.Reader, 
 	return kr, initClientCtx, ctx
 }
 
-func (suite *LedgerTestSuite) evmosAddKeyCmd() *cobra.Command {
+func (suite *LedgerTestSuite) shidoAddKeyCmd() *cobra.Command {
 	cmd := keys.AddKeyCommand()
 
 	algoFlag := cmd.Flag(flags.FlagKeyType)
@@ -169,12 +169,12 @@ func (suite *LedgerTestSuite) evmosAddKeyCmd() *cobra.Command {
 
 func (suite *LedgerTestSuite) MockKeyringOption() keyring.Option {
 	return func(options *keyring.Options) {
-		options.SupportedAlgos = evmoskeyring.SupportedAlgorithms
-		options.SupportedAlgosLedger = evmoskeyring.SupportedAlgorithmsLedger
+		options.SupportedAlgos = shidokeyring.SupportedAlgorithms
+		options.SupportedAlgosLedger = shidokeyring.SupportedAlgorithmsLedger
 		options.LedgerDerivation = func() (cosmosledger.SECP256K1, error) { return suite.ledger, nil }
-		options.LedgerCreateKey = evmoskeyring.CreatePubkey
-		options.LedgerAppName = evmoskeyring.AppName
-		options.LedgerSigSkipDERConv = evmoskeyring.SkipDERConversion
+		options.LedgerCreateKey = shidokeyring.CreatePubkey
+		options.LedgerAppName = shidokeyring.AppName
+		options.LedgerSigSkipDERConv = shidokeyring.SkipDERConversion
 	}
 }
 

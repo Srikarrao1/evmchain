@@ -304,7 +304,7 @@ func TestGetSentCoin(t *testing.T) {
 			"get ibc wrapped ashido coin",
 			"transfer/channel-0/ashido",
 			"10",
-			sdk.Coin{Denom: teststypes.AevmosIbcdenom, Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: teststypes.AshidoIbcdenom, Amount: sdk.NewInt(10)},
 		},
 		{
 			"get ibc wrapped uosmo coin",

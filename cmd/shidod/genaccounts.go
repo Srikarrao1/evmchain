@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
-
 package main
 
 import (
@@ -26,7 +23,7 @@ import (
 	"github.com/shido/shido/v2/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
-	evmoskr "github.com/shido/shido/v2/crypto/keyring"
+	shidokr "github.com/shido/shido/v2/crypto/keyring"
 
 	vestingcli "github.com/shido/shido/v2/x/vesting/client/cli"
 	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
@@ -69,7 +66,7 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 						clientCtx.HomeDir,
 						inBuf,
 						clientCtx.Codec,
-						evmoskr.Option(),
+						shidokr.Option(),
 					)
 					if err != nil {
 						return err

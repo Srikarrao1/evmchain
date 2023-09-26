@@ -41,13 +41,13 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-// SetupWithGenesisValSet initializes a new EvmosApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
 	appI, genesisState := evmosapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*evmosapp.Evmos)
+	app, ok := appI.(*evmosapp.Shido)
 	s.Require().True(ok)
 
 	// set genesis accounts

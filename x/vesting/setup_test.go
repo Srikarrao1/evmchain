@@ -16,7 +16,7 @@ type VestingTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *app.Evmos
+	app        *app.Shido
 	address    common.Address
 	validators []stakingtypes.Validator
 	privKey    cryptotypes.PrivKey

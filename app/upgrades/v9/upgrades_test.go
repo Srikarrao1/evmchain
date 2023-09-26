@@ -27,7 +27,7 @@ type UpgradeTestSuite struct {
 	suite.Suite
 
 	ctx         sdk.Context
-	app         *app.Evmos
+	app         *app.Shido
 	consAddress sdk.ConsAddress
 }
 

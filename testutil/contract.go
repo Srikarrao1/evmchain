@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package testutil
 
 import (
@@ -53,15 +51,15 @@ type ContractCallArgs struct {
 // compiled contract data and constructor arguments
 func DeployContract(
 	ctx sdk.Context,
-	evmosApp *app.Evmos,
+	shidoApp *app.Shido,
 	priv cryptotypes.PrivKey,
 	queryClientEvm evm.QueryClient,
 	contract evm.CompiledContract,
 	constructorArgs ...interface{},
 ) (common.Address, error) {
-	chainID := evmosApp.EvmKeeper.ChainID()
+	chainID := shidoApp.EvmKeeper.ChainID()
 	from := common.BytesToAddress(priv.PubKey().Address().Bytes())
-	nonce := evmosApp.EvmKeeper.GetNonce(ctx, from)
+	nonce := shidoApp.EvmKeeper.GetNonce(ctx, from)
 
 	ctorArgs, err := contract.ABI.Pack("", constructorArgs...)
 	if err != nil {
@@ -78,19 +76,19 @@ func DeployContract(
 		ChainID:   chainID,
 		Nonce:     nonce,
 		GasLimit:  gas,
-		GasFeeCap: evmosApp.FeeMarketKeeper.GetBaseFee(ctx),
+		GasFeeCap: shidoApp.FeeMarketKeeper.GetBaseFee(ctx),
 		GasTipCap: big.NewInt(1),
 		Input:     data,
 		Accesses:  &ethtypes.AccessList{},
 	})
 	msgEthereumTx.From = from.String()
 
-	res, err := DeliverEthTx(evmosApp, priv, msgEthereumTx)
+	res, err := DeliverEthTx(shidoApp, priv, msgEthereumTx)
 	if err != nil {
 		return common.Address{}, err
 	}
 
-	if _, err := CheckEthTxResponse(res, evmosApp.AppCodec()); err != nil {
+	if _, err := CheckEthTxResponse(res, shidoApp.AppCodec()); err != nil {
 		return common.Address{}, err
 	}
 
@@ -101,14 +99,14 @@ func DeployContract(
 // with the provided factoryAddress
 func DeployContractWithFactory(
 	ctx sdk.Context,
-	evmosApp *app.Evmos,
+	shidoApp *app.Shido,
 	priv cryptotypes.PrivKey,
 	factoryAddress common.Address,
 ) (common.Address, abci.ResponseDeliverTx, error) {
-	chainID := evmosApp.EvmKeeper.ChainID()
+	chainID := shidoApp.EvmKeeper.ChainID()
 	from := common.BytesToAddress(priv.PubKey().Address().Bytes())
-	factoryNonce := evmosApp.EvmKeeper.GetNonce(ctx, factoryAddress)
-	nonce := evmosApp.EvmKeeper.GetNonce(ctx, from)
+	factoryNonce := shidoApp.EvmKeeper.GetNonce(ctx, factoryAddress)
+	nonce := shidoApp.EvmKeeper.GetNonce(ctx, from)
 
 	msgEthereumTx := evm.NewTx(&evm.EvmTxArgs{
 		ChainID:  chainID,
@@ -119,12 +117,12 @@ func DeployContractWithFactory(
 	})
 	msgEthereumTx.From = from.String()
 
-	res, err := DeliverEthTx(evmosApp, priv, msgEthereumTx)
+	res, err := DeliverEthTx(shidoApp, priv, msgEthereumTx)
 	if err != nil {
 		return common.Address{}, abci.ResponseDeliverTx{}, err
 	}
 
-	if _, err := CheckEthTxResponse(res, evmosApp.AppCodec()); err != nil {
+	if _, err := CheckEthTxResponse(res, shidoApp.AppCodec()); err != nil {
 		return common.Address{}, abci.ResponseDeliverTx{}, err
 	}
 

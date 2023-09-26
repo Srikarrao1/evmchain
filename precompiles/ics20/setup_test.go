@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package ics20_test
 
 import (
@@ -31,7 +29,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx           sdk.Context
-	app           *evmosapp.Evmos
+	app           *evmosapp.Shido
 	address       common.Address
 	differentAddr common.Address
 	validators    []stakingtypes.Validator

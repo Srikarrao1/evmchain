@@ -26,7 +26,7 @@ import (
 	"github.com/shido/shido/v2/encoding"
 	"github.com/shido/shido/v2/testutil"
 	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/shido/shido/v2/x/feemarket/types"
 
@@ -60,7 +60,7 @@ func (suite *KeeperTestSuite) SetupApp(checkTx bool, chainID string) {
 	types.RegisterQueryServer(queryHelper, suite.app.FeeMarketKeeper)
 	suite.queryClient = types.NewQueryClient(queryHelper)
 
-	acc := &evmostypes.EthAccount{
+	acc := &shidotypes.EthAccount{
 		BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 	}
@@ -150,7 +150,7 @@ func setupChain(localMinGasPricesStr string, chainID string) {
 	// Initialize the app, so we can use SetMinGasPrices to set the
 	// validator-specific min-gas-prices setting
 	db := dbm.NewMemDB()
-	newapp := app.NewEvmos(
+	newapp := app.NewShido(
 		log.NewNopLogger(),
 		db,
 		nil,

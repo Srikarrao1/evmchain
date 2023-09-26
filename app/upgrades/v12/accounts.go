@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
-
 // These accounts represent the affected accounts during the Claims decay bug
 
 // The decay occurred before planned and the corresponding claimed amounts

@@ -15,22 +15,22 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmosapp "github.com/shido/shido/v2/app"
+	shidoapp "github.com/shido/shido/v2/app"
 	cmn "github.com/shido/shido/v2/precompiles/common"
-	evmosutil "github.com/shido/shido/v2/testutil"
+	shidoutil "github.com/shido/shido/v2/testutil"
 	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/utils"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
-// SetupWithGenesisValSet initializes a new EvmosApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
-	appI, genesisState := evmosapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*evmosapp.Evmos)
+	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
+	app, ok := appI.(*shidoapp.Shido)
 	s.Require().True(ok)
 
 	// set genesis accounts
@@ -40,7 +40,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
 
-	bondAmt := sdk.TokensFromConsensusPower(1, evmostypes.PowerReduction)
+	bondAmt := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
 
 	for _, val := range valSet.Validators {
 		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
@@ -95,7 +95,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 	stateBytes, err := json.MarshalIndent(genesisState, "", " ")
 	s.Require().NoError(err)
 
-	header := evmosutil.NewHeader(
+	header := shidoutil.NewHeader(
 		2,
 		time.Now().UTC(),
 		cmn.DefaultChainID,
@@ -109,7 +109,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 		abci.RequestInitChain{
 			ChainId:         cmn.DefaultChainID,
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: evmosapp.DefaultConsensusParams,
+			ConsensusParams: shidoapp.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
@@ -148,12 +148,12 @@ func (s *VestingTestSuite) DoSetupTest() {
 
 	baseAcc := authtypes.NewBaseAccount(priv.PubKey().Address().Bytes(), priv.PubKey(), 0, 0)
 
-	acc := &evmostypes.EthAccount{
+	acc := &shidotypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(5, evmostypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(5, shidotypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),

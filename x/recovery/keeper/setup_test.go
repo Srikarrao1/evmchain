@@ -35,7 +35,7 @@ type KeeperTestSuite struct {
 
 	ctx sdk.Context
 
-	app         *app.Evmos
+	app         *app.Shido
 	queryClient types.QueryClient
 }
 
@@ -74,12 +74,12 @@ type IBCTestingSuite struct {
 	coordinator *ibcgotesting.Coordinator
 
 	// testing chains used for convenience and readability
-	EvmosChain      *ibcgotesting.TestChain
+	ShidoChain      *ibcgotesting.TestChain
 	IBCOsmosisChain *ibcgotesting.TestChain
 	IBCCosmosChain  *ibcgotesting.TestChain
 
-	pathOsmosisEvmos  *ibctesting.Path
-	pathCosmosEvmos   *ibctesting.Path
+	pathOsmosisShido  *ibctesting.Path
+	pathCosmosShido   *ibctesting.Path
 	pathOsmosisCosmos *ibctesting.Path
 }
 

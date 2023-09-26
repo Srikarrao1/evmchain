@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package app
 
 import (
@@ -29,7 +27,7 @@ import (
 )
 
 // EthDefaultConsensusParams defines the default Tendermint consensus params used in
-// EvmosApp testing.
+// ShidoApp testing.
 var EthDefaultConsensusParams = &tmtypes.ConsensusParams{
 	Block: &tmtypes.BlockParams{
 		MaxBytes: 200000,
@@ -47,15 +45,15 @@ var EthDefaultConsensusParams = &tmtypes.ConsensusParams{
 	},
 }
 
-// EthSetup initializes a new EvmosApp. A Nop logger is set in EvmosApp.
-func EthSetup(isCheckTx bool, patchGenesis func(*Evmos, simapp.GenesisState) simapp.GenesisState) *Evmos {
+// EthSetup initializes a new ShidoApp. A Nop logger is set in ShidoApp.
+func EthSetup(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisState) simapp.GenesisState) *Shido {
 	return EthSetupWithDB(isCheckTx, patchGenesis, dbm.NewMemDB())
 }
 
-// EthSetupWithDB initializes a new EvmosApp. A Nop logger is set in EvmosApp.
-func EthSetupWithDB(isCheckTx bool, patchGenesis func(*Evmos, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *Evmos {
+// EthSetupWithDB initializes a new ShidoApp. A Nop logger is set in ShidoApp.
+func EthSetupWithDB(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *Shido {
 	chainID := utils.TestnetChainID + "-1"
-	app := NewEvmos(log.NewNopLogger(),
+	app := NewShido(log.NewNopLogger(),
 		db,
 		nil,
 		true,

@@ -24,7 +24,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *evmosapp.Evmos
+	app        *evmosapp.Shido
 	address    common.Address
 	validators []stakingtypes.Validator
 	ethSigner  ethtypes.Signer

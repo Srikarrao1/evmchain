@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package ics20_test
 
 import (
@@ -29,17 +27,17 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
-	evmosapp "github.com/shido/shido/v2/app"
-	evmoscontracts "github.com/shido/shido/v2/contracts"
-	evmosibc "github.com/shido/shido/v2/ibc/testing"
+	shidoapp "github.com/shido/shido/v2/app"
+	shidocontracts "github.com/shido/shido/v2/contracts"
+	shidoibc "github.com/shido/shido/v2/ibc/testing"
 	"github.com/shido/shido/v2/precompiles/authorization"
 	cmn "github.com/shido/shido/v2/precompiles/common"
 	"github.com/shido/shido/v2/precompiles/ics20"
 	"github.com/shido/shido/v2/precompiles/testutil"
 	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	evmosutil "github.com/shido/shido/v2/testutil"
-	evmosutiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidoutil "github.com/shido/shido/v2/testutil"
+	shidoutiltx "github.com/shido/shido/v2/testutil/tx"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/utils"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
@@ -73,13 +71,13 @@ var (
 	}
 )
 
-// SetupWithGenesisValSet initializes a new EvmosApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
-	appI, genesisState := evmosapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*evmosapp.Evmos)
+	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
+	app, ok := appI.(*shidoapp.Shido)
 	s.Require().True(ok)
 
 	// set genesis accounts
@@ -89,7 +87,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
 
-	bondAmt := sdk.TokensFromConsensusPower(1, evmostypes.PowerReduction)
+	bondAmt := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
 
 	for _, val := range valSet.Validators {
 		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
@@ -149,7 +147,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 		abci.RequestInitChain{
 			ChainId:         cmn.DefaultChainID,
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: evmosapp.DefaultConsensusParams,
+			ConsensusParams: shidoapp.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
@@ -158,7 +156,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	app.Commit()
 
 	// instantiate new header
-	header := evmosutil.NewHeader(
+	header := shidoutil.NewHeader(
 		2,
 		time.Now().UTC(),
 		cmn.DefaultChainID,
@@ -204,7 +202,7 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 		// NOTE: This year has to be updated otherwise the client will be shown as expired
 		CurrentTime: time.Date(time.Now().Year()+1, 1, 2, 0, 0, 0, 0, time.UTC),
 	}
-	// Create 2 Evmos chains
+	// Create 2 Shido chains
 	chains[cmn.DefaultChainID] = s.NewTestChainWithValSet(s.coordinator, s.valSet, signersByAddress)
 	// TODO: Figure out if we want to make the second chain keepers accessible to the tests to check the state
 	chainID2 := utils.MainnetChainID + "-2"
@@ -222,21 +220,21 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 
 func (s *PrecompileTestSuite) NewTestChainWithValSet(coord *ibctesting.Coordinator, valSet *tmtypes.ValidatorSet, signers map[string]tmtypes.PrivValidator) *ibctesting.TestChain {
 	// generate genesis account
-	addr, priv := evmosutiltx.NewAddrKey()
+	addr, priv := shidoutiltx.NewAddrKey()
 	s.privKey = priv
 	s.address = addr
 	// differentAddr is an address generated for testing purposes that e.g. raises the different origin error
-	s.differentAddr = evmosutiltx.GenerateAddress()
-	s.signer = evmosutiltx.NewSigner(priv)
+	s.differentAddr = shidoutiltx.GenerateAddress()
+	s.signer = shidoutiltx.NewSigner(priv)
 
 	baseAcc := authtypes.NewBaseAccount(priv.PubKey().Address().Bytes(), priv.PubKey(), 0, 0)
 
-	acc := &evmostypes.EthAccount{
+	acc := &shidotypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(5, evmostypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(5, shidotypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),
@@ -314,7 +312,7 @@ func (s *PrecompileTestSuite) NewPrecompileContract(gas uint64) *vm.Contract {
 }
 
 // NewTransferAuthorizationWithAllocations creates a new allocation for the given grantee and granter and the given coins
-func (s *PrecompileTestSuite) NewTransferAuthorizationWithAllocations(ctx sdk.Context, app *evmosapp.Evmos, grantee, granter common.Address, allocations []transfertypes.Allocation) error {
+func (s *PrecompileTestSuite) NewTransferAuthorizationWithAllocations(ctx sdk.Context, app *shidoapp.Shido, grantee, granter common.Address, allocations []transfertypes.Allocation) error {
 	transferAuthz := &transfertypes.TransferAuthorization{Allocations: allocations}
 	if err := transferAuthz.ValidateBasic(); err != nil {
 		return err
@@ -325,7 +323,7 @@ func (s *PrecompileTestSuite) NewTransferAuthorizationWithAllocations(ctx sdk.Co
 }
 
 // NewTransferAuthorization creates a new transfer authorization for the given grantee and granter and the given coins
-func (s *PrecompileTestSuite) NewTransferAuthorization(ctx sdk.Context, app *evmosapp.Evmos, grantee, granter common.Address, path *ibctesting.Path, coins sdk.Coins, allowList []string) error {
+func (s *PrecompileTestSuite) NewTransferAuthorization(ctx sdk.Context, app *shidoapp.Shido, grantee, granter common.Address, path *ibctesting.Path, coins sdk.Coins, allowList []string) error {
 	allocations := []transfertypes.Allocation{
 		{
 			SourcePort:    path.EndpointA.ChannelConfig.PortID,
@@ -391,7 +389,7 @@ func (s *PrecompileTestSuite) setupIBCTest() {
 	s.coordinator.CommitNBlocks(s.chainA, 2)
 	s.coordinator.CommitNBlocks(s.chainB, 2)
 
-	s.app = s.chainA.App.(*evmosapp.Evmos)
+	s.app = s.chainA.App.(*shidoapp.Shido)
 	evmParams := s.app.EvmKeeper.GetParams(s.chainA.GetContext())
 	evmParams.EvmDenom = utils.BaseDenom
 	err := s.app.EvmKeeper.SetParams(s.chainA.GetContext(), evmParams)
@@ -409,18 +407,18 @@ func (s *PrecompileTestSuite) setupIBCTest() {
 	_, err = s.app.EvmKeeper.GetCoinbaseAddress(s.chainA.GetContext(), sdk.ConsAddress(s.chainA.CurrentHeader.ProposerAddress))
 	s.Require().NoError(err)
 
-	// Mint coins locked on the evmos account generated with secp.
+	// Mint coins locked on the shido account generated with secp.
 	amt, ok := sdk.NewIntFromString("1000000000000000000000")
 	s.Require().True(ok)
-	coinEvmos := sdk.NewCoin(utils.BaseDenom, amt)
-	coins := sdk.NewCoins(coinEvmos)
+	coinShido := sdk.NewCoin(utils.BaseDenom, amt)
+	coins := sdk.NewCoins(coinShido)
 	err = s.app.BankKeeper.MintCoins(s.chainA.GetContext(), inflationtypes.ModuleName, coins)
 	s.Require().NoError(err)
 	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(s.chainA.GetContext(), inflationtypes.ModuleName, s.chainA.SenderAccount.GetAddress(), coins)
 	s.Require().NoError(err)
 
-	s.transferPath = evmosibc.NewTransferPath(s.chainA, s.chainB) // clientID, connectionID, channelID empty
-	evmosibc.SetupPath(s.coordinator, s.transferPath)             // clientID, connectionID, channelID filled
+	s.transferPath = shidoibc.NewTransferPath(s.chainA, s.chainB) // clientID, connectionID, channelID empty
+	shidoibc.SetupPath(s.coordinator, s.transferPath)             // clientID, connectionID, channelID filled
 	s.Require().Equal("07-tendermint-0", s.transferPath.EndpointA.ClientID)
 	s.Require().Equal("connection-0", s.transferPath.EndpointA.ConnectionID)
 	s.Require().Equal("channel-0", s.transferPath.EndpointA.ChannelID)
@@ -507,21 +505,21 @@ func (s *PrecompileTestSuite) setupAllocationsForTesting() {
 	}
 }
 
-// TODO upstream this change to evmos (adding gasPrice)
+// TODO upstream this change to shido (adding gasPrice)
 // DeployContract deploys a contract with the provided private key,
 // compiled contract data and constructor arguments
 func DeployContract(
 	ctx sdk.Context,
-	evmosApp *evmosapp.Evmos,
+	shidoApp *shidoapp.Shido,
 	priv cryptotypes.PrivKey,
 	gasPrice *big.Int,
 	queryClientEvm evmtypes.QueryClient,
 	contract evmtypes.CompiledContract,
 	constructorArgs ...interface{},
 ) (common.Address, error) {
-	chainID := evmosApp.EvmKeeper.ChainID()
+	chainID := shidoApp.EvmKeeper.ChainID()
 	from := common.BytesToAddress(priv.PubKey().Address().Bytes())
-	nonce := evmosApp.EvmKeeper.GetNonce(ctx, from)
+	nonce := shidoApp.EvmKeeper.GetNonce(ctx, from)
 
 	ctorArgs, err := contract.ABI.Pack("", constructorArgs...)
 	if err != nil {
@@ -529,7 +527,7 @@ func DeployContract(
 	}
 
 	data := append(contract.Bin, ctorArgs...) //nolint:gocritic
-	gas, err := evmosutiltx.GasLimit(ctx, from, data, queryClientEvm)
+	gas, err := shidoutiltx.GasLimit(ctx, from, data, queryClientEvm)
 	if err != nil {
 		return common.Address{}, err
 	}
@@ -538,7 +536,7 @@ func DeployContract(
 		ChainID:   chainID,
 		Nonce:     nonce,
 		GasLimit:  gas,
-		GasFeeCap: evmosApp.FeeMarketKeeper.GetBaseFee(ctx),
+		GasFeeCap: shidoApp.FeeMarketKeeper.GetBaseFee(ctx),
 		GasTipCap: big.NewInt(1),
 		GasPrice:  gasPrice,
 		Input:     data,
@@ -546,12 +544,12 @@ func DeployContract(
 	})
 	msgEthereumTx.From = from.String()
 
-	res, err := evmosutil.DeliverEthTx(evmosApp, priv, msgEthereumTx)
+	res, err := shidoutil.DeliverEthTx(shidoApp, priv, msgEthereumTx)
 	if err != nil {
 		return common.Address{}, err
 	}
 
-	if _, err := evmosutil.CheckEthTxResponse(res, evmosApp.AppCodec()); err != nil {
+	if _, err := shidoutil.CheckEthTxResponse(res, shidoApp.AppCodec()); err != nil {
 		return common.Address{}, err
 	}
 
@@ -566,7 +564,7 @@ func (s *PrecompileTestSuite) DeployERC20Contract(chain *ibctesting.TestChain, n
 		s.privKey,
 		gasPrice,
 		s.queryClientEVM,
-		evmoscontracts.ERC20MinterBurnerDecimalsContract,
+		shidocontracts.ERC20MinterBurnerDecimalsContract,
 		name,
 		symbol,
 		decimals,
@@ -585,7 +583,7 @@ func (s *PrecompileTestSuite) setupERC20ContractTests(amount *big.Int) common.Ad
 
 	defaultERC20CallArgs := contracts.CallArgs{
 		ContractAddr: erc20Addr,
-		ContractABI:  evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+		ContractABI:  shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 		PrivKey:      s.privKey,
 		GasPrice:     gasPrice,
 	}
@@ -596,7 +594,7 @@ func (s *PrecompileTestSuite) setupERC20ContractTests(amount *big.Int) common.Ad
 		WithArgs(s.address, amount)
 
 	mintCheck := testutil.LogCheckArgs{
-		ABIEvents: evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI.Events,
+		ABIEvents: shidocontracts.ERC20MinterBurnerDecimalsContract.ABI.Events,
 		ExpEvents: []string{"Transfer"}, // upon minting the tokens are sent to the receiving address
 		ExpPass:   true,
 	}
@@ -610,7 +608,7 @@ func (s *PrecompileTestSuite) setupERC20ContractTests(amount *big.Int) common.Ad
 	// unregistered token pairs do not show up in the bank keeper
 	balance := s.app.Erc20Keeper.BalanceOf(
 		s.chainA.GetContext(),
-		evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+		shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 		erc20Addr,
 		s.address,
 	)

@@ -28,7 +28,7 @@ type AnteTestSuite struct {
 	suite.Suite
 
 	ctx                      sdk.Context
-	app                      *app.Evmos
+	app                      *app.Shido
 	clientCtx                client.Context
 	anteHandler              sdk.AnteHandler
 	ethSigner                types.Signer
@@ -44,7 +44,7 @@ const TestGasLimit uint64 = 100000
 func (suite *AnteTestSuite) SetupTest() {
 	checkTx := false
 
-	suite.app = app.EthSetup(checkTx, func(app *app.Evmos, genesis simapp.GenesisState) simapp.GenesisState {
+	suite.app = app.EthSetup(checkTx, func(app *app.Shido, genesis simapp.GenesisState) simapp.GenesisState {
 		if suite.enableFeemarket {
 			// setup feemarketGenesis params
 			feemarketGenesis := feemarkettypes.DefaultGenesisState()
@@ -77,7 +77,7 @@ func (suite *AnteTestSuite) SetupTest() {
 	suite.ctx = suite.ctx.WithMinGasPrices(sdk.NewDecCoins(sdk.NewDecCoin(evmtypes.DefaultEVMDenom, sdk.OneInt())))
 	suite.ctx = suite.ctx.WithBlockGasMeter(sdk.NewGasMeter(1000000000000000000))
 
-	// set staking denomination to Evmos denom
+	// set staking denomination to Shido denom
 	params := suite.app.StakingKeeper.GetParams(suite.ctx)
 	params.BondDenom = utils.BaseDenom
 	err := suite.app.StakingKeeper.SetParams(suite.ctx, params)

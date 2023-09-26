@@ -138,48 +138,48 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 func (suite *KeeperTestSuite) SetupIBCTest() {
 	// initializes 3 test chains
 	suite.coordinator = ibctesting.NewCoordinator(suite.T(), 1, 2)
-	suite.EvmosChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(1))
+	suite.ShidoChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(1))
 	suite.IBCOsmosisChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(2))
 	suite.IBCCosmosChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(3))
-	suite.coordinator.CommitNBlocks(suite.EvmosChain, 2)
+	suite.coordinator.CommitNBlocks(suite.ShidoChain, 2)
 	suite.coordinator.CommitNBlocks(suite.IBCOsmosisChain, 2)
 	suite.coordinator.CommitNBlocks(suite.IBCCosmosChain, 2)
 
-	s.app = suite.EvmosChain.App.(*app.Evmos)
-	evmParams := s.app.EvmKeeper.GetParams(s.EvmosChain.GetContext())
+	s.app = suite.ShidoChain.App.(*app.Shido)
+	evmParams := s.app.EvmKeeper.GetParams(s.ShidoChain.GetContext())
 	evmParams.EvmDenom = utils.BaseDenom
-	err := s.app.EvmKeeper.SetParams(s.EvmosChain.GetContext(), evmParams)
+	err := s.app.EvmKeeper.SetParams(s.ShidoChain.GetContext(), evmParams)
 	suite.Require().NoError(err)
 
-	// s.app.FeeMarketKeeper.SetBaseFee(s.EvmosChain.GetContext(), big.NewInt(1))
+	// s.app.FeeMarketKeeper.SetBaseFee(s.ShidoChain.GetContext(), big.NewInt(1))
 
 	// Set block proposer once, so its carried over on the ibc-go-testing suite
-	validators := s.app.StakingKeeper.GetValidators(suite.EvmosChain.GetContext(), 2)
+	validators := s.app.StakingKeeper.GetValidators(suite.ShidoChain.GetContext(), 2)
 	cons, err := validators[0].GetConsAddr()
 	suite.Require().NoError(err)
-	suite.EvmosChain.CurrentHeader.ProposerAddress = cons.Bytes()
+	suite.ShidoChain.CurrentHeader.ProposerAddress = cons.Bytes()
 
-	err = s.app.StakingKeeper.SetValidatorByConsAddr(suite.EvmosChain.GetContext(), validators[0])
+	err = s.app.StakingKeeper.SetValidatorByConsAddr(suite.ShidoChain.GetContext(), validators[0])
 	suite.Require().NoError(err)
 
-	_, err = s.app.EvmKeeper.GetCoinbaseAddress(suite.EvmosChain.GetContext(), sdk.ConsAddress(suite.EvmosChain.CurrentHeader.ProposerAddress))
+	_, err = s.app.EvmKeeper.GetCoinbaseAddress(suite.ShidoChain.GetContext(), sdk.ConsAddress(suite.ShidoChain.CurrentHeader.ProposerAddress))
 	suite.Require().NoError(err)
-	// Mint coins locked on the evmos account generated with secp.
+	// Mint coins locked on the shido account generated with secp.
 	amt, ok := sdk.NewIntFromString("1000000000000000000000")
 	suite.Require().True(ok)
-	coinEvmos := sdk.NewCoin(utils.BaseDenom, amt)
-	coins := sdk.NewCoins(coinEvmos)
-	err = s.app.BankKeeper.MintCoins(suite.EvmosChain.GetContext(), inflationtypes.ModuleName, coins)
+	coinShido := sdk.NewCoin(utils.BaseDenom, amt)
+	coins := sdk.NewCoins(coinShido)
+	err = s.app.BankKeeper.MintCoins(suite.ShidoChain.GetContext(), inflationtypes.ModuleName, coins)
 	suite.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.EvmosChain.GetContext(), inflationtypes.ModuleName, suite.EvmosChain.SenderAccount.GetAddress(), coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ShidoChain.GetContext(), inflationtypes.ModuleName, suite.ShidoChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
 	// we need some coins in the bankkeeper to be able to register the coins later
 	coins = sdk.NewCoins(sdk.NewCoin(teststypes.UosmoIbcdenom, sdk.NewInt(100)))
-	err = s.app.BankKeeper.MintCoins(s.EvmosChain.GetContext(), types.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(s.ShidoChain.GetContext(), types.ModuleName, coins)
 	s.Require().NoError(err)
 	coins = sdk.NewCoins(sdk.NewCoin(teststypes.UatomIbcdenom, sdk.NewInt(100)))
-	err = s.app.BankKeeper.MintCoins(s.EvmosChain.GetContext(), types.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(s.ShidoChain.GetContext(), types.ModuleName, coins)
 	s.Require().NoError(err)
 
 	// Mint coins on the osmosis side which we'll use to unlock our ashido
@@ -212,31 +212,31 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	suite.Require().NoError(err)
 
 	claimparams := claimstypes.DefaultParams()
-	claimparams.AirdropStartTime = suite.EvmosChain.GetContext().BlockTime()
+	claimparams.AirdropStartTime = suite.ShidoChain.GetContext().BlockTime()
 	claimparams.EnableClaims = true
-	err = s.app.ClaimsKeeper.SetParams(suite.EvmosChain.GetContext(), claimparams)
+	err = s.app.ClaimsKeeper.SetParams(suite.ShidoChain.GetContext(), claimparams)
 	suite.Require().NoError(err)
 
 	params := types.DefaultParams()
 	params.EnableErc20 = true
-	err = s.app.Erc20Keeper.SetParams(suite.EvmosChain.GetContext(), params)
+	err = s.app.Erc20Keeper.SetParams(suite.ShidoChain.GetContext(), params)
 	suite.Require().NoError(err)
 
-	suite.pathOsmosisEvmos = ibctesting.NewTransferPath(suite.IBCOsmosisChain, suite.EvmosChain) // clientID, connectionID, channelID empty
-	suite.pathCosmosEvmos = ibctesting.NewTransferPath(suite.IBCCosmosChain, suite.EvmosChain)
+	suite.pathOsmosisShido = ibctesting.NewTransferPath(suite.IBCOsmosisChain, suite.ShidoChain) // clientID, connectionID, channelID empty
+	suite.pathCosmosShido = ibctesting.NewTransferPath(suite.IBCCosmosChain, suite.ShidoChain)
 	suite.pathOsmosisCosmos = ibctesting.NewTransferPath(suite.IBCCosmosChain, suite.IBCOsmosisChain)
-	ibctesting.SetupPath(suite.coordinator, suite.pathOsmosisEvmos) // clientID, connectionID, channelID filled
-	ibctesting.SetupPath(suite.coordinator, suite.pathCosmosEvmos)
+	ibctesting.SetupPath(suite.coordinator, suite.pathOsmosisShido) // clientID, connectionID, channelID filled
+	ibctesting.SetupPath(suite.coordinator, suite.pathCosmosShido)
 	ibctesting.SetupPath(suite.coordinator, suite.pathOsmosisCosmos)
-	suite.Require().Equal("07-tendermint-0", suite.pathOsmosisEvmos.EndpointA.ClientID)
-	suite.Require().Equal("connection-0", suite.pathOsmosisEvmos.EndpointA.ConnectionID)
-	suite.Require().Equal("channel-0", suite.pathOsmosisEvmos.EndpointA.ChannelID)
+	suite.Require().Equal("07-tendermint-0", suite.pathOsmosisShido.EndpointA.ClientID)
+	suite.Require().Equal("connection-0", suite.pathOsmosisShido.EndpointA.ConnectionID)
+	suite.Require().Equal("channel-0", suite.pathOsmosisShido.EndpointA.ChannelID)
 
-	coinEvmos = sdk.NewCoin(utils.BaseDenom, sdk.NewInt(1000000000000000000))
-	coins = sdk.NewCoins(coinEvmos)
-	err = s.app.BankKeeper.MintCoins(suite.EvmosChain.GetContext(), types.ModuleName, coins)
+	coinShido = sdk.NewCoin(utils.BaseDenom, sdk.NewInt(1000000000000000000))
+	coins = sdk.NewCoins(coinShido)
+	err = s.app.BankKeeper.MintCoins(suite.ShidoChain.GetContext(), types.ModuleName, coins)
 	suite.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToModule(suite.EvmosChain.GetContext(), types.ModuleName, authtypes.FeeCollectorName, coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToModule(suite.ShidoChain.GetContext(), types.ModuleName, authtypes.FeeCollectorName, coins)
 	suite.Require().NoError(err)
 }
 
@@ -356,12 +356,12 @@ func (suite *KeeperTestSuite) DeployContractDirectBalanceManipulation() (common.
 }
 
 // DeployContractToChain deploys the ERC20MinterBurnerDecimalsContract
-// to the Evmos chain (used on IBC tests)
+// to the Shido chain (used on IBC tests)
 func (suite *KeeperTestSuite) DeployContractToChain(name, symbol string, decimals uint8) (common.Address, error) {
 	return testutil.DeployContract(
-		s.EvmosChain.GetContext(),
-		s.EvmosChain.App.(*app.Evmos),
-		suite.EvmosChain.SenderPrivKey,
+		s.ShidoChain.GetContext(),
+		s.ShidoChain.App.(*app.Shido),
+		suite.ShidoChain.SenderPrivKey,
 		suite.queryClientEvm,
 		contracts.ERC20MinterBurnerDecimalsContract,
 		name, symbol, decimals,

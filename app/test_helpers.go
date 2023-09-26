@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
-
 package app
 
 import (
@@ -43,7 +40,7 @@ func init() {
 var DefaultTestingAppInit func(chainID string) func() (ibctesting.TestingApp, map[string]json.RawMessage) = SetupTestingApp
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
-// Evmos testing.
+// Shido testing.
 var DefaultConsensusParams = &tmproto.ConsensusParams{
 	Block: &tmproto.BlockParams{
 		MaxBytes: 200000,
@@ -68,12 +65,12 @@ func init() {
 	config.SetBip44CoinType(cfg)
 }
 
-// Setup initializes a new Evmos. A Nop logger is set in Evmos.
+// Setup initializes a new Shido. A Nop logger is set in Shido.
 func Setup(
 	isCheckTx bool,
 	feemarketGenesis *feemarkettypes.GenesisState,
 	chainID string,
-) *Evmos {
+) *Shido {
 	privVal := mock.NewPV()
 	pubKey, _ := privVal.GetPubKey()
 
@@ -90,7 +87,7 @@ func Setup(
 	}
 
 	db := dbm.NewMemDB()
-	app := NewEvmos(
+	app := NewShido(
 		log.NewNopLogger(),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 5,
@@ -131,7 +128,7 @@ func Setup(
 	return app
 }
 
-func GenesisStateWithValSet(app *Evmos, genesisState simapp.GenesisState,
+func GenesisStateWithValSet(app *Shido, genesisState simapp.GenesisState,
 	valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount,
 	balances ...banktypes.Balance,
 ) simapp.GenesisState {
@@ -201,7 +198,7 @@ func SetupTestingApp(chainID string) func() (ibctesting.TestingApp, map[string]j
 	return func() (ibctesting.TestingApp, map[string]json.RawMessage) {
 		db := dbm.NewMemDB()
 		cfg := encoding.MakeConfig(ModuleBasics)
-		app := NewEvmos(
+		app := NewShido(
 			log.NewNopLogger(),
 			db, nil, true,
 			map[int64]bool{},

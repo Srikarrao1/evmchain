@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package tx
 
 import (
@@ -28,13 +26,13 @@ import (
 // It returns the signed transaction and an error
 func PrepareEthTx(
 	txCfg client.TxConfig,
-	appEvmos *app.Evmos,
+	appShido *app.Shido,
 	priv cryptotypes.PrivKey,
 	msgs ...sdk.Msg,
 ) (authsigning.Tx, error) {
 	txBuilder := txCfg.NewTxBuilder()
 
-	signer := ethtypes.LatestSignerForChainID(appEvmos.EvmKeeper.ChainID())
+	signer := ethtypes.LatestSignerForChainID(appShido.EvmKeeper.ChainID())
 	txFee := sdk.Coins{}
 	txGasLimit := uint64(0)
 
@@ -91,7 +89,7 @@ func PrepareEthTx(
 // Should this not be the case, just pass in zero.
 func CreateEthTx(
 	ctx sdk.Context,
-	appEvmos *app.Evmos,
+	appShido *app.Shido,
 	privKey cryptotypes.PrivKey,
 	from sdk.AccAddress,
 	dest sdk.AccAddress,
@@ -100,17 +98,17 @@ func CreateEthTx(
 ) (*evmtypes.MsgEthereumTx, error) {
 	toAddr := common.BytesToAddress(dest.Bytes())
 	fromAddr := common.BytesToAddress(from.Bytes())
-	chainID := appEvmos.EvmKeeper.ChainID()
+	chainID := appShido.EvmKeeper.ChainID()
 
 	// When we send multiple Ethereum Tx's in one Cosmos Tx, we need to increment the nonce for each one.
-	nonce := appEvmos.EvmKeeper.GetNonce(ctx, fromAddr) + uint64(nonceIncrement)
+	nonce := appShido.EvmKeeper.GetNonce(ctx, fromAddr) + uint64(nonceIncrement)
 	evmTxParams := &evmtypes.EvmTxArgs{
 		ChainID:   chainID,
 		Nonce:     nonce,
 		To:        &toAddr,
 		Amount:    amount,
 		GasLimit:  100000,
-		GasFeeCap: appEvmos.FeeMarketKeeper.GetBaseFee(ctx),
+		GasFeeCap: appShido.FeeMarketKeeper.GetBaseFee(ctx),
 		GasTipCap: big.NewInt(1),
 		Accesses:  &ethtypes.AccessList{},
 	}
@@ -119,7 +117,7 @@ func CreateEthTx(
 
 	// If we are creating multiple eth Tx's with different senders, we need to sign here rather than later.
 	if privKey != nil {
-		signer := ethtypes.LatestSignerForChainID(appEvmos.EvmKeeper.ChainID())
+		signer := ethtypes.LatestSignerForChainID(appShido.EvmKeeper.ChainID())
 		err := msgEthereumTx.Sign(signer, NewSigner(privKey))
 		if err != nil {
 			return nil, err

@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package v14_test
 
 import (
@@ -24,7 +22,7 @@ type UpgradesTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *shidoapp.Evmos
+	app        *shidoapp.Shido
 	address    common.Address
 	validators []stakingtypes.Validator
 	ethSigner  ethtypes.Signer

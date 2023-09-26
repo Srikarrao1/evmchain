@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
-
 package main
 
 import (
@@ -42,22 +39,22 @@ import (
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	evmosclient "github.com/shido/shido/v2/client"
+	shidoclient "github.com/shido/shido/v2/client"
 	"github.com/shido/shido/v2/client/block"
 	"github.com/shido/shido/v2/client/debug"
 	"github.com/shido/shido/v2/encoding"
 	"github.com/shido/shido/v2/ethereum/eip712"
-	evmosserver "github.com/shido/shido/v2/server"
+	shidoserver "github.com/shido/shido/v2/server"
 	servercfg "github.com/shido/shido/v2/server/config"
 	srvflags "github.com/shido/shido/v2/server/flags"
 
 	"github.com/shido/shido/v2/app"
 	cmdcfg "github.com/shido/shido/v2/cmd/config"
-	evmoskr "github.com/shido/shido/v2/crypto/keyring"
+	shidokr "github.com/shido/shido/v2/crypto/keyring"
 )
 
 const (
-	EnvPrefix = "EVMOS"
+	EnvPrefix = "SHIDO"
 )
 
 // NewRootCmd creates a new root command for shidod. It is called once in the
@@ -73,7 +70,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithAccountRetriever(types.AccountRetriever{}).
 		WithBroadcastMode(flags.FlagBroadcastMode).
 		WithHomeDir(app.DefaultNodeHome).
-		WithKeyringOptions(evmoskr.Option()).
+		WithKeyringOptions(shidokr.Option()).
 		WithViper(EnvPrefix).
 		WithLedgerHasProtobuf(true)
 
@@ -81,7 +78,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 	rootCmd := &cobra.Command{
 		Use:   app.Name,
-		Short: "Evmos Daemon",
+		Short: "Shido Daemon",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			// set the default command outputs
 			cmd.SetOut(cmd.OutOrStdout())
@@ -114,7 +111,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 	a := appCreator{encodingConfig}
 	rootCmd.AddCommand(
-		evmosclient.ValidateChainID(
+		shidoclient.ValidateChainID(
 			InitCmd(app.ModuleBasics, app.DefaultNodeHome),
 		),
 		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome, genutiltypes.DefaultMessageValidator),
@@ -131,9 +128,9 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		block.Cmd(),
 	)
 
-	evmosserver.AddCommands(
+	shidoserver.AddCommands(
 		rootCmd,
-		evmosserver.NewDefaultStartOptions(a.newApp, app.DefaultNodeHome),
+		shidoserver.NewDefaultStartOptions(a.newApp, app.DefaultNodeHome),
 		a.appExport,
 		addModuleInitFlags,
 	)
@@ -143,7 +140,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		rpc.StatusCommand(),
 		queryCommand(),
 		txCommand(),
-		evmosclient.KeyCommands(app.DefaultNodeHome),
+		shidoclient.KeyCommands(app.DefaultNodeHome),
 	)
 	rootCmd, err := srvflags.AddTxFlags(rootCmd)
 	if err != nil {
@@ -287,7 +284,7 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		chainID = conf.ChainID
 	}
 
-	evmosApp := app.NewEvmos(
+	shidoApp := app.NewShido(
 		logger, db, traceStore, true, skipUpgradeHeights,
 		cast.ToString(appOpts.Get(flags.FlagHome)),
 		cast.ToUint(appOpts.Get(sdkserver.FlagInvCheckPeriod)),
@@ -307,7 +304,7 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		baseapp.SetChainID(chainID),
 	)
 
-	return evmosApp
+	return shidoApp
 }
 
 // appExport creates a new simapp (optionally at a given height)
@@ -322,23 +319,23 @@ func (a appCreator) appExport(
 	appOpts servertypes.AppOptions,
 	modulesToExport []string,
 ) (servertypes.ExportedApp, error) {
-	var evmosApp *app.Evmos
+	var shidoApp *app.Shido
 	homePath, ok := appOpts.Get(flags.FlagHome).(string)
 	if !ok || homePath == "" {
 		return servertypes.ExportedApp{}, errors.New("application home not set")
 	}
 
 	if height != -1 {
-		evmosApp = app.NewEvmos(logger, db, traceStore, false, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
+		shidoApp = app.NewShido(logger, db, traceStore, false, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
 
-		if err := evmosApp.LoadHeight(height); err != nil {
+		if err := shidoApp.LoadHeight(height); err != nil {
 			return servertypes.ExportedApp{}, err
 		}
 	} else {
-		evmosApp = app.NewEvmos(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
+		shidoApp = app.NewShido(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
 	}
 
-	return evmosApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
+	return shidoApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
 }
 
 // initTendermintConfig helps to override default Tendermint Config values.

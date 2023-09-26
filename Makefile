@@ -6,8 +6,8 @@ TMVERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::')
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
-EVMOS_BINARY = shidod
-EVMOS_DIR = shido
+SHIDO_BINARY = shidod
+SHIDO_DIR = shido
 BUILDDIR ?= $(CURDIR)/build
 HTTPS_GIT := https://github.com/shido/shido.git
 DOCKER := $(shell which docker)
@@ -69,7 +69,7 @@ build_tags := $(strip $(build_tags))
 # process linker flags
 
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=shido \
-          -X github.com/cosmos/cosmos-sdk/version.AppName=$(EVMOS_BINARY) \
+          -X github.com/cosmos/cosmos-sdk/version.AppName=$(SHIDO_BINARY) \
           -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
           -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
           -X github.com/cometbft/cometbft/version.TMCoreSemVer=$(TMVERSION)
@@ -483,7 +483,7 @@ localnet-build:
 
 # Start a 4-node testnet locally
 localnet-start: localnet-stop localnet-build
-	@if ! [ -f build/node0/$(EVMOS_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/shido:Z shido/node "./shidod testnet init-files --v 4 -o /shido --keyring-backend=test --starting-ip-address 192.167.10.2"; fi
+	@if ! [ -f build/node0/$(SHIDO_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/shido:Z shido/node "./shidod testnet init-files --v 4 -o /shido --keyring-backend=test --starting-ip-address 192.167.10.2"; fi
 	docker-compose up -d
 
 # Stop testnet

@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
-
 // This accounts represent the affected accounts during the Claims record clawback incident on block 5074187
 // with the respective balance on block 5074186.
 

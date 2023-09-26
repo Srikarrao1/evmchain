@@ -24,7 +24,7 @@ import (
 	"github.com/shido/shido/v2/utils"
 )
 
-func TestEvmosExport(t *testing.T) {
+func TestShidoExport(t *testing.T) {
 	// create public key
 	privVal := mock.NewPV()
 	pubKey, err := privVal.GetPubKey()
@@ -44,7 +44,7 @@ func TestEvmosExport(t *testing.T) {
 
 	db := dbm.NewMemDB()
 	chainID := utils.MainnetChainID + "-1"
-	app := NewEvmos(
+	app := NewShido(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 0,
@@ -69,7 +69,7 @@ func TestEvmosExport(t *testing.T) {
 	app.Commit()
 
 	// Making a new app object with the db, so that initchain hasn't been called
-	app2 := NewEvmos(
+	app2 := NewShido(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 0,

@@ -24,7 +24,7 @@ type KeeperTestSuite struct {
 	suite.Suite
 
 	ctx              sdk.Context
-	app              *app.Evmos
+	app              *app.Shido
 	queryClientEvm   evm.QueryClient
 	queryClient      types.QueryClient
 	address          common.Address

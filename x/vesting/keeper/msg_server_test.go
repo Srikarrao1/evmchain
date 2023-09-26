@@ -12,7 +12,7 @@ import (
 	vestingexported "github.com/cosmos/cosmos-sdk/x/auth/vesting/exported"
 	"github.com/shido/shido/v2/testutil"
 	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/x/vesting/types"
 )
 
@@ -733,7 +733,7 @@ func (suite *KeeperTestSuite) TestConvertVestingAccount() {
 				_, ok := account.(vestingexported.VestingAccount)
 				suite.Require().False(ok)
 
-				_, ok = account.(evmostypes.EthAccountI)
+				_, ok = account.(shidotypes.EthAccountI)
 				suite.Require().True(ok)
 
 			} else {

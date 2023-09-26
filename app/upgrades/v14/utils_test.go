@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package v14_test
 
 import (
@@ -31,13 +29,13 @@ import (
 	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
-// SetupWithGenesisValSet initializes a new EvmosApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *UpgradesTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
 	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*shidoapp.Evmos)
+	app, ok := appI.(*shidoapp.Shido)
 	s.Require().True(ok)
 
 	// set genesis accounts

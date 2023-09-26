@@ -3,7 +3,7 @@
 package web3
 
 import (
-	"github.com/evmos/evmos/v14/version"
+	"github.com/shido/shido/v2/version"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"

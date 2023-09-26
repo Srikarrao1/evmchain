@@ -7,7 +7,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 
-	"github.com/evmos/evmos/v14/rpc/types"
+	"github.com/shido/shido/v2/rpc/types"
 )
 
 // PublicAPI offers and API for the transaction pool. It only operates on data that is non-confidential.

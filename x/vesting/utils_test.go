@@ -15,13 +15,13 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmosapp "github.com/evmos/evmos/v14/app"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	evmosutil "github.com/evmos/evmos/v14/testutil"
-	testutiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/utils"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	evmosapp "github.com/shido/shido/v2/app"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	evmosutil "github.com/shido/shido/v2/testutil"
+	testutiltx "github.com/shido/shido/v2/testutil/tx"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/utils"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // SetupWithGenesisValSet initializes a new EvmosApp with a validator set and genesis accounts
@@ -67,7 +67,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be aevmos
+	// set bond demon to be ashido
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)

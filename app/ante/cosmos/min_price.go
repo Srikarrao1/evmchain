@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package cosmos
 
 import (
@@ -8,7 +8,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	evmante "github.com/evmos/evmos/v14/app/ante/evm"
+	evmante "github.com/shido/shido/v2/app/ante/evm"
 )
 
 // MinGasPriceDecorator will check if the transaction's fee is at least as large

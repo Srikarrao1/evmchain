@@ -7,10 +7,10 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/evmos/v14/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/ics20"
-	"github.com/evmos/evmos/v14/utils"
+	"github.com/shido/shido/v2/precompiles/authorization"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/ics20"
+	"github.com/shido/shido/v2/utils"
 )
 
 func (s *PrecompileTestSuite) TestTransferEvent() {

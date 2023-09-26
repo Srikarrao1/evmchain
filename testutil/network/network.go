@@ -52,13 +52,13 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/crypto/hd"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/crypto/hd"
 
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/server/config"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/server/config"
+	evmostypes "github.com/shido/shido/v2/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // package-wide network lock to only allow one test network at a time
@@ -114,7 +114,7 @@ func DefaultConfig() Config {
 		TimeoutCommit:     3 * time.Second,
 		ChainID:           chainID,
 		NumValidators:     4,
-		BondDenom:         "aevmos",
+		BondDenom:         "ashido",
 		MinGasPrices:      fmt.Sprintf("0.000006%s", evmostypes.AttoEvmos),
 		AccountTokens:     sdk.TokensFromConsensusPower(1000000000000000000, evmostypes.PowerReduction),
 		StakingTokens:     sdk.TokensFromConsensusPower(500000000000000000, evmostypes.PowerReduction),
@@ -337,7 +337,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 		ctx.Logger = logger
 
 		nodeDirName := fmt.Sprintf("node%d", i)
-		nodeDir := filepath.Join(network.BaseDir, nodeDirName, "evmosd")
+		nodeDir := filepath.Join(network.BaseDir, nodeDirName, "shidod")
 		clientDir := filepath.Join(network.BaseDir, nodeDirName, "evmoscli")
 		gentxsDir := filepath.Join(network.BaseDir, "gentxs")
 

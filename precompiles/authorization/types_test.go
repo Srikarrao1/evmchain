@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/evmos/evmos/v14/utils"
+	"github.com/shido/shido/v2/utils"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v14/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	testutiltx "github.com/evmos/evmos/v14/testutil/tx"
+	"github.com/shido/shido/v2/precompiles/authorization"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	testutiltx "github.com/shido/shido/v2/testutil/tx"
 	"github.com/stretchr/testify/require"
 )
 

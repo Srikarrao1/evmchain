@@ -3,7 +3,7 @@ package ibc
 import (
 	"testing"
 
-	"github.com/evmos/evmos/v14/x/claims/types"
+	"github.com/shido/shido/v2/x/claims/types"
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -11,7 +11,7 @@ import (
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
-	teststypes "github.com/evmos/evmos/v14/types/tests"
+	teststypes "github.com/shido/shido/v2/types/tests"
 )
 
 func init() {
@@ -255,9 +255,9 @@ func TestGetReceivedCoin(t *testing.T) {
 			"channel-0",
 			"transfer",
 			"channel-0",
-			"transfer/channel-0/aevmos",
+			"transfer/channel-0/ashido",
 			"10",
-			sdk.Coin{Denom: "aevmos", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "ashido", Amount: sdk.NewInt(10)},
 		},
 		{
 			"transfer 2x ibc wrapped coin to destination which is its source",
@@ -295,14 +295,14 @@ func TestGetSentCoin(t *testing.T) {
 		expCoin   sdk.Coin
 	}{
 		{
-			"get unwrapped aevmos coin",
-			"aevmos",
+			"get unwrapped ashido coin",
+			"ashido",
 			"10",
-			sdk.Coin{Denom: "aevmos", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "ashido", Amount: sdk.NewInt(10)},
 		},
 		{
-			"get ibc wrapped aevmos coin",
-			"transfer/channel-0/aevmos",
+			"get ibc wrapped ashido coin",
+			"transfer/channel-0/ashido",
 			"10",
 			sdk.Coin{Denom: teststypes.AevmosIbcdenom, Amount: sdk.NewInt(10)},
 		},

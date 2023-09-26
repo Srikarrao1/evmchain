@@ -22,9 +22,9 @@ import (
 
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 
-	evmosapp "github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/utils"
+	evmosapp "github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/utils"
 )
 
 // DefaultTestingAppInit is a test helper function used to initialize an App
@@ -71,7 +71,7 @@ func SetupWithGenesisValSet(t *testing.T, valSet *tmtypes.ValidatorSet, genAccs 
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be aevmos
+	// set bond demon to be ashido
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)

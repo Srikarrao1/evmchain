@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package keyring
 
@@ -8,9 +8,9 @@ import (
 	cosmosLedger "github.com/cosmos/cosmos-sdk/crypto/ledger"
 	"github.com/cosmos/cosmos-sdk/crypto/types"
 
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v14/crypto/hd"
-	"github.com/evmos/evmos/v14/wallets/ledger"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	"github.com/shido/shido/v2/crypto/hd"
+	"github.com/shido/shido/v2/wallets/ledger"
 )
 
 // AppName defines the Ledger app used for signing. Evmos uses the Ethereum app

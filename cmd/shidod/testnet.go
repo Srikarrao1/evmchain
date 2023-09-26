@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package main
 
@@ -40,16 +40,16 @@ import (
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/evmos/v14/crypto/hd"
-	"github.com/evmos/evmos/v14/server/config"
-	srvflags "github.com/evmos/evmos/v14/server/flags"
+	"github.com/shido/shido/v2/crypto/hd"
+	"github.com/shido/shido/v2/server/config"
+	srvflags "github.com/shido/shido/v2/server/flags"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	shidotypes "github.com/shido/shido/v2/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
-	cmdcfg "github.com/evmos/evmos/v14/cmd/config"
-	evmoskr "github.com/evmos/evmos/v14/crypto/keyring"
-	"github.com/evmos/evmos/v14/testutil/network"
+	cmdcfg "github.com/shido/shido/v2/cmd/config"
+	shidokr "github.com/shido/shido/v2/crypto/keyring"
+	"github.com/shido/shido/v2/testutil/network"
 )
 
 var (
@@ -129,7 +129,7 @@ or a similar setup where each node has a manually configurable IP address.
 Note, strict routability for addresses is turned off in the config file.
 
 Example:
-	evmosd testnet init-files --v 4 --output-dir ./.testnets --starting-ip-address 192.168.10.2
+	shidod testnet init-files --v 4 --output-dir ./.testnets --starting-ip-address 192.168.10.2
 	`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
@@ -156,7 +156,7 @@ Example:
 
 	addTestnetFlagsToCmd(cmd)
 	cmd.Flags().String(flagNodeDirPrefix, "node", "Prefix the directory name for each node with (node results in node0, node1, ...)")
-	cmd.Flags().String(flagNodeDaemonHome, "evmosd", "Home directory of the node's daemon configuration")
+	cmd.Flags().String(flagNodeDaemonHome, "shidod", "Home directory of the node's daemon configuration")
 	cmd.Flags().String(flagStartingIPAddress, "192.168.0.1", "Starting IP address (192.168.0.1 results in persistent peers list ID0@192.168.0.1:46656, ID1@192.168.0.2:46656, ...)")
 	cmd.Flags().String(flags.FlagKeyringBackend, flags.DefaultKeyringBackend, "Select keyring's backend (os|file|test)")
 
@@ -173,7 +173,7 @@ and generate "v" directories, populated with necessary validator configuration f
 (private validator, genesis, config, etc.).
 
 Example:
-	evmosd testnet --v 4 --output-dir ./.testnets
+	shidod testnet --v 4 --output-dir ./.testnets
 	`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			args := startArgs{}
@@ -215,7 +215,7 @@ func initTestnetFiles(
 	args initArgs,
 ) error {
 	if args.chainID == "" {
-		args.chainID = fmt.Sprintf("evmos_%d-1", tmrand.Int63n(9999999999999)+1)
+		args.chainID = fmt.Sprintf("shido_%d-1", tmrand.Int63n(9999999999999)+1)
 	}
 
 	nodeIDs := make([]string, args.numValidators)
@@ -267,7 +267,7 @@ func initTestnetFiles(
 		memo := fmt.Sprintf("%s@%s:26656", nodeIDs[i], ip)
 		genFiles = append(genFiles, nodeConfig.GenesisFile())
 
-		kb, err := keyring.New(sdk.KeyringServiceName(), args.keyringBackend, nodeDir, inBuf, clientCtx.Codec, evmoskr.Option())
+		kb, err := keyring.New(sdk.KeyringServiceName(), args.keyringBackend, nodeDir, inBuf, clientCtx.Codec, shidokr.Option())
 		if err != nil {
 			return err
 		}
@@ -296,18 +296,18 @@ func initTestnetFiles(
 			return err
 		}
 
-		accStakingTokens := sdk.TokensFromConsensusPower(5000, evmostypes.PowerReduction)
+		accStakingTokens := sdk.TokensFromConsensusPower(5000, shidotypes.PowerReduction)
 		coins := sdk.Coins{
 			sdk.NewCoin(cmdcfg.BaseDenom, accStakingTokens),
 		}
 
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: coins.Sort()})
-		genAccounts = append(genAccounts, &evmostypes.EthAccount{
+		genAccounts = append(genAccounts, &shidotypes.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
 
-		valTokens := sdk.TokensFromConsensusPower(100, evmostypes.PowerReduction)
+		valTokens := sdk.TokensFromConsensusPower(100, shidotypes.PowerReduction)
 		createValMsg, err := stakingtypes.NewMsgCreateValidator(
 			sdk.ValAddress(addr),
 			valPubKeys[i],

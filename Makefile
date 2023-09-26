@@ -6,10 +6,10 @@ TMVERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::')
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
-EVMOS_BINARY = evmosd
-EVMOS_DIR = evmos
+EVMOS_BINARY = shidod
+EVMOS_DIR = shido
 BUILDDIR ?= $(CURDIR)/build
-HTTPS_GIT := https://github.com/evmos/evmos.git
+HTTPS_GIT := https://github.com/shido/shido.git
 DOCKER := $(shell which docker)
 DOCKER_BUILDKIT=1
 DOCKER_ARGS=
@@ -19,7 +19,7 @@ ifdef GITHUB_TOKEN
 	endif
 endif
 NAMESPACE := tharsishq
-PROJECT := evmos
+PROJECT := shido
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 COMMIT_HASH := $(shell git rev-parse --short=7 HEAD)
 DOCKER_TAG := $(COMMIT_HASH)
@@ -68,7 +68,7 @@ build_tags := $(strip $(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=evmos \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=shido \
           -X github.com/cosmos/cosmos-sdk/version.AppName=$(EVMOS_BINARY) \
           -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
           -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
@@ -140,7 +140,7 @@ build-reproducible: go.sum
 	$(DOCKER) rm latest-build || true
 	$(DOCKER) run --volume=$(CURDIR):/sources:ro \
         --env TARGET_PLATFORMS='linux/amd64' \
-        --env APP=evmosd \
+        --env APP=shidod \
         --env VERSION=$(VERSION) \
         --env COMMIT=$(COMMIT) \
         --env CGO_ENABLED=1 \
@@ -155,12 +155,12 @@ build-docker:
 	$(DOCKER) tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
 	# docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${COMMIT_HASH}
 	# move the binaries to the ./build directory
-	mkdir -p ./build/.evmosd
-	echo '#!/usr/bin/env bash' > ./build/evmosd
-	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/evmosd
-	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/evmosd
-	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.evmosd:/home/evmos/.evmosd $$IMAGE_NAME evmosd "$$@"' >> ./build/evmosd
-	chmod +x ./build/evmosd
+	mkdir -p ./build/.shidod
+	echo '#!/usr/bin/env bash' > ./build/shidod
+	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/shidod
+	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/shidod
+	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.shidod:/home/shido/.shidod $$IMAGE_NAME shidod "$$@"' >> ./build/shidod
+	chmod +x ./build/shidod
 
 push-docker: build-docker
 	$(DOCKER) push ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -286,7 +286,7 @@ swagger-update-docs: statik
 .PHONY: swagger-update-docs
 
 godocs:
-	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/evmos/evmos"
+	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/shido/shido"
 	godoc -http=:6060
 
 ###############################################################################
@@ -320,7 +320,7 @@ test-e2e:
 		make build-docker; \
 	fi
 	@mkdir -p ./build
-	@rm -rf build/.evmosd
+	@rm -rf build/.shidod
 	@INITIAL_VERSION=$(INITIAL_VERSION) TARGET_VERSION=$(TARGET_VERSION) \
 	E2E_SKIP_CLEANUP=$(E2E_SKIP_CLEANUP) MOUNT_PATH=$(MOUNT_PATH) CHAIN_ID=$(CHAIN_ID) \
 	go test -v ./tests/e2e -run ^TestIntegrationTestSuite$
@@ -483,7 +483,7 @@ localnet-build:
 
 # Start a 4-node testnet locally
 localnet-start: localnet-stop localnet-build
-	@if ! [ -f build/node0/$(EVMOS_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/evmos:Z evmos/node "./evmosd testnet init-files --v 4 -o /evmos --keyring-backend=test --starting-ip-address 192.167.10.2"; fi
+	@if ! [ -f build/node0/$(EVMOS_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/shido:Z shido/node "./shidod testnet init-files --v 4 -o /shido --keyring-backend=test --starting-ip-address 192.167.10.2"; fi
 	docker-compose up -d
 
 # Stop testnet
@@ -499,15 +499,15 @@ localnet-clean:
 localnet-unsafe-reset:
 	docker-compose down
 ifeq ($(OS),Windows_NT)
-	@docker run --rm -v $(CURDIR)\build\node0\evmosd:/evmos\Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)\build\node1\evmosd:/evmos\Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)\build\node2\evmosd:/evmos\Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)\build\node3\evmosd:/evmos\Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
+	@docker run --rm -v $(CURDIR)\build\node0\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)\build\node1\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)\build\node2\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)\build\node3\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
 else
-	@docker run --rm -v $(CURDIR)/build/node0/evmosd:/evmos:Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)/build/node1/evmosd:/evmos:Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)/build/node2/evmosd:/evmos:Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)/build/node3/evmosd:/evmos:Z evmos/node "./evmosd tendermint unsafe-reset-all --home=/evmos"
+	@docker run --rm -v $(CURDIR)/build/node0/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)/build/node1/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)/build/node2/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)/build/node3/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
 endif
 
 # Clean testnet
@@ -520,7 +520,7 @@ localnet-show-logstream:
 ###                                Releasing                                ###
 ###############################################################################
 
-PACKAGE_NAME:=github.com/evmos/evmos
+PACKAGE_NAME:=github.com/shido/shido
 GOLANG_CROSS_VERSION  = v1.20
 GOPATH ?= '$(HOME)/go'
 release-dry-run:

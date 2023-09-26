@@ -12,8 +12,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
 	cosmosvestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	vestingtypes "github.com/evmos/evmos/v14/x/vesting/types"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 // LockupPeriods is a struct used to parse the LockupPeriods parameter

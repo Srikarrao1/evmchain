@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package app
 
@@ -120,62 +120,62 @@ import (
 	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
 	// unnamed import of statik for swagger UI support
-	_ "github.com/evmos/evmos/v14/client/docs/statik"
+	_ "github.com/shido/shido/v2/client/docs/statik"
 
-	"github.com/evmos/evmos/v14/app/ante"
-	ethante "github.com/evmos/evmos/v14/app/ante/evm"
-	v10 "github.com/evmos/evmos/v14/app/upgrades/v10"
-	v11 "github.com/evmos/evmos/v14/app/upgrades/v11"
-	v12 "github.com/evmos/evmos/v14/app/upgrades/v12"
-	v13 "github.com/evmos/evmos/v14/app/upgrades/v13"
-	v14 "github.com/evmos/evmos/v14/app/upgrades/v14"
-	v8 "github.com/evmos/evmos/v14/app/upgrades/v8"
-	v81 "github.com/evmos/evmos/v14/app/upgrades/v8_1"
-	v82 "github.com/evmos/evmos/v14/app/upgrades/v8_2"
-	v9 "github.com/evmos/evmos/v14/app/upgrades/v9"
-	v91 "github.com/evmos/evmos/v14/app/upgrades/v9_1"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/ethereum/eip712"
-	"github.com/evmos/evmos/v14/precompiles/common"
-	srvflags "github.com/evmos/evmos/v14/server/flags"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/x/claims"
-	claimskeeper "github.com/evmos/evmos/v14/x/claims/keeper"
-	claimstypes "github.com/evmos/evmos/v14/x/claims/types"
-	"github.com/evmos/evmos/v14/x/epochs"
-	epochskeeper "github.com/evmos/evmos/v14/x/epochs/keeper"
-	epochstypes "github.com/evmos/evmos/v14/x/epochs/types"
-	"github.com/evmos/evmos/v14/x/erc20"
-	erc20client "github.com/evmos/evmos/v14/x/erc20/client"
-	erc20keeper "github.com/evmos/evmos/v14/x/erc20/keeper"
-	erc20types "github.com/evmos/evmos/v14/x/erc20/types"
-	"github.com/evmos/evmos/v14/x/evm"
-	evmkeeper "github.com/evmos/evmos/v14/x/evm/keeper"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	"github.com/evmos/evmos/v14/x/feemarket"
-	feemarketkeeper "github.com/evmos/evmos/v14/x/feemarket/keeper"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
-	"github.com/evmos/evmos/v14/x/incentives"
-	incentivesclient "github.com/evmos/evmos/v14/x/incentives/client"
-	incentiveskeeper "github.com/evmos/evmos/v14/x/incentives/keeper"
-	incentivestypes "github.com/evmos/evmos/v14/x/incentives/types"
-	"github.com/evmos/evmos/v14/x/inflation"
-	inflationkeeper "github.com/evmos/evmos/v14/x/inflation/keeper"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
-	"github.com/evmos/evmos/v14/x/recovery"
-	recoverykeeper "github.com/evmos/evmos/v14/x/recovery/keeper"
-	recoverytypes "github.com/evmos/evmos/v14/x/recovery/types"
-	revenue "github.com/evmos/evmos/v14/x/revenue/v1"
-	revenuekeeper "github.com/evmos/evmos/v14/x/revenue/v1/keeper"
-	revenuetypes "github.com/evmos/evmos/v14/x/revenue/v1/types"
-	"github.com/evmos/evmos/v14/x/vesting"
-	vestingclient "github.com/evmos/evmos/v14/x/vesting/client"
-	vestingkeeper "github.com/evmos/evmos/v14/x/vesting/keeper"
-	vestingtypes "github.com/evmos/evmos/v14/x/vesting/types"
+	"github.com/shido/shido/v2/app/ante"
+	ethante "github.com/shido/shido/v2/app/ante/evm"
+	v10 "github.com/shido/shido/v2/app/upgrades/v10"
+	v11 "github.com/shido/shido/v2/app/upgrades/v11"
+	v12 "github.com/shido/shido/v2/app/upgrades/v12"
+	v13 "github.com/shido/shido/v2/app/upgrades/v13"
+	v14 "github.com/shido/shido/v2/app/upgrades/v14"
+	v8 "github.com/shido/shido/v2/app/upgrades/v8"
+	v81 "github.com/shido/shido/v2/app/upgrades/v8_1"
+	v82 "github.com/shido/shido/v2/app/upgrades/v8_2"
+	v9 "github.com/shido/shido/v2/app/upgrades/v9"
+	v91 "github.com/shido/shido/v2/app/upgrades/v9_1"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/ethereum/eip712"
+	"github.com/shido/shido/v2/precompiles/common"
+	srvflags "github.com/shido/shido/v2/server/flags"
+	shidotypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/x/claims"
+	claimskeeper "github.com/shido/shido/v2/x/claims/keeper"
+	claimstypes "github.com/shido/shido/v2/x/claims/types"
+	"github.com/shido/shido/v2/x/epochs"
+	epochskeeper "github.com/shido/shido/v2/x/epochs/keeper"
+	epochstypes "github.com/shido/shido/v2/x/epochs/types"
+	"github.com/shido/shido/v2/x/erc20"
+	erc20client "github.com/shido/shido/v2/x/erc20/client"
+	erc20keeper "github.com/shido/shido/v2/x/erc20/keeper"
+	erc20types "github.com/shido/shido/v2/x/erc20/types"
+	"github.com/shido/shido/v2/x/evm"
+	evmkeeper "github.com/shido/shido/v2/x/evm/keeper"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/shido/shido/v2/x/feemarket"
+	feemarketkeeper "github.com/shido/shido/v2/x/feemarket/keeper"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/shido/shido/v2/x/incentives"
+	incentivesclient "github.com/shido/shido/v2/x/incentives/client"
+	incentiveskeeper "github.com/shido/shido/v2/x/incentives/keeper"
+	incentivestypes "github.com/shido/shido/v2/x/incentives/types"
+	"github.com/shido/shido/v2/x/inflation"
+	inflationkeeper "github.com/shido/shido/v2/x/inflation/keeper"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
+	"github.com/shido/shido/v2/x/recovery"
+	recoverykeeper "github.com/shido/shido/v2/x/recovery/keeper"
+	recoverytypes "github.com/shido/shido/v2/x/recovery/types"
+	revenue "github.com/shido/shido/v2/x/revenue/v1"
+	revenuekeeper "github.com/shido/shido/v2/x/revenue/v1/keeper"
+	revenuetypes "github.com/shido/shido/v2/x/revenue/v1/types"
+	"github.com/shido/shido/v2/x/vesting"
+	vestingclient "github.com/shido/shido/v2/x/vesting/client"
+	vestingkeeper "github.com/shido/shido/v2/x/vesting/keeper"
+	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 
 	// NOTE: override ICS20 keeper to support IBC transfers of ERC20 tokens
-	"github.com/evmos/evmos/v14/x/ibc/transfer"
-	transferkeeper "github.com/evmos/evmos/v14/x/ibc/transfer/keeper"
+	"github.com/shido/shido/v2/x/ibc/transfer"
+	transferkeeper "github.com/shido/shido/v2/x/ibc/transfer/keeper"
 
 	// Force-load the tracer engines to trigger registration due to Go-Ethereum v1.10.15 changes
 	_ "github.com/ethereum/go-ethereum/eth/tracers/js"
@@ -188,10 +188,10 @@ func init() {
 		panic(err)
 	}
 
-	DefaultNodeHome = filepath.Join(userHomeDir, ".evmosd")
+	DefaultNodeHome = filepath.Join(userHomeDir, ".shidod")
 
-	// manually update the power reduction by replacing micro (u) -> atto (a) evmos
-	sdk.DefaultPowerReduction = evmostypes.PowerReduction
+	// manually update the power reduction by replacing micro (u) -> atto (a) shido
+	sdk.DefaultPowerReduction = shidotypes.PowerReduction
 	// modify fee market parameter defaults through global
 	feemarkettypes.DefaultMinGasPrice = MainnetMinGasPrices
 	feemarkettypes.DefaultMinGasMultiplier = MainnetMinGasMultiplier
@@ -200,7 +200,7 @@ func init() {
 }
 
 // Name defines the application binary name
-const Name = "evmosd"
+const Name = "shidod"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon
@@ -403,7 +403,7 @@ func NewEvmos(
 		icahosttypes.StoreKey,
 		// ethermint keys
 		evmtypes.StoreKey, feemarkettypes.StoreKey,
-		// evmos keys
+		// shido keys
 		inflationtypes.StoreKey, erc20types.StoreKey, incentivestypes.StoreKey,
 		epochstypes.StoreKey, claimstypes.StoreKey, vestingtypes.StoreKey,
 		revenuetypes.StoreKey, recoverytypes.StoreKey,
@@ -454,7 +454,7 @@ func NewEvmos(
 	// use custom Ethermint account for contracts
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
 		appCodec, keys[authtypes.StoreKey],
-		evmostypes.ProtoAccount, maccPerms,
+		shidotypes.ProtoAccount, maccPerms,
 		sdk.GetConfig().GetBech32AccountAddrPrefix(),
 		authAddr,
 	)
@@ -930,7 +930,7 @@ func (app *Evmos) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) 
 		Cdc:                    app.appCodec,
 		AccountKeeper:          app.AccountKeeper,
 		BankKeeper:             app.BankKeeper,
-		ExtensionOptionChecker: evmostypes.HasDynamicFeeExtensionOption,
+		ExtensionOptionChecker: shidotypes.HasDynamicFeeExtensionOption,
 		EvmKeeper:              app.EvmKeeper,
 		StakingKeeper:          app.StakingKeeper,
 		FeegrantKeeper:         app.FeeGrantKeeper,
@@ -1210,7 +1210,7 @@ func initParamsKeeper(
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable()) //nolint:staticcheck
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
-	// evmos subspaces
+	// shido subspaces
 	paramsKeeper.Subspace(inflationtypes.ModuleName)
 	paramsKeeper.Subspace(erc20types.ModuleName)
 	paramsKeeper.Subspace(claimstypes.ModuleName)

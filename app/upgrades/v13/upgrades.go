@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package v13
 
@@ -7,8 +7,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	evmkeeper "github.com/evmos/evmos/v14/x/evm/keeper"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	evmkeeper "github.com/shido/shido/v2/x/evm/keeper"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // CreateUpgradeHandler creates an SDK upgrade handler for v13

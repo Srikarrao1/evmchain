@@ -20,21 +20,21 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/contracts"
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
-	ibctesting "github.com/evmos/evmos/v14/ibc/testing"
-	"github.com/evmos/evmos/v14/server/config"
-	"github.com/evmos/evmos/v14/testutil"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	teststypes "github.com/evmos/evmos/v14/types/tests"
-	"github.com/evmos/evmos/v14/utils"
-	claimstypes "github.com/evmos/evmos/v14/x/claims/types"
-	"github.com/evmos/evmos/v14/x/erc20/types"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	evm "github.com/evmos/evmos/v14/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/contracts"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	ibctesting "github.com/shido/shido/v2/ibc/testing"
+	"github.com/shido/shido/v2/server/config"
+	"github.com/shido/shido/v2/testutil"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	teststypes "github.com/shido/shido/v2/types/tests"
+	"github.com/shido/shido/v2/utils"
+	claimstypes "github.com/shido/shido/v2/x/claims/types"
+	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	evm "github.com/shido/shido/v2/x/evm/types"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -182,7 +182,7 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	err = s.app.BankKeeper.MintCoins(s.EvmosChain.GetContext(), types.ModuleName, coins)
 	s.Require().NoError(err)
 
-	// Mint coins on the osmosis side which we'll use to unlock our aevmos
+	// Mint coins on the osmosis side which we'll use to unlock our ashido
 	coinOsmo := sdk.NewCoin("uosmo", sdk.NewInt(10000000))
 	coins = sdk.NewCoins(coinOsmo)
 	err = suite.IBCOsmosisChain.GetSimApp().BankKeeper.MintCoins(suite.IBCOsmosisChain.GetContext(), minttypes.ModuleName, coins)
@@ -190,7 +190,7 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	err = suite.IBCOsmosisChain.GetSimApp().BankKeeper.SendCoinsFromModuleToAccount(suite.IBCOsmosisChain.GetContext(), minttypes.ModuleName, suite.IBCOsmosisChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
-	// Mint coins on the cosmos side which we'll use to unlock our aevmos
+	// Mint coins on the cosmos side which we'll use to unlock our ashido
 	coinAtom := sdk.NewCoin("uatom", sdk.NewInt(10))
 	coins = sdk.NewCoins(coinAtom)
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.MintCoins(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, coins)
@@ -400,7 +400,7 @@ func (suite *KeeperTestSuite) SendAndReceiveMessage(path *ibctesting.Path, origi
 	suite.sendAndReceiveMessage(path, path.EndpointA, path.EndpointB, origin, coin, amount, sender, receiver, seq, ibcCoinMetadata)
 }
 
-// Send back coins (from path endpoint B to A). In case of IBC coins need to provide ibcCoinMetadata (<port>/<channel>/<denom>, e.g.: "transfer/channel-0/aevmos") as input parameter.
+// Send back coins (from path endpoint B to A). In case of IBC coins need to provide ibcCoinMetadata (<port>/<channel>/<denom>, e.g.: "transfer/channel-0/ashido") as input parameter.
 // We need this to instantiate properly a FungibleTokenPacketData https://github.com/cosmos/ibc-go/blob/main/docs/architecture/adr-001-coin-source-tracing.md
 func (suite *KeeperTestSuite) SendBackCoins(path *ibctesting.Path, origin *ibcgotesting.TestChain, coin string, amount int64, sender, receiver string, seq uint64, ibcCoinMetadata string) {
 	// Send coin from B to A

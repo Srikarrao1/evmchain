@@ -14,9 +14,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/testutil/tx"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/testutil/tx"
 )
 
 // Commit commits a block at a given time. Reminder: At the end of each

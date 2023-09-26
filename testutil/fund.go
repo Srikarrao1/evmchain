@@ -6,8 +6,8 @@ package testutil
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
-	"github.com/evmos/evmos/v14/utils"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
+	"github.com/shido/shido/v2/utils"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 // FundAccount is a utility function that funds an account by minting and

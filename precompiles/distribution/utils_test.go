@@ -20,16 +20,16 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmosapp "github.com/evmos/evmos/v14/app"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/distribution"
-	evmosutil "github.com/evmos/evmos/v14/testutil"
-	evmosutiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/utils"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
+	evmosapp "github.com/shido/shido/v2/app"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/distribution"
+	evmosutil "github.com/shido/shido/v2/testutil"
+	evmosutiltx "github.com/shido/shido/v2/testutil/tx"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/utils"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 // SetupWithGenesisValSet initializes a new EvmosApp with a validator set and genesis accounts
@@ -75,7 +75,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be aevmos
+	// set bond demon to be ashido
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)

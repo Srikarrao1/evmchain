@@ -3,9 +3,9 @@
 package network
 
 import (
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	infltypes "github.com/evmos/evmos/v14/x/inflation/types"
-	revtypes "github.com/evmos/evmos/v14/x/revenue/v1/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	infltypes "github.com/shido/shido/v2/x/inflation/types"
+	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 func (n *IntegrationNetwork) UpdateEvmParams(params evmtypes.Params) error {

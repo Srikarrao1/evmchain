@@ -1,4 +1,4 @@
-module github.com/evmos/evmos/v14
+module github.com/shido/shido/v2
 
 go 1.20
 
@@ -232,9 +232,9 @@ replace (
 	// use cosmos fork of keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 	// use Cosmos-SDK fork to enable Ledger functionality
-	github.com/cosmos/cosmos-sdk => github.com/evmos/cosmos-sdk v0.47.4-evmos.2
-	// use Evmos geth fork
-	github.com/ethereum/go-ethereum => github.com/evmos/go-ethereum v1.10.26-evmos-rc2
+	github.com/cosmos/cosmos-sdk => ../cosmos-sdk
+	// use Shido geth fork
+	github.com/ethereum/go-ethereum => ../go-ethereum
 	// Security Advisory https://github.com/advisories/GHSA-h395-qcrw-5vmq
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.9.1
 	// replace broken goleveldb

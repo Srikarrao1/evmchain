@@ -9,12 +9,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/crypto/hd"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/tests/integration/ledger/mocks"
-	"github.com/evmos/evmos/v14/testutil"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/crypto/hd"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/tests/integration/ledger/mocks"
+	"github.com/shido/shido/v2/testutil"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
 
 	"github.com/spf13/cobra"
 
@@ -174,7 +174,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 						s.app.BankKeeper,
 						s.accAddr,
 						sdk.NewCoins(
-							sdk.NewCoin("aevmos", sdk.NewInt(100000000000000)),
+							sdk.NewCoin("ashido", sdk.NewInt(100000000000000)),
 						),
 					)
 					s.Require().NoError(err)
@@ -199,7 +199,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 					cmd.SetArgs([]string{
 						ledgerKey,
 						receiverAccAddr.String(),
-						sdk.NewCoin("aevmos", sdk.NewInt(1000)).String(),
+						sdk.NewCoin("ashido", sdk.NewInt(1000)).String(),
 						s.FormatFlag(flags.FlagUseLedger),
 						s.FormatFlag(flags.FlagSkipConfirmation),
 					})
@@ -217,7 +217,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 					cmd.SetArgs([]string{
 						ledgerKey,
 						receiverAccAddr.String(),
-						sdk.NewCoin("aevmos", sdk.NewInt(1000)).String(),
+						sdk.NewCoin("ashido", sdk.NewInt(1000)).String(),
 						s.FormatFlag(flags.FlagUseLedger),
 						s.FormatFlag(flags.FlagSkipConfirmation),
 					})

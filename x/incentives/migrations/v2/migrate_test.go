@@ -8,11 +8,11 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/encoding"
-	v2 "github.com/evmos/evmos/v14/x/incentives/migrations/v2"
-	v2types "github.com/evmos/evmos/v14/x/incentives/migrations/v2/types"
-	"github.com/evmos/evmos/v14/x/incentives/types"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/encoding"
+	v2 "github.com/shido/shido/v2/x/incentives/migrations/v2"
+	v2types "github.com/shido/shido/v2/x/incentives/migrations/v2/types"
+	"github.com/shido/shido/v2/x/incentives/types"
 	"github.com/stretchr/testify/require"
 )
 

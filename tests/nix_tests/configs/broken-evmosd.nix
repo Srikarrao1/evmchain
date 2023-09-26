@@ -1,8 +1,8 @@
 { pkgs ? import ../../../nix { } }:
-let evmosd = (pkgs.callPackage ../../../. { });
+let shidod = (pkgs.callPackage ../../../. { });
 in
-evmosd.overrideAttrs (oldAttrs: {
+shidod.overrideAttrs (oldAttrs: {
   patches = oldAttrs.patches or [ ] ++ [
-    ./broken-evmosd.patch
+    ./broken-shidod.patch
   ];
 })

@@ -25,19 +25,19 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmosapp "github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/staking"
-	"github.com/evmos/evmos/v14/precompiles/testutil"
-	"github.com/evmos/evmos/v14/precompiles/testutil/contracts"
-	evmosutil "github.com/evmos/evmos/v14/testutil"
-	testutiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/utils"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
+	evmosapp "github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/precompiles/authorization"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/staking"
+	"github.com/shido/shido/v2/precompiles/testutil"
+	"github.com/shido/shido/v2/precompiles/testutil/contracts"
+	evmosutil "github.com/shido/shido/v2/testutil"
+	testutiltx "github.com/shido/shido/v2/testutil/tx"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/utils"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 	"golang.org/x/exp/slices"
 )
 
@@ -84,7 +84,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be aevmos
+	// set bond demon to be ashido
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)

@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package v14
 
@@ -26,12 +26,12 @@ import (
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibctmmigrations "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint/migrations"
 	"github.com/ethereum/go-ethereum/common"
-	vestingprecompile "github.com/evmos/evmos/v14/precompiles/vesting"
-	"github.com/evmos/evmos/v14/utils"
-	evmkeeper "github.com/evmos/evmos/v14/x/evm/keeper"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
-	vestingkeeper "github.com/evmos/evmos/v14/x/vesting/keeper"
+	vestingprecompile "github.com/shido/shido/v2/precompiles/vesting"
+	"github.com/shido/shido/v2/utils"
+	evmkeeper "github.com/shido/shido/v2/x/evm/keeper"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	vestingkeeper "github.com/shido/shido/v2/x/vesting/keeper"
 )
 
 const (
@@ -40,29 +40,29 @@ const (
 	// newTeamStrategicReserve is the new strategic reserve multisig
 	newTeamStrategicReserve = "0x29fDcB7b64B84fD54D0fB0E04A8f6B062046fc6F"
 	// OldFunder1 is one of the old vesting funders to be replaced
-	OldFunder1 = "evmos1sgjgup7wz3qyfcqqpr66jlm9qpk3j63ajupc9l"
+	OldFunder1 = "shido1sgjgup7wz3qyfcqqpr66jlm9qpk3j63ajupc9l"
 	// OldFunder2 is the other old vesting funder to be replaced
-	OldFunder2 = "evmos1xp38jqcjf2s7wyuyh3fwrjukuj4ny54k2yaq97"
+	OldFunder2 = "shido1xp38jqcjf2s7wyuyh3fwrjukuj4ny54k2yaq97"
 	// oldTeamPremintWallet is the old team premint wallet
-	oldTeamPremintWallet = "evmos1sgjgup7wz3qyfcqqpr66jlm9qpk3j63ajupc9l"
+	oldTeamPremintWallet = "shido1sgjgup7wz3qyfcqqpr66jlm9qpk3j63ajupc9l"
 	// VestingAddrByFunder1 is the vesting account funded by OldFunder1
-	VestingAddrByFunder1 = "evmos1pxjncpsu2rd3hjxgswkqaenrpu3v5yxurzm7jp"
+	VestingAddrByFunder1 = "shido1pxjncpsu2rd3hjxgswkqaenrpu3v5yxurzm7jp"
 )
 
 var (
 	// VestingAddrsByFunder2 is a slice of vesting accounts funded by OldFunder1
 	VestingAddrsByFunder2 = []string{
-		"evmos12aqyq9d4k7a8hzh5av2xgxp0njan48498dvj2s",
-		"evmos1rtj2r4eaz0v68mxjt5jleynm85yjfu2uxm7pxx",
+		"shido12aqyq9d4k7a8hzh5av2xgxp0njan48498dvj2s",
+		"shido1rtj2r4eaz0v68mxjt5jleynm85yjfu2uxm7pxx",
 	}
 
 	// OldStrategicReserves is a list of old multisigs to be replaced
 	OldStrategicReserves = []string{
-		"evmos1z8ynrnhdn4l69mu6v6ckjr4wukcacd0e7j0akn", // Strategic Reserve 1
-		"evmos1w2rl60wr9sxjv60qsh9v8aratk0x2r3v78utzt", // Strategic Reserve 2
-		"evmos1fgg4xaakwmrxdk9my6uc8nxeatf7u35uaal529", // Strategic Reserve 3
-		"evmos15xm3h3fgjrkqtkr79t7rj9spq3qlzuheae5vss", // Strategic Reserve 4
-		"evmos15l8jnxynhldtydknzla2xpv8uxg00xgmg2enst", // Strategic Reserve 5
+		"shido1z8ynrnhdn4l69mu6v6ckjr4wukcacd0e7j0akn", // Strategic Reserve 1
+		"shido1w2rl60wr9sxjv60qsh9v8aratk0x2r3v78utzt", // Strategic Reserve 2
+		"shido1fgg4xaakwmrxdk9my6uc8nxeatf7u35uaal529", // Strategic Reserve 3
+		"shido15xm3h3fgjrkqtkr79t7rj9spq3qlzuheae5vss", // Strategic Reserve 4
+		"shido15l8jnxynhldtydknzla2xpv8uxg00xgmg2enst", // Strategic Reserve 5
 	}
 
 	newTeamPremintWalletAddr    = common.HexToAddress(newTeamPremintWallet)

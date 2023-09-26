@@ -10,12 +10,12 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/evmos/evmos/v14/testutil"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	evm "github.com/evmos/evmos/v14/x/evm/types"
-	"github.com/evmos/evmos/v14/x/incentives/types"
-	vestingtypes "github.com/evmos/evmos/v14/x/vesting/types"
+	"github.com/shido/shido/v2/testutil"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	evmostypes "github.com/shido/shido/v2/types"
+	evm "github.com/shido/shido/v2/x/evm/types"
+	"github.com/shido/shido/v2/x/incentives/types"
+	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 func (suite *KeeperTestSuite) TestEvmHooksStoreTxGasUsed() {

@@ -12,7 +12,7 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
 )
 
 func init() {
@@ -137,7 +137,7 @@ func TestEvmosCoinDenom(t *testing.T) {
 	}{
 		{
 			"valid denom - native coin",
-			"aevmos",
+			"ashido",
 			false,
 		},
 		{

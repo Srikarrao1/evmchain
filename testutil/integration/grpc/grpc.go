@@ -7,10 +7,10 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v14/testutil/integration/network"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
-	revtypes "github.com/evmos/evmos/v14/x/revenue/v1/types"
+	"github.com/shido/shido/v2/testutil/integration/network"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 // Handler is an interface that defines the methods that are used to query

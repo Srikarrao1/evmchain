@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package keys
 
 import (
@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"sort"
 
-	cryptohd "github.com/evmos/evmos/v14/crypto/hd"
+	cryptohd "github.com/shido/shido/v2/crypto/hd"
 
 	bip39 "github.com/cosmos/go-bip39"
 	"github.com/spf13/cobra"

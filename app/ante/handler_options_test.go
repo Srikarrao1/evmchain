@@ -1,12 +1,12 @@
 package ante_test
 
 import (
-	ethante "github.com/evmos/evmos/v14/app/ante/evm"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/types"
+	ethante "github.com/shido/shido/v2/app/ante/evm"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/types"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/app/ante"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/app/ante"
 )
 
 func (suite *AnteTestSuite) TestValidateHandlerOptions() {

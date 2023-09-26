@@ -5,7 +5,7 @@ package types
 
 import (
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/evmos/evmos/v14/types"
+	evmostypes "github.com/shido/shido/v2/types"
 )
 
 // NewGasMeter returns an instance of GasMeter

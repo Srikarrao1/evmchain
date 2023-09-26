@@ -3,11 +3,11 @@
 package network
 
 import (
-	testtx "github.com/evmos/evmos/v14/testutil/tx"
-	"github.com/evmos/evmos/v14/utils"
+	testtx "github.com/shido/shido/v2/testutil/tx"
+	"github.com/shido/shido/v2/utils"
 
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
-	evmostypes "github.com/evmos/evmos/v14/types"
+	evmostypes "github.com/shido/shido/v2/types"
 )
 
 // Config defines the configuration for a chain.

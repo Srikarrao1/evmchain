@@ -19,14 +19,14 @@ import (
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v14/contracts"
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v14/testutil"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	"github.com/evmos/evmos/v14/utils"
-	erc20types "github.com/evmos/evmos/v14/x/erc20/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	"github.com/evmos/evmos/v14/x/vesting/types"
+	"github.com/shido/shido/v2/contracts"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	"github.com/shido/shido/v2/testutil"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	"github.com/shido/shido/v2/utils"
+	erc20types "github.com/shido/shido/v2/x/erc20/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/shido/shido/v2/x/vesting/types"
 )
 
 // TestClawbackAccount is a struct to store all relevant information that is corresponding

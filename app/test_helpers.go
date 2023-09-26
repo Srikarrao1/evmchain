@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package app
 
@@ -26,11 +26,11 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/evmos/v14/encoding"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
+	"github.com/shido/shido/v2/encoding"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 
-	"github.com/evmos/evmos/v14/cmd/config"
-	"github.com/evmos/evmos/v14/utils"
+	"github.com/shido/shido/v2/cmd/config"
+	"github.com/shido/shido/v2/utils"
 )
 
 func init() {

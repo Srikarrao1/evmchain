@@ -1,8 +1,8 @@
 package v14_test
 
 import (
-	v14 "github.com/evmos/evmos/v14/app/upgrades/v14"
-	vestingprecompile "github.com/evmos/evmos/v14/precompiles/vesting"
+	v14 "github.com/shido/shido/v2/app/upgrades/v14"
+	vestingprecompile "github.com/shido/shido/v2/precompiles/vesting"
 )
 
 func (s *UpgradesTestSuite) TestEnableVestingExtension() {

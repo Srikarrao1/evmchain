@@ -32,7 +32,7 @@ function checkTestEnv () {
     )
     .describe('allowTests', 'only run specified tests. Separated by comma.')
     .boolean('verbose-log')
-    .describe('verbose-log', 'print evmosd output, default false').argv
+    .describe('verbose-log', 'print shidod output, default false').argv
 
   if (!fs.existsSync(path.join(__dirname, './node_modules'))) {
     panic(
@@ -196,19 +196,19 @@ function setupNetwork ({ runConfig, timeout }) {
 
   const spawnPromise = new Promise((resolve, reject) => {
     const serverStartedLog = 'Starting JSON-RPC server'
-    const serverStartedMsg = 'evmosd started'
+    const serverStartedMsg = 'shidod started'
 
-    const evmosdProc = spawn('../e2e/init-node.sh', {
+    const shidodProc = spawn('../e2e/init-node.sh', {
       cwd: __dirname,
       stdio: ['ignore', 'pipe', 'pipe']
     })
 
-    logger.info(`Starting evmosd process... timeout: ${timeout}ms`)
+    logger.info(`Starting shidod process... timeout: ${timeout}ms`)
     if (runConfig.verboseLog) {
-      evmosdProc.stdout.pipe(process.stdout)
+      shidodProc.stdout.pipe(process.stdout)
     }
 
-    evmosdProc.stdout.on('data', (d) => {
+    shidodProc.stdout.on('data', (d) => {
       const oLine = d.toString()
       if (runConfig.verboseLog) {
         process.stdout.write(oLine)
@@ -216,11 +216,11 @@ function setupNetwork ({ runConfig, timeout }) {
 
       if (oLine.indexOf(serverStartedLog) !== -1) {
         logger.info(serverStartedMsg)
-        resolve(evmosdProc)
+        resolve(shidodProc)
       }
     })
 
-    evmosdProc.stderr.on('data', (d) => {
+    shidodProc.stderr.on('data', (d) => {
       const oLine = d.toString()
       if (runConfig.verboseLog) {
         process.stdout.write(oLine)
@@ -228,13 +228,13 @@ function setupNetwork ({ runConfig, timeout }) {
 
       if (oLine.indexOf(serverStartedLog) !== -1) {
         logger.info(serverStartedMsg)
-        resolve(evmosdProc)
+        resolve(shidodProc)
       }
     })
   })
 
   const timeoutPromise = new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error('Start evmosd timeout!')), timeout)
+    setTimeout(() => reject(new Error('Start shidod timeout!')), timeout)
   })
   return Promise.race([spawnPromise, timeoutPromise])
 }

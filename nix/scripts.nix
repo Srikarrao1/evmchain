@@ -3,7 +3,7 @@
 , evmos ? (import ../. { inherit pkgs; })
 }: rec {
   start-evmos = pkgs.writeShellScriptBin "start-evmos" ''
-    # rely on environment to provide evmosd
+    # rely on environment to provide shidod
     export PATH=${pkgs.test-env}/bin:$PATH
     ${../scripts/start-evmos.sh} ${config.evmos-config} ${config.dotenv} $@
   '';

@@ -27,9 +27,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	ethparams "github.com/ethereum/go-ethereum/params"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	"github.com/evmos/evmos/v14/x/evm/types"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	"github.com/shido/shido/v2/x/evm/types"
 )
 
 var _ types.QueryServer = Keeper{}

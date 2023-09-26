@@ -15,9 +15,9 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	rpctypes "github.com/evmos/evmos/v14/rpc/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
 	"github.com/pkg/errors"
+	rpctypes "github.com/shido/shido/v2/rpc/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // GetCode returns the contract code at the given address and block number.

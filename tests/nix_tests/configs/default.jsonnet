@@ -1,11 +1,11 @@
 {
   dotenv: '../../../scripts/.env',
   'evmos_9000-1': {
-    cmd: 'evmosd',
+    cmd: 'shidod',
     'start-flags': '--trace',
     'app-config': {
       'app-db-backend': 'goleveldb',      
-      'minimum-gas-prices': '0aevmos',
+      'minimum-gas-prices': '0ashido',
       'index-events': ['ethereum_tx.ethereumTxHash'],
       'json-rpc': {
         address: '127.0.0.1:{EVMRPC_PORT}',
@@ -22,25 +22,25 @@
       }
     },
     validators: [{
-      coins: '10001000000000000000000aevmos',
-      staked: '1000000000000000000aevmos',
+      coins: '10001000000000000000000ashido',
+      staked: '1000000000000000000ashido',
       mnemonic: '${VALIDATOR1_MNEMONIC}',
     }, {
-      coins: '10001000000000000000000aevmos',
-      staked: '1000000000000000000aevmos',
+      coins: '10001000000000000000000ashido',
+      staked: '1000000000000000000ashido',
       mnemonic: '${VALIDATOR2_MNEMONIC}',
     }],
     accounts: [{
       name: 'community',
-      coins: '10000000000000000000000aevmos',
+      coins: '10000000000000000000000ashido',
       mnemonic: '${COMMUNITY_MNEMONIC}',
     }, {
       name: 'signer1',
-      coins: '20000000000000000000000aevmos',
+      coins: '20000000000000000000000ashido',
       mnemonic: '${SIGNER1_MNEMONIC}',
     }, {
       name: 'signer2',
-      coins: '30000000000000000000000aevmos',
+      coins: '30000000000000000000000ashido',
       mnemonic: '${SIGNER2_MNEMONIC}',
     }],
     genesis: {
@@ -53,22 +53,22 @@
       app_state: {
         evm: {
           params: {
-            evm_denom: 'aevmos',
+            evm_denom: 'ashido',
           },
         },
         crisis: {
           constant_fee: {
-            denom: 'aevmos',
+            denom: 'ashido',
           },
         },
         staking: {
           params: {
-            bond_denom: 'aevmos',
+            bond_denom: 'ashido',
           },
         },     
         inflation: {
           params: {
-            mint_denom: 'aevmos',
+            mint_denom: 'ashido',
           },
         },           
         gov: {
@@ -79,7 +79,7 @@
             max_deposit_period: '10s',
             min_deposit: [
               {
-                denom: 'aevmos',
+                denom: 'ashido',
                 amount: '1',
               },
             ],
@@ -87,7 +87,7 @@
           params: {
             min_deposit: [
               {
-                denom: 'aevmos',
+                denom: 'ashido',
                 amount: '1',
               },
             ],

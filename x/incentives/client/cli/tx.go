@@ -17,7 +17,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/gov/client/cli"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	"github.com/evmos/evmos/v14/x/incentives/types"
+	"github.com/shido/shido/v2/x/incentives/types"
 )
 
 // NewRegisterIncentiveProposalCmd implements the command to submit a register
@@ -90,7 +90,7 @@ func NewRegisterIncentiveProposalCmd() *cobra.Command {
 
 	cmd.Flags().String(cli.FlagTitle, "", "title of proposal")
 	cmd.Flags().String(cli.FlagDescription, "", "description of proposal") //nolint:staticcheck,nolintlint
-	cmd.Flags().String(cli.FlagDeposit, "1aevmos", "deposit of proposal")
+	cmd.Flags().String(cli.FlagDeposit, "1ashido", "deposit of proposal")
 	if err := cmd.MarkFlagRequired(cli.FlagTitle); err != nil {
 		panic(err)
 	}
@@ -163,7 +163,7 @@ func NewCancelIncentiveProposalCmd() *cobra.Command {
 
 	cmd.Flags().String(cli.FlagTitle, "", "title of proposal")
 	cmd.Flags().String(cli.FlagDescription, "", "description of proposal") //nolint:staticcheck
-	cmd.Flags().String(cli.FlagDeposit, "1aevmos", "deposit of proposal")
+	cmd.Flags().String(cli.FlagDeposit, "1ashido", "deposit of proposal")
 	if err := cmd.MarkFlagRequired(cli.FlagTitle); err != nil {
 		panic(err)
 	}

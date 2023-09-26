@@ -14,11 +14,11 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rpc"
-	rpctypes "github.com/evmos/evmos/v14/rpc/types"
-	"github.com/evmos/evmos/v14/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
 	"github.com/pkg/errors"
+	rpctypes "github.com/shido/shido/v2/rpc/types"
+	"github.com/shido/shido/v2/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 )
 
 // ChainID is the EIP-155 replay-protection chain id for the current ethereum chain config.

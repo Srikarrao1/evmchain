@@ -12,7 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/evmos/evmos/v14/types"
+	"github.com/shido/shido/v2/types"
 )
 
 func newAccessListTx(tx *ethtypes.Transaction) (*AccessListTx, error) {
@@ -224,12 +224,12 @@ func (tx AccessListTx) Validate() error {
 		)
 	}
 
-	if !(chainID.Cmp(big.NewInt(9001)) == 0 || chainID.Cmp(big.NewInt(9000)) == 0) {
-		return errorsmod.Wrapf(
-			errortypes.ErrInvalidChainID,
-			"chain ID must be 9000 or 9001 on Evmos, got %s", chainID,
-		)
-	}
+	// if !(chainID.Cmp(big.NewInt(9001)) == 0 || chainID.Cmp(big.NewInt(9000)) == 0) {
+	// 	return errorsmod.Wrapf(
+	// 		errortypes.ErrInvalidChainID,
+	// 		"chain ID must be 9000 or 9001 on Evmos, got %s", chainID,
+	// 	)
+	// }
 
 	return nil
 }

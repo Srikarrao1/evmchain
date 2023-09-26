@@ -18,9 +18,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/params"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	"github.com/evmos/evmos/v14/x/evm/types"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	"github.com/shido/shido/v2/x/evm/types"
 )
 
 // Keeper grants access to the EVM module state and implements the go-ethereum StateDB interface.
@@ -118,9 +118,9 @@ func (k *Keeper) WithChainID(ctx sdk.Context) {
 		panic("chain id already set")
 	}
 
-	if !(chainID.Cmp(big.NewInt(9001)) == 0 || chainID.Cmp(big.NewInt(9000)) == 0) {
-		panic("EVM only supports Evmos chain identifiers (9000 or 9001)")
-	}
+	// if !(chainID.Cmp(big.NewInt(9001)) == 0 || chainID.Cmp(big.NewInt(9000)) == 0) {
+	// 	panic("EVM only supports Evmos chain identifiers (9000 or 9001)")
+	// }
 
 	k.eip155ChainID = chainID
 }

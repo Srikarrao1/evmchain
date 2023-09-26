@@ -9,12 +9,12 @@ import (
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
-	"github.com/evmos/evmos/v14/app"
-	ibctesting "github.com/evmos/evmos/v14/ibc/testing"
-	"github.com/evmos/evmos/v14/utils"
-	claimstypes "github.com/evmos/evmos/v14/x/claims/types"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
-	"github.com/evmos/evmos/v14/x/recovery/types"
+	"github.com/shido/shido/v2/app"
+	ibctesting "github.com/shido/shido/v2/ibc/testing"
+	"github.com/shido/shido/v2/utils"
+	claimstypes "github.com/shido/shido/v2/x/claims/types"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
+	"github.com/shido/shido/v2/x/recovery/types"
 )
 
 func CreatePacket(amount, denom, sender, receiver, srcPort, srcChannel, dstPort, dstChannel string, seq, timeout uint64) channeltypes.Packet {
@@ -65,7 +65,7 @@ func (suite *IBCTestingSuite) SetupTest() {
 	err = suite.EvmosChain.App.(*app.Evmos).BankKeeper.SendCoinsFromModuleToAccount(suite.EvmosChain.GetContext(), inflationtypes.ModuleName, suite.IBCOsmosisChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
-	// Mint coins on the osmosis side which we'll use to unlock our aevmos
+	// Mint coins on the osmosis side which we'll use to unlock our ashido
 	coinOsmo := sdk.NewCoin("uosmo", sdk.NewInt(10))
 	coins = sdk.NewCoins(coinOsmo)
 	err = suite.IBCOsmosisChain.GetSimApp().BankKeeper.MintCoins(suite.IBCOsmosisChain.GetContext(), minttypes.ModuleName, coins)
@@ -73,7 +73,7 @@ func (suite *IBCTestingSuite) SetupTest() {
 	err = suite.IBCOsmosisChain.GetSimApp().BankKeeper.SendCoinsFromModuleToAccount(suite.IBCOsmosisChain.GetContext(), minttypes.ModuleName, suite.IBCOsmosisChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
-	// Mint coins on the cosmos side which we'll use to unlock our aevmos
+	// Mint coins on the cosmos side which we'll use to unlock our ashido
 	coinAtom := sdk.NewCoin("uatom", sdk.NewInt(10))
 	coins = sdk.NewCoins(coinAtom)
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.MintCoins(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, coins)

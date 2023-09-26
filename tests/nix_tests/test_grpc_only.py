@@ -81,7 +81,7 @@ def test_grpc_mode(custom_evmos):
     with (custom_evmos.base_dir / "node1.log").open("a") as logfile:
         proc = subprocess.Popen(
             [
-                "evmosd",
+                "shidod",
                 "start",
                 "--grpc-only",
                 "--home",

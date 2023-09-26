@@ -4,10 +4,10 @@ import (
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/evmos/evmos/v14/app/upgrades/v14"
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v14/testutil"
-	testutiltx "github.com/evmos/evmos/v14/testutil/tx"
+	v14 "github.com/shido/shido/v2/app/upgrades/v14"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	"github.com/shido/shido/v2/testutil"
+	testutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
 // zeroDec is a zero decimal value

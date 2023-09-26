@@ -11,11 +11,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v7/modules/core/24-host"
-	"github.com/evmos/evmos/v14/utils"
+	"github.com/shido/shido/v2/utils"
 )
 
 var (
-	// DefaultClaimsDenom is aevmos
+	// DefaultClaimsDenom is ashido
 	DefaultClaimsDenom = utils.BaseDenom
 	// DefaultDurationUntilDecay is 1 month = 30.4375 days
 	DefaultDurationUntilDecay = 2629800 * time.Second

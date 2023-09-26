@@ -18,9 +18,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
+	evmostypes "github.com/shido/shido/v2/types"
 
-	"github.com/evmos/evmos/v14/x/erc20/types"
+	"github.com/shido/shido/v2/x/erc20/types"
 )
 
 // NewTxCmd returns a root CLI command handler for erc20 transaction commands
@@ -222,7 +222,7 @@ Where metadata.json contains (example):
 
 	cmd.Flags().String(cli.FlagTitle, "", "title of proposal")
 	cmd.Flags().String(cli.FlagDescription, "", "description of proposal") //nolint:staticcheck,nolintlint
-	cmd.Flags().String(cli.FlagDeposit, "1aevmos", "deposit of proposal")
+	cmd.Flags().String(cli.FlagDeposit, "1ashido", "deposit of proposal")
 	if err := cmd.MarkFlagRequired(cli.FlagTitle); err != nil {
 		panic(err)
 	}
@@ -288,7 +288,7 @@ func NewRegisterERC20ProposalCmd() *cobra.Command {
 
 	cmd.Flags().String(cli.FlagTitle, "", "title of proposal")
 	cmd.Flags().String(cli.FlagDescription, "", "description of proposal") //nolint:staticcheck
-	cmd.Flags().String(cli.FlagDeposit, "1aevmos", "deposit of proposal")
+	cmd.Flags().String(cli.FlagDeposit, "1ashido", "deposit of proposal")
 	if err := cmd.MarkFlagRequired(cli.FlagTitle); err != nil {
 		panic(err)
 	}
@@ -354,7 +354,7 @@ func NewToggleTokenConversionProposalCmd() *cobra.Command {
 
 	cmd.Flags().String(cli.FlagTitle, "", "title of proposal")
 	cmd.Flags().String(cli.FlagDescription, "", "description of proposal") //nolint:staticcheck
-	cmd.Flags().String(cli.FlagDeposit, "1aevmos", "deposit of proposal")
+	cmd.Flags().String(cli.FlagDeposit, "1ashido", "deposit of proposal")
 	if err := cmd.MarkFlagRequired(cli.FlagTitle); err != nil {
 		panic(err)
 	}

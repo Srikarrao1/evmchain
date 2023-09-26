@@ -14,18 +14,18 @@ import (
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	evmoscontracts "github.com/evmos/evmos/v14/contracts"
-	evmostesting "github.com/evmos/evmos/v14/ibc/testing"
-	"github.com/evmos/evmos/v14/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/ics20"
-	"github.com/evmos/evmos/v14/precompiles/testutil"
-	"github.com/evmos/evmos/v14/precompiles/testutil/contracts"
-	evmosutil "github.com/evmos/evmos/v14/testutil"
-	teststypes "github.com/evmos/evmos/v14/types/tests"
-	"github.com/evmos/evmos/v14/utils"
-	erc20types "github.com/evmos/evmos/v14/x/erc20/types"
-	inflationtypes "github.com/evmos/evmos/v14/x/inflation/types"
+	evmoscontracts "github.com/shido/shido/v2/contracts"
+	evmostesting "github.com/shido/shido/v2/ibc/testing"
+	"github.com/shido/shido/v2/precompiles/authorization"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/ics20"
+	"github.com/shido/shido/v2/precompiles/testutil"
+	"github.com/shido/shido/v2/precompiles/testutil/contracts"
+	evmosutil "github.com/shido/shido/v2/testutil"
+	teststypes "github.com/shido/shido/v2/types/tests"
+	"github.com/shido/shido/v2/utils"
+	erc20types "github.com/shido/shido/v2/x/erc20/types"
+	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -51,9 +51,9 @@ var (
 	// gasPrice defines a default gas price to be used in the testing suite
 	gasPrice = big.NewInt(200_000)
 
-	// array of allocations with only one allocation for 'aevmos' coin
+	// array of allocations with only one allocation for 'ashido' coin
 	defaultSingleAlloc []ics20.Allocation
-	// array of allocations with only two allocation for 'aevmos' and 'uatom' coins
+	// array of allocations with only two allocation for 'ashido' and 'uatom' coins
 	defaultManyAllocs []ics20.Allocation
 )
 
@@ -1213,10 +1213,10 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 			)
 		})
 
-		Context("'aevmos' coin", func() {
+		Context("'ashido' coin", func() {
 			Context("with authorization", func() {
 				BeforeEach(func() {
-					// set approval to transfer 'aevmos'
+					// set approval to transfer 'ashido'
 					s.setTransferApprovalForContract(defaultApproveArgs)
 				})
 
@@ -1505,7 +1505,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 			)
 		})
 
-		Context("transfer 'aevmos", func() {
+		Context("transfer 'ashido", func() {
 			var defaultTransferEvmosArgs contracts.CallArgs
 			BeforeEach(func() {
 				// send some funds to the contract from which the funds will be sent
@@ -1541,7 +1541,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 
 			Context("with authorization", func() {
 				BeforeEach(func() {
-					// set approval to transfer 'aevmos'
+					// set approval to transfer 'ashido'
 					s.setTransferApprovalForContract(defaultApproveArgs)
 				})
 

@@ -5,7 +5,7 @@ package types
 import (
 	"fmt"
 
-	"github.com/evmos/evmos/v14/x/feemarket/types"
+	"github.com/shido/shido/v2/x/feemarket/types"
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"

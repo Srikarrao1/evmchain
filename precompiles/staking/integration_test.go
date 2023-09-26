@@ -17,16 +17,16 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	compiledcontracts "github.com/evmos/evmos/v14/contracts"
-	"github.com/evmos/evmos/v14/precompiles/authorization"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/distribution"
-	"github.com/evmos/evmos/v14/precompiles/staking"
-	"github.com/evmos/evmos/v14/precompiles/staking/testdata"
-	"github.com/evmos/evmos/v14/precompiles/testutil"
-	"github.com/evmos/evmos/v14/precompiles/testutil/contracts"
-	evmosutil "github.com/evmos/evmos/v14/testutil"
-	testutiltx "github.com/evmos/evmos/v14/testutil/tx"
+	compiledcontracts "github.com/shido/shido/v2/contracts"
+	"github.com/shido/shido/v2/precompiles/authorization"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/distribution"
+	"github.com/shido/shido/v2/precompiles/staking"
+	"github.com/shido/shido/v2/precompiles/staking/testdata"
+	"github.com/shido/shido/v2/precompiles/testutil"
+	"github.com/shido/shido/v2/precompiles/testutil/contracts"
+	evmosutil "github.com/shido/shido/v2/testutil"
+	testutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
 // General variables used for integration tests
@@ -2231,7 +2231,7 @@ var _ = Describe("Calling staking precompile via Solidity", func() {
 			err = s.precompile.UnpackIntoInterface(&delOut, staking.DelegationMethod, ethRes.Ret)
 			Expect(err).To(BeNil(), "error while unpacking the delegation output: %v", err)
 			Expect(delOut.Balance.Amount.Int64()).To(Equal(int64(0)), "expected a different delegation balance")
-			Expect(delOut.Balance.Denom).To(Equal("aevmos"), "expected a different delegation balance")
+			Expect(delOut.Balance.Denom).To(Equal("ashido"), "expected a different delegation balance")
 		})
 
 		It("which exists should return the delegation", func() {
@@ -2246,7 +2246,7 @@ var _ = Describe("Calling staking precompile via Solidity", func() {
 			err = s.precompile.UnpackIntoInterface(&delOut, staking.DelegationMethod, ethRes.Ret)
 			Expect(err).To(BeNil(), "error while unpacking the delegation output: %v", err)
 			Expect(delOut.Balance).To(Equal(
-				cmn.Coin{Denom: "aevmos", Amount: big.NewInt(1e18)}),
+				cmn.Coin{Denom: "ashido", Amount: big.NewInt(1e18)}),
 				"expected a different delegation balance",
 			)
 		})

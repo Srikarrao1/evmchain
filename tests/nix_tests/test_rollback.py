@@ -41,10 +41,10 @@ def custom_evmos(tmp_path_factory):
     cmd = [
         "nix-build",
         "--no-out-link",
-        Path(__file__).parent / "configs/broken-evmosd.nix",
+        Path(__file__).parent / "configs/broken-shidod.nix",
     ]
     print(*cmd)
-    broken_binary = Path(subprocess.check_output(cmd).strip().decode()) / "bin/evmosd"
+    broken_binary = Path(subprocess.check_output(cmd).strip().decode()) / "bin/shidod"
     print(broken_binary)
 
     # init with genesis binary
@@ -86,7 +86,7 @@ def test_rollback(custom_evmos):
     cli1.rollback()
 
     print("switch to normal binary")
-    update_node_cmd(custom_evmos.base_dir, "evmosd", 1)
+    update_node_cmd(custom_evmos.base_dir, "shidod", 1)
     supervisorctl(custom_evmos.base_dir / "../tasks.ini", "update")
     wait_for_port(target_port)
 

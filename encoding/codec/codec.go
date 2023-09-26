@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package codec
 
 import (
@@ -8,8 +8,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/std"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	cryptocodec "github.com/evmos/evmos/v14/crypto/codec"
-	"github.com/evmos/evmos/v14/types"
+	cryptocodec "github.com/shido/shido/v2/crypto/codec"
+	"github.com/shido/shido/v2/types"
 )
 
 // RegisterLegacyAminoCodec registers Interfaces from types, crypto, and SDK std.

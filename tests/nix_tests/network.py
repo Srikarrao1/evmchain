@@ -12,7 +12,7 @@ from web3.middleware import geth_poa_middleware
 from .cosmoscli import CosmosCLI
 from .utils import supervisorctl, wait_for_port
 
-DEFAULT_CHAIN_BINARY = "evmosd"
+DEFAULT_CHAIN_BINARY = "shidod"
 
 
 class Evmos:

@@ -8,13 +8,13 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/vesting"
-	evmosutil "github.com/evmos/evmos/v14/testutil"
-	evmosutiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/utils"
-	vestingtypes "github.com/evmos/evmos/v14/x/vesting/types"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/vesting"
+	evmosutil "github.com/shido/shido/v2/testutil"
+	evmosutiltx "github.com/shido/shido/v2/testutil/tx"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/utils"
+	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 var (

@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package client
 
 import (
@@ -14,7 +14,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/evmos/evmos/v14/types"
+	"github.com/shido/shido/v2/types"
 )
 
 // InitConfig adds the chain-id, encoding and output flags to the persistent flag set.
@@ -28,7 +28,7 @@ func InitConfig(cmd *cobra.Command) error {
 	_, err = os.Stat(configFile)
 	if err != nil && !os.IsNotExist(err) {
 		// Immediately return if the error isn't related to the file not existing.
-		// See issue https://github.com/evmos/ethermint/issues/539
+		// See issue https://github.com/shido/ethermint/issues/539
 		return err
 	}
 	if err == nil {

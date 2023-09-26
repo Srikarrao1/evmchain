@@ -12,9 +12,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/x/evm/keeper"
-	"github.com/evmos/evmos/v14/x/evm/types"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/x/evm/keeper"
+	"github.com/shido/shido/v2/x/evm/types"
 )
 
 // InitGenesis initializes genesis state based on exported genesis

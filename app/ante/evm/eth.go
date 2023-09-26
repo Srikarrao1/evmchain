@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package evm
 
@@ -13,11 +13,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 
-	anteutils "github.com/evmos/evmos/v14/app/ante/utils"
-	"github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/x/evm/keeper"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	anteutils "github.com/shido/shido/v2/app/ante/utils"
+	"github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/x/evm/keeper"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
@@ -144,7 +144,7 @@ func (egcd EthGasConsumeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simula
 		// that is not bubbled up. Thus, the Tx never runs on DeliverMode
 		// Error: "gas wanted -1 is negative"
 		// For more information, see issue #1554
-		// https://github.com/evmos/ethermint/issues/1554
+		// https://github.com/shido/ethermint/issues/1554
 		newCtx := ctx.WithGasMeter(types.NewInfiniteGasMeterWithLimit(gasWanted))
 		return next(newCtx, tx, simulate)
 	}

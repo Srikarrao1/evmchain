@@ -5,8 +5,8 @@ package vesting_test
 import (
 	"fmt"
 
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
-	"github.com/evmos/evmos/v14/precompiles/vesting"
+	cmn "github.com/shido/shido/v2/precompiles/common"
+	"github.com/shido/shido/v2/precompiles/vesting"
 )
 
 func (s *PrecompileTestSuite) TestBalances() {

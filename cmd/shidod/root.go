@@ -42,25 +42,25 @@ import (
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	evmosclient "github.com/evmos/evmos/v14/client"
-	"github.com/evmos/evmos/v14/client/block"
-	"github.com/evmos/evmos/v14/client/debug"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/ethereum/eip712"
-	evmosserver "github.com/evmos/evmos/v14/server"
-	servercfg "github.com/evmos/evmos/v14/server/config"
-	srvflags "github.com/evmos/evmos/v14/server/flags"
+	evmosclient "github.com/shido/shido/v2/client"
+	"github.com/shido/shido/v2/client/block"
+	"github.com/shido/shido/v2/client/debug"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/ethereum/eip712"
+	evmosserver "github.com/shido/shido/v2/server"
+	servercfg "github.com/shido/shido/v2/server/config"
+	srvflags "github.com/shido/shido/v2/server/flags"
 
-	"github.com/evmos/evmos/v14/app"
-	cmdcfg "github.com/evmos/evmos/v14/cmd/config"
-	evmoskr "github.com/evmos/evmos/v14/crypto/keyring"
+	"github.com/shido/shido/v2/app"
+	cmdcfg "github.com/shido/shido/v2/cmd/config"
+	evmoskr "github.com/shido/shido/v2/crypto/keyring"
 )
 
 const (
 	EnvPrefix = "EVMOS"
 )
 
-// NewRootCmd creates a new root command for evmosd. It is called once in the
+// NewRootCmd creates a new root command for shidod. It is called once in the
 // main function.
 func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)

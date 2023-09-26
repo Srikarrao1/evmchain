@@ -16,10 +16,10 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	rpctypes "github.com/evmos/evmos/v14/rpc/types"
-	"github.com/evmos/evmos/v14/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
 	"github.com/pkg/errors"
+	rpctypes "github.com/shido/shido/v2/rpc/types"
+	"github.com/shido/shido/v2/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // GetTransactionByHash returns the Ethereum format transaction identified by Ethereum transaction hash

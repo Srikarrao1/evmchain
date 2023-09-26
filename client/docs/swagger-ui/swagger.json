@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/evmos/claims/v1/claims_records": {
+    "/shido/claims/v1/claims_records": {
       "get": {
         "summary": "ClaimsRecords returns all claims records",
         "operationId": "ClaimsRecords",
@@ -140,7 +140,7 @@
         ]
       }
     },
-    "/evmos/claims/v1/claims_records/{address}": {
+    "/shido/claims/v1/claims_records/{address}": {
       "get": {
         "summary": "ClaimsRecord returns the claims record for a given address",
         "operationId": "ClaimsRecord",
@@ -237,7 +237,7 @@
         ]
       }
     },
-    "/evmos/claims/v1/params": {
+    "/shido/claims/v1/params": {
       "get": {
         "summary": "Params returns the claims module parameters",
         "operationId": "ClaimsParams",
@@ -331,7 +331,7 @@
         ]
       }
     },
-    "/evmos/claims/v1/total_unclaimed": {
+    "/shido/claims/v1/total_unclaimed": {
       "get": {
         "summary": "TotalUnclaimed queries the total unclaimed tokens from the airdrop",
         "operationId": "TotalUnclaimed",
@@ -400,7 +400,7 @@
         ]
       }
     },
-    "/evmos/epochs/v1/current_epoch": {
+    "/shido/epochs/v1/current_epoch": {
       "get": {
         "summary": "CurrentEpoch provide current epoch of specified identifier",
         "operationId": "CurrentEpoch",
@@ -467,7 +467,7 @@
         ]
       }
     },
-    "/evmos/epochs/v1/epochs": {
+    "/shido/epochs/v1/epochs": {
       "get": {
         "summary": "EpochInfos provide running epochInfos",
         "operationId": "EpochInfos",
@@ -618,7 +618,7 @@
         ]
       }
     },
-    "/evmos/erc20/v1/params": {
+    "/shido/erc20/v1/params": {
       "get": {
         "summary": "Params retrieves the erc20 module params",
         "operationId": "ERC20Params",
@@ -685,7 +685,7 @@
         ]
       }
     },
-    "/evmos/erc20/v1/token_pairs": {
+    "/shido/erc20/v1/token_pairs": {
       "get": {
         "summary": "TokenPairs retrieves registered token pairs",
         "operationId": "TokenPairs",
@@ -827,7 +827,7 @@
         ]
       }
     },
-    "/evmos/erc20/v1/token_pairs/{token}": {
+    "/shido/erc20/v1/token_pairs/{token}": {
       "get": {
         "summary": "TokenPair retrieves a registered token pair",
         "operationId": "TokenPair",
@@ -919,7 +919,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/allocation_meters": {
+    "/shido/incentives/v1/allocation_meters": {
       "get": {
         "summary": "AllocationMeters retrieves active allocation meters for a given\ndenomination",
         "operationId": "AllocationMeters",
@@ -1044,7 +1044,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/allocation_meters/{denom}": {
+    "/shido/incentives/v1/allocation_meters/{denom}": {
       "get": {
         "summary": "AllocationMeter retrieves a active gas meter",
         "operationId": "AllocationMeter",
@@ -1119,7 +1119,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/gas_meters/{contract}": {
+    "/shido/incentives/v1/gas_meters/{contract}": {
       "get": {
         "summary": "GasMeters retrieves active gas meters for a given contract",
         "operationId": "GasMeters",
@@ -1258,7 +1258,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/gas_meters/{contract}/{participant}": {
+    "/shido/incentives/v1/gas_meters/{contract}/{participant}": {
       "get": {
         "summary": "GasMeter retrieves a active gas meter",
         "operationId": "GasMeter",
@@ -1332,7 +1332,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/incentives": {
+    "/shido/incentives/v1/incentives": {
       "get": {
         "summary": "Incentives retrieves registered incentives",
         "operationId": "Incentives",
@@ -1486,7 +1486,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/incentives/{contract}": {
+    "/shido/incentives/v1/incentives/{contract}": {
       "get": {
         "summary": "Incentive retrieves a registered incentive",
         "operationId": "Incentive",
@@ -1589,7 +1589,7 @@
         ]
       }
     },
-    "/evmos/incentives/v1/params": {
+    "/shido/incentives/v1/params": {
       "get": {
         "summary": "Params retrieves the incentives module params",
         "operationId": "IncentivesParams",
@@ -1664,7 +1664,7 @@
         ]
       }
     },
-    "/evmos/inflation/v1/circulating_supply": {
+    "/shido/inflation/v1/circulating_supply": {
       "get": {
         "summary": "CirculatingSupply retrieves the total number of tokens that are in\ncirculation (i.e. excluding unvested tokens).",
         "operationId": "CirculatingSupply",
@@ -1730,7 +1730,7 @@
         ]
       }
     },
-    "/evmos/inflation/v1/epoch_mint_provision": {
+    "/shido/inflation/v1/epoch_mint_provision": {
       "get": {
         "summary": "EpochMintProvision retrieves current minting epoch provision value.",
         "operationId": "EpochMintProvision",
@@ -1795,7 +1795,7 @@
         ]
       }
     },
-    "/evmos/inflation/v1/inflation_rate": {
+    "/shido/inflation/v1/inflation_rate": {
       "get": {
         "summary": "InflationRate retrieves the inflation rate of the current period.",
         "operationId": "InflationRate",
@@ -1852,7 +1852,7 @@
         ]
       }
     },
-    "/evmos/inflation/v1/params": {
+    "/shido/inflation/v1/params": {
       "get": {
         "summary": "Params retrieves the total set of minting parameters.",
         "operationId": "InflationParams",
@@ -1963,7 +1963,7 @@
         ]
       }
     },
-    "/evmos/inflation/v1/period": {
+    "/shido/inflation/v1/period": {
       "get": {
         "summary": "Period retrieves current period.",
         "operationId": "Period",
@@ -2021,7 +2021,7 @@
         ]
       }
     },
-    "/evmos/inflation/v1/skipped_epochs": {
+    "/shido/inflation/v1/skipped_epochs": {
       "get": {
         "summary": "SkippedEpochs retrieves the total number of skipped epochs.",
         "operationId": "SkippedEpochs",
@@ -2079,7 +2079,7 @@
         ]
       }
     },
-    "/evmos/vesting/v1/balances/{address}": {
+    "/shido/vesting/v1/balances/{address}": {
       "get": {
         "summary": "Balances retrieves the unvested, vested and locked tokens for a vesting account",
         "operationId": "Balances",
@@ -2189,7 +2189,7 @@
         ]
       }
     },
-    "/evmos/recovery/v1/params": {
+    "/shido/recovery/v1/params": {
       "get": {
         "summary": "Params retrieves the total set of recovery parameters.",
         "operationId": "RecoveryParams",
@@ -2257,7 +2257,7 @@
         ]
       }
     },
-    "/evmos/revenue/v1/params": {
+    "/shido/revenue/v1/params": {
       "get": {
         "summary": "Params retrieves the revenue module params",
         "operationId": "RevenueParams",
@@ -2329,7 +2329,7 @@
         ]
       }
     },
-    "/evmos/revenue/v1/revenues": {
+    "/shido/revenue/v1/revenues": {
       "get": {
         "summary": "Revenues retrieves all registered revenues",
         "operationId": "Revenues",
@@ -2460,7 +2460,7 @@
         ]
       }
     },
-    "/evmos/revenue/v1/revenues/{contract_address}": {
+    "/shido/revenue/v1/revenues/{contract_address}": {
       "get": {
         "summary": "Revenue retrieves a registered revenue for a given contract address",
         "operationId": "Revenue",
@@ -2540,7 +2540,7 @@
         ]
       }
     },
-    "/evmos/revenue/v1/revenues/{deployer_address}": {
+    "/shido/revenue/v1/revenues/{deployer_address}": {
       "get": {
         "summary": "DeployerRevenues retrieves all revenues that a given deployer has\nregistered",
         "operationId": "DeployerRevenues",
@@ -2663,7 +2663,7 @@
         ]
       }
     },
-    "/evmos/revenue/v1/revenues/{withdrawer_address}": {
+    "/shido/revenue/v1/revenues/{withdrawer_address}": {
       "get": {
         "summary": "WithdrawerRevenues retrieves all revenues with a given withdrawer\naddress",
         "operationId": "WithdrawerRevenues",
@@ -2786,7 +2786,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/account/{address}": {
+    "/shido/evm/v1/account/{address}": {
       "get": {
         "summary": "Account queries an Ethereum account.",
         "operationId": "Account",
@@ -2864,7 +2864,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/balances/{address}": {
+    "/shido/evm/v1/balances/{address}": {
       "get": {
         "summary": "Balance queries the balance of a the EVM denomination for a single\nEthAccount.",
         "operationId": "Balance",
@@ -2933,7 +2933,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/base_fee": {
+    "/shido/evm/v1/base_fee": {
       "get": {
         "summary": "BaseFee queries the base fee of the parent block of the current block,\nit's similar to feemarket module's method, but also checks london hardfork status.",
         "operationId": "BaseFee",
@@ -2993,7 +2993,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/codes/{address}": {
+    "/shido/evm/v1/codes/{address}": {
       "get": {
         "summary": "Code queries the balance of all coins for a single account.",
         "operationId": "Code",
@@ -3063,7 +3063,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/cosmos_account/{address}": {
+    "/shido/evm/v1/cosmos_account/{address}": {
       "get": {
         "summary": "CosmosAccount queries an Ethereum account's Cosmos Address.",
         "operationId": "CosmosAccount",
@@ -3142,7 +3142,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/estimate_gas": {
+    "/shido/evm/v1/estimate_gas": {
       "get": {
         "summary": "EstimateGas implements the `eth_estimateGas` rpc api",
         "operationId": "EstimateGas",
@@ -3237,7 +3237,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/eth_call": {
+    "/shido/evm/v1/eth_call": {
       "get": {
         "summary": "EthCall implements the `eth_call` rpc api",
         "operationId": "EthCall",
@@ -3398,7 +3398,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/params": {
+    "/shido/evm/v1/params": {
       "get": {
         "summary": "Params queries the parameters of x/evm module.",
         "operationId": "EvmParams",
@@ -3575,7 +3575,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/storage/{address}/{key}": {
+    "/shido/evm/v1/storage/{address}/{key}": {
       "get": {
         "summary": "Storage queries the balance of all coins for a single account.",
         "operationId": "Storage",
@@ -3651,7 +3651,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/trace_block": {
+    "/shido/evm/v1/trace_block": {
       "get": {
         "summary": "TraceBlock implements the `debug_traceBlockByNumber` and `debug_traceBlockByHash` rpc api",
         "operationId": "TraceBlock",
@@ -3966,7 +3966,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/trace_tx": {
+    "/shido/evm/v1/trace_tx": {
       "get": {
         "summary": "TraceTx implements the `debug_traceTransaction` rpc api",
         "operationId": "TraceTx",
@@ -4318,7 +4318,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/validator_account/{cons_address}": {
+    "/shido/evm/v1/validator_account/{cons_address}": {
       "get": {
         "summary": "ValidatorAccount queries an Ethereum account's from a validator consensus\nAddress.",
         "operationId": "ValidatorAccount",
@@ -4397,7 +4397,7 @@
         ]
       }
     },
-    "/evmos/feemarket/v1/base_fee": {
+    "/shido/feemarket/v1/base_fee": {
       "get": {
         "summary": "BaseFee queries the base fee of the parent block of the current block.",
         "operationId": "FeeMarketBaseFee",
@@ -4454,7 +4454,7 @@
         ]
       }
     },
-    "/evmos/feemarket/v1/block_gas": {
+    "/shido/feemarket/v1/block_gas": {
       "get": {
         "summary": "BlockGas queries the gas used at a given block height",
         "operationId": "BlockGas",
@@ -4512,7 +4512,7 @@
         ]
       }
     },
-    "/evmos/feemarket/v1/params": {
+    "/shido/feemarket/v1/params": {
       "get": {
         "summary": "Params queries the parameters of x/feemarket module.",
         "operationId": "FeeMarketParams",
@@ -22834,7 +22834,7 @@
       },
       "description": "Coin defines a token with a denomination and an amount.\n\nNOTE: The amount field is an Int which implements the custom method\nsignatures required by gogoproto."
     },
-    "evmos.claims.v1.Action": {
+    "shido.claims.v1.Action": {
       "type": "string",
       "enum": [
         "ACTION_UNSPECIFIED",
@@ -22846,7 +22846,7 @@
       "default": "ACTION_UNSPECIFIED",
       "description": "Action defines the list of available actions to claim the airdrop tokens.\n\n - ACTION_UNSPECIFIED: ACTION_UNSPECIFIED defines an invalid action.\n - ACTION_VOTE: ACTION_VOTE defines a proposal vote.\n - ACTION_DELEGATE: ACTION_DELEGATE defines an staking delegation.\n - ACTION_EVM: ACTION_EVM defines an EVM transaction.\n - ACTION_IBC_TRANSFER: ACTION_IBC_TRANSFER defines a fungible token transfer transaction via IBC."
     },
-    "evmos.claims.v1.Claim": {
+    "shido.claims.v1.Claim": {
       "type": "object",
       "properties": {
         "action": {
@@ -22873,7 +22873,7 @@
       },
       "description": "Claim defines the action, completed flag and the remaining claimable amount\nfor a given user. This is only used during client queries."
     },
-    "evmos.claims.v1.ClaimsRecordAddress": {
+    "shido.claims.v1.ClaimsRecordAddress": {
       "type": "object",
       "properties": {
         "address": {
@@ -22894,7 +22894,7 @@
       },
       "description": "ClaimsRecordAddress is the claims metadata per address that is used at\nGenesis."
     },
-    "evmos.claims.v1.Params": {
+    "shido.claims.v1.Params": {
       "type": "object",
       "properties": {
         "enable_claims": {
@@ -22935,7 +22935,7 @@
       },
       "description": "Params defines the claims module's parameters."
     },
-    "evmos.claims.v1.QueryClaimsRecordResponse": {
+    "shido.claims.v1.QueryClaimsRecordResponse": {
       "type": "object",
       "properties": {
         "initial_claimable_amount": {
@@ -22976,7 +22976,7 @@
       },
       "description": "QueryClaimsRecordResponse is the response type for the Query/ClaimsRecord RPC\nmethod."
     },
-    "evmos.claims.v1.QueryClaimsRecordsResponse": {
+    "shido.claims.v1.QueryClaimsRecordsResponse": {
       "type": "object",
       "properties": {
         "claims": {
@@ -23023,7 +23023,7 @@
       },
       "description": "QueryClaimsRecordsResponse is the response type for the Query/ClaimsRecords\nRPC method."
     },
-    "evmos.claims.v1.QueryParamsResponse": {
+    "shido.claims.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -23070,7 +23070,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC method."
     },
-    "evmos.claims.v1.QueryTotalUnclaimedResponse": {
+    "shido.claims.v1.QueryTotalUnclaimedResponse": {
       "type": "object",
       "properties": {
         "coins": {
@@ -23140,7 +23140,7 @@
         }
       }
     },
-    "evmos.epochs.v1.EpochInfo": {
+    "shido.epochs.v1.EpochInfo": {
       "type": "object",
       "properties": {
         "identifier": {
@@ -23178,7 +23178,7 @@
       },
       "description": "EpochInfo defines the message interface containing the relevant informations about\nan epoch."
     },
-    "evmos.epochs.v1.QueryCurrentEpochResponse": {
+    "shido.epochs.v1.QueryCurrentEpochResponse": {
       "type": "object",
       "properties": {
         "current_epoch": {
@@ -23189,7 +23189,7 @@
       },
       "description": "QueryCurrentEpochResponse is the response type for the Query/EpochInfos RPC\nmethod."
     },
-    "evmos.epochs.v1.QueryEpochsInfoResponse": {
+    "shido.epochs.v1.QueryEpochsInfoResponse": {
       "type": "object",
       "properties": {
         "epochs": {
@@ -23253,7 +23253,7 @@
       },
       "description": "QueryEpochsInfoResponse is the response type for the Query/EpochInfos RPC\nmethod."
     },
-    "evmos.erc20.v1.Owner": {
+    "shido.erc20.v1.Owner": {
       "type": "string",
       "enum": [
         "OWNER_UNSPECIFIED",
@@ -23263,7 +23263,7 @@
       "default": "OWNER_UNSPECIFIED",
       "description": "Owner enumerates the ownership of a ERC20 contract.\n\n - OWNER_UNSPECIFIED: OWNER_UNSPECIFIED defines an invalid/undefined owner.\n - OWNER_MODULE: OWNER_MODULE - erc20 is owned by the erc20 module account.\n - OWNER_EXTERNAL: OWNER_EXTERNAL - erc20 is owned by an external account."
     },
-    "evmos.erc20.v1.Params": {
+    "shido.erc20.v1.Params": {
       "type": "object",
       "properties": {
         "enable_erc20": {
@@ -23277,7 +23277,7 @@
       },
       "title": "Params defines the erc20 module params"
     },
-    "evmos.erc20.v1.QueryParamsResponse": {
+    "shido.erc20.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -23297,7 +23297,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC\nmethod."
     },
-    "evmos.erc20.v1.QueryTokenPairResponse": {
+    "shido.erc20.v1.QueryTokenPairResponse": {
       "type": "object",
       "properties": {
         "token_pair": {
@@ -23333,7 +23333,7 @@
       },
       "description": "QueryTokenPairResponse is the response type for the Query/TokenPair RPC\nmethod."
     },
-    "evmos.erc20.v1.QueryTokenPairsResponse": {
+    "shido.erc20.v1.QueryTokenPairsResponse": {
       "type": "object",
       "properties": {
         "token_pairs": {
@@ -23388,7 +23388,7 @@
       },
       "description": "QueryTokenPairsResponse is the response type for the Query/TokenPairs RPC\nmethod."
     },
-    "evmos.erc20.v1.TokenPair": {
+    "shido.erc20.v1.TokenPair": {
       "type": "object",
       "properties": {
         "erc20_address": {
@@ -23429,7 +23429,7 @@
       },
       "description": "DecCoin defines a token with a denomination and a decimal amount.\n\nNOTE: The amount field is an Dec which implements the custom method\nsignatures required by gogoproto."
     },
-    "evmos.incentives.v1.GasMeter": {
+    "shido.incentives.v1.GasMeter": {
       "type": "object",
       "properties": {
         "contract": {
@@ -23448,7 +23448,7 @@
       },
       "title": "GasMeter tracks the cumulative gas spent per participant in one epoch"
     },
-    "evmos.incentives.v1.Incentive": {
+    "shido.incentives.v1.Incentive": {
       "type": "object",
       "properties": {
         "contract": {
@@ -23489,7 +23489,7 @@
       },
       "title": "Incentive defines an instance that organizes distribution conditions for a\ngiven smart contract"
     },
-    "evmos.incentives.v1.Params": {
+    "shido.incentives.v1.Params": {
       "type": "object",
       "properties": {
         "enable_incentives": {
@@ -23511,7 +23511,7 @@
       },
       "title": "Params defines the incentives module params"
     },
-    "evmos.incentives.v1.QueryAllocationMeterResponse": {
+    "shido.incentives.v1.QueryAllocationMeterResponse": {
       "type": "object",
       "properties": {
         "allocation_meter": {
@@ -23530,7 +23530,7 @@
       },
       "description": "QueryAllocationMeterResponse is the response type for the\nQuery/AllocationMeter RPC method."
     },
-    "evmos.incentives.v1.QueryAllocationMetersResponse": {
+    "shido.incentives.v1.QueryAllocationMetersResponse": {
       "type": "object",
       "properties": {
         "allocation_meters": {
@@ -23568,7 +23568,7 @@
       },
       "description": "QueryAllocationMetersResponse is the response type for the\nQuery/AllocationMeters RPC method."
     },
-    "evmos.incentives.v1.QueryGasMeterResponse": {
+    "shido.incentives.v1.QueryGasMeterResponse": {
       "type": "object",
       "properties": {
         "gas_meter": {
@@ -23579,7 +23579,7 @@
       },
       "description": "QueryGasMeterResponse is the response type for the Query/Incentive RPC\nmethod."
     },
-    "evmos.incentives.v1.QueryGasMetersResponse": {
+    "shido.incentives.v1.QueryGasMetersResponse": {
       "type": "object",
       "properties": {
         "gas_meters": {
@@ -23624,7 +23624,7 @@
       },
       "description": "QueryGasMetersResponse is the response type for the Query/Incentives RPC\nmethod."
     },
-    "evmos.incentives.v1.QueryIncentiveResponse": {
+    "shido.incentives.v1.QueryIncentiveResponse": {
       "type": "object",
       "properties": {
         "incentive": {
@@ -23671,7 +23671,7 @@
       },
       "description": "QueryIncentiveResponse is the response type for the Query/Incentive RPC\nmethod."
     },
-    "evmos.incentives.v1.QueryIncentivesResponse": {
+    "shido.incentives.v1.QueryIncentivesResponse": {
       "type": "object",
       "properties": {
         "incentives": {
@@ -23738,7 +23738,7 @@
       },
       "description": "QueryIncentivesResponse is the response type for the Query/Incentives RPC\nmethod."
     },
-    "evmos.incentives.v1.QueryParamsResponse": {
+    "shido.incentives.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -23766,7 +23766,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC\nmethod."
     },
-    "evmos.inflation.v1.ExponentialCalculation": {
+    "shido.inflation.v1.ExponentialCalculation": {
       "type": "object",
       "properties": {
         "a": {
@@ -23792,7 +23792,7 @@
       },
       "title": "ExponentialCalculation holds factors to calculate exponential inflation on\neach period. Calculation reference:\nperiodProvision = exponentialDecay       *  bondingIncentive\nf(x)            = (a * (1 - r) ^ x + c)  *  (1 + max_variance - bondedRatio *\n(max_variance / bonding_target))"
     },
-    "evmos.inflation.v1.InflationDistribution": {
+    "shido.inflation.v1.InflationDistribution": {
       "type": "object",
       "properties": {
         "staking_rewards": {
@@ -23810,7 +23810,7 @@
       },
       "title": "InflationDistribution defines the distribution in which inflation is\nallocated through minting on each epoch (staking, incentives, community). It\nexcludes the team vesting distribution, as this is minted once at genesis.\nThe initial InflationDistribution can be calculated from the Evmos Token\nModel like this:\nmintDistribution1 = distribution1 / (1 - teamVestingDistribution)\n0.5333333         = 40%           / (1 - 25%)"
     },
-    "evmos.inflation.v1.Params": {
+    "shido.inflation.v1.Params": {
       "type": "object",
       "properties": {
         "mint_denom": {
@@ -23868,7 +23868,7 @@
       },
       "description": "Params holds parameters for the inflation module."
     },
-    "evmos.inflation.v1.QueryCirculatingSupplyResponse": {
+    "shido.inflation.v1.QueryCirculatingSupplyResponse": {
       "type": "object",
       "properties": {
         "circulating_supply": {
@@ -23887,7 +23887,7 @@
       },
       "description": "QueryCirculatingSupplyResponse is the response type for the\nQuery/CirculatingSupply RPC method."
     },
-    "evmos.inflation.v1.QueryEpochMintProvisionResponse": {
+    "shido.inflation.v1.QueryEpochMintProvisionResponse": {
       "type": "object",
       "properties": {
         "epoch_mint_provision": {
@@ -23905,7 +23905,7 @@
       },
       "description": "QueryEpochMintProvisionResponse is the response type for the\nQuery/EpochMintProvision RPC method."
     },
-    "evmos.inflation.v1.QueryInflationRateResponse": {
+    "shido.inflation.v1.QueryInflationRateResponse": {
       "type": "object",
       "properties": {
         "inflation_rate": {
@@ -23915,7 +23915,7 @@
       },
       "description": "QueryInflationRateResponse is the response type for the Query/InflationRate\nRPC method."
     },
-    "evmos.inflation.v1.QueryParamsResponse": {
+    "shido.inflation.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -23979,7 +23979,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC method."
     },
-    "evmos.inflation.v1.QueryPeriodResponse": {
+    "shido.inflation.v1.QueryPeriodResponse": {
       "type": "object",
       "properties": {
         "period": {
@@ -23990,7 +23990,7 @@
       },
       "description": "QueryPeriodResponse is the response type for the Query/Period RPC method."
     },
-    "evmos.inflation.v1.QuerySkippedEpochsResponse": {
+    "shido.inflation.v1.QuerySkippedEpochsResponse": {
       "type": "object",
       "properties": {
         "skipped_epochs": {
@@ -24001,7 +24001,7 @@
       },
       "description": "QuerySkippedEpochsResponse is the response type for the Query/SkippedEpochs\nRPC method."
     },
-    "evmos.vesting.v1.QueryBalancesResponse": {
+    "shido.vesting.v1.QueryBalancesResponse": {
       "type": "object",
       "properties": {
         "locked": {
@@ -24055,7 +24055,7 @@
       },
       "description": "QueryBalancesResponse is the response type for the Query/Balances RPC\nmethod."
     },
-    "evmos.recovery.v1.Params": {
+    "shido.recovery.v1.Params": {
       "type": "object",
       "properties": {
         "enable_recovery": {
@@ -24069,7 +24069,7 @@
       },
       "title": "Params holds parameters for the recovery module"
     },
-    "evmos.recovery.v1.QueryParamsResponse": {
+    "shido.recovery.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -24090,7 +24090,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC method."
     },
-    "evmos.revenue.v1.Params": {
+    "shido.revenue.v1.Params": {
       "type": "object",
       "properties": {
         "enable_revenue": {
@@ -24109,7 +24109,7 @@
       },
       "title": "Params defines the revenue module params"
     },
-    "evmos.revenue.v1.QueryDeployerRevenuesResponse": {
+    "shido.revenue.v1.QueryDeployerRevenuesResponse": {
       "type": "object",
       "properties": {
         "contract_addresses": {
@@ -24138,7 +24138,7 @@
       },
       "description": "QueryDeployerRevenuesResponse is the response type for the\nQuery/DeployerRevenues RPC method."
     },
-    "evmos.revenue.v1.QueryParamsResponse": {
+    "shido.revenue.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -24163,7 +24163,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC method."
     },
-    "evmos.revenue.v1.QueryRevenueResponse": {
+    "shido.revenue.v1.QueryRevenueResponse": {
       "type": "object",
       "properties": {
         "revenue": {
@@ -24187,7 +24187,7 @@
       },
       "description": "QueryRevenueResponse is the response type for the Query/Revenue RPC method."
     },
-    "evmos.revenue.v1.QueryRevenuesResponse": {
+    "shido.revenue.v1.QueryRevenuesResponse": {
       "type": "object",
       "properties": {
         "revenues": {
@@ -24231,7 +24231,7 @@
       },
       "description": "QueryRevenuesResponse is the response type for the Query/Revenues RPC method."
     },
-    "evmos.revenue.v1.QueryWithdrawerRevenuesResponse": {
+    "shido.revenue.v1.QueryWithdrawerRevenuesResponse": {
       "type": "object",
       "properties": {
         "contract_addresses": {
@@ -24260,7 +24260,7 @@
       },
       "description": "QueryWithdrawerRevenuesResponse is the response type for the\nQuery/WithdrawerRevenues RPC method."
     },
-    "evmos.revenue.v1.Revenue": {
+    "shido.revenue.v1.Revenue": {
       "type": "object",
       "properties": {
         "contract_address": {

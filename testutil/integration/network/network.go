@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"math"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/types"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/types"
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
@@ -17,10 +17,10 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
-	infltypes "github.com/evmos/evmos/v14/x/inflation/types"
-	revtypes "github.com/evmos/evmos/v14/x/revenue/v1/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	infltypes "github.com/shido/shido/v2/x/inflation/types"
+	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 // Network is the interface that wraps the methods to interact with integration test network.

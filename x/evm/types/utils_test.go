@@ -14,10 +14,10 @@ import (
 
 	proto "github.com/cosmos/gogoproto/proto"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/encoding"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/encoding"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
 	"github.com/stretchr/testify/require"
 )

@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"reflect"
 
-	"github.com/evmos/evmos/v14/x/feemarket/types"
+	"github.com/shido/shido/v2/x/feemarket/types"
 )
 
 func (suite *KeeperTestSuite) TestGetParams() {

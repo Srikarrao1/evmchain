@@ -6,7 +6,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
+	evmostypes "github.com/shido/shido/v2/types"
 )
 
 // CalculateEpochProvisions returns mint provision per epoch
@@ -44,7 +44,7 @@ func CalculateEpochMintProvision(
 
 	// Multiply epochMintProvision with power reduction (10^18 for evmos) as the
 	// calculation is based on `evmos` and the issued tokens need to be given in
-	// `aevmos`
+	// `ashido`
 	epochProvision = epochProvision.Mul(sdk.NewDecFromInt(evmostypes.PowerReduction))
 	return epochProvision
 }

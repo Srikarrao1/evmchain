@@ -6,7 +6,7 @@ package config
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/evmos/evmos/v14/types"
+	"github.com/shido/shido/v2/types"
 )
 
 const (
@@ -31,7 +31,7 @@ const (
 	// DisplayDenom defines the denomination displayed to users in client applications.
 	DisplayDenom = "evmos"
 	// BaseDenom defines to the default denomination used in Evmos (staking, EVM, governance, etc.)
-	BaseDenom = "aevmos"
+	BaseDenom = "ashido"
 )
 
 // SetBech32Prefixes sets the global prefixes to be used when serializing addresses and public keys to Bech32 strings.

@@ -9,19 +9,19 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	ibctesting "github.com/evmos/evmos/v14/ibc/testing"
-	"github.com/evmos/evmos/v14/testutil"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	"github.com/evmos/evmos/v14/utils"
-	feemarkettypes "github.com/evmos/evmos/v14/x/feemarket/types"
+	ibctesting "github.com/shido/shido/v2/ibc/testing"
+	"github.com/shido/shido/v2/testutil"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	"github.com/shido/shido/v2/utils"
+	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 
-	"github.com/evmos/evmos/v14/app"
-	claimstypes "github.com/evmos/evmos/v14/x/claims/types"
-	"github.com/evmos/evmos/v14/x/recovery/types"
+	"github.com/shido/shido/v2/app"
+	claimstypes "github.com/shido/shido/v2/x/claims/types"
+	"github.com/shido/shido/v2/x/recovery/types"
 )
 
 var (

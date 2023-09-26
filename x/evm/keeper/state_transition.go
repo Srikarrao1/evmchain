@@ -12,9 +12,9 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	evmostypes "github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	"github.com/evmos/evmos/v14/x/evm/types"
+	evmostypes "github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	"github.com/shido/shido/v2/x/evm/types"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"

@@ -9,12 +9,12 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmosapp "github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/precompiles/staking"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	evmosapp "github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/precompiles/staking"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/suite"
 )
 

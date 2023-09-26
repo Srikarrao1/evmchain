@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package client
 
 import (
@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	clientkeys "github.com/evmos/evmos/v14/client/keys"
-	"github.com/evmos/evmos/v14/crypto/hd"
+	clientkeys "github.com/shido/shido/v2/client/keys"
+	"github.com/shido/shido/v2/crypto/hd"
 )
 
 // KeyCommands registers a sub-tree of commands to interact with

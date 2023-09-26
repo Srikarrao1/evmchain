@@ -6,7 +6,7 @@ import (
 	"context"
 
 	"github.com/ethereum/go-ethereum/common"
-	revtypes "github.com/evmos/evmos/v14/x/revenue/v1/types"
+	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 // GetRevenue returns the revenue for the given address.

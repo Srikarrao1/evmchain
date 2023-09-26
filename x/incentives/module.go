@@ -20,9 +20,9 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	"github.com/evmos/evmos/v14/x/incentives/client/cli"
-	"github.com/evmos/evmos/v14/x/incentives/keeper"
-	"github.com/evmos/evmos/v14/x/incentives/types"
+	"github.com/shido/shido/v2/x/incentives/client/cli"
+	"github.com/shido/shido/v2/x/incentives/keeper"
+	"github.com/shido/shido/v2/x/incentives/types"
 )
 
 // consensusVersion defines the current x/incentives module consensus version.

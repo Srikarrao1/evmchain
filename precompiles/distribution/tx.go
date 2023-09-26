@@ -6,9 +6,9 @@ package distribution
 import (
 	"fmt"
 
-	"github.com/evmos/evmos/v14/x/evm/statedb"
+	"github.com/shido/shido/v2/x/evm/statedb"
 
-	cmn "github.com/evmos/evmos/v14/precompiles/common"
+	cmn "github.com/shido/shido/v2/precompiles/common"
 
 	"github.com/ethereum/go-ethereum/common"
 

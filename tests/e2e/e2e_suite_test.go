@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/evmos/evmos/v14/tests/e2e/upgrade"
-	"github.com/evmos/evmos/v14/utils"
+	"github.com/shido/shido/v2/tests/e2e/upgrade"
+	"github.com/shido/shido/v2/utils"
 )
 
 const (
@@ -144,7 +144,7 @@ func (s *IntegrationTestSuite) proposeUpgrade(name, target string) {
 		s.upgradeParams.ChainID,
 		s.upgradeManager.UpgradeHeight,
 		isLegacyProposal,
-		"--fees=10000000000000000aevmos",
+		"--fees=10000000000000000ashido",
 		"--gas=500000",
 	)
 	s.Require().NoErrorf(
@@ -176,7 +176,7 @@ func (s *IntegrationTestSuite) proposeUpgrade(name, target string) {
 func (s *IntegrationTestSuite) voteForProposal(id int) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	exec, err := s.upgradeManager.CreateVoteProposalExec(s.upgradeParams.ChainID, id, "--fees=10000000000000000aevmos", "--gas=500000")
+	exec, err := s.upgradeManager.CreateVoteProposalExec(s.upgradeParams.ChainID, id, "--fees=10000000000000000ashido", "--gas=500000")
 	s.Require().NoError(err, "can't create vote for proposal exec")
 	outBuf, errBuf, err := s.upgradeManager.RunExec(ctx, exec)
 	s.Require().NoErrorf(
@@ -207,7 +207,7 @@ func (s *IntegrationTestSuite) upgrade(targetRepo, targetVersion string) {
 	rootDir := dirs[1]
 
 	s.T().Log("exporting state to local...")
-	// export node .evmosd to local build/
+	// export node .shidod to local build/
 	err = s.upgradeManager.ExportState(buildDir)
 	s.Require().NoError(err, "can't export node container state to local")
 
@@ -219,7 +219,7 @@ func (s *IntegrationTestSuite) upgrade(targetRepo, targetVersion string) {
 
 	node := upgrade.NewNode(targetRepo, targetVersion)
 	node.Mount(s.upgradeParams.MountPath)
-	node.SetCmd([]string{"evmosd", "start", fmt.Sprintf("--chain-id=%s", s.upgradeParams.ChainID), fmt.Sprintf("--home=%s.evmosd", rootDir)})
+	node.SetCmd([]string{"shidod", "start", fmt.Sprintf("--chain-id=%s", s.upgradeParams.ChainID), fmt.Sprintf("--home=%s.shidod", rootDir)})
 	err = s.upgradeManager.RunNode(node)
 	s.Require().NoError(err, "can't mount and run upgraded node container")
 

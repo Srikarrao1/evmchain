@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/evmos/evmos/v14/rpc/backend"
-	"github.com/evmos/evmos/v14/rpc/types"
+	"github.com/shido/shido/v2/rpc/backend"
+	"github.com/shido/shido/v2/rpc/types"
 
 	"github.com/cometbft/cometbft/libs/log"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"

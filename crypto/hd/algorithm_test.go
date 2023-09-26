@@ -13,9 +13,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	cryptocodec "github.com/evmos/evmos/v14/crypto/codec"
-	enccodec "github.com/evmos/evmos/v14/encoding/codec"
-	evmostypes "github.com/evmos/evmos/v14/types"
+	cryptocodec "github.com/shido/shido/v2/crypto/codec"
+	enccodec "github.com/shido/shido/v2/encoding/codec"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 var TestCodec amino.Codec
@@ -41,7 +41,7 @@ const (
 func TestKeyring(t *testing.T) {
 	dir := t.TempDir()
 	mockIn := strings.NewReader("")
-	kr, err := keyring.New("evmos", keyring.BackendTest, dir, mockIn, TestCodec, EthSecp256k1Option())
+	kr, err := keyring.New("shido", keyring.BackendTest, dir, mockIn, TestCodec, EthSecp256k1Option())
 	require.NoError(t, err)
 
 	// fail in retrieving key
@@ -50,7 +50,7 @@ func TestKeyring(t *testing.T) {
 	require.Nil(t, info)
 
 	mockIn.Reset("password\npassword\n")
-	info, mnemonic, err := kr.NewMnemonic("foo", keyring.English, evmostypes.BIP44HDPath, keyring.DefaultBIP39Passphrase, EthSecp256k1)
+	info, mnemonic, err := kr.NewMnemonic("foo", keyring.English, shidotypes.BIP44HDPath, keyring.DefaultBIP39Passphrase, EthSecp256k1)
 	require.NoError(t, err)
 	require.NotEmpty(t, mnemonic)
 	require.Equal(t, "foo", info.Name)
@@ -59,7 +59,7 @@ func TestKeyring(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, string(EthSecp256k1Type), pubKey.Type())
 
-	hdPath := evmostypes.BIP44HDPath
+	hdPath := shidotypes.BIP44HDPath
 
 	bz, err := EthSecp256k1.Derive()(mnemonic, keyring.DefaultBIP39Passphrase, hdPath)
 	require.NoError(t, err)
@@ -85,7 +85,7 @@ func TestKeyring(t *testing.T) {
 }
 
 func TestDerivation(t *testing.T) {
-	bz, err := EthSecp256k1.Derive()(mnemonic, keyring.DefaultBIP39Passphrase, evmostypes.BIP44HDPath)
+	bz, err := EthSecp256k1.Derive()(mnemonic, keyring.DefaultBIP39Passphrase, shidotypes.BIP44HDPath)
 	require.NoError(t, err)
 	require.NotEmpty(t, bz)
 
@@ -103,7 +103,7 @@ func TestDerivation(t *testing.T) {
 	wallet, err := NewFromMnemonic(mnemonic)
 	require.NoError(t, err)
 
-	path := MustParseDerivationPath(evmostypes.BIP44HDPath)
+	path := MustParseDerivationPath(shidotypes.BIP44HDPath)
 	account, err := wallet.Derive(path, false)
 	require.NoError(t, err)
 

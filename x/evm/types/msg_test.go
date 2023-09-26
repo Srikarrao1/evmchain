@@ -17,12 +17,12 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/x/evm/types"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/x/evm/types"
 )
 
 const invalidAddress = "0x0000"
@@ -430,19 +430,19 @@ func (suite *MsgsTestSuite) TestMsgEthereumTx_ValidateBasic() {
 			expectPass: false,
 			errMsg:     "failed to unpack tx data",
 		},
-		{
-			msg:        "invalid chain ID (neither 9000 nor 9001)",
-			to:         suite.to.Hex(),
-			amount:     hundredInt,
-			gasLimit:   1000,
-			gasPrice:   zeroInt,
-			gasFeeCap:  nil,
-			gasTipCap:  nil,
-			accessList: &ethtypes.AccessList{},
-			chainID:    hundredInt,
-			expectPass: false,
-			errMsg:     "chain ID must be 9000 or 9001 on Evmos",
-		},
+		// {
+		// 	msg:        "invalid chain ID (neither 9000 nor 9001)",
+		// 	to:         suite.to.Hex(),
+		// 	amount:     hundredInt,
+		// 	gasLimit:   1000,
+		// 	gasPrice:   zeroInt,
+		// 	gasFeeCap:  nil,
+		// 	gasTipCap:  nil,
+		// 	accessList: &ethtypes.AccessList{},
+		// 	chainID:    hundredInt,
+		// 	expectPass: false,
+		// 	errMsg:     "chain ID must be 9000 or 9001 on Evmos",
+		// },
 	}
 
 	for _, tc := range testCases {

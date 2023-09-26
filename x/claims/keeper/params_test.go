@@ -1,7 +1,7 @@
 package keeper_test
 
 import (
-	"github.com/evmos/evmos/v14/x/claims/types"
+	"github.com/shido/shido/v2/x/claims/types"
 )
 
 func (suite *KeeperTestSuite) TestParams() {

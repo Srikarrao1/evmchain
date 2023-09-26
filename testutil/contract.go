@@ -18,9 +18,9 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/testutil/tx"
-	evm "github.com/evmos/evmos/v14/x/evm/types"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/testutil/tx"
+	evm "github.com/shido/shido/v2/x/evm/types"
 )
 
 // ContractArgs are the params used for calling a smart contract.
@@ -41,7 +41,7 @@ type ContractCallArgs struct {
 	Contract ContractArgs
 	// Nonce is the nonce to use for the transaction.
 	Nonce *big.Int
-	// Amount is the aevmos amount to send in the transaction.
+	// Amount is the ashido amount to send in the transaction.
 	Amount *big.Int
 	// GasLimit to use for the transaction
 	GasLimit uint64

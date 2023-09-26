@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package evm
 
 import (
@@ -13,7 +13,7 @@ import (
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // EthSetupContextDecorator is adapted from SetUpContextDecorator from cosmos-sdk, it ignores gas consumption

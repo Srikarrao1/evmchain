@@ -1,7 +1,7 @@
 package keeper_test
 
 import (
-	"github.com/evmos/evmos/v14/x/inflation/types"
+	"github.com/shido/shido/v2/x/inflation/types"
 )
 
 func (suite *KeeperTestSuite) TestParams() {

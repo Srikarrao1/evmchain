@@ -27,7 +27,7 @@ def test_ibc_transfer(ibc):
 
     cli = ibc.evmos.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "aevmos"
+    src_denom = "ashido"
 
     old_src_balance = get_balance(ibc.evmos, src_addr, src_denom)
     old_dst_balance = get_balance(ibc.other_chain, dst_addr, EVMOS_IBC_DENOM)

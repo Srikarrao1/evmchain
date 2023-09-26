@@ -6,8 +6,8 @@ import (
 	"context"
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/encoding"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/encoding"
 )
 
 // GetAccount returns the account for the given address.

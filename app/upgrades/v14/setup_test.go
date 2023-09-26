@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package v14_test
 
 import (
@@ -11,10 +11,10 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmosapp "github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/precompiles/vesting"
-	"github.com/evmos/evmos/v14/x/evm/statedb"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	shidoapp "github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/precompiles/vesting"
+	"github.com/shido/shido/v2/x/evm/statedb"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -24,7 +24,7 @@ type UpgradesTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *evmosapp.Evmos
+	app        *shidoapp.Evmos
 	address    common.Address
 	validators []stakingtypes.Validator
 	ethSigner  ethtypes.Signer

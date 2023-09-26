@@ -124,7 +124,7 @@ config {
         },
         gas_price: {
           price: 40000000000,
-          denom: 'aevmos',
+          denom: 'ashido',
         },
         extension_options: [{
           type: 'ethermint_dynamic_fee',

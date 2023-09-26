@@ -7,13 +7,13 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
 	"github.com/ethereum/go-ethereum/common"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	evmtypes "github.com/evmos/evmos/v14/x/evm/types"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/evmos/evmos/v14/contracts"
-	"github.com/evmos/evmos/v14/x/erc20/keeper"
-	"github.com/evmos/evmos/v14/x/erc20/types"
+	"github.com/shido/shido/v2/contracts"
+	"github.com/shido/shido/v2/x/erc20/keeper"
+	"github.com/shido/shido/v2/x/erc20/types"
 )
 
 func (suite *KeeperTestSuite) TestQueryERC20() {

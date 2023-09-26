@@ -14,13 +14,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/cmd/config"
-	"github.com/evmos/evmos/v14/encoding"
-	"github.com/evmos/evmos/v14/ethereum/eip712"
-	utiltx "github.com/evmos/evmos/v14/testutil/tx"
-	"github.com/evmos/evmos/v14/types"
-	"github.com/evmos/evmos/v14/utils"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/cmd/config"
+	"github.com/shido/shido/v2/encoding"
+	"github.com/shido/shido/v2/ethereum/eip712"
+	utiltx "github.com/shido/shido/v2/testutil/tx"
+	"github.com/shido/shido/v2/types"
+	"github.com/shido/shido/v2/utils"
 	"github.com/stretchr/testify/require"
 )
 

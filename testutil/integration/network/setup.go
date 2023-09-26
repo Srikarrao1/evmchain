@@ -5,8 +5,8 @@ package network
 import (
 	"time"
 
-	"github.com/evmos/evmos/v14/app"
-	"github.com/evmos/evmos/v14/encoding"
+	"github.com/shido/shido/v2/app"
+	"github.com/shido/shido/v2/encoding"
 
 	"cosmossdk.io/simapp"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -23,8 +23,8 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	epochstypes "github.com/evmos/evmos/v14/x/epochs/types"
-	infltypes "github.com/evmos/evmos/v14/x/inflation/types"
+	epochstypes "github.com/shido/shido/v2/x/epochs/types"
+	infltypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 // createValidatorSet creates validator set with the amount of validators specified

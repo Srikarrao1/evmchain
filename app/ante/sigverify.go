@@ -1,5 +1,5 @@
 // Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 
 package ante
 
@@ -15,7 +15,7 @@ import (
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/evmos/evmos/v14/crypto/ethsecp256k1"
+	"github.com/shido/shido/v2/crypto/ethsecp256k1"
 )
 
 var _ authante.SignatureVerificationGasConsumer = SigVerificationGasConsumer

@@ -1,11 +1,11 @@
 { pkgs
 , config
-, evmos ? (import ../. { inherit pkgs; })
+, shido ? (import ../. { inherit pkgs; })
 }: rec {
-  start-evmos = pkgs.writeShellScriptBin "start-evmos" ''
+  start-shido = pkgs.writeShellScriptBin "start-shido" ''
     # rely on environment to provide shidod
     export PATH=${pkgs.test-env}/bin:$PATH
-    ${../scripts/start-evmos.sh} ${config.evmos-config} ${config.dotenv} $@
+    ${../scripts/start-shido.sh} ${config.shido-config} ${config.dotenv} $@
   '';
   start-geth = pkgs.writeShellScriptBin "start-geth" ''
     export PATH=${pkgs.test-env}/bin:${pkgs.go-ethereum}/bin:$PATH
@@ -14,6 +14,6 @@
   '';
   start-scripts = pkgs.symlinkJoin {
     name = "start-scripts";
-    paths = [ start-evmos start-geth ];
+    paths = [ start-shido start-geth ];
   };
 }

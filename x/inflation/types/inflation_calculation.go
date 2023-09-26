@@ -3,7 +3,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // CalculateEpochProvisions returns mint provision per epoch
@@ -39,9 +39,9 @@ func CalculateEpochMintProvision(
 	// epochProvision = periodProvision / epochsPerPeriod
 	epochProvision := periodProvision.Quo(sdk.NewDec(epochsPerPeriod))
 
-	// Multiply epochMintProvision with power reduction (10^18 for evmos) as the
-	// calculation is based on `evmos` and the issued tokens need to be given in
+	// Multiply epochMintProvision with power reduction (10^18 for shido) as the
+	// calculation is based on `shido` and the issued tokens need to be given in
 	// `ashido`
-	epochProvision = epochProvision.Mul(sdk.NewDecFromInt(evmostypes.PowerReduction))
+	epochProvision = epochProvision.Mul(sdk.NewDecFromInt(shidotypes.PowerReduction))
 	return epochProvision
 }

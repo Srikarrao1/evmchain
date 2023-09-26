@@ -51,7 +51,7 @@ func (k Keeper) OnRecvPacket(
 		return ack
 	}
 
-	// Get addresses in `evmos1` and the original bech32 format
+	// Get addresses in `shido1` and the original bech32 format
 	sender, recipient, _, _, err := ibc.GetTransferSenderRecipient(packet)
 	if err != nil {
 		return channeltypes.NewErrorAcknowledgement(err)
@@ -167,7 +167,7 @@ func (k Keeper) ConvertCoinToERC20FromPacket(ctx sdk.Context, data transfertypes
 		WithKVGasConfig(storetypes.GasConfig{}).
 		WithTransientKVGasConfig(storetypes.GasConfig{})
 
-	// assume that all module accounts on Evmos need to have their tokens in the
+	// assume that all module accounts on Shido need to have their tokens in the
 	// IBC representation as opposed to ERC20
 	senderAcc := k.accountKeeper.GetAccount(ctx, sender)
 	if types.IsModuleAccount(senderAcc) {

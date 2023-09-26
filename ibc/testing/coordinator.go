@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const DefaultFeeAmt = int64(150_000_000_000_000_000) // 0.15 EVMOS
+const DefaultFeeAmt = int64(150_000_000_000_000_000) // 0.15 SHIDO
 
 var globalStartTime = time.Date(2020, 1, 2, 0, 0, 0, 0, time.UTC)
 
@@ -124,8 +124,8 @@ func SendMsgs(chain *ibctesting.TestChain, feeAmt int64, msgs ...sdk.Msg) (*sdk.
 	// ensure the chain has the latest time
 	chain.Coordinator.UpdateTimeForChain(chain)
 
-	if evmosChain, ok := chain.App.(*app.Shido); ok {
-		bondDenom = evmosChain.StakingKeeper.BondDenom(chain.GetContext())
+	if shidoChain, ok := chain.App.(*app.Shido); ok {
+		bondDenom = shidoChain.StakingKeeper.BondDenom(chain.GetContext())
 	} else {
 		bondDenom = chain.GetSimApp().StakingKeeper.BondDenom(chain.GetContext())
 	}

@@ -23826,7 +23826,7 @@
           "title": "community_pool defines the proportion of the minted minted_denom that is to\nbe allocated to the community pool"
         }
       },
-      "title": "InflationDistribution defines the distribution in which inflation is\nallocated through minting on each epoch (staking, incentives, community). It\nexcludes the team vesting distribution, as this is minted once at genesis.\nThe initial InflationDistribution can be calculated from the Evmos Token\nModel like this:\nmintDistribution1 = distribution1 / (1 - teamVestingDistribution)\n0.5333333         = 40%           / (1 - 25%)"
+      "title": "InflationDistribution defines the distribution in which inflation is\nallocated through minting on each epoch (staking, incentives, community). It\nexcludes the team vesting distribution, as this is minted once at genesis.\nThe initial InflationDistribution can be calculated from the Shido Token\nModel like this:\nmintDistribution1 = distribution1 / (1 - teamVestingDistribution)\n0.5333333         = 40%           / (1 - 25%)"
     },
     "shido.inflation.v1.Params": {
       "type": "object",

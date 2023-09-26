@@ -5,16 +5,16 @@ from typing import NamedTuple
 
 from pystarport import ports
 
-from .network import CosmosChain, Evmos, Hermes, setup_custom_evmos
+from .network import CosmosChain, Shido, Hermes, setup_custom_shido
 from .utils import ADDRS, eth_to_bech32, wait_for_port
 
-# EVMOS_IBC_DENOM IBC denom of ashido in crypto-org-chain
-EVMOS_IBC_DENOM = "ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E"
+# SHIDO_IBC_DENOM IBC denom of ashido in crypto-org-chain
+SHIDO_IBC_DENOM = "ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E"
 RATIO = 10**10
 
 
 class IBCNetwork(NamedTuple):
-    evmos: Evmos
+    shido: Shido
     other_chain: CosmosChain
     hermes: Hermes
     incentivized: bool
@@ -22,25 +22,25 @@ class IBCNetwork(NamedTuple):
 
 def prepare_network(tmp_path, file, other_chain_name, incentivized=False):
     file = f"configs/{file}.jsonnet"
-    gen = setup_custom_evmos(tmp_path, 26700, Path(__file__).parent / file)
-    evmos = next(gen)
+    gen = setup_custom_shido(tmp_path, 26700, Path(__file__).parent / file)
+    shido = next(gen)
 
-    # set up another chain to connect to evmos
+    # set up another chain to connect to shido
     if "chainmain" in other_chain_name:
         other_chain_name = "chainmain-1"
         other_chain = CosmosChain(
-            evmos.base_dir.parent / other_chain_name, "chain-maind"
+            shido.base_dir.parent / other_chain_name, "chain-maind"
         )
         other_chain_denom = "basecro"
     if "stride" in other_chain_name:
         other_chain_name = "stride-1"
-        other_chain = CosmosChain(evmos.base_dir.parent / other_chain_name, "strided")
+        other_chain = CosmosChain(shido.base_dir.parent / other_chain_name, "strided")
         other_chain_denom = "ustrd"
 
-    hermes = Hermes(evmos.base_dir.parent / "relayer.toml")
+    hermes = Hermes(shido.base_dir.parent / "relayer.toml")
     # wait for grpc ready
     wait_for_port(ports.grpc_port(other_chain.base_port(0)))  # other_chain grpc
-    wait_for_port(ports.grpc_port(evmos.base_port(0)))  # evmos grpc
+    wait_for_port(ports.grpc_port(shido.base_port(0)))  # shido grpc
 
     version = {"fee_version": "ics29-1", "app_version": "ics20-1"}
     incentivized_args = (
@@ -67,7 +67,7 @@ def prepare_network(tmp_path, file, other_chain_name, incentivized=False):
                 "--chain",
                 other_chain_name,
                 "--mnemonic-file",
-                evmos.base_dir.parent / "relayer.env",
+                shido.base_dir.parent / "relayer.env",
                 "--overwrite",
             ],
             check=True,
@@ -85,7 +85,7 @@ def prepare_network(tmp_path, file, other_chain_name, incentivized=False):
             "--b-port",
             "transfer",
             "--a-chain",
-            "evmos_9000-1",
+            "shido_9000-1",
             "--b-chain",
             other_chain_name,
             "--new-client-connection",
@@ -96,7 +96,7 @@ def prepare_network(tmp_path, file, other_chain_name, incentivized=False):
 
     if incentivized:
         # register fee payee
-        src_chain = evmos.cosmos_cli()
+        src_chain = shido.cosmos_cli()
         dst_chain = other_chain.cosmos_cli()
         rsp = dst_chain.register_counterparty_payee(
             "transfer",
@@ -108,9 +108,9 @@ def prepare_network(tmp_path, file, other_chain_name, incentivized=False):
         )
         assert rsp["code"] == 0, rsp["raw_log"]
 
-    evmos.supervisorctl("start", "relayer-demo")
+    shido.supervisorctl("start", "relayer-demo")
     wait_for_port(hermes.port)
-    yield IBCNetwork(evmos, other_chain, hermes, incentivized)
+    yield IBCNetwork(shido, other_chain, hermes, incentivized)
 
 
 def assert_ready(ibc):
@@ -123,9 +123,9 @@ def assert_ready(ibc):
 
 def hermes_transfer(ibc, other_chain_name="chainmain-1", other_chain_denom="basecro"):
     assert_ready(ibc)
-    # chainmain-1 -> evmos_9000-1
+    # chainmain-1 -> shido_9000-1
     my_ibc0 = other_chain_name
-    my_ibc1 = "evmos_9000-1"
+    my_ibc1 = "shido_9000-1"
     my_channel = "channel-0"
     dst_addr = eth_to_bech32(ADDRS["signer2"])
     src_amount = 10

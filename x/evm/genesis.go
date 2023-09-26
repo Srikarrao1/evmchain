@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/x/evm/keeper"
 	"github.com/shido/shido/v2/x/evm/types"
 )
@@ -43,7 +43,7 @@ func InitGenesis(
 			panic(fmt.Errorf("account not found for address %s", account.Address))
 		}
 
-		ethAcct, ok := acc.(evmostypes.EthAccountI)
+		ethAcct, ok := acc.(shidotypes.EthAccountI)
 		if !ok {
 			panic(
 				fmt.Errorf("account %s must be an EthAccount interface, got %T",
@@ -75,7 +75,7 @@ func InitGenesis(
 func ExportGenesis(ctx sdk.Context, k *keeper.Keeper, ak types.AccountKeeper) *types.GenesisState {
 	var ethGenAccounts []types.GenesisAccount
 	ak.IterateAccounts(ctx, func(account authtypes.AccountI) bool {
-		ethAccount, ok := account.(evmostypes.EthAccountI)
+		ethAccount, ok := account.(shidotypes.EthAccountI)
 		if !ok {
 			// ignore non EthAccounts
 			return false

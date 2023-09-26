@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:LGPL-3.0-only
-
 package types
 
 import (
@@ -26,10 +23,10 @@ var (
 
 const (
 	// Amino names
-	cancelRevenueName   = "evmos/MsgCancelRevenue"
-	registerRevenueName = "evmos/MsgRegisterRevenue"
-	updateRevenueName   = "evmos/MsgUpdateRevenue"
-	updateParamsName    = "evmos/MsgUpdateParams"
+	cancelRevenueName   = "shido/MsgCancelRevenue"
+	registerRevenueName = "shido/MsgRegisterRevenue"
+	updateRevenueName   = "shido/MsgUpdateRevenue"
+	updateParamsName    = "shido/MsgUpdateParams"
 )
 
 // NOTE: This is required for the GetSignBytes function

@@ -1,8 +1,8 @@
-# argument to provide specific version of evmos node
+# argument to provide specific version of shido node
 ARG INITIAL_VERSION
-FROM tharsishq/evmos:$INITIAL_VERSION
+FROM tharsishq/shido:$INITIAL_VERSION
 
-WORKDIR /go/src/github.com/evmos/evmos
+WORKDIR /go/src/github.com/shido/shido
 
 COPY ./init-node.sh .
 

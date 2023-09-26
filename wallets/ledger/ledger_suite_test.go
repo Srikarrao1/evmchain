@@ -26,7 +26,7 @@ type LedgerTestSuite struct {
 	suite.Suite
 	txAmino    []byte
 	txProtobuf []byte
-	ledger     ledger.EvmosSECP256K1
+	ledger     ledger.ShidoSECP256K1
 	mockWallet *mocks.Wallet
 	hrp        string
 }
@@ -36,7 +36,7 @@ func TestLedgerTestSuite(t *testing.T) {
 }
 
 func (suite *LedgerTestSuite) SetupTest() {
-	suite.hrp = "evmos"
+	suite.hrp = "shido"
 
 	suite.txAmino = suite.getMockTxAmino()
 	suite.txProtobuf = suite.getMockTxProtobuf()
@@ -46,7 +46,7 @@ func (suite *LedgerTestSuite) SetupTest() {
 
 	mockWallet := new(mocks.Wallet)
 	suite.mockWallet = mockWallet
-	suite.ledger = ledger.EvmosSECP256K1{Hub: hub, PrimaryWallet: mockWallet}
+	suite.ledger = ledger.ShidoSECP256K1{Hub: hub, PrimaryWallet: mockWallet}
 }
 
 func (suite *LedgerTestSuite) newPubKey(pk string) (res cryptoTypes.PubKey) {
@@ -63,7 +63,7 @@ func (suite *LedgerTestSuite) getMockTxAmino() []byte {
 	tmp := whitespaceRegex.ReplaceAllString(
 		`{
 			"account_number": "0",
-			"chain_id":"evmos_9000-1",
+			"chain_id":"shido_9000-1",
 			"fee":{
 				"amount":[{"amount":"150","denom":"atom"}],
 				"gas":"20000"
@@ -142,7 +142,7 @@ func (suite *LedgerTestSuite) getMockTxProtobuf() []byte {
 	signBytes, err := auxTx.DirectSignBytes(
 		bodyBytes,
 		authInfoBytes,
-		"evmos_9000-1",
+		"shido_9000-1",
 		0,
 	)
 	suite.Require().NoError(err)

@@ -139,7 +139,7 @@ func (tf *IntegrationTxFactory) ExecuteEthTx(
 
 // CosmosTxArgs contains the params to create a cosmos tx
 type CosmosTxArgs struct {
-	// ChainID is the chain's id in cosmos format, e.g. 'evmos_9000-1'
+	// ChainID is the chain's id in cosmos format, e.g. 'shido_9000-1'
 	ChainID string
 	// Gas to be used on the tx
 	Gas uint64

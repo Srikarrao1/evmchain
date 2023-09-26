@@ -8,7 +8,7 @@ let
   pname = "shidod";
   tags = [ "netgo" ];
   ldflags = lib.concatStringsSep "\n" ([
-    "-X github.com/cosmos/cosmos-sdk/version.Name=evmos"
+    "-X github.com/cosmos/cosmos-sdk/version.Name=shido"
     "-X github.com/cosmos/cosmos-sdk/version.AppName=${pname}"
     "-X github.com/cosmos/cosmos-sdk/version.Version=${version}"
     "-X github.com/cosmos/cosmos-sdk/version.BuildTags=${lib.concatStringsSep "," tags}"
@@ -26,8 +26,8 @@ buildGoApplication rec {
   CGO_ENABLED = "1";
 
   meta = with lib; {
-    description = "Evmos is a scalable and interoperable blockchain, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of CometBFT Core consensus engine.";
-    homepage = "https://github.com/evmos/evmos";
+    description = "Shido is a scalable and interoperable blockchain, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of CometBFT Core consensus engine.";
+    homepage = "https://github.com/shido/shido";
     license = licenses.asl20;
     mainProgram = "shidod";
   };

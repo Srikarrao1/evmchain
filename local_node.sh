@@ -58,7 +58,7 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 		shidod keys add "$KEY" --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
 	done
 
-	# Set moniker and chain-id for Evmos (Moniker can be anything, chain-id must be an integer)
+	# Set moniker and chain-id for Shido (Moniker can be anything, chain-id must be an integer)
 	shidod init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
 	# Change parameter token denominations to ashido
@@ -149,9 +149,9 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	## In case you want to create multiple validators at genesis
 	## 1. Back to `shidod keys add` step, init more keys
 	## 2. Back to `shidod add-genesis-account` step, add balance for those
-	## 3. Clone this ~/.shidod home directory into some others, let's say `~/.clonedEvmosd`
+	## 3. Clone this ~/.shidod home directory into some others, let's say `~/.clonedShidod`
 	## 4. Run `gentx` in each of those folders
-	## 5. Copy the `gentx-*` folders under `~/.clonedEvmosd/config/gentx/` folders into the original `~/.shidod/config/gentx`
+	## 5. Copy the `gentx-*` folders under `~/.clonedShidod/config/gentx/` folders into the original `~/.shidod/config/gentx`
 
 	# Collect genesis tx
 	shidod collect-gentxs --home "$HOMEDIR"

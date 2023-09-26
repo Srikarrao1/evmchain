@@ -11,7 +11,7 @@ import (
 	cmn "github.com/shido/shido/v2/precompiles/common"
 	"github.com/shido/shido/v2/precompiles/staking"
 	"github.com/shido/shido/v2/precompiles/testutil"
-	evmosutiltx "github.com/shido/shido/v2/testutil/tx"
+	shidoutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
 func (s *PrecompileTestSuite) TestDelegate() {
@@ -41,7 +41,7 @@ func (s *PrecompileTestSuite) TestDelegate() {
 		{
 			name: "fail - different origin than delegator",
 			malleate: func(operatorAddress string) []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					differentAddr,
 					operatorAddress,
@@ -251,7 +251,7 @@ func (s *PrecompileTestSuite) TestUndelegate() {
 		{
 			name: "fail - different origin than delegator",
 			malleate: func(operatorAddress string) []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					differentAddr,
 					operatorAddress,
@@ -343,7 +343,7 @@ func (s *PrecompileTestSuite) TestUndelegate() {
 				s.Require().NotEmpty(bz)
 				tc.postCheck(bz)
 
-				bech32Addr, err := sdk.Bech32ifyAddressBytes("evmos", s.address.Bytes())
+				bech32Addr, err := sdk.Bech32ifyAddressBytes("shido", s.address.Bytes())
 				s.Require().NoError(err)
 				s.Require().Equal(undelegations[0].DelegatorAddress, bech32Addr)
 				s.Require().Equal(undelegations[0].ValidatorAddress, s.validators[0].OperatorAddress)
@@ -380,7 +380,7 @@ func (s *PrecompileTestSuite) TestRedelegate() {
 		{
 			name: "fail - different origin than delegator",
 			malleate: func(srcOperatorAddr, dstOperatorAddr string) []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					differentAddr,
 					srcOperatorAddr,
@@ -488,7 +488,7 @@ func (s *PrecompileTestSuite) TestRedelegate() {
 				s.Require().NoError(err)
 				s.Require().NotEmpty(bz)
 
-				bech32Addr, err := sdk.Bech32ifyAddressBytes("evmos", s.address.Bytes())
+				bech32Addr, err := sdk.Bech32ifyAddressBytes("shido", s.address.Bytes())
 				s.Require().NoError(err)
 				s.Require().Equal(redelegations[0].DelegatorAddress, bech32Addr)
 				s.Require().Equal(redelegations[0].ValidatorSrcAddress, s.validators[0].OperatorAddress)
@@ -664,7 +664,7 @@ func (s *PrecompileTestSuite) TestCancelUnbondingDelegation() {
 				delegation, found := s.app.StakingKeeper.GetDelegation(s.ctx, s.address.Bytes(), s.validators[0].GetOperator())
 				s.Require().True(found)
 
-				bech32Addr, err := sdk.Bech32ifyAddressBytes("evmos", s.address.Bytes())
+				bech32Addr, err := sdk.Bech32ifyAddressBytes("shido", s.address.Bytes())
 				s.Require().NoError(err)
 				s.Require().Equal(delegation.DelegatorAddress, bech32Addr)
 				s.Require().Equal(delegation.ValidatorAddress, s.validators[0].OperatorAddress)

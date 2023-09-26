@@ -1,3 +1,5 @@
+// Copyright Tharsis Labs Ltd.(Shido)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
 package ics20_test
 
 import (
@@ -338,7 +340,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 			cmn.ErrIntegerOverflow,
 		},
 		{
-			"pass - increase allowance by 1 EVMOS for a single allocation with a single coin denomination",
+			"pass - increase allowance by 1 SHIDO for a single allocation with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -390,7 +392,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 			"",
 		},
 		{
-			"pass - increase allowance by 1 Evmos for multiple allocations with a single coin denomination",
+			"pass - increase allowance by 1 Shido for multiple allocations with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -482,7 +484,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowance() {
 			cmn.ErrNegativeAmount,
 		},
 		{
-			"pass - decrease allowance by 1 EVMOS for a single allocation with a single coin denomination",
+			"pass - decrease allowance by 1 SHIDO for a single allocation with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -544,7 +546,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowance() {
 			"",
 		},
 		{
-			"pass - decrease allowance by 0.5 Evmos for multiple allocations with a single coin denomination",
+			"pass - decrease allowance by 0.5 Shido for multiple allocations with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)

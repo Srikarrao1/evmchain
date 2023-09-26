@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:LGPL-3.0-only
-
 package types
 
 import (
@@ -8,7 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 var (
@@ -56,7 +53,7 @@ func (msg MsgRegisterRevenue) ValidateBasic() error {
 		return errorsmod.Wrapf(err, "invalid deployer address %s", msg.DeployerAddress)
 	}
 
-	if err := evmostypes.ValidateNonZeroAddress(msg.ContractAddress); err != nil {
+	if err := shidotypes.ValidateNonZeroAddress(msg.ContractAddress); err != nil {
 		return errorsmod.Wrapf(err, "invalid contract address %s", msg.ContractAddress)
 	}
 
@@ -111,7 +108,7 @@ func (msg MsgCancelRevenue) ValidateBasic() error {
 		return errorsmod.Wrapf(err, "invalid deployer address %s", msg.DeployerAddress)
 	}
 
-	if err := evmostypes.ValidateNonZeroAddress(msg.ContractAddress); err != nil {
+	if err := shidotypes.ValidateNonZeroAddress(msg.ContractAddress); err != nil {
 		return errorsmod.Wrapf(err, "invalid contract address %s", msg.ContractAddress)
 	}
 
@@ -154,7 +151,7 @@ func (msg MsgUpdateRevenue) ValidateBasic() error {
 		return errorsmod.Wrapf(err, "invalid deployer address %s", msg.DeployerAddress)
 	}
 
-	if err := evmostypes.ValidateNonZeroAddress(msg.ContractAddress); err != nil {
+	if err := shidotypes.ValidateNonZeroAddress(msg.ContractAddress); err != nil {
 		return errorsmod.Wrapf(err, "invalid contract address %s", msg.ContractAddress)
 	}
 

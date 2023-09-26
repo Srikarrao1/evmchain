@@ -7,7 +7,7 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/x/evm"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	"github.com/shido/shido/v2/x/evm/types"
@@ -118,7 +118,7 @@ func (suite *EvmTestSuite) TestInitGenesis() {
 		{
 			"ignore empty account code checking with non-empty codehash",
 			func() {
-				ethAcc := &evmostypes.EthAccount{
+				ethAcc := &shidotypes.EthAccount{
 					BaseAccount: authtypes.NewBaseAccount(address.Bytes(), nil, 0, 0),
 					CodeHash:    common.BytesToHash([]byte{1, 2, 3}).Hex(),
 				}

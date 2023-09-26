@@ -8,9 +8,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	cmn "github.com/shido/shido/v2/precompiles/common"
 	"github.com/shido/shido/v2/precompiles/vesting"
-	evmosutil "github.com/shido/shido/v2/testutil"
-	evmosutiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidoutil "github.com/shido/shido/v2/testutil"
+	shidoutiltx "github.com/shido/shido/v2/testutil/tx"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/utils"
 	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
@@ -19,9 +19,9 @@ var (
 	balances         = []cmn.Coin{{Denom: utils.BaseDenom, Amount: big.NewInt(1000)}}
 	quarter          = []cmn.Coin{{Denom: utils.BaseDenom, Amount: big.NewInt(250)}}
 	balancesSdkCoins = sdk.NewCoins(sdk.NewInt64Coin(utils.BaseDenom, 1000))
-	toAddr           = evmosutiltx.GenerateAddress()
-	funderAddr       = evmosutiltx.GenerateAddress()
-	diffFunderAddr   = evmosutiltx.GenerateAddress()
+	toAddr           = shidoutiltx.GenerateAddress()
+	funderAddr       = shidoutiltx.GenerateAddress()
+	diffFunderAddr   = shidoutiltx.GenerateAddress()
 	lockupPeriods    = []vesting.Period{{Length: 5000, Amount: balances}}
 	vestingPeriods   = []vesting.Period{
 		{Length: 2000, Amount: quarter},
@@ -55,7 +55,7 @@ func (s *PrecompileTestSuite) TestCreateClawbackVestingAccount() {
 		{
 			name: "fail - different origin than vesting address",
 			malleate: func() []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					funderAddr,
 					differentAddr,
@@ -131,7 +131,7 @@ func (s *PrecompileTestSuite) TestFundVestingAccount() {
 		{
 			name: "fail - different origin than funder address",
 			malleate: func() []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					differentAddr,
 					toAddr,
@@ -148,7 +148,7 @@ func (s *PrecompileTestSuite) TestFundVestingAccount() {
 			"success",
 			func() []interface{} {
 				s.CreateTestClawbackVestingAccount(s.address, toAddr)
-				err = evmosutil.FundAccount(s.ctx, s.app.BankKeeper, toAddr.Bytes(), sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100))))
+				err = shidoutil.FundAccount(s.ctx, s.app.BankKeeper, toAddr.Bytes(), sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100))))
 				return []interface{}{
 					s.address,
 					toAddr,
@@ -215,7 +215,7 @@ func (s *PrecompileTestSuite) TestClawback() {
 		{
 			name: "fail - different origin than funder address",
 			malleate: func() []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					differentAddr,
 					toAddr,
@@ -290,7 +290,7 @@ func (s *PrecompileTestSuite) TestUpdateVestingFunder() {
 		{
 			name: "fail - different origin than funder address",
 			malleate: func() []interface{} {
-				differentAddr := evmosutiltx.GenerateAddress()
+				differentAddr := shidoutiltx.GenerateAddress()
 				return []interface{}{
 					differentAddr,
 					toAddr,
@@ -398,7 +398,7 @@ func (s *PrecompileTestSuite) TestConvertVestingAccount() {
 
 				// Check if the vesting account was converted back to an EthAccountI
 				account := s.app.AccountKeeper.GetAccount(s.ctx, toAddr.Bytes())
-				_, ok := account.(evmostypes.EthAccountI)
+				_, ok := account.(shidotypes.EthAccountI)
 				s.Require().True(ok)
 			},
 			false,

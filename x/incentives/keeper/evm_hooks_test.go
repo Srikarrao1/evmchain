@@ -12,7 +12,7 @@ import (
 
 	"github.com/shido/shido/v2/testutil"
 	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	evm "github.com/shido/shido/v2/x/evm/types"
 	"github.com/shido/shido/v2/x/incentives/types"
 	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
@@ -40,7 +40,7 @@ func (suite *KeeperTestSuite) TestEvmHooksStoreTxGasUsed() {
 			"from address is not an EOA",
 			func(contractAddr common.Address) {
 				// set a contract account for the address
-				contract := &evmostypes.EthAccount{
+				contract := &shidotypes.EthAccount{
 					BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 					CodeHash:    common.BytesToHash(crypto.Keccak256([]byte{0, 1, 2, 2})).String(),
 				}
@@ -54,7 +54,7 @@ func (suite *KeeperTestSuite) TestEvmHooksStoreTxGasUsed() {
 		{
 			"correct execution - one tx",
 			func(contractAddr common.Address) {
-				acc := &evmostypes.EthAccount{
+				acc := &shidotypes.EthAccount{
 					BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 					CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 				}
@@ -94,7 +94,7 @@ func (suite *KeeperTestSuite) TestEvmHooksStoreTxGasUsed() {
 		{
 			"correct execution - two tx",
 			func(contractAddr common.Address) {
-				acc := &evmostypes.EthAccount{
+				acc := &shidotypes.EthAccount{
 					BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 					CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 				}

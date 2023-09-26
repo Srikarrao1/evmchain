@@ -21,7 +21,7 @@ import (
 	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
-// HandlerOptions defines the list of module keepers required to run the Evmos
+// HandlerOptions defines the list of module keepers required to run the Shido
 // AnteHandler decorators.
 type HandlerOptions struct {
 	Cdc                    codec.BinaryCodec

@@ -1,12 +1,9 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:LGPL-3.0-only
-
 package types
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // NewRevenue returns an instance of Revenue. If the provided withdrawer
@@ -47,7 +44,7 @@ func (fs Revenue) GetWithdrawerAddr() sdk.AccAddress {
 
 // Validate performs a stateless validation of a Revenue
 func (fs Revenue) Validate() error {
-	if err := evmostypes.ValidateNonZeroAddress(fs.ContractAddress); err != nil {
+	if err := shidotypes.ValidateNonZeroAddress(fs.ContractAddress); err != nil {
 		return err
 	}
 

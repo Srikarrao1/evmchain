@@ -6,7 +6,7 @@ from eth_utils import abi, big_endian_to_int
 from hexbytes import HexBytes
 from web3.datastructures import AttributeDict
 
-from .network import setup_custom_evmos
+from .network import setup_custom_shido
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -19,10 +19,10 @@ from .utils import (
 
 @pytest.fixture(scope="module")
 def pruned(request, tmp_path_factory):
-    """start-evmos
+    """start-shido
     params: enable_auto_deployment
     """
-    yield from setup_custom_evmos(
+    yield from setup_custom_shido(
         tmp_path_factory.mktemp("pruned"),
         26900,
         Path(__file__).parent / "configs/pruned_node.jsonnet",

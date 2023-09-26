@@ -217,7 +217,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowanceEvent() {
 		postCheck   func()
 	}{
 		{
-			"success - increased allowance by 1 Evmos",
+			"success - increased allowance by 1 Shido",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -269,7 +269,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowanceEvent() {
 		postCheck   func()
 	}{
 		{
-			"success - decrease allowance by 0.5 Evmos",
+			"success - decrease allowance by 0.5 Shido",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)

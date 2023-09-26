@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 func TestDefaultConfig(t *testing.T) {
@@ -29,12 +29,12 @@ func TestGetConfig(t *testing.T) {
 			"test unmarshal embedded structs",
 			func() *viper.Viper {
 				v := viper.New()
-				v.Set("minimum-gas-prices", fmt.Sprintf("100%s", evmostypes.AttoShido))
+				v.Set("minimum-gas-prices", fmt.Sprintf("100%s", shidotypes.AttoShido))
 				return v
 			},
 			func() Config {
 				cfg := DefaultConfig()
-				cfg.MinGasPrices = fmt.Sprintf("100%s", evmostypes.AttoShido)
+				cfg.MinGasPrices = fmt.Sprintf("100%s", shidotypes.AttoShido)
 				return *cfg
 			},
 			false,

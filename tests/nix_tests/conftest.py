@@ -1,12 +1,12 @@
 import pytest
 
-from .network import setup_evmos, setup_geth
+from .network import setup_shido, setup_geth
 
 
 @pytest.fixture(scope="session")
-def evmos(tmp_path_factory):
-    path = tmp_path_factory.mktemp("evmos")
-    yield from setup_evmos(path, 26650)
+def shido(tmp_path_factory):
+    path = tmp_path_factory.mktemp("shido")
+    yield from setup_shido(path, 26650)
 
 
 @pytest.fixture(scope="session")
@@ -15,34 +15,34 @@ def geth(tmp_path_factory):
     yield from setup_geth(path, 8545)
 
 
-@pytest.fixture(scope="session", params=["evmos", "evmos-ws"])
-def evmos_rpc_ws(request, evmos):
+@pytest.fixture(scope="session", params=["shido", "shido-ws"])
+def shido_rpc_ws(request, shido):
     """
-    run on both evmos and evmos websocket
+    run on both shido and shido websocket
     """
     provider = request.param
-    if provider == "evmos":
-        yield evmos
-    elif provider == "evmos-ws":
-        evmos_ws = evmos.copy()
-        evmos_ws.use_websocket()
-        yield evmos_ws
+    if provider == "shido":
+        yield shido
+    elif provider == "shido-ws":
+        shido_ws = shido.copy()
+        shido_ws.use_websocket()
+        yield shido_ws
     else:
         raise NotImplementedError
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-ws", "geth"])
-def cluster(request, evmos, geth):
+@pytest.fixture(scope="module", params=["shido", "shido-ws", "geth"])
+def cluster(request, shido, geth):
     """
-    run on evmos, evmos websocket and geth
+    run on shido, shido websocket and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield evmos
-    elif provider == "evmos-ws":
-        evmos_ws = evmos.copy()
-        evmos_ws.use_websocket()
-        yield evmos_ws
+    if provider == "shido":
+        yield shido
+    elif provider == "shido-ws":
+        shido_ws = shido.copy()
+        shido_ws.use_websocket()
+        yield shido_ws
     elif provider == "geth":
         yield geth
     else:

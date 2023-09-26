@@ -19,7 +19,7 @@ var (
 
 const (
 	// Amino names
-	updateParamsName = "evmos/recovery/MsgUpdateParams"
+	updateParamsName = "shido/recovery/MsgUpdateParams"
 )
 
 // NOTE: This is required for the GetSignBytes function

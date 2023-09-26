@@ -4,7 +4,7 @@ pragma solidity >=0.8.17;
 import "../StakingI.sol" as staking;
 
 /// @title StakingCaller
-/// @author Evmos Core Team
+/// @author Shido Core Team
 /// @dev This contract is used to test external contract calls to the staking precompile.
 contract StakingCaller {
     /// counter is used to test the state persistence bug, when EVM and Cosmos state were both changed in the same function.

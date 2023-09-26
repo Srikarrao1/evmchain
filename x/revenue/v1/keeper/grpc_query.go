@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:LGPL-3.0-only
-
 package keeper
 
 import (
@@ -14,7 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 
 	"github.com/shido/shido/v2/x/revenue/v1/types"
 )
@@ -72,7 +69,7 @@ func (k Keeper) Revenue(
 	}
 
 	// check if the contract is a non-zero hex address
-	if err := evmostypes.ValidateNonZeroAddress(req.ContractAddress); err != nil {
+	if err := shidotypes.ValidateNonZeroAddress(req.ContractAddress); err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
 			"invalid format for contract %s, should be non-zero hex ('0x...')", req.ContractAddress,
@@ -124,7 +121,7 @@ func (k Keeper) DeployerRevenues( //nolint: dupl
 	if err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
-			"invalid format for deployer %s, should be bech32 ('evmos...')", req.DeployerAddress,
+			"invalid format for deployer %s, should be bech32 ('shido...')", req.DeployerAddress,
 		)
 	}
 
@@ -170,7 +167,7 @@ func (k Keeper) WithdrawerRevenues( //nolint: dupl
 	if err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
-			"invalid format for withdraw addr %s, should be bech32 ('evmos...')", req.WithdrawerAddress,
+			"invalid format for withdraw addr %s, should be bech32 ('shido...')", req.WithdrawerAddress,
 		)
 	}
 

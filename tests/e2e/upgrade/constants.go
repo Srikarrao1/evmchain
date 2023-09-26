@@ -3,13 +3,13 @@ package upgrade
 // The constants used in the upgrade tests are defined here
 const (
 	// the defaultChainID used for testing
-	defaultChainID = "evmos_9000-1"
+	defaultChainID = "shido_9000-1"
 
 	// LocalVersionTag defines the docker image ImageTag when building locally
 	LocalVersionTag = "latest"
 
-	// tharsisRepo is the docker hub repository that contains the Evmos images pulled during tests
-	tharsisRepo = "tharsishq/evmos"
+	// tharsisRepo is the docker hub repository that contains the Shido images pulled during tests
+	tharsisRepo = "tharsishq/shido"
 
 	// upgradesPath is the relative path from this folder to the app/upgrades folder
 	upgradesPath = "../../../app/upgrades"

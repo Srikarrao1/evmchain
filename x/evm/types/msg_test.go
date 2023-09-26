@@ -441,7 +441,7 @@ func (suite *MsgsTestSuite) TestMsgEthereumTx_ValidateBasic() {
 		// 	accessList: &ethtypes.AccessList{},
 		// 	chainID:    hundredInt,
 		// 	expectPass: false,
-		// 	errMsg:     "chain ID must be 9000 or 9001 on Evmos",
+		// 	errMsg:     "chain ID must be 9000 or 9001 on Shido",
 		// },
 	}
 

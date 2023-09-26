@@ -191,7 +191,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgDelegate with 1 Evmos as limit amount",
+			"success - MsgDelegate with 1 Shido as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -258,7 +258,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgUndelegate with 1 Evmos as limit amount",
+			"success - MsgUndelegate with 1 Shido as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -280,7 +280,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgRedelegate with 1 Evmos as limit amount",
+			"success - MsgRedelegate with 1 Shido as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -300,7 +300,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgRedelegate, MsgUndelegate and MsgDelegate with 1 Evmos as limit amount",
+			"success - MsgRedelegate, MsgUndelegate and MsgDelegate with 1 Shido as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -467,7 +467,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowance() {
 			"amount by which the allowance should be decreased is greater than the authorization limit",
 		},
 		{
-			"success - decrease delegate authorization allowance by 1 Evmos",
+			"success - decrease delegate authorization allowance by 1 Shido",
 			func(_ *vm.Contract) []interface{} {
 				s.ApproveAndCheckAuthz(method, staking.DelegateMsg, big.NewInt(2e18))
 				return []interface{}{
@@ -591,7 +591,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 			"",
 		},
 		{
-			"success - increase delegate authorization allowance by 1 Evmos",
+			"success - increase delegate authorization allowance by 1 Shido",
 			func() []interface{} {
 				s.ApproveAndCheckAuthz(method, staking.DelegateMsg, big.NewInt(1e18))
 				return []interface{}{

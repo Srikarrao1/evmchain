@@ -1,8 +1,8 @@
 local config = import 'default.jsonnet';
 
 config {
-  'evmos_9000-1'+: {
-    'account-prefix': 'evmos',
+  'shido_9000-1'+: {
+    'account-prefix': 'shido',
     'coin-type': 60,
     key_name: 'signer1',
     accounts: super.accounts[:std.length(super.accounts) - 1] + [super.accounts[std.length(super.accounts) - 1] {
@@ -129,7 +129,7 @@ config {
     },
     chains: [
       {
-        id: 'evmos_9000-1',
+        id: 'shido_9000-1',
         max_gas: 3000000,
         default_gas: 100000,
         gas_multiplier: 1.2,

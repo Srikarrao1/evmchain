@@ -15,7 +15,7 @@ import (
 	"github.com/shido/shido/v2/rpc"
 
 	"github.com/shido/shido/v2/server/config"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // StartJSONRPC starts the JSON-RPC server
@@ -24,7 +24,7 @@ func StartJSONRPC(ctx *server.Context,
 	tmRPCAddr,
 	tmEndpoint string,
 	config *config.Config,
-	indexer evmostypes.EVMTxIndexer,
+	indexer shidotypes.EVMTxIndexer,
 ) (*http.Server, chan struct{}, error) {
 	tmWsClient := ConnectTmWS(tmRPCAddr, tmEndpoint, ctx.Logger)
 

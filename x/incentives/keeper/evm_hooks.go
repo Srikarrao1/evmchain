@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
 	"github.com/shido/shido/v2/x/incentives/types"
@@ -46,8 +46,8 @@ func (k Keeper) PostTxProcessing(ctx sdk.Context, msg core.Message, receipt *eth
 		return nil
 	}
 
-	ethAccount, ok := acc.(evmostypes.EthAccountI)
-	if ok && ethAccount.Type() == evmostypes.AccountTypeContract {
+	ethAccount, ok := acc.(shidotypes.EthAccountI)
+	if ok && ethAccount.Type() == shidotypes.AccountTypeContract {
 		return nil
 	}
 

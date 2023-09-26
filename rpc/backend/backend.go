@@ -19,7 +19,7 @@ import (
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 	rpctypes "github.com/shido/shido/v2/rpc/types"
 	"github.com/shido/shido/v2/server/config"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
@@ -100,8 +100,8 @@ type EVMBackend interface {
 
 	// Tx Info
 	GetTransactionByHash(txHash common.Hash) (*rpctypes.RPCTransaction, error)
-	GetTxByEthHash(txHash common.Hash) (*evmostypes.TxResult, error)
-	GetTxByTxIndex(height int64, txIndex uint) (*evmostypes.TxResult, error)
+	GetTxByEthHash(txHash common.Hash) (*shidotypes.TxResult, error)
+	GetTxByTxIndex(height int64, txIndex uint) (*shidotypes.TxResult, error)
 	GetTransactionByBlockAndIndex(block *tmrpctypes.ResultBlock, idx hexutil.Uint) (*rpctypes.RPCTransaction, error)
 	GetTransactionReceipt(hash common.Hash) (map[string]interface{}, error)
 	GetTransactionByBlockHashAndIndex(hash common.Hash, idx hexutil.Uint) (*rpctypes.RPCTransaction, error)
@@ -136,7 +136,7 @@ type Backend struct {
 	chainID             *big.Int
 	cfg                 config.Config
 	allowUnprotectedTxs bool
-	indexer             evmostypes.EVMTxIndexer
+	indexer             shidotypes.EVMTxIndexer
 }
 
 // NewBackend creates a new Backend instance for cosmos and ethereum namespaces
@@ -145,9 +145,9 @@ func NewBackend(
 	logger log.Logger,
 	clientCtx client.Context,
 	allowUnprotectedTxs bool,
-	indexer evmostypes.EVMTxIndexer,
+	indexer shidotypes.EVMTxIndexer,
 ) *Backend {
-	chainID, err := evmostypes.ParseChainID(clientCtx.ChainID)
+	chainID, err := shidotypes.ParseChainID(clientCtx.ChainID)
 	if err != nil {
 		panic(err)
 	}

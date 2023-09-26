@@ -13,7 +13,7 @@ import (
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 
 	"github.com/shido/shido/v2/x/incentives/types"
 )
@@ -74,7 +74,7 @@ func (k Keeper) Incentive(
 	}
 
 	// check if the contract is a hex address
-	if err := evmostypes.ValidateAddress(req.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(req.Contract); err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
 			"invalid format for contract %s, should be hex ('0x...')", req.Contract,
@@ -110,7 +110,7 @@ func (k Keeper) GasMeters(
 	}
 
 	// check if the contract is a hex address
-	if err := evmostypes.ValidateAddress(req.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(req.Contract); err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
 			errorsmod.Wrapf(errortypes.ErrInvalidAddress, "invalid contract address %s", req.Contract).Error(),
@@ -169,7 +169,7 @@ func (k Keeper) GasMeter(
 	}
 
 	// check if the contract is a hex address
-	if err := evmostypes.ValidateAddress(req.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(req.Contract); err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
 			errorsmod.Wrapf(errortypes.ErrInvalidAddress, "invalid contract address %s", req.Contract).Error(),
@@ -184,7 +184,7 @@ func (k Keeper) GasMeter(
 	}
 
 	// check if the participant is a hex address
-	if err := evmostypes.ValidateAddress(req.Participant); err != nil {
+	if err := shidotypes.ValidateAddress(req.Participant); err != nil {
 		return nil, status.Errorf(
 			codes.InvalidArgument,
 			errorsmod.Wrapf(errortypes.ErrInvalidAddress, "invalid participant address %s", req.Participant).Error(),

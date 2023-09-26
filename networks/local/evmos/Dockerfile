@@ -6,7 +6,7 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y $PACKAGES
 
 # Set working directory for the build
-WORKDIR /go/src/github.com/evmos/evmos
+WORKDIR /go/src/github.com/shido/shido
 
 # Add source files
 COPY . .
@@ -22,8 +22,8 @@ WORKDIR /
 RUN apt-get update
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/src/github.com/evmos/evmos/build/shidod /
-COPY --from=build-env /go/src/github.com/evmos/evmos/scripts/start-docker.sh /
+COPY --from=build-env /go/src/github.com/shido/shido/build/shidod /
+COPY --from=build-env /go/src/github.com/shido/shido/scripts/start-docker.sh /
 
 EXPOSE 26656 26657 1317 9090 8545 8546
 

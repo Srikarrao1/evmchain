@@ -18,7 +18,7 @@ import (
 	"github.com/shido/shido/v2/crypto/ethsecp256k1"
 	"github.com/shido/shido/v2/testutil"
 	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/utils"
 	"github.com/shido/shido/v2/x/claims/types"
 	evm "github.com/shido/shido/v2/x/evm/types"
@@ -109,8 +109,8 @@ func (suite *KeeperTestSuite) CommitAfter(t time.Duration) {
 	suite.queryClientEvm = evm.NewQueryClient(queryHelperEvm)
 }
 
-func newEthAccount(baseAccount *authtypes.BaseAccount) evmostypes.EthAccount {
-	return evmostypes.EthAccount{
+func newEthAccount(baseAccount *authtypes.BaseAccount) shidotypes.EthAccount {
+	return shidotypes.EthAccount{
 		BaseAccount: baseAccount,
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 	}

@@ -198,7 +198,7 @@ func (s *PrecompileTestSuite) TestWithdrawDelegatorRewards() {
 		s.Run(tc.name, func() {
 			s.SetupTest()
 
-			// sanity check to make sure the starting balance is always 5 EVMOS
+			// sanity check to make sure the starting balance is always 5 SHIDO
 			balance := s.app.BankKeeper.GetBalance(s.ctx, s.address.Bytes(), utils.BaseDenom)
 			s.Require().Equal(balance.Amount.BigInt(), big.NewInt(5000000000000000000))
 

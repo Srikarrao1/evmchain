@@ -1,10 +1,10 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "author": "Evmos team",
+  "author": "Shido team",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "get-contracts": "rm -rf ./contracts/evmos && mkdir -p ./contracts/evmos && rsync -avm --include='*/' --include='*.sol' --exclude='*' ../../../precompiles/ ./contracts/evmos/",
+    "get-contracts": "rm -rf ./contracts/shido && mkdir -p ./contracts/shido && rsync -avm --include='*/' --include='*.sol' --exclude='*' ../../../precompiles/ ./contracts/shido/",
     "typechain": "npm run get-contracts && npx hardhat typechain"
   },
   "devDependencies": {

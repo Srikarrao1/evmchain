@@ -11,7 +11,7 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-	evmosapp "github.com/shido/shido/v2/app"
+	shidoapp "github.com/shido/shido/v2/app"
 	"github.com/shido/shido/v2/precompiles/staking"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
@@ -24,7 +24,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *evmosapp.Shido
+	app        *shidoapp.Shido
 	address    common.Address
 	validators []stakingtypes.Validator
 	ethSigner  ethtypes.Signer

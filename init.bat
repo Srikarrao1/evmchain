@@ -1,5 +1,5 @@
 
-rem evmos compile on windows
+rem shido compile on windows
 rem install golang , gcc, sed for windows
 rem 1. install msys2 : https://www.msys2.org/
 rem 2. pacman -S mingw-w64-x86_64-toolchain
@@ -9,7 +9,7 @@ rem 3. add path C:\msys64\mingw64\bin
 rem             C:\msys64\usr\bin
 
 set KEY="dev0"
-set CHAINID="evmos_9000-1"
+set CHAINID="shido_9000-1"
 set MONIKER="localtestnet"
 set KEYRING="test"
 set KEYALGO="eth_secp256k1"
@@ -35,7 +35,7 @@ shidod config chain-id %CHAINID%
 
 shidod keys add %KEY% --keyring-backend %KEYRING% --algo %KEYALGO%
 
-rem Set moniker and chain-id for Evmos (Moniker can be anything, chain-id must be an integer)
+rem Set moniker and chain-id for Shido (Moniker can be anything, chain-id must be an integer)
 shidod init %MONIKER% --chain-id %CHAINID% 
 
 rem Change parameter token denominations to ashido

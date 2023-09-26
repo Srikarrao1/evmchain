@@ -149,7 +149,7 @@ func (suite *KeeperTestSuite) TestClaimsRecord() {
 			"invalid address",
 			func() {
 				req = &types.QueryClaimsRecordRequest{
-					Address: "evmos1",
+					Address: "shido1",
 				}
 			},
 			true,

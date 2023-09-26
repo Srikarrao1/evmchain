@@ -29,15 +29,15 @@ func GetTransferSenderRecipient(packet channeltypes.Packet) (
 	}
 
 	// validate the sender bech32 address from the counterparty chain
-	// and change the bech32 human readable prefix (HRP) of the sender to `evmos`
-	sender, err = utils.GetEvmosAddressFromBech32(data.Sender)
+	// and change the bech32 human readable prefix (HRP) of the sender to `shido`
+	sender, err = utils.GetShidoAddressFromBech32(data.Sender)
 	if err != nil {
 		return nil, nil, "", "", errorsmod.Wrap(err, "invalid sender")
 	}
 
 	// validate the recipient bech32 address from the counterparty chain
-	// and change the bech32 human readable prefix (HRP) of the recipient to `evmos`
-	recipient, err = utils.GetEvmosAddressFromBech32(data.Receiver)
+	// and change the bech32 human readable prefix (HRP) of the recipient to `shido`
+	recipient, err = utils.GetShidoAddressFromBech32(data.Receiver)
 	if err != nil {
 		return nil, nil, "", "", errorsmod.Wrap(err, "invalid recipient")
 	}

@@ -107,7 +107,7 @@ enum BondStatus {
     Bonded
 }
 
-/// @author Evmos Team
+/// @author Shido Team
 /// @title Staking Precompiled Contract
 /// @dev The interface through which solidity contracts will interact with staking.
 /// We follow this same interface including four-byte function selectors, in the precompile that

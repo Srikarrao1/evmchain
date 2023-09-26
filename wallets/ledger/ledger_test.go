@@ -22,7 +22,7 @@ func init() {
 	sdk.GetConfig().SetBech32PrefixForAccount("cosmos", "")
 }
 
-func (suite *LedgerTestSuite) TestEvmosLedgerDerivation() {
+func (suite *LedgerTestSuite) TestShidoLedgerDerivation() {
 	testCases := []struct {
 		name     string
 		mockFunc func()
@@ -38,7 +38,7 @@ func (suite *LedgerTestSuite) TestEvmosLedgerDerivation() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			derivationFunc := ledger.EvmosLedgerDerivation()
+			derivationFunc := ledger.ShidoLedgerDerivation()
 			_, err := derivationFunc()
 			if tc.expPass {
 				suite.Require().NoError(err)
@@ -215,7 +215,7 @@ func (suite *LedgerTestSuite) TestGetAddressPubKeySECP256K1() {
 	suite.Require().NoError(err)
 
 	addr := crypto.PubkeyToAddress(privKey.PublicKey)
-	expAddr, err := sdk.Bech32ifyAddressBytes("evmos", common.HexToAddress(addr.String()).Bytes())
+	expAddr, err := sdk.Bech32ifyAddressBytes("shido", common.HexToAddress(addr.String()).Bytes())
 	suite.Require().NoError(err)
 
 	testCases := []struct {

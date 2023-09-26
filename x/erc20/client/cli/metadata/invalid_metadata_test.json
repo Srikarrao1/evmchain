@@ -8,14 +8,14 @@
           "exponent": 0
         },
         {
-          "denom": "evmos",
+          "denom": "shido",
           "exponent": 18
         }
       ],
       "base": "ashido",
       "display": "ashido",
       "name": "ashido",
-      "symbol": "EVMOS"
+      "symbol": "SHIDO"
     }
   ]
 }

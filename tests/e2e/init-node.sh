@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CHAINID="${CHAIN_ID:-evmos_9000-1}"
+CHAINID="${CHAIN_ID:-shido_9000-1}"
 MONIKER="localtestnet"
 KEYRING="test"          # remember to change to other types of keyring like 'file' in-case exposing to outside world, otherwise your balance will be wiped quickly. The keyring test does not require private key to steal tokens from you
 KEYALGO="eth_secp256k1" #gitleaks:allow
@@ -61,7 +61,7 @@ echo "$USER2_MNEMONIC" | shidod keys add "$USER2_KEY" --recover --keyring-backen
 echo "$USER3_MNEMONIC" | shidod keys add "$USER3_KEY" --recover --keyring-backend "$KEYRING" --algo "$KEYALGO"
 echo "$USER4_MNEMONIC" | shidod keys add "$USER4_KEY" --recover --keyring-backend "$KEYRING" --algo "$KEYALGO"
 
-# Set moniker and chain-id for Evmos (Moniker can be anything, chain-id must be an integer)
+# Set moniker and chain-id for Shido (Moniker can be anything, chain-id must be an integer)
 shidod init "$MONIKER" --chain-id "$CHAINID"
 
 # Change parameter token denominations to ashido
@@ -99,8 +99,8 @@ jq '.app_state.claims.params.duration_of_decay="1000000s"' "$GENESIS" >"$TMP_GEN
 jq '.app_state.claims.params.duration_until_decay="100000s"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 # Claim module account:
-# 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
-jq -r --arg amount_to_claim "$amount_to_claim" '.app_state.bank.balances += [{"address":"evmos15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz","coins":[{"denom":"ashido", "amount":$amount_to_claim}]}]' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+# 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || shido15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
+jq -r --arg amount_to_claim "$amount_to_claim" '.app_state.bank.balances += [{"address":"shido15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz","coins":[{"denom":"ashido", "amount":$amount_to_claim}]}]' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 # disable produce empty block
 sed -i.bak 's/create_empty_blocks = true/create_empty_blocks = false/g' "$CONFIG_TOML"
@@ -137,9 +137,9 @@ shidod gentx "$VAL_KEY" 1000000000000000000000ashido --keyring-backend "$KEYRING
 ## In case you want to create multiple validators at genesis
 ## 1. Back to `shidod keys add` step, init more keys
 ## 2. Back to `shidod add-genesis-account` step, add balance for those
-## 3. Clone this ~/.shidod home directory into some others, let's say `~/.clonedEvmosd`
+## 3. Clone this ~/.shidod home directory into some others, let's say `~/.clonedShidod`
 ## 4. Run `gentx` in each of those folders
-## 5. Copy the `gentx-*` folders under `~/.clonedEvmosd/config/gentx/` folders into the original `~/.shidod/config/gentx`
+## 5. Copy the `gentx-*` folders under `~/.clonedShidod/config/gentx/` folders into the original `~/.shidod/config/gentx`
 
 
 # Enable the APIs for the tests to be successful

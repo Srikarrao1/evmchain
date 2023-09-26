@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// CreateModuleQueryExec creates a Evmos module query
+// CreateModuleQueryExec creates a Shido module query
 func (m *Manager) CreateModuleQueryExec(moduleName, subCommand, chainID string) (string, error) {
 	cmd := []string{
 		"shidod",

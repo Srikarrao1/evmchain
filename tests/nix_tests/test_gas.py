@@ -8,7 +8,7 @@ from .utils import (
 )
 
 
-def test_gas_eth_tx(geth, evmos):
+def test_gas_eth_tx(geth, shido):
     tx_value = 10
 
     # send a transaction with geth
@@ -16,30 +16,30 @@ def test_gas_eth_tx(geth, evmos):
     tx = {"to": ADDRS["community"], "value": tx_value, "gasPrice": geth_gas_price}
     geth_receipt = send_transaction(geth.w3, tx, KEYS["validator"])
 
-    # send an equivalent transaction with evmos
-    evmos_gas_price = evmos.w3.eth.gas_price
-    tx = {"to": ADDRS["community"], "value": tx_value, "gasPrice": evmos_gas_price}
-    evmos_receipt = send_transaction(evmos.w3, tx, KEYS["validator"])
+    # send an equivalent transaction with shido
+    shido_gas_price = shido.w3.eth.gas_price
+    tx = {"to": ADDRS["community"], "value": tx_value, "gasPrice": shido_gas_price}
+    shido_receipt = send_transaction(shido.w3, tx, KEYS["validator"])
 
     # ensure that the gasUsed is equivalent
-    assert geth_receipt.gasUsed == evmos_receipt.gasUsed
+    assert geth_receipt.gasUsed == shido_receipt.gasUsed
 
 
-def test_gas_deployment(geth, evmos):
-    # deploy an identical contract on geth and evmos
+def test_gas_deployment(geth, shido):
+    # deploy an identical contract on geth and shido
     # ensure that the gasUsed is equivalent
     _, geth_contract_receipt = deploy_contract(geth.w3, CONTRACTS["TestERC20A"])
-    _, evmos_contract_receipt = deploy_contract(evmos.w3, CONTRACTS["TestERC20A"])
-    assert geth_contract_receipt.gasUsed == evmos_contract_receipt.gasUsed
+    _, shido_contract_receipt = deploy_contract(shido.w3, CONTRACTS["TestERC20A"])
+    assert geth_contract_receipt.gasUsed == shido_contract_receipt.gasUsed
 
 
-def test_gas_call(geth, evmos):
+def test_gas_call(geth, shido):
     function_input = 10
 
-    # deploy an identical contract on geth and evmos
+    # deploy an identical contract on geth and shido
     # ensure that the contract has a function which consumes non-trivial gas
     geth_contract, _ = deploy_contract(geth.w3, CONTRACTS["BurnGas"])
-    evmos_contract, _ = deploy_contract(evmos.w3, CONTRACTS["BurnGas"])
+    shido_contract, _ = deploy_contract(shido.w3, CONTRACTS["BurnGas"])
 
     # call the contract and get tx receipt for geth
     geth_gas_price = geth.w3.eth.gas_price
@@ -48,53 +48,53 @@ def test_gas_call(geth, evmos):
     )
     geth_call_receipt = geth.w3.eth.wait_for_transaction_receipt(geth_txhash)
 
-    # repeat the above for evmos
-    evmos_gas_price = evmos.w3.eth.gas_price
-    evmos_txhash = evmos_contract.functions.burnGas(function_input).transact(
-        {"from": ADDRS["validator"], "gasPrice": evmos_gas_price}
+    # repeat the above for shido
+    shido_gas_price = shido.w3.eth.gas_price
+    shido_txhash = shido_contract.functions.burnGas(function_input).transact(
+        {"from": ADDRS["validator"], "gasPrice": shido_gas_price}
     )
-    evmos_call_receipt = evmos.w3.eth.wait_for_transaction_receipt(evmos_txhash)
+    shido_call_receipt = shido.w3.eth.wait_for_transaction_receipt(shido_txhash)
 
     # ensure that the gasUsed is equivalent
-    assert geth_call_receipt.gasUsed == evmos_call_receipt.gasUsed
+    assert geth_call_receipt.gasUsed == shido_call_receipt.gasUsed
 
 
-def test_block_gas_limit(evmos):
+def test_block_gas_limit(shido):
     tx_value = 10
 
     # get the block gas limit from the latest block
-    w3_wait_for_new_blocks(evmos.w3, 5)
-    block = evmos.w3.eth.get_block("latest")
+    w3_wait_for_new_blocks(shido.w3, 5)
+    block = shido.w3.eth.get_block("latest")
     exceeded_gas_limit = block.gasLimit + 100
 
     # send a transaction exceeding the block gas limit
-    evmos_gas_price = evmos.w3.eth.gas_price
+    shido_gas_price = shido.w3.eth.gas_price
     tx = {
         "to": ADDRS["community"],
         "value": tx_value,
         "gas": exceeded_gas_limit,
-        "gasPrice": evmos_gas_price,
+        "gasPrice": shido_gas_price,
     }
 
     # expect an error due to the block gas limit
     try:
-        send_transaction(evmos.w3, tx, KEYS["validator"])
+        send_transaction(shido.w3, tx, KEYS["validator"])
     except Exception as error:
         assert "exceeds block gas limit" in error.args[0]["message"]
 
-    # deploy a contract on evmos
-    evmos_contract, _ = deploy_contract(evmos.w3, CONTRACTS["BurnGas"])
+    # deploy a contract on shido
+    shido_contract, _ = deploy_contract(shido.w3, CONTRACTS["BurnGas"])
 
     # expect an error on contract call due to block gas limit
     try:
-        evmos_txhash = evmos_contract.functions.burnGas(exceeded_gas_limit).transact(
+        shido_txhash = shido_contract.functions.burnGas(exceeded_gas_limit).transact(
             {
                 "from": ADDRS["validator"],
                 "gas": exceeded_gas_limit,
-                "gasPrice": evmos_gas_price,
+                "gasPrice": shido_gas_price,
             }
         )
-        (evmos.w3.eth.wait_for_transaction_receipt(evmos_txhash))
+        (shido.w3.eth.wait_for_transaction_receipt(shido_txhash))
     except Exception as error:
         assert "exceeds block gas limit" in error.args[0]["message"]
 

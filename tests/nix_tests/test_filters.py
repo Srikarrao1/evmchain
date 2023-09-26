@@ -5,7 +5,7 @@ from eth_abi import abi
 from hexbytes import HexBytes
 from web3 import Web3
 
-from .network import setup_custom_evmos, setup_evmos
+from .network import setup_custom_shido, setup_shido
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -17,35 +17,35 @@ from .utils import (
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_shido(tmp_path_factory):
     path = tmp_path_factory.mktemp("filters")
-    yield from setup_evmos(path, 26200)
+    yield from setup_shido(path, 26200)
 
 
 @pytest.fixture(scope="module")
-def evmos_indexer(tmp_path_factory):
+def shido_indexer(tmp_path_factory):
     path = tmp_path_factory.mktemp("indexer")
-    yield from setup_custom_evmos(
+    yield from setup_custom_shido(
         path, 26660, Path(__file__).parent / "configs/enable-indexer.jsonnet"
     )
 
 
-@pytest.fixture(scope="module", params=["evmos", "geth", "evmos-ws", "enable-indexer"])
-def cluster(request, custom_evmos, evmos_indexer, geth):
+@pytest.fixture(scope="module", params=["shido", "geth", "shido-ws", "enable-indexer"])
+def cluster(request, custom_shido, shido_indexer, geth):
     """
-    run on both evmos and geth
+    run on both shido and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
+    if provider == "shido":
+        yield custom_shido
     elif provider == "geth":
         yield geth
-    elif provider == "evmos-ws":
-        evmos_ws = custom_evmos.copy()
-        evmos_ws.use_websocket()
-        yield evmos_ws
+    elif provider == "shido-ws":
+        shido_ws = custom_shido.copy()
+        shido_ws.use_websocket()
+        yield shido_ws
     elif provider == "enable-indexer":
-        yield evmos_indexer
+        yield shido_indexer
     else:
         raise NotImplementedError
 

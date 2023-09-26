@@ -14,7 +14,7 @@ import (
 	"github.com/shido/shido/v2/server/config"
 	"github.com/shido/shido/v2/testutil/network"
 
-	evmosnetwork "github.com/shido/shido/v2/testutil/network"
+	shidonetwork "github.com/shido/shido/v2/testutil/network"
 )
 
 type IntegrationTestSuite struct {
@@ -27,7 +27,7 @@ func (s *IntegrationTestSuite) SetupSuite() {
 	s.T().Log("setting up integration test suite")
 
 	var err error
-	cfg := evmosnetwork.DefaultConfig()
+	cfg := shidonetwork.DefaultConfig()
 	cfg.JSONRPCAddress = config.DefaultJSONRPCAddress
 	cfg.NumValidators = 1
 

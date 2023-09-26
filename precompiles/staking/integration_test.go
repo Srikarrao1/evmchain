@@ -23,7 +23,7 @@ import (
 	"github.com/shido/shido/v2/precompiles/staking/testdata"
 	"github.com/shido/shido/v2/precompiles/testutil"
 	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	evmosutil "github.com/shido/shido/v2/testutil"
+	shidoutil "github.com/shido/shido/v2/testutil"
 	testutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
@@ -154,7 +154,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			s.ExpectAuthorization(staking.DelegateAuthz, s.precompile.Address(), s.address, nil)
 		})
 
-		It("should approve the undelegate method with 1 evmos", func() {
+		It("should approve the undelegate method with 1 shido", func() {
 			s.SetupApproval(
 				s.privKey, s.precompile.Address(), big.NewInt(1e18), []string{staking.UndelegateMsg},
 			)
@@ -162,7 +162,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			s.ExpectAuthorization(staking.UndelegateAuthz, s.precompile.Address(), s.address, &oneE18Coin)
 		})
 
-		It("should approve the redelegate method with 2 evmos", func() {
+		It("should approve the redelegate method with 2 shido", func() {
 			s.SetupApproval(
 				s.privKey, s.precompile.Address(), big.NewInt(2e18), []string{staking.RedelegateMsg},
 			)
@@ -170,7 +170,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 			s.ExpectAuthorization(staking.RedelegateAuthz, s.precompile.Address(), s.address, &twoE18Coin)
 		})
 
-		It("should approve the cancel unbonding delegation method with 1 evmos", func() {
+		It("should approve the cancel unbonding delegation method with 1 shido", func() {
 			s.SetupApproval(
 				s.privKey, s.precompile.Address(), big.NewInt(1e18), []string{staking.CancelUnbondingDelegationMsg},
 			)
@@ -205,7 +205,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 		//	Expect(err).To(BeNil(), "error while calling the contract and checking logs")
 		// })
 
-		It("Should increase the allowance of the delegate method with 1 evmos", func() {
+		It("Should increase the allowance of the delegate method with 1 shido", func() {
 			increaseArgs := defaultCallArgs.
 				WithMethodName(authorization.IncreaseAllowanceMethod).
 				WithArgs(
@@ -267,7 +267,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 		//	Expect(err).To(BeNil(), "error while calling the contract and checking logs")
 		// })
 
-		It("Should decrease the allowance of the delegate method with 1 evmos", func() {
+		It("Should decrease the allowance of the delegate method with 1 shido", func() {
 			decreaseArgs := defaultDecreaseArgs.WithArgs(
 				s.precompile.Address(), big.NewInt(1e18), []string{staking.DelegateMsg},
 			)
@@ -374,7 +374,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 
 			// set up an approval with a different key than the one used to sign the transaction.
 			differentAddr, differentPriv := testutiltx.NewAddrKey()
-			err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
+			err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
 			Expect(err).To(BeNil(), "error while funding account")
 
 			s.NextBlock()
@@ -1188,7 +1188,7 @@ var _ = Describe("Calling staking precompile directly", func() {
 
 		It("should return an empty array if no redelegation is found for the given source validator", func() {
 			// NOTE: the way that the functionality is implemented in the Cosmos SDK, the following combinations are
-			// possible (see https://github.com/evmos/cosmos-sdk/blob/e773cf768844c87245d0c737cda1893a2819dd89/x/staking/keeper/querier.go#L361-L373):
+			// possible (see https://github.com/shido/cosmos-sdk/blob/e773cf768844c87245d0c737cda1893a2819dd89/x/staking/keeper/querier.go#L361-L373):
 			//
 			// - delegator is NOT empty, source validator is empty, destination validator is empty
 			//   --> filtering for all redelegations of the given delegator
@@ -1615,7 +1615,7 @@ var _ = Describe("Calling staking precompile via Solidity", func() {
 
 			It("should not delegate when sending from a different address", func() {
 				newAddr, newPriv := testutiltx.NewAccAddressAndKey()
-				err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
+				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
 				Expect(err).To(BeNil(), "error while funding account: %v", err)
 
 				s.NextBlock()
@@ -1743,7 +1743,7 @@ var _ = Describe("Calling staking precompile via Solidity", func() {
 
 			It("should not undelegate when called from a different address", func() {
 				newAddr, newPriv := testutiltx.NewAccAddressAndKey()
-				err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
+				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
 				Expect(err).To(BeNil(), "error while funding account: %v", err)
 
 				s.NextBlock()
@@ -1847,7 +1847,7 @@ var _ = Describe("Calling staking precompile via Solidity", func() {
 
 			It("should not redelegate when calling from a different address", func() {
 				newAddr, newPriv := testutiltx.NewAccAddressAndKey()
-				err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
+				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
 				Expect(err).To(BeNil(), "error while funding account: %v", err)
 
 				s.NextBlock()
@@ -1992,7 +1992,7 @@ var _ = Describe("Calling staking precompile via Solidity", func() {
 
 			It("should not cancel unbonding delegations when calling from a different address", func() {
 				newAddr, newPriv := testutiltx.NewAccAddressAndKey()
-				err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
+				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, newAddr, 1e18)
 				Expect(err).To(BeNil(), "error while funding account: %v", err)
 
 				s.NextBlock()
@@ -2715,11 +2715,11 @@ var _ = Describe("Batching cosmos and eth interactions", func() {
 		s.NextBlock()
 
 		// Deploy StakingCaller contract
-		contractAddr, err = evmosutil.DeployContract(s.ctx, s.app, s.privKey, s.queryClientEVM, testdata.StakingCallerContract)
+		contractAddr, err = shidoutil.DeployContract(s.ctx, s.app, s.privKey, s.queryClientEVM, testdata.StakingCallerContract)
 		Expect(err).To(BeNil(), "error while deploying the StakingCaller contract")
 
 		// Deploy ERC20 contract
-		erc20ContractAddr, err = evmosutil.DeployContract(s.ctx, s.app, s.privKey, s.queryClientEVM, erc20Contract,
+		erc20ContractAddr, err = shidoutil.DeployContract(s.ctx, s.app, s.privKey, s.queryClientEVM, erc20Contract,
 			erc20Name, erc20Token, erc20Decimals,
 		)
 		Expect(err).To(BeNil(), "error while deploying the ERC20 contract")

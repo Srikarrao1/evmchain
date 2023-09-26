@@ -17,11 +17,11 @@ var (
 	}
 	UatomIbcdenom = UatomDenomtrace.IBCDenom()
 
-	UevmosDenomtrace = transfertypes.DenomTrace{
+	UshidoDenomtrace = transfertypes.DenomTrace{
 		Path:      "transfer/channel-0",
 		BaseDenom: "ashido",
 	}
-	UevmosIbcdenom = UevmosDenomtrace.IBCDenom()
+	UshidoIbcdenom = UshidoDenomtrace.IBCDenom()
 
 	UatomOsmoDenomtrace = transfertypes.DenomTrace{
 		Path:      "transfer/channel-0/transfer/channel-1",

@@ -6,7 +6,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	vestexported "github.com/cosmos/cosmos-sdk/x/auth/vesting/exported"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 
 	"github.com/shido/shido/v2/x/claims/types"
 )
@@ -118,7 +118,7 @@ func (k Keeper) ClawbackEmptyAccounts(ctx sdk.Context, claimsDenom string) {
 		}
 
 		// ignore non ETH accounts
-		if _, isEthAccount := acc.(evmostypes.EthAccountI); !isEthAccount {
+		if _, isEthAccount := acc.(shidotypes.EthAccountI); !isEthAccount {
 			return false
 		}
 

@@ -49,14 +49,14 @@ echo "trust_height: $BLOCK_HEIGHT"
 echo "trust_hash: $TRUST_HASH"
 
 # Export state sync variables.
-export EVMOSD_STATESYNC_ENABLE=true
-export EVMOSD_P2P_MAX_NUM_OUTBOUND_PEERS=200
-export EVMOSD_STATESYNC_RPC_SERVERS="https://rpc.shido.interbloc.org:443,https://shido-rpc.polkachu.com:443,https://tendermint.bd.shido.org:26657,https://rpc.shido.posthuman.digital:443,https://rpc.shido.testnet.run:443,https://rpc.shido.bh.rocks:443"
-export EVMOSD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
-export EVMOSD_STATESYNC_TRUST_HASH=$TRUST_HASH
+export SHIDOD_STATESYNC_ENABLE=true
+export SHIDOD_P2P_MAX_NUM_OUTBOUND_PEERS=200
+export SHIDOD_STATESYNC_RPC_SERVERS="https://rpc.shido.interbloc.org:443,https://shido-rpc.polkachu.com:443,https://tendermint.bd.shido.org:26657,https://rpc.shido.posthuman.digital:443,https://rpc.shido.testnet.run:443,https://rpc.shido.bh.rocks:443"
+export SHIDOD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
+export SHIDOD_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 # Fetch and set list of seeds from chain registry.
-export EVMOSD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/shido/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
+export SHIDOD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/shido/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
 
 # Start chain.
 shidod start --x-crisis-skip-assert-invariants 

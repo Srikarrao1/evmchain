@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // NewIncentive returns an instance of Incentive
@@ -24,7 +24,7 @@ func NewIncentive(
 
 // Validate performs a stateless validation of a Incentive
 func (i Incentive) Validate() error {
-	if err := evmostypes.ValidateAddress(i.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(i.Contract); err != nil {
 		return err
 	}
 

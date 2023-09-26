@@ -6,7 +6,7 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/x/evm/keeper"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
@@ -36,14 +36,14 @@ func (suite *KeeperTestSuite) TestWithChainID() {
 			true,
 		},
 		{
-			"success - Evmos mainnet chain ID",
-			"evmos_9001-2",
+			"success - Shido mainnet chain ID",
+			"shido_9001-2",
 			9001,
 			false,
 		},
 		{
-			"success - Evmos testnet chain ID",
-			"evmos_9000-4",
+			"success - Shido testnet chain ID",
+			"shido_9000-4",
 			9000,
 			false,
 		},
@@ -124,7 +124,7 @@ func (suite *KeeperTestSuite) TestGetAccountStorage() {
 			tc.malleate()
 			i := 0
 			suite.app.AccountKeeper.IterateAccounts(suite.ctx, func(account authtypes.AccountI) bool {
-				ethAccount, ok := account.(evmostypes.EthAccountI)
+				ethAccount, ok := account.(shidotypes.EthAccountI)
 				if !ok {
 					// ignore non EthAccounts
 					return false

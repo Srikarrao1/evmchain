@@ -1,6 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:LGPL-3.0-only
-
 package cli
 
 import (
@@ -14,7 +11,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 
 	"github.com/shido/shido/v2/x/revenue/v1/types"
 )
@@ -56,7 +53,7 @@ func NewRegisterRevenue() *cobra.Command {
 			deployer := cliCtx.GetFromAddress()
 
 			contract := args[0]
-			if err := evmostypes.ValidateNonZeroAddress(contract); err != nil {
+			if err := shidotypes.ValidateNonZeroAddress(contract); err != nil {
 				return fmt.Errorf("invalid contract hex address %w", err)
 			}
 
@@ -114,7 +111,7 @@ func NewCancelRevenue() *cobra.Command {
 			deployer := cliCtx.GetFromAddress()
 
 			contract := args[0]
-			if err := evmostypes.ValidateNonZeroAddress(contract); err != nil {
+			if err := shidotypes.ValidateNonZeroAddress(contract); err != nil {
 				return fmt.Errorf("invalid contract hex address %w", err)
 			}
 
@@ -152,7 +149,7 @@ func NewUpdateRevenue() *cobra.Command {
 			deployer := cliCtx.GetFromAddress()
 
 			contract := args[0]
-			if err := evmostypes.ValidateNonZeroAddress(contract); err != nil {
+			if err := shidotypes.ValidateNonZeroAddress(contract); err != nil {
 				return fmt.Errorf("invalid contract hex address %w", err)
 			}
 

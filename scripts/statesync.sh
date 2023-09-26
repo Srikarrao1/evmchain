@@ -36,15 +36,15 @@ echo "trust_height: $BLOCK_HEIGHT"
 echo "trust_hash: $TRUST_HASH"
 
 # Export state sync variables.
-export EVMOSD_STATESYNC_ENABLE=true
-export EVMOSD_P2P_MAX_NUM_INBOUND_PEERS=200
-export EVMOSD_P2P_MAX_NUM_OUTBOUND_PEERS=200
-export EVMOSD_STATESYNC_RPC_SERVERS="https://shido-rpc.polkachu.com:443,https://rpc-shido-ia.notional.ventures:443"
-export EVMOSD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
-export EVMOSD_STATESYNC_TRUST_HASH=$TRUST_HASH
+export SHIDOD_STATESYNC_ENABLE=true
+export SHIDOD_P2P_MAX_NUM_INBOUND_PEERS=200
+export SHIDOD_P2P_MAX_NUM_OUTBOUND_PEERS=200
+export SHIDOD_STATESYNC_RPC_SERVERS="https://shido-rpc.polkachu.com:443,https://rpc-shido-ia.notional.ventures:443"
+export SHIDOD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
+export SHIDOD_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 # Fetch and set list of seeds from chain registry.
-export EVMOSD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/shido/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
+export SHIDOD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/shido/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
 
 # Start chain.
 # Add the flag --db_backend=pebbledb if you want to use pebble.

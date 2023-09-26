@@ -12,14 +12,14 @@ import (
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	evmoscontracts "github.com/shido/shido/v2/contracts"
-	evmostesting "github.com/shido/shido/v2/ibc/testing"
+	shidocontracts "github.com/shido/shido/v2/contracts"
+	shidotesting "github.com/shido/shido/v2/ibc/testing"
 	"github.com/shido/shido/v2/precompiles/authorization"
 	cmn "github.com/shido/shido/v2/precompiles/common"
 	"github.com/shido/shido/v2/precompiles/ics20"
 	"github.com/shido/shido/v2/precompiles/testutil"
 	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	evmosutil "github.com/shido/shido/v2/testutil"
+	shidoutil "github.com/shido/shido/v2/testutil"
 	teststypes "github.com/shido/shido/v2/types/tests"
 	"github.com/shido/shido/v2/utils"
 	erc20types "github.com/shido/shido/v2/x/erc20/types"
@@ -248,7 +248,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 			Expect(transferAuthz.Allocations[0].SpendLimit).To(Equal(defaultCoins))
 		})
 
-		It("should increase allowance by 1 EVMOS", func() {
+		It("should increase allowance by 1 SHIDO", func() {
 			s.setTransferApproval(defaultCallArgs, s.differentAddr, defaultSingleAlloc)
 
 			increaseAllowanceArgs := defaultCallArgs.
@@ -483,7 +483,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 
 				// To submit a timeoutMsg, the TimeoutPacket function
 				// uses a default fee amount
-				timeoutMsgFee := math.NewInt(evmostesting.DefaultFeeAmt * 2)
+				timeoutMsgFee := math.NewInt(shidotesting.DefaultFeeAmt * 2)
 				fees = fees.Add(timeoutMsgFee)
 
 				finalBalance = s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
@@ -494,7 +494,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 				// initialBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
 
 				// fund senders account
-				err := evmosutil.FundAccountWithBaseDenom(s.chainA.GetContext(), s.app.BankKeeper, s.differentAddr.Bytes(), amt)
+				err := shidoutil.FundAccountWithBaseDenom(s.chainA.GetContext(), s.app.BankKeeper, s.differentAddr.Bytes(), amt)
 				Expect(err).To(BeNil())
 				senderInitialBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.differentAddr.Bytes(), s.bondDenom)
 				Expect(senderInitialBalance.Amount).To(Equal(math.NewInt(amt)))
@@ -552,7 +552,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 				Expect(err).To(BeNil())
 
 				// fund the account from which funds will be sent
-				err = evmosutil.FundAccountWithBaseDenom(s.chainA.GetContext(), s.app.BankKeeper, s.differentAddr.Bytes(), amt)
+				err = shidoutil.FundAccountWithBaseDenom(s.chainA.GetContext(), s.app.BankKeeper, s.differentAddr.Bytes(), amt)
 				Expect(err).To(BeNil())
 				senderInitialBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.differentAddr.Bytes(), s.bondDenom)
 				Expect(senderInitialBalance.Amount).To(Equal(math.NewInt(amt)))
@@ -650,7 +650,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// check Erc20 balance was reduced by sent amount
 					balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -661,7 +661,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// mint some ERC20 to the sender's account
 					defaultERC20CallArgs := contracts.CallArgs{
 						ContractAddr: erc20Addr,
-						ContractABI:  evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						ContractABI:  shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						PrivKey:      s.privKey,
 						GasPrice:     gasPrice,
 					}
@@ -672,7 +672,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 						WithArgs(s.differentAddr, defaultCmnCoins[0].Amount)
 
 					mintCheck := testutil.LogCheckArgs{
-						ABIEvents: evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI.Events,
+						ABIEvents: shidocontracts.ERC20MinterBurnerDecimalsContract.ABI.Events,
 						ExpEvents: []string{"Transfer"}, // upon minting the tokens are sent to the receiving address
 						ExpPass:   true,
 					}
@@ -702,7 +702,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// check funds were not transferred
 					balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.differentAddr,
 					)
@@ -746,7 +746,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// check Erc20 balance was reduced by sent amount (escrowed on ibc escrow account)
 					balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -778,7 +778,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// check escrowed funds are refunded to sender
 					finalERC20balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -824,7 +824,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// check Erc20 balance was reduced by sent amount
 					balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -861,7 +861,7 @@ var _ = Describe("IBCTransfer Precompile", func() {
 					// check escrowed funds are refunded to sender
 					finalERC20balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -1299,7 +1299,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 
 			Context("without authorization", func() {
 				It("should not transfer IBC coin", func() {
-					// initialEvmosBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
+					// initialShidoBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
 
 					_, _, err := contracts.CallContractAndCheckLogs(s.chainA.GetContext(), s.app, defaultTransferIbcCoinArgs, execRevertedCheck)
 					Expect(err).To(HaveOccurred(), "error while calling the smart contract: %v", err)
@@ -1308,7 +1308,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 					// TODO: fees are not calculated correctly with this logic
 					// fees := sdk.NewIntFromBigInt(gasPrice).MulRaw(res.GasUsed)
 					// finalBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
-					// Expect(finalBalance.Amount).To(Equal(initialEvmosBalance.Amount.Sub(fees)))
+					// Expect(finalBalance.Amount).To(Equal(initialShidoBalance.Amount.Sub(fees)))
 
 					// check IBC coins balance remains unchaged
 					finalOsmoBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), ibcDenom)
@@ -1331,7 +1331,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 				})
 
 				It("should transfer IBC coin", func() {
-					initialEvmosBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
+					initialShidoBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
 
 					logCheckArgs := passCheck.WithExpEvents(ics20.EventTypeIBCTransfer)
 
@@ -1355,7 +1355,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 					// check only fees were deducted from sending account
 					fees := sdk.NewIntFromBigInt(gasPrice).MulRaw(res.GasUsed)
 					finalBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), s.bondDenom)
-					Expect(finalBalance.Amount).To(Equal(initialEvmosBalance.Amount.Sub(fees)))
+					Expect(finalBalance.Amount).To(Equal(initialShidoBalance.Amount.Sub(fees)))
 
 					// check sent tokens were deducted from sending account
 					finalOsmoBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), ibcDenom)
@@ -1412,7 +1412,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 					// check Erc20 balance remained unchaged by sent amount
 					balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -1484,7 +1484,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 					// check Erc20 balance was reduced by sent amount
 					balance := s.app.Erc20Keeper.BalanceOf(
 						s.chainA.GetContext(),
-						evmoscontracts.ERC20MinterBurnerDecimalsContract.ABI,
+						shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
 						erc20Addr,
 						s.address,
 					)
@@ -1504,15 +1504,15 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 		})
 
 		Context("transfer 'ashido", func() {
-			var defaultTransferEvmosArgs contracts.CallArgs
+			var defaultTransferShidoArgs contracts.CallArgs
 			BeforeEach(func() {
 				// send some funds to the contract from which the funds will be sent
-				err = evmosutil.FundAccountWithBaseDenom(s.chainA.GetContext(), s.app.BankKeeper, contractAddr.Bytes(), amt)
+				err = shidoutil.FundAccountWithBaseDenom(s.chainA.GetContext(), s.app.BankKeeper, contractAddr.Bytes(), amt)
 				Expect(err).To(BeNil())
 				senderInitialBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), contractAddr.Bytes(), s.bondDenom)
 				Expect(senderInitialBalance.Amount).To(Equal(math.NewInt(amt)))
 
-				defaultTransferEvmosArgs = defaultTransferArgs.WithArgs(
+				defaultTransferShidoArgs = defaultTransferArgs.WithArgs(
 					s.transferPath.EndpointA.ChannelConfig.PortID,
 					s.transferPath.EndpointA.ChannelID,
 					s.bondDenom,
@@ -1528,7 +1528,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 				It("should not transfer funds", func() {
 					initialBalance := s.app.BankKeeper.GetBalance(s.chainA.GetContext(), contractAddr.Bytes(), s.bondDenom)
 
-					_, _, err := contracts.CallContractAndCheckLogs(s.chainA.GetContext(), s.app, defaultTransferEvmosArgs, execRevertedCheck)
+					_, _, err := contracts.CallContractAndCheckLogs(s.chainA.GetContext(), s.app, defaultTransferShidoArgs, execRevertedCheck)
 					Expect(err).To(HaveOccurred(), "error while calling the smart contract: %v", err)
 
 					// check sent tokens remained unchanged from sending account (contract)
@@ -1548,7 +1548,7 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 
 					logCheckArgs := passCheck.WithExpEvents(ics20.EventTypeIBCTransfer)
 
-					res, ethRes, err := contracts.CallContractAndCheckLogs(s.chainA.GetContext(), s.app, defaultTransferEvmosArgs, logCheckArgs)
+					res, ethRes, err := contracts.CallContractAndCheckLogs(s.chainA.GetContext(), s.app, defaultTransferShidoArgs, logCheckArgs)
 					Expect(err).To(BeNil(), "error while calling the smart contract: %v", err)
 
 					out, err := s.precompile.Unpack(ics20.TransferMethod, ethRes.Ret)

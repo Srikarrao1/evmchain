@@ -16,7 +16,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmosapp "github.com/shido/shido/v2/app"
+	shidoapp "github.com/shido/shido/v2/app"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/suite"
 )
@@ -27,7 +27,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *evmosapp.Shido
+	app        *shidoapp.Shido
 	address    common.Address
 	validators []stakingtypes.Validator
 	valSet     *tmtypes.ValidatorSet

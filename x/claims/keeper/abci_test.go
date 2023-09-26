@@ -11,7 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	testutil "github.com/shido/shido/v2/testutil"
 	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/x/claims/types"
 	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
@@ -145,7 +145,7 @@ func (suite *KeeperTestSuite) TestClawbackEmptyAccounts() {
 			types.GenesisDust,
 			func() {
 				baseAccount := authtypes.NewBaseAccount(addr, nil, 0, 0)
-				ethAccount := evmostypes.EthAccount{
+				ethAccount := shidotypes.EthAccount{
 					BaseAccount: baseAccount,
 					CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 				}

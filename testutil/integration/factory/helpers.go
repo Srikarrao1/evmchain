@@ -14,7 +14,7 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	enccodec "github.com/shido/shido/v2/encoding/codec"
 	"github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // buildMsgEthereumTx builds an Ethereum transaction from the given arguments and populates the From field.
@@ -32,7 +32,7 @@ func buildMsgEthereumTx(txArgs evmtypes.EvmTxArgs, fromAddr common.Address) (evm
 
 // signMsgEthereumTx signs a MsgEthereumTx with the provided private key and chainID.
 func signMsgEthereumTx(msgEthereumTx evmtypes.MsgEthereumTx, privKey cryptotypes.PrivKey, chainID string) (evmtypes.MsgEthereumTx, error) {
-	ethChainID, err := evmostypes.ParseChainID(chainID)
+	ethChainID, err := shidotypes.ParseChainID(chainID)
 	if err != nil {
 		return evmtypes.MsgEthereumTx{}, errorsmod.Wrapf(err, "failed to parse chainID: %v", chainID)
 	}

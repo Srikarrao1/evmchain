@@ -3,24 +3,24 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import pytest
 from web3 import Web3
 
-from .network import setup_evmos
+from .network import setup_shido
 from .utils import ADDRS, send_transaction
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_shido(tmp_path_factory):
     path = tmp_path_factory.mktemp("fee-history")
-    yield from setup_evmos(path, 26500)
+    yield from setup_shido(path, 26500)
 
 
-@pytest.fixture(scope="module", params=["evmos", "geth"])
-def cluster(request, custom_evmos, geth):
+@pytest.fixture(scope="module", params=["shido", "geth"])
+def cluster(request, custom_shido, geth):
     """
-    run on both evmos and geth
+    run on both shido and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
+    if provider == "shido":
+        yield custom_shido
     elif provider == "geth":
         yield geth
     else:

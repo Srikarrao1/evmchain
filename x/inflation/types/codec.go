@@ -19,7 +19,7 @@ var (
 
 const (
 	// Amino names
-	updateParamsName = "evmos/inflation/MsgUpdateParams"
+	updateParamsName = "shido/inflation/MsgUpdateParams"
 )
 
 // NOTE: This is required for the GetSignBytes function

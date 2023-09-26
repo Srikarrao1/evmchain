@@ -17,7 +17,7 @@ import (
 
 var (
 	feeAmt     = math.Pow10(16)
-	DefaultFee = sdk.NewCoin(utils.BaseDenom, sdk.NewIntFromUint64(uint64(feeAmt))) // 0.01 EVMOS
+	DefaultFee = sdk.NewCoin(utils.BaseDenom, sdk.NewIntFromUint64(uint64(feeAmt))) // 0.01 SHIDO
 )
 
 // CosmosTxArgs contains the params to create a cosmos tx

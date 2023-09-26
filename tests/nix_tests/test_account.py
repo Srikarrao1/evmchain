@@ -1,28 +1,28 @@
 import pytest
 from web3 import Web3
 
-from .network import setup_evmos
+from .network import setup_shido
 from .utils import ADDRS, derive_new_account, w3_wait_for_new_blocks
 
 
 @pytest.fixture(scope="module")
-def custom_evmos(tmp_path_factory):
+def custom_shido(tmp_path_factory):
     path = tmp_path_factory.mktemp("account")
-    yield from setup_evmos(path, 26700, long_timeout_commit=True)
+    yield from setup_shido(path, 26700, long_timeout_commit=True)
 
 
-@pytest.fixture(scope="module", params=["evmos", "evmos-ws", "geth"])
-def cluster(request, custom_evmos, geth):
+@pytest.fixture(scope="module", params=["shido", "shido-ws", "geth"])
+def cluster(request, custom_shido, geth):
     """
-    run on evmos, evmos websocket and geth
+    run on shido, shido websocket and geth
     """
     provider = request.param
-    if provider == "evmos":
-        yield custom_evmos
-    elif provider == "evmos-ws":
-        evmos_ws = custom_evmos.copy()
-        evmos_ws.use_websocket()
-        yield evmos_ws
+    if provider == "shido":
+        yield custom_shido
+    elif provider == "shido-ws":
+        shido_ws = custom_shido.copy()
+        shido_ws.use_websocket()
+        yield shido_ws
     elif provider == "geth":
         yield geth
     else:

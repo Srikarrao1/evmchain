@@ -24,7 +24,7 @@ import (
 	"github.com/shido/shido/v2/server/config"
 	"github.com/shido/shido/v2/testutil"
 	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/utils"
 	epochstypes "github.com/shido/shido/v2/x/epochs/types"
 	evm "github.com/shido/shido/v2/x/evm/types"
@@ -104,7 +104,7 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 		suite.app.EpochsKeeper.SetEpochInfo(suite.ctx, epoch)
 	}
 
-	acc := &evmostypes.EthAccount{
+	acc := &shidotypes.EthAccount{
 		BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 	}

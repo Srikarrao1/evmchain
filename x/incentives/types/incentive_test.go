@@ -45,7 +45,7 @@ func (suite *IncentiveTestSuite) TestIncentiveNew() {
 		{
 			"Register incentive - invalid allocation denom",
 			utiltx.GenerateAddress(),
-			sdk.DecCoins{{Denom: "(evmos", Amount: sdk.OneDec()}},
+			sdk.DecCoins{{Denom: "(shido", Amount: sdk.OneDec()}},
 			10,
 			false,
 		},

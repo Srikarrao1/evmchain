@@ -37,20 +37,20 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 	// secp256k1 account
 	secpPk := secp256k1.GenPrivKey()
 	secpAddr := sdk.AccAddress(secpPk.PubKey().Address())
-	secpAddrEvmos := secpAddr.String()
+	secpAddrShido := secpAddr.String()
 	secpAddrCosmos := sdk.MustBech32ifyAddressBytes(sdk.Bech32MainPrefix, secpAddr)
 
 	// ethsecp256k1 account
 	ethPk, err := ethsecp256k1.GenerateKey()
 	suite.Require().Nil(err)
 	ethsecpAddr := sdk.AccAddress(ethPk.PubKey().Address())
-	ethsecpAddrEvmos := sdk.AccAddress(ethPk.PubKey().Address()).String()
+	ethsecpAddrShido := sdk.AccAddress(ethPk.PubKey().Address()).String()
 	ethsecpAddrCosmos := sdk.MustBech32ifyAddressBytes(sdk.Bech32MainPrefix, ethsecpAddr)
 
-	// Setup Cosmos <=> Evmos IBC relayer
+	// Setup Cosmos <=> Shido IBC relayer
 	sourceChannel := "channel-292"
-	evmosChannel := claimstypes.DefaultAuthorizedChannels[1]
-	path := fmt.Sprintf("%s/%s", transfertypes.PortID, evmosChannel)
+	shidoChannel := claimstypes.DefaultAuthorizedChannels[1]
+	path := fmt.Sprintf("%s/%s", transfertypes.PortID, shidoChannel)
 
 	timeoutHeight := clienttypes.NewHeight(0, 100)
 	disabledTimeoutTimestamp := uint64(0)
@@ -90,9 +90,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "no-op - erc20 module param disabled",
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", ethsecpAddrEvmos, ethsecpAddrCosmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", ethsecpAddrShido, ethsecpAddrCosmos, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			disableERC20:  true,
@@ -104,9 +104,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "error - invalid sender (no '1')",
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", "evmos", ethsecpAddrCosmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", "shido", ethsecpAddrCosmos, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			ackSuccess:    false,
@@ -119,7 +119,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 			malleate: func() {
 				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", "badba1sv9m0g7ycejwr3s369km58h5qe7xj77hvcxrms", ethsecpAddrCosmos, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			ackSuccess:    false,
@@ -130,9 +130,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "error - invalid recipient (bad address)",
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", ethsecpAddrEvmos, "badbadhf0468jjpe6m6vx38s97z2qqe8ldu0njdyf625", "")
+				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", ethsecpAddrShido, "badbadhf0468jjpe6m6vx38s97z2qqe8ldu0njdyf625", "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			ackSuccess:    false,
@@ -143,7 +143,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "no-op - sender == receiver, not from Evm channel",
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", ethsecpAddrEvmos, ethsecpAddrCosmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", ethsecpAddrShido, ethsecpAddrCosmos, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
 				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, "channel-100", timeoutHeight, 0)
 			},
@@ -159,7 +159,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				secpAddr = suite.app.AccountKeeper.GetModuleAccount(suite.ctx, "erc20").GetAddress()
 				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", secpAddrCosmos, secpAddr.String(), "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			ackSuccess:    true,
 			receiver:      secpAddr,
@@ -173,9 +173,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				// base denom should be prefixed
 				sourcePrefix := transfertypes.GetDenomPrefix(transfertypes.PortID, sourceChannel)
 				prefixedDenom := sourcePrefix + s.app.StakingKeeper.BondDenom(suite.ctx)
-				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "100", secpAddrCosmos, ethsecpAddrEvmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "100", secpAddrCosmos, ethsecpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			ackSuccess:    true,
 			receiver:      ethsecpAddr,
@@ -186,9 +186,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "no-op - pair is not registered",
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData(erc20Denom, "100", secpAddrCosmos, ethsecpAddrEvmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(erc20Denom, "100", secpAddrCosmos, ethsecpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			ackSuccess:    true,
 			receiver:      ethsecpAddr,
@@ -202,10 +202,10 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				pk1 := secp256k1.GenPrivKey()
 				sourcePrefix := transfertypes.GetDenomPrefix(transfertypes.PortID, sourceChannel)
 				prefixedDenom := sourcePrefix + registeredDenom
-				otherSecpAddrEvmos := sdk.AccAddress(pk1.PubKey().Address()).String()
-				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "500", otherSecpAddrEvmos, ethsecpAddrEvmos, "")
+				otherSecpAddrShido := sdk.AccAddress(pk1.PubKey().Address()).String()
+				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "500", otherSecpAddrShido, ethsecpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			ackSuccess: true,
 			receiver:   ethsecpAddr,
@@ -221,9 +221,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "no-op - sender == receiver and is not from evm chain", // getting failed to escrow coins - need to escrow coins
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", secpAddrCosmos, secpAddrEvmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(registeredDenom, "100", secpAddrCosmos, secpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			ackSuccess:    true,
@@ -234,9 +234,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 		{
 			name: "error - invalid denomination", // should fall as unregistered and not transfer any coins, but ack is Success
 			malleate: func() {
-				transfer := transfertypes.NewFungibleTokenPacketData("b/d//s/ss/", "100", ethsecpAddrEvmos, ethsecpAddrCosmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData("b/d//s/ss/", "100", ethsecpAddrShido, ethsecpAddrCosmos, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 1, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			ackSuccess:    true,
@@ -248,14 +248,14 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 			name: "ibc conversion - sender == receiver and from evm chain",
 			malleate: func() {
 				claimsParams := suite.app.ClaimsKeeper.GetParams(suite.ctx)
-				claimsParams.EVMChannels = []string{evmosChannel}
+				claimsParams.EVMChannels = []string{shidoChannel}
 				suite.app.ClaimsKeeper.SetParams(suite.ctx, claimsParams) //nolint:errcheck
 
 				sourcePrefix := transfertypes.GetDenomPrefix(transfertypes.PortID, sourceChannel)
 				prefixedDenom := sourcePrefix + registeredDenom
-				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "100", secpAddrCosmos, secpAddrEvmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "100", secpAddrCosmos, secpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      secpAddr,
 			ackSuccess:    true,
@@ -273,10 +273,10 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				pk1 := secp256k1.GenPrivKey()
 				sourcePrefix := transfertypes.GetDenomPrefix(transfertypes.PortID, sourceChannel)
 				prefixedDenom := sourcePrefix + registeredDenom
-				otherSecpAddrEvmos := sdk.AccAddress(pk1.PubKey().Address()).String()
-				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "500", otherSecpAddrEvmos, ethsecpAddrEvmos, "")
+				otherSecpAddrShido := sdk.AccAddress(pk1.PubKey().Address()).String()
+				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "500", otherSecpAddrShido, ethsecpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      ethsecpAddr,
 			ackSuccess:    true,
@@ -299,9 +299,9 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				sourcePrefix := transfertypes.GetDenomPrefix(transfertypes.PortID, sourceChannel)
 				prefixedDenom := sourcePrefix + registeredDenom
 
-				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "1000", secpAddrCosmos, ethsecpAddrEvmos, "")
+				transfer := transfertypes.NewFungibleTokenPacketData(prefixedDenom, "1000", secpAddrCosmos, ethsecpAddrShido, "")
 				bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
-				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, evmosChannel, timeoutHeight, 0)
+				packet = channeltypes.NewPacket(bz, 100, transfertypes.PortID, sourceChannel, transfertypes.PortID, shidoChannel, timeoutHeight, 0)
 			},
 			receiver:      ethsecpAddr,
 			ackSuccess:    true,
@@ -335,10 +335,10 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				Counterparty:   channeltypes.NewCounterparty(transfertypes.PortID, sourceChannel),
 				ConnectionHops: []string{sourceChannel},
 			}
-			suite.app.IBCKeeper.ChannelKeeper.SetChannel(suite.ctx, transfertypes.PortID, evmosChannel, channel)
+			suite.app.IBCKeeper.ChannelKeeper.SetChannel(suite.ctx, transfertypes.PortID, shidoChannel, channel)
 
 			// Set Next Sequence Send
-			suite.app.IBCKeeper.ChannelKeeper.SetNextSequenceSend(suite.ctx, transfertypes.PortID, evmosChannel, 1)
+			suite.app.IBCKeeper.ChannelKeeper.SetNextSequenceSend(suite.ctx, transfertypes.PortID, shidoChannel, 1)
 
 			suite.app.Erc20Keeper = keeper.NewKeeper(
 				suite.app.GetKey(types.StoreKey),
@@ -351,7 +351,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 				suite.app.ClaimsKeeper,
 			)
 
-			// Fund receiver account with EVMOS, ERC20 coins and IBC vouchers
+			// Fund receiver account with SHIDO, ERC20 coins and IBC vouchers
 			// We do this since we are interested in the conversion portion w/ OnRecvPacket
 			err = testutil.FundAccount(suite.ctx, suite.app.BankKeeper, tc.receiver, coins)
 			suite.Require().NoError(err)
@@ -395,7 +395,7 @@ func (suite *KeeperTestSuite) TestOnRecvPacket() {
 }
 
 func (suite *KeeperTestSuite) TestConvertCoinToERC20FromPacket() {
-	senderAddr := "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
+	senderAddr := "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
 
 	testCases := []struct {
 		name     string
@@ -446,8 +446,8 @@ func (suite *KeeperTestSuite) TestConvertCoinToERC20FromPacket() {
 				sender := sdk.MustAccAddressFromBech32(senderAddr)
 
 				// Mint coins on account to simulate receiving ibc transfer
-				coinEvmos := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
-				coins := sdk.NewCoins(coinEvmos)
+				coinShido := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
+				coins := sdk.NewCoins(coinShido)
 				err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, coins)
 				suite.Require().NoError(err)
 				err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, inflationtypes.ModuleName, sender, coins)
@@ -540,7 +540,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 
 				sender = sdk.AccAddress(senderPk.PubKey().Address())
 
-				// Fund receiver account with EVMOS, ERC20 coins and IBC vouchers
+				// Fund receiver account with SHIDO, ERC20 coins and IBC vouchers
 				// We do this since we are interested in the conversion portion w/ OnRecvPacket
 				err := testutil.FundAccount(
 					suite.ctx,
@@ -567,7 +567,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 
 				sender = sdk.AccAddress(senderPk.PubKey().Address())
 
-				// Fund receiver account with EVMOS, ERC20 coins and IBC vouchers
+				// Fund receiver account with SHIDO, ERC20 coins and IBC vouchers
 				// We do this since we are interested in the conversion portion w/ OnRecvPacket
 				err := testutil.FundAccount(
 					suite.ctx,
@@ -614,7 +614,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 }
 
 func (suite *KeeperTestSuite) TestOnTimeoutPacket() {
-	senderAddr := "evmos1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
+	senderAddr := "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
 
 	testCases := []struct {
 		name     string
@@ -641,8 +641,8 @@ func (suite *KeeperTestSuite) TestOnTimeoutPacket() {
 				sender := sdk.MustAccAddressFromBech32(senderAddr)
 
 				// Mint coins on account to simulate receiving ibc transfer
-				coinEvmos := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
-				coins := sdk.NewCoins(coinEvmos)
+				coinShido := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
+				coins := sdk.NewCoins(coinShido)
 				err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, coins)
 				suite.Require().NoError(err)
 				err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, inflationtypes.ModuleName, sender, coins)

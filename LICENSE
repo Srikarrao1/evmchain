@@ -1,4 +1,4 @@
-Evmos Non-Commercial License
+Shido Non-Commercial License
 
 Version 1.0 dated April 21th, 2023
 
@@ -20,7 +20,7 @@ Licensee must ensure that any third party who gets a copy of any part of the
 Software from Licensee also gets a copy of the terms of this license or the
 respective license URL, as well as copies of any plain-text lines beginning
 with Required Notice that the licensor provided with the software.
-For example: "Required Notice: Copyright Tharsis Labs Ltd. (https://github.com/evmos/evmos)".
+For example: "Required Notice: Copyright Tharsis Labs Ltd. (https://github.com/shido/shido)".
 
 These terms do not allow Licensee to sublicense or transfer any of Licensee’s
 rights to anyone else. These terms do not imply any other licenses not expressly
@@ -29,7 +29,7 @@ granted in this license.
 If Licensee violates any of these terms or uses the Software in a way not
 authorized under this license, the license granted to Licensee ends immediately.
 If Licensee makes, or authorizes any other person to make, any written claim
-that the Software, or any other Evmos Product (see below), infringes or
+that the Software, or any other Shido Product (see below), infringes or
 contributes to the infringement of any patent, all rights granted to Licensee
 under this license end immediately.
 
@@ -41,19 +41,19 @@ claim.
 Terms in this license are used as follows:
 
 “Software” means the blockchain software developed by the Company, which is the
-implementation of the Evmos blockchains available at
-“https://github.com/evmos/evmos” and the Evmos applications at
-“https://github.com/evmos/backend” and “https://github.com/evmos/apps” as may be
+implementation of the Shido blockchains available at
+“https://github.com/shido/shido” and the Shido applications at
+“https://github.com/shido/backend” and “https://github.com/shido/apps” as may be
 updated from time to time.
 
 "Designated Blockchains" refer to the version of the digital blockchain ledger
 that, at any given time, is recognized as canonical in accordance with the
-blockchain consensus. The initial Designated Blockchains shall be the Evmos
+blockchain consensus. The initial Designated Blockchains shall be the Shido
 blockchains, identified by the Ethereum Improvement Proposal 155 (EIP-155)
 chain identifiers 9000 (testing network or "testnet") and 9001 (main network
 or mainnet).
 
-A “Evmos Product” is any product or service offered by the Company or its
+A “Shido Product” is any product or service offered by the Company or its
 affiliates.
 
 “Non-Commercial Use” means academic, scientific, or research and development
@@ -70,4 +70,4 @@ Software or any part of it.
 -----------------------------------------------------------------------------
 
 For more information, please refer to the official ENCL-1.0 FAQ
-(https://github.com/evmos/evmos/blob/main/LICENSE_FAQ).
+(https://github.com/shido/shido/blob/main/LICENSE_FAQ).

@@ -7,7 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govcdc "github.com/cosmos/cosmos-sdk/x/gov/codec"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // constants
@@ -54,7 +54,7 @@ func (*RegisterIncentiveProposal) ProposalType() string {
 
 // ValidateBasic performs a stateless check of the proposal fields
 func (rip *RegisterIncentiveProposal) ValidateBasic() error {
-	if err := evmostypes.ValidateAddress(rip.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(rip.Contract); err != nil {
 		return err
 	}
 
@@ -121,7 +121,7 @@ func (*CancelIncentiveProposal) ProposalType() string {
 
 // ValidateBasic performs a stateless check of the proposal fields
 func (rip *CancelIncentiveProposal) ValidateBasic() error {
-	if err := evmostypes.ValidateAddress(rip.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(rip.Contract); err != nil {
 		return err
 	}
 

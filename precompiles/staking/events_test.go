@@ -91,7 +91,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowanceEvent() {
 		postCheck   func()
 	}{
 		{
-			"success - increased allowance for all 3 methods by 1 evmos",
+			"success - increased allowance for all 3 methods by 1 shido",
 			func() []interface{} {
 				return []interface{}{
 					s.address,
@@ -129,7 +129,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowanceEvent() {
 			err := s.CreateAuthorization(s.address, staking.DelegateAuthz, nil)
 			s.Require().NoError(err)
 
-			// Approve first with 1 evmos
+			// Approve first with 1 shido
 			_, err = s.precompile.Approve(s.ctx, s.address, s.stateDB, &approvalMethod, tc.malleate())
 			s.Require().NoError(err)
 
@@ -158,7 +158,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowanceEvent() {
 		postCheck   func()
 	}{
 		{
-			"success - decreased allowance for all 3 methods by 1 evmos",
+			"success - decreased allowance for all 3 methods by 1 shido",
 			func() []interface{} {
 				return []interface{}{
 					s.address,
@@ -196,7 +196,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowanceEvent() {
 			err := s.CreateAuthorization(s.address, staking.DelegateAuthz, nil)
 			s.Require().NoError(err)
 
-			// Approve first with 2 evmos
+			// Approve first with 2 shido
 			args := []interface{}{
 				s.address,
 				big.NewInt(2000000000000000000),

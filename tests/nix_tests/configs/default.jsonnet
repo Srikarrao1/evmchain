@@ -1,6 +1,6 @@
 {
   dotenv: '../../../scripts/.env',
-  'evmos_9000-1': {
+  'shido_9000-1': {
     cmd: 'shidod',
     'start-flags': '--trace',
     'app-config': {

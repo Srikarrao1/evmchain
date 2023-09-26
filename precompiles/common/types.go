@@ -8,7 +8,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmosutils "github.com/shido/shido/v2/utils"
+	shidoutils "github.com/shido/shido/v2/utils"
 )
 
 var (
@@ -17,13 +17,13 @@ var (
 	// DefaultExpirationDuration is the default duration for an authorization to expire.
 	DefaultExpirationDuration = time.Hour * 24 * 365
 	// DefaultChainID is the standard chain id used for testing purposes
-	DefaultChainID = evmosutils.MainnetChainID + "-1"
+	DefaultChainID = shidoutils.MainnetChainID + "-1"
 	// DefaultPrecompilesBech32 is the standard bech32 address for the precompiles
 	DefaultPrecompilesBech32 = []string{
-		"evmos1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqq4xrkxv", // Staking precompile
-		"evmos1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqpgshrm7", // Distribution precompile
-		"evmos1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqzxrz44p", // ICS20 transfer precompile
-		"evmos1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqrm4kqgn", // Vesting precompile
+		"shido1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqq4xrkxv", // Staking precompile
+		"shido1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqpgshrm7", // Distribution precompile
+		"shido1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqzxrz44p", // ICS20 transfer precompile
+		"shido1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqzqrm4kqgn", // Vesting precompile
 	}
 )
 

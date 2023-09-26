@@ -2,7 +2,7 @@
 // accounts which participated in the Olympus Mons Testnet (November 2021) through
 // completion of the Mars Meteor Missions. The token allocation is in ashido.
 
-// 7.5% of the genesis allocation, totaling to ~7.5M Evmos tokens, was set aside for
+// 7.5% of the genesis allocation, totaling to ~7.5M Shido tokens, was set aside for
 // participants of the incentivized testnet, of which ~5.6M is claimed here. The
 // remaining funds will be sent to the community pool.
 

@@ -128,7 +128,7 @@ func CheckDistributionApprovalArgs(args []interface{}, origin common.Address) (c
 	for i, addr := range allowedList {
 		// If the address is hex, convert it to bech32
 		if common.IsHexAddress(addr) {
-			allowedList[i], err = sdk.Bech32ifyAddressBytes("evmos", common.HexToAddress(addr).Bytes())
+			allowedList[i], err = sdk.Bech32ifyAddressBytes("shido", common.HexToAddress(addr).Bytes())
 			if err != nil {
 				return common.Address{}, nil, nil, fmt.Errorf("failed to convert hex address to bech32: %w", err)
 			}

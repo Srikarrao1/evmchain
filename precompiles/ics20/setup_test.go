@@ -12,8 +12,8 @@ import (
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmosapp "github.com/shido/shido/v2/app"
-	evmosibc "github.com/shido/shido/v2/ibc/testing"
+	shidoapp "github.com/shido/shido/v2/app"
+	shidoibc "github.com/shido/shido/v2/ibc/testing"
 	"github.com/shido/shido/v2/precompiles/ics20"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
@@ -29,7 +29,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx           sdk.Context
-	app           *evmosapp.Shido
+	app           *shidoapp.Shido
 	address       common.Address
 	differentAddr common.Address
 	validators    []stakingtypes.Validator
@@ -45,7 +45,7 @@ type PrecompileTestSuite struct {
 	coordinator    *ibctesting.Coordinator
 	chainA         *ibctesting.TestChain
 	chainB         *ibctesting.TestChain
-	transferPath   *evmosibc.Path
+	transferPath   *shidoibc.Path
 	queryClientEVM evmtypes.QueryClient
 
 	defaultExpirationDuration time.Time

@@ -45,7 +45,7 @@ var err error
 // employee starts before mainnet launch (periodsCliff < lockupPeriod)
 //
 // Example:
-// 21/10 Employee joins Evmos and vesting starts
+// 21/10 Employee joins Shido and vesting starts
 // 22/03 Mainnet launch
 // 22/09 Cliff ends
 // 23/02 Lock ends
@@ -607,7 +607,7 @@ var _ = Describe("Clawback Vesting Accounts", Ordered, func() {
 })
 
 // Example:
-// 21/10 Employee joins Evmos and vesting starts
+// 21/10 Employee joins Shido and vesting starts
 // 22/03 Mainnet launch
 // 22/09 Cliff ends
 // 23/02 Lock ends
@@ -884,7 +884,7 @@ var _ = Describe("Clawback Vesting Accounts - claw back tokens", func() {
 			msgSubmitProposal, err := govv1beta1.NewMsgSubmitProposal(
 				&erc20types.RegisterERC20Proposal{
 					Title:          "test gov upgrade",
-					Description:    "this is an example of a governance proposal to upgrade the evmos app",
+					Description:    "this is an example of a governance proposal to upgrade the shido app",
 					Erc20Addresses: []string{},
 				},
 				sdk.NewCoins(sdk.NewCoin(stakeDenom, sdk.NewInt(1e9))),

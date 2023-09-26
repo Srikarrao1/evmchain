@@ -2,7 +2,7 @@ package types
 
 import (
 	"github.com/ethereum/go-ethereum/common"
-	evmostypes "github.com/shido/shido/v2/types"
+	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // NewGasMeter returns an instance of GasMeter
@@ -20,9 +20,9 @@ func NewGasMeter(
 
 // Validate performs a stateless validation of a Incentive
 func (gm GasMeter) Validate() error {
-	if err := evmostypes.ValidateAddress(gm.Contract); err != nil {
+	if err := shidotypes.ValidateAddress(gm.Contract); err != nil {
 		return err
 	}
 
-	return evmostypes.ValidateAddress(gm.Participant)
+	return shidotypes.ValidateAddress(gm.Participant)
 }

@@ -15,7 +15,7 @@ import (
 	"github.com/shido/shido/v2/precompiles/distribution"
 	"github.com/shido/shido/v2/precompiles/testutil"
 	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	evmosutil "github.com/shido/shido/v2/testutil"
+	shidoutil "github.com/shido/shido/v2/testutil"
 	testutiltx "github.com/shido/shido/v2/testutil/tx"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -266,7 +266,7 @@ var _ = Describe("Calling distribution precompile from EOA", func() {
 		It("should get validator distribution info - validatorDistributionInfo query", func() {
 			addr := sdk.AccAddress(s.validators[0].GetOperator())
 			// fund validator account to make self-delegation
-			err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, addr, 10)
+			err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, addr, 10)
 			Expect(err).To(BeNil())
 			// make a self delegation
 			_, err = s.app.StakingKeeper.Delegate(s.ctx, addr, math.NewInt(1), stakingtypes.Unspecified, s.validators[0], true)
@@ -876,7 +876,7 @@ var _ = Describe("Calling distribution precompile from another contract", func()
 			BeforeEach(func() {
 				addr := sdk.AccAddress(s.validators[0].GetOperator())
 				// fund validator account to make self-delegation
-				err := evmosutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, addr, 10)
+				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, addr, 10)
 				Expect(err).To(BeNil())
 				// make a self delegation
 				_, err = s.app.StakingKeeper.Delegate(s.ctx, addr, math.NewInt(1), stakingtypes.Unspecified, s.validators[0], true)

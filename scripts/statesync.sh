@@ -17,19 +17,19 @@ export PATH=$PATH:~/go/bin
 # go install -ldflags '-w -s -X github.com/cosmos/cosmos-sdk/types.DBBackend=badgerdb' -tags badgerdb ./...
 # go install -ldflags '-w -s -X github.com/cosmos/cosmos-sdk/types.DBBackend=boltdb' -tags boltdb ./...
 # Initialize chain.
-shidod init test --chain-id evmos_9000-2
+shidod init test --chain-id shido_9000-2
 
 # Get Genesis
-wget https://archive.evmos.org/mainnet/genesis.json
+wget https://archive.shido.org/mainnet/genesis.json
 mv genesis.json ~/.shidod/config/
 
-wget -O ~/.shidod/config/adrbook.json https://snapshot.notional.ventures/evmos/addrbook.json
+wget -O ~/.shidod/config/adrbook.json https://snapshot.notional.ventures/shido/addrbook.json
 
 # Get "trust_hash" and "trust_height".
 INTERVAL=1000
-LATEST_HEIGHT=$(curl -s https://evmos-rpc.polkachu.com/block | jq -r .result.block.header.height)
+LATEST_HEIGHT=$(curl -s https://shido-rpc.polkachu.com/block | jq -r .result.block.header.height)
 BLOCK_HEIGHT=$(($LATEST_HEIGHT-$INTERVAL)) 
-TRUST_HASH=$(curl -s "https://evmos-rpc.polkachu.com/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+TRUST_HASH=$(curl -s "https://shido-rpc.polkachu.com/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
 
 # Print out block and transaction hash from which to sync state.
 echo "trust_height: $BLOCK_HEIGHT"
@@ -39,12 +39,12 @@ echo "trust_hash: $TRUST_HASH"
 export EVMOSD_STATESYNC_ENABLE=true
 export EVMOSD_P2P_MAX_NUM_INBOUND_PEERS=200
 export EVMOSD_P2P_MAX_NUM_OUTBOUND_PEERS=200
-export EVMOSD_STATESYNC_RPC_SERVERS="https://evmos-rpc.polkachu.com:443,https://rpc-evmos-ia.notional.ventures:443"
+export EVMOSD_STATESYNC_RPC_SERVERS="https://shido-rpc.polkachu.com:443,https://rpc-shido-ia.notional.ventures:443"
 export EVMOSD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
 export EVMOSD_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 # Fetch and set list of seeds from chain registry.
-export EVMOSD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/evmos/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
+export EVMOSD_P2P_SEEDS=$(curl -s https://raw.githubusercontent.com/cosmos/chain-registry/master/shido/chain.json | jq -r '[foreach .peers.seeds[] as $item (""; "\($item.id)@\($item.address)")] | join(",")')
 
 # Start chain.
 # Add the flag --db_backend=pebbledb if you want to use pebble.

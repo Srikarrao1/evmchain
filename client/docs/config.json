@@ -43,7 +43,7 @@
       }
     },
     {
-      "url": "./tmp-swagger-gen/shido/vesting/v1/query.swagger.json"
+      "url": "./tmp-swagger-gen/shido/vesting/v2/query.swagger.json"
     },
     {
       "url": "./tmp-swagger-gen/shido/recovery/v1/query.swagger.json",

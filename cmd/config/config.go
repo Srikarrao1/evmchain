@@ -8,7 +8,7 @@ import (
 
 const (
 	// Bech32Prefix defines the Bech32 prefix used for EthAccounts
-	Bech32Prefix = "evmos"
+	Bech32Prefix = "shido"
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address
 	Bech32PrefixAccAddr = Bech32Prefix
@@ -26,7 +26,7 @@ const (
 
 const (
 	// DisplayDenom defines the denomination displayed to users in client applications.
-	DisplayDenom = "evmos"
+	DisplayDenom = "shido"
 	// BaseDenom defines to the default denomination used in Evmos (staking, EVM, governance, etc.)
 	BaseDenom = "ashido"
 )

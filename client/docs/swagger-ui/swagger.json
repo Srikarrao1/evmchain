@@ -2786,7 +2786,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/account/{address}": {
+    "/shido/evm/v1/account/{address}": {
       "get": {
         "summary": "Account queries an Ethereum account.",
         "operationId": "Account",
@@ -2864,7 +2864,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/balances/{address}": {
+    "/shido/evm/v1/balances/{address}": {
       "get": {
         "summary": "Balance queries the balance of a the EVM denomination for a single\nEthAccount.",
         "operationId": "Balance",
@@ -2933,7 +2933,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/base_fee": {
+    "/shido/evm/v1/base_fee": {
       "get": {
         "summary": "BaseFee queries the base fee of the parent block of the current block,\nit's similar to feemarket module's method, but also checks london hardfork status.",
         "operationId": "BaseFee",
@@ -2993,7 +2993,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/codes/{address}": {
+    "/shido/evm/v1/codes/{address}": {
       "get": {
         "summary": "Code queries the balance of all coins for a single account.",
         "operationId": "Code",
@@ -3063,7 +3063,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/cosmos_account/{address}": {
+    "/shido/evm/v1/cosmos_account/{address}": {
       "get": {
         "summary": "CosmosAccount queries an Ethereum account's Cosmos Address.",
         "operationId": "CosmosAccount",
@@ -3142,7 +3142,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/estimate_gas": {
+    "/shido/evm/v1/estimate_gas": {
       "get": {
         "summary": "EstimateGas implements the `eth_estimateGas` rpc api",
         "operationId": "EstimateGas",
@@ -3237,7 +3237,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/eth_call": {
+    "/shido/evm/v1/eth_call": {
       "get": {
         "summary": "EthCall implements the `eth_call` rpc api",
         "operationId": "EthCall",
@@ -3398,7 +3398,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/params": {
+    "/shido/evm/v1/params": {
       "get": {
         "summary": "Params queries the parameters of x/evm module.",
         "operationId": "EvmParams",
@@ -3575,7 +3575,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/storage/{address}/{key}": {
+    "/shido/evm/v1/storage/{address}/{key}": {
       "get": {
         "summary": "Storage queries the balance of all coins for a single account.",
         "operationId": "Storage",
@@ -3651,7 +3651,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/trace_block": {
+    "/shido/evm/v1/trace_block": {
       "get": {
         "summary": "TraceBlock implements the `debug_traceBlockByNumber` and `debug_traceBlockByHash` rpc api",
         "operationId": "TraceBlock",
@@ -3966,7 +3966,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/trace_tx": {
+    "/shido/evm/v1/trace_tx": {
       "get": {
         "summary": "TraceTx implements the `debug_traceTransaction` rpc api",
         "operationId": "TraceTx",
@@ -4318,7 +4318,7 @@
         ]
       }
     },
-    "/evmos/evm/v1/validator_account/{cons_address}": {
+    "/shido/evm/v1/validator_account/{cons_address}": {
       "get": {
         "summary": "ValidatorAccount queries an Ethereum account's from a validator consensus\nAddress.",
         "operationId": "ValidatorAccount",
@@ -4397,7 +4397,7 @@
         ]
       }
     },
-    "/evmos/feemarket/v1/base_fee": {
+    "/shido/feemarket/v1/base_fee": {
       "get": {
         "summary": "BaseFee queries the base fee of the parent block of the current block.",
         "operationId": "FeeMarketBaseFee",
@@ -4454,7 +4454,7 @@
         ]
       }
     },
-    "/evmos/feemarket/v1/block_gas": {
+    "/shido/feemarket/v1/block_gas": {
       "get": {
         "summary": "BlockGas queries the gas used at a given block height",
         "operationId": "BlockGas",
@@ -4512,7 +4512,7 @@
         ]
       }
     },
-    "/evmos/feemarket/v1/params": {
+    "/shido/feemarket/v1/params": {
       "get": {
         "summary": "Params queries the parameters of x/feemarket module.",
         "operationId": "FeeMarketParams",

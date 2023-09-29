@@ -7,14 +7,6 @@
   },
   "apis": [
     {
-      "url": "./tmp-swagger-gen/shido/claims/v1/query.swagger.json",
-      "operationIds": {
-        "rename": {
-          "Params": "ClaimsParams"
-        }
-      }
-    },
-    {
       "url": "./tmp-swagger-gen/shido/epochs/v1/query.swagger.json"
     },
     {
@@ -22,23 +14,6 @@
       "operationIds": {
         "rename": {
           "Params": "ERC20Params"
-        }
-      }
-    },
-    {
-      "url": "./tmp-swagger-gen/shido/incentives/v1/query.swagger.json",
-      "operationIds": {
-        "rename": {
-          "Params": "IncentivesParams"
-        }
-      }
-    },
-    {
-      "url": "./tmp-swagger-gen/shido/inflation/v1/query.swagger.json",
-      "operationIds": {
-        "rename": {
-          "Params": "InflationParams",
-          "TotalSupply": "InflationTotalSupply"
         }
       }
     },

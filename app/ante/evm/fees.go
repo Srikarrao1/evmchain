@@ -1,6 +1,7 @@
 package evm
 
 import (
+	"fmt"
 	"math/big"
 
 	errorsmod "cosmossdk.io/errors"
@@ -50,6 +51,8 @@ func NewEthMempoolFeeDecorator(ek EVMKeeper) EthMempoolFeeDecorator {
 func (empd EthMinGasPriceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
 	minGasPrice := empd.feesKeeper.GetParams(ctx).MinGasPrice
 
+	fmt.Println("james hi ==============================", minGasPrice)
+	fmt.Println("tx ==============================", tx.GetMsgs())
 	// short-circuit if min gas price is 0
 	if minGasPrice.IsZero() {
 		return next(ctx, tx, simulate)
@@ -60,6 +63,10 @@ func (empd EthMinGasPriceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simul
 	ethCfg := chainCfg.EthereumConfig(empd.evmKeeper.ChainID())
 	baseFee := empd.evmKeeper.GetBaseFee(ctx, ethCfg)
 
+	fmt.Println("evmParams ==============================", evmParams)
+	fmt.Println("chainCfg ==============================", chainCfg)
+	fmt.Println("ethCfg ==============================", ethCfg)
+	fmt.Println("ethCfg ==============================", ethCfg)
 	for _, msg := range tx.GetMsgs() {
 		ethMsg, ok := msg.(*evmtypes.MsgEthereumTx)
 		if !ok {
@@ -119,6 +126,11 @@ func (mfd EthMempoolFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulat
 	ethCfg := chainCfg.EthereumConfig(mfd.evmKeeper.ChainID())
 
 	baseFee := mfd.evmKeeper.GetBaseFee(ctx, ethCfg)
+	fmt.Println("base fee ==============================", baseFee)
+	fmt.Println(" tx.GetMsgs() ==============================", tx.GetMsgs())
+
+	fmt.Println("chainCfg ==============================", chainCfg)
+	fmt.Println("evmParams ==============================", evmParams)
 	// skip check as the London hard fork and EIP-1559 are enabled
 	if baseFee != nil {
 		return next(ctx, tx, simulate)
@@ -126,7 +138,8 @@ func (mfd EthMempoolFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulat
 
 	evmDenom := evmParams.GetEvmDenom()
 	minGasPrice := ctx.MinGasPrices().AmountOf(evmDenom)
-
+	fmt.Println("evmDenom ==============================", evmDenom)
+	fmt.Println("minGasPrice ==============================", minGasPrice)
 	for _, msg := range tx.GetMsgs() {
 		ethMsg, ok := msg.(*evmtypes.MsgEthereumTx)
 		if !ok {

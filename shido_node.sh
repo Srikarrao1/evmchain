@@ -46,7 +46,7 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	./build/shidod config chain-id $CHAINID --home "$HOMEDIR"
 
 	./build/shidod keys add $KEYS --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
-
+    ./build/shidod keys add bob --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
 	./build/shidod init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
 	# Change parameter token denominations to ashido
@@ -56,6 +56,13 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	jq '.app_state["evm"]["params"]["evm_denom"]="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 	jq '.app_state["inflation"]["params"]["mint_denom"]="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
     jq '.app_state["mint"]["params"]["mint_denom"]="ashido"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+
+
+    # jq '.app_state["feemarket"]["params"]["no_base_fee"]=true' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+    # jq '.app_state["feemarket"]["params"]["base_fee"]="0"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+    # jq '.app_state["feemarket"]["params"]["min_gas_price"]="0"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+
+
 	# Set gas limit in genesis
 	jq '.consensus_params["block"]["max_gas"]="10000000"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 

@@ -120,7 +120,7 @@ import (
 	_ "github.com/shido/shido/v2/client/docs/statik"
 
 	"github.com/shido/shido/v2/app/ante"
-	ethante "github.com/shido/shido/v2/app/ante/evm"
+	// ethante "github.com/shido/shido/v2/app/ante/evm"
 	v10 "github.com/shido/shido/v2/app/upgrades/v10"
 	v11 "github.com/shido/shido/v2/app/upgrades/v11"
 	v12 "github.com/shido/shido/v2/app/upgrades/v12"
@@ -935,6 +935,8 @@ func NewShido(
 func (app *Shido) Name() string { return app.BaseApp.Name() }
 
 func (app *Shido) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
+	// validator := app.StakingKeeper.GetAllValidators(sdk.Context{})
+	// fmt.Println("validators=======", validator)
 	options := ante.HandlerOptions{
 		Cdc:                    app.appCodec,
 		AccountKeeper:          app.AccountKeeper,
@@ -949,7 +951,8 @@ func (app *Shido) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) 
 		SignModeHandler:        txConfig.SignModeHandler(),
 		SigGasConsumer:         ante.SigVerificationGasConsumer,
 		MaxTxGasWanted:         maxGasWanted,
-		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
+		// TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
+		TxFeeChecker: nil,
 	}
 
 	if err := options.Validate(); err != nil {

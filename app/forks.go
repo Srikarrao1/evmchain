@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	v82 "github.com/shido/shido/v2/app/upgrades/v8_2"
+	v1 "github.com/shido/shido/v2/app/upgrades/v1"
 	"github.com/shido/shido/v2/utils"
 )
 
@@ -30,9 +30,9 @@ func (app *Shido) ScheduleForkUpgrade(ctx sdk.Context) {
 
 	// handle mainnet forks with their corresponding upgrade name and info
 	switch ctx.BlockHeight() {
-	case v82.MainnetUpgradeHeight:
-		upgradePlan.Name = v82.UpgradeName
-		upgradePlan.Info = v82.UpgradeInfo
+	case v1.MainnetUpgradeHeight:
+		upgradePlan.Name = v1.UpgradeName
+		upgradePlan.Info = v1.UpgradeInfo
 	default:
 		// No-op
 		return

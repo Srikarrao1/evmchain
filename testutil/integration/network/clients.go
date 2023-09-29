@@ -10,7 +10,6 @@ import (
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 	infltypes "github.com/shido/shido/v2/x/inflation/types"
-	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 func getQueryHelper(ctx sdktypes.Context) *baseapp.QueryServiceTestHelper {
@@ -23,12 +22,6 @@ func (n *IntegrationNetwork) GetEvmClient() evmtypes.QueryClient {
 	queryHelper := getQueryHelper(n.GetContext())
 	evmtypes.RegisterQueryServer(queryHelper, n.app.EvmKeeper)
 	return evmtypes.NewQueryClient(queryHelper)
-}
-
-func (n *IntegrationNetwork) GetRevenueClient() revtypes.QueryClient {
-	queryHelper := getQueryHelper(n.GetContext())
-	revtypes.RegisterQueryServer(queryHelper, n.app.RevenueKeeper)
-	return revtypes.NewQueryClient(queryHelper)
 }
 
 func (n *IntegrationNetwork) GetBankClient() banktypes.QueryClient {

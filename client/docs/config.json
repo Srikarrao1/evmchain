@@ -46,22 +46,6 @@
       "url": "./tmp-swagger-gen/shido/vesting/v2/query.swagger.json"
     },
     {
-      "url": "./tmp-swagger-gen/shido/recovery/v1/query.swagger.json",
-      "operationIds": {
-        "rename": {
-          "Params": "RecoveryParams"
-        }
-      }
-    },
-    {
-      "url": "./tmp-swagger-gen/shido/revenue/v1/query.swagger.json",
-        "operationIds": {
-            "rename": {
-            "Params": "RevenueParams"
-            }
-        }
-    },
-    {
       "url": "./tmp-swagger-gen/ethermint/evm/v1/query.swagger.json",
       "operationIds": {
         "rename": {

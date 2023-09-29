@@ -2,7 +2,7 @@ package v8
 
 const (
 	// UpgradeName is the shared upgrade plan name for mainnet and testnet
-	UpgradeName = "v8.0.0"
+	UpgradeName = "v1.0.0"
 	// MainnetUpgradeHeight defines the Shido mainnet block height on which the upgrade will take place
 	MainnetUpgradeHeight = 3_489_000
 	// TestnetUpgradeHeight defines the Shido testnet block height on which the upgrade will take place

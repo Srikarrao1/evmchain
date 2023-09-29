@@ -121,16 +121,7 @@ import (
 
 	"github.com/shido/shido/v2/app/ante"
 	// ethante "github.com/shido/shido/v2/app/ante/evm"
-	v10 "github.com/shido/shido/v2/app/upgrades/v10"
-	v11 "github.com/shido/shido/v2/app/upgrades/v11"
-	v12 "github.com/shido/shido/v2/app/upgrades/v12"
-	v13 "github.com/shido/shido/v2/app/upgrades/v13"
-	v14 "github.com/shido/shido/v2/app/upgrades/v14"
-	v8 "github.com/shido/shido/v2/app/upgrades/v8"
-	v81 "github.com/shido/shido/v2/app/upgrades/v8_1"
-	v82 "github.com/shido/shido/v2/app/upgrades/v8_2"
-	v9 "github.com/shido/shido/v2/app/upgrades/v9"
-	v91 "github.com/shido/shido/v2/app/upgrades/v9_1"
+	v1 "github.com/shido/shido/v2/app/upgrades/v1"
 	"github.com/shido/shido/v2/encoding"
 	"github.com/shido/shido/v2/ethereum/eip712"
 	"github.com/shido/shido/v2/precompiles/common"
@@ -159,16 +150,10 @@ import (
 	"github.com/shido/shido/v2/x/inflation"
 	inflationkeeper "github.com/shido/shido/v2/x/inflation/keeper"
 	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
-	"github.com/shido/shido/v2/x/recovery"
 
 	"github.com/cosmos/cosmos-sdk/x/mint"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	recoverykeeper "github.com/shido/shido/v2/x/recovery/keeper"
-	recoverytypes "github.com/shido/shido/v2/x/recovery/types"
-	revenue "github.com/shido/shido/v2/x/revenue/v1"
-	revenuekeeper "github.com/shido/shido/v2/x/revenue/v1/keeper"
-	revenuetypes "github.com/shido/shido/v2/x/revenue/v1/types"
 	"github.com/shido/shido/v2/x/vesting"
 	vestingclient "github.com/shido/shido/v2/x/vesting/client"
 	vestingkeeper "github.com/shido/shido/v2/x/vesting/keeper"
@@ -247,8 +232,6 @@ var (
 		incentives.AppModuleBasic{},
 		epochs.AppModuleBasic{},
 		claims.AppModuleBasic{},
-		recovery.AppModuleBasic{},
-		revenue.AppModuleBasic{},
 		consensus.AppModuleBasic{},
 	)
 
@@ -334,8 +317,6 @@ type Shido struct {
 	IncentivesKeeper incentiveskeeper.Keeper
 	EpochsKeeper     epochskeeper.Keeper
 	VestingKeeper    vestingkeeper.Keeper
-	RecoveryKeeper   *recoverykeeper.Keeper
-	RevenueKeeper    revenuekeeper.Keeper
 
 	// the module manager
 	mm *module.Manager
@@ -410,7 +391,6 @@ func NewShido(
 		// shido keys
 		inflationtypes.StoreKey, erc20types.StoreKey, incentivestypes.StoreKey,
 		epochstypes.StoreKey, claimstypes.StoreKey, vestingtypes.StoreKey,
-		revenuetypes.StoreKey, recoverytypes.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -568,12 +548,6 @@ func NewShido(
 		app.AccountKeeper, app.BankKeeper, app.InflationKeeper, app.StakingKeeper, app.EvmKeeper,
 	)
 
-	app.RevenueKeeper = revenuekeeper.NewKeeper(
-		keys[revenuetypes.StoreKey], appCodec, authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.BankKeeper, app.DistrKeeper, app.AccountKeeper, app.EvmKeeper,
-		authtypes.FeeCollectorName,
-	)
-
 	app.TransferKeeper = transferkeeper.NewKeeper(
 		appCodec, keys[ibctransfertypes.StoreKey], app.GetSubspace(ibctransfertypes.ModuleName),
 		app.ClaimsKeeper, // ICS4 Wrapper: claims IBC middleware
@@ -614,27 +588,13 @@ func NewShido(
 		evmkeeper.NewMultiEvmHooks(
 			app.Erc20Keeper.Hooks(),
 			app.IncentivesKeeper.Hooks(),
-			app.RevenueKeeper.Hooks(),
 			app.ClaimsKeeper.Hooks(),
 		),
-	)
-
-	app.RecoveryKeeper = recoverykeeper.NewKeeper(
-		keys[recoverytypes.StoreKey],
-		appCodec,
-		authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper,
-		app.BankKeeper,
-		app.IBCKeeper.ChannelKeeper,
-		app.TransferKeeper,
-		app.ClaimsKeeper,
 	)
 
 	// NOTE: app.Erc20Keeper is already initialized elsewhere
 
 	// Set the ICS4 wrappers for custom module middlewares
-	app.RecoveryKeeper.SetICS4Wrapper(app.IBCKeeper.ChannelKeeper)
-	app.ClaimsKeeper.SetICS4Wrapper(app.RecoveryKeeper)
 
 	// Override the ICS20 app module
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
@@ -659,15 +619,14 @@ func NewShido(
 
 		transfer stack contains (from bottom to top):
 			- ERC-20 Middleware
-		 	- Recovery Middleware
 		 	- Airdrop Claims Middleware
 			- IBC Transfer
 
 		SendPacket, since it is originating from the application to core IBC:
-		 	transferKeeper.SendPacket -> claim.SendPacket -> recovery.SendPacket -> erc20.SendPacket -> channel.SendPacket
+		 	transferKeeper.SendPacket -> claim.SendPacket -> erc20.SendPacket -> channel.SendPacket
 
 		RecvPacket, message that originates from core IBC and goes down to app, the flow is the other way
-			channel.RecvPacket -> erc20.OnRecvPacket -> recovery.OnRecvPacket -> claim.OnRecvPacket -> transfer.OnRecvPacket
+			channel.RecvPacket -> erc20.OnRecvPacket -> claim.OnRecvPacket -> transfer.OnRecvPacket
 	*/
 
 	// create IBC module from top to bottom of stack
@@ -675,7 +634,6 @@ func NewShido(
 
 	transferStack = transfer.NewIBCModule(app.TransferKeeper)
 	transferStack = claims.NewIBCMiddleware(*app.ClaimsKeeper, transferStack)
-	transferStack = recovery.NewIBCMiddleware(*app.RecoveryKeeper, transferStack)
 	transferStack = erc20.NewIBCMiddleware(app.Erc20Keeper, transferStack)
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -741,10 +699,6 @@ func NewShido(
 		claims.NewAppModule(appCodec, *app.ClaimsKeeper,
 			app.GetSubspace(claimstypes.ModuleName)),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
-		recovery.NewAppModule(*app.RecoveryKeeper,
-			app.GetSubspace(recoverytypes.ModuleName)),
-		revenue.NewAppModule(app.RevenueKeeper, app.AccountKeeper,
-			app.GetSubspace(revenuetypes.ModuleName)),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -782,8 +736,6 @@ func NewShido(
 		erc20types.ModuleName,
 		claimstypes.ModuleName,
 		incentivestypes.ModuleName,
-		recoverytypes.ModuleName,
-		revenuetypes.ModuleName,
 		consensusparamtypes.ModuleName,
 	)
 
@@ -818,8 +770,6 @@ func NewShido(
 		inflationtypes.ModuleName,
 		erc20types.ModuleName,
 		incentivestypes.ModuleName,
-		recoverytypes.ModuleName,
-		revenuetypes.ModuleName,
 		consensusparamtypes.ModuleName,
 	)
 
@@ -861,8 +811,6 @@ func NewShido(
 		erc20types.ModuleName,
 		incentivestypes.ModuleName,
 		epochstypes.ModuleName,
-		recoverytypes.ModuleName,
-		revenuetypes.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
 		consensusparamtypes.ModuleName,
@@ -1228,109 +1176,15 @@ func initParamsKeeper(
 	paramsKeeper.Subspace(erc20types.ModuleName)
 	paramsKeeper.Subspace(claimstypes.ModuleName)
 	paramsKeeper.Subspace(incentivestypes.ModuleName)
-	paramsKeeper.Subspace(recoverytypes.ModuleName)
-	paramsKeeper.Subspace(revenuetypes.ModuleName)
 	return paramsKeeper
 }
 
 func (app *Shido) setupUpgradeHandlers() {
 	// v8 upgrade handler
 	app.UpgradeKeeper.SetUpgradeHandler(
-		v8.UpgradeName,
-		v8.CreateUpgradeHandler(
+		v1.UpgradeName,
+		v1.CreateUpgradeHandler(
 			app.mm, app.configurator,
-		),
-	)
-
-	// v8.1 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v81.UpgradeName,
-		v81.CreateUpgradeHandler(
-			app.mm, app.configurator,
-		),
-	)
-
-	// v8.2 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v82.UpgradeName,
-		v82.CreateUpgradeHandler(
-			app.mm, app.configurator,
-		),
-	)
-
-	// v9 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v9.UpgradeName,
-		v9.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.DistrKeeper,
-		),
-	)
-
-	// v9.1 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v91.UpgradeName,
-		v91.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.DistrKeeper,
-		),
-	)
-
-	// v10 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v10.UpgradeName,
-		v10.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.StakingKeeper,
-		),
-	)
-
-	// v11 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v11.UpgradeName,
-		v11.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.AccountKeeper,
-			app.BankKeeper,
-			app.StakingKeeper,
-			app.DistrKeeper,
-		),
-	)
-
-	// v12 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v12.UpgradeName,
-		v12.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.DistrKeeper,
-		),
-	)
-
-	// v13 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v13.UpgradeName,
-		v13.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			*app.EvmKeeper,
-		),
-	)
-
-	// !! ATTENTION !!
-	// v14 upgrade handler
-	// !! WHEN UPGRADING TO SDK v0.47 MAKE SURE TO INCLUDE THIS
-	// source: https://github.com/cosmos/cosmos-sdk/blob/release/v0.47.x/UPGRADING.md#xconsensus
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v14.UpgradeName,
-		v14.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.BankKeeper,
-			app.EvmKeeper,
-			app.StakingKeeper,
-			app.VestingKeeper,
-			app.ConsensusParamsKeeper,
-			app.IBCKeeper.ClientKeeper,
-			app.ParamsKeeper,
-			app.appCodec,
 		),
 	)
 
@@ -1349,46 +1203,7 @@ func (app *Shido) setupUpgradeHandlers() {
 	var storeUpgrades *storetypes.StoreUpgrades
 
 	switch upgradeInfo.Name {
-	case v8.UpgradeName:
-		// add revenue module for testnet (v7 -> v8)
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{"feesplit"},
-		}
-	case v81.UpgradeName:
-		// NOTE: store upgrade for mainnet was not registered and was replaced by
-		// the v8.2 upgrade.
-	case v82.UpgradeName:
-		// add  missing revenue module for mainnet (v8.1 -> v8.2)
-		// IMPORTANT: this upgrade CANNOT be executed for testnet!
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added:   []string{revenuetypes.ModuleName},
-			Deleted: []string{"feesplit"},
-		}
-	case v9.UpgradeName, v91.UpgradeName:
-		// no store upgrade in v9 or v9.1
-	case v10.UpgradeName:
-		// no store upgrades in v10
-	case v11.UpgradeName:
-		// add ica host submodule in v11
-		// initialize recovery store
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{icahosttypes.SubModuleName, recoverytypes.StoreKey},
-		}
-	case v12.UpgradeName:
-		// no store upgrades
-	case v13.UpgradeName:
-		// no store upgrades
-	case v14.UpgradeName:
-		// !! ATTENTION !!
-		// !! WHEN UPGRADING TO SDK v0.47 MAKE SURE TO INCLUDE THIS
-		// source: https://github.com/cosmos/cosmos-sdk/blob/release/v0.47.x/UPGRADING.md
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{
-				consensusparamtypes.StoreKey,
-				crisistypes.ModuleName,
-			},
-		}
-		// !! ATTENTION !!
+	case v1.UpgradeName:
 	}
 
 	if storeUpgrades != nil {

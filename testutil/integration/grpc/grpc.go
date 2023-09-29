@@ -8,7 +8,6 @@ import (
 	"github.com/shido/shido/v2/testutil/integration/network"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
-	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 // Handler is an interface that defines the methods that are used to query
@@ -27,10 +26,6 @@ type Handler interface {
 
 	// FeeMarket methods
 	GetBaseFee() (*feemarkettypes.QueryBaseFeeResponse, error)
-
-	// Revenue methods
-	GetRevenue(address common.Address) (*revtypes.QueryRevenueResponse, error)
-	GetRevenueParams() (*revtypes.QueryParamsResponse, error)
 }
 
 var _ Handler = (*IntegrationHandler)(nil)

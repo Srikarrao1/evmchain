@@ -18,7 +18,6 @@ import (
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 	infltypes "github.com/shido/shido/v2/x/inflation/types"
-	revtypes "github.com/shido/shido/v2/x/revenue/v1/types"
 )
 
 // Network is the interface that wraps the methods to interact with integration test network.
@@ -34,7 +33,6 @@ type Network interface {
 	NextBlock() error
 
 	GetEvmClient() evmtypes.QueryClient
-	GetRevenueClient() revtypes.QueryClient
 	GetInflationClient() infltypes.QueryClient
 	GetBankClient() banktypes.QueryClient
 	GetFeeMarketClient() feemarkettypes.QueryClient
@@ -42,7 +40,6 @@ type Network interface {
 
 	// Because to update the module params on a conventional manner governance
 	// would be require, we should provide an easier way to update the params
-	UpdateRevenueParams(params revtypes.Params) error
 	UpdateInflationParams(params infltypes.Params) error
 	UpdateEvmParams(params evmtypes.Params) error
 

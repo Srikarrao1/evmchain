@@ -29,12 +29,10 @@ import (
 	utiltx "github.com/shido/shido/v2/testutil/tx"
 	teststypes "github.com/shido/shido/v2/types/tests"
 	"github.com/shido/shido/v2/utils"
-	claimstypes "github.com/shido/shido/v2/x/claims/types"
 	"github.com/shido/shido/v2/x/erc20/types"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evm "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -169,9 +167,9 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	suite.Require().True(ok)
 	coinShido := sdk.NewCoin(utils.BaseDenom, amt)
 	coins := sdk.NewCoins(coinShido)
-	err = s.app.BankKeeper.MintCoins(suite.ShidoChain.GetContext(), inflationtypes.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(suite.ShidoChain.GetContext(), "", coins)
 	suite.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ShidoChain.GetContext(), inflationtypes.ModuleName, suite.ShidoChain.SenderAccount.GetAddress(), coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ShidoChain.GetContext(), "", suite.ShidoChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
 	// we need some coins in the bankkeeper to be able to register the coins later
@@ -209,12 +207,6 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.MintCoins(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, stkCoin)
 	suite.Require().NoError(err)
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.SendCoinsFromModuleToAccount(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, suite.IBCCosmosChain.SenderAccount.GetAddress(), stkCoin)
-	suite.Require().NoError(err)
-
-	claimparams := claimstypes.DefaultParams()
-	claimparams.AirdropStartTime = suite.ShidoChain.GetContext().BlockTime()
-	claimparams.EnableClaims = true
-	err = s.app.ClaimsKeeper.SetParams(suite.ShidoChain.GetContext(), claimparams)
 	suite.Require().NoError(err)
 
 	params := types.DefaultParams()

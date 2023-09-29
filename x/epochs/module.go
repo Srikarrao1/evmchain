@@ -117,7 +117,7 @@ func (am AppModule) Name() string {
 	return am.AppModuleBasic.Name()
 }
 
-// NewHandler returns nil inflation module doesn't expose tx gRPC endpoints
+// NewHandler returns nil module doesn't expose tx gRPC endpoints
 func (am AppModule) NewHandler() sdk.Handler {
 	return nil
 }

@@ -21,8 +21,6 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	epochstypes "github.com/shido/shido/v2/x/epochs/types"
-	infltypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 // createValidatorSet creates validator set with the amount of validators specified
@@ -172,16 +170,6 @@ func setStakingGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisStat
 func setAuthGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisState, genAccounts []authtypes.GenesisAccount) simapp.GenesisState {
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccounts)
 	genesisState[authtypes.ModuleName] = shidoApp.AppCodec().MustMarshalJSON(authGenesis)
-	return genesisState
-}
-
-// setInflationGenesisState sets the inflation genesis state
-func setInflationGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisState) simapp.GenesisState {
-	inflationParams := infltypes.DefaultParams()
-	inflationParams.EnableInflation = false
-
-	inflationGenesis := infltypes.NewGenesisState(inflationParams, uint64(0), epochstypes.DayEpochID, 365, 0)
-	genesisState[infltypes.ModuleName] = shidoApp.AppCodec().MustMarshalJSON(&inflationGenesis)
 	return genesisState
 }
 

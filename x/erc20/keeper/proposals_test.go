@@ -17,7 +17,6 @@ import (
 
 	"github.com/shido/shido/v2/x/erc20/keeper"
 	"github.com/shido/shido/v2/x/erc20/types"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 const (
@@ -97,7 +96,7 @@ func (suite *KeeperTestSuite) setupRegisterERC20Pair(contractType int) common.Ad
 }
 
 func (suite *KeeperTestSuite) setupRegisterCoin(metadata banktypes.Metadata) *types.TokenPair {
-	err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
+	err := suite.app.BankKeeper.MintCoins(suite.ctx, "", sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
 	suite.Require().NoError(err)
 
 	// pair := types.NewTokenPair(contractAddr, cosmosTokenBase, true, types.OWNER_MODULE)
@@ -179,7 +178,7 @@ func (suite KeeperTestSuite) TestRegisterCoin() { //nolint:govet // we can copy 
 					Display: cosmosTokenDisplay,
 				}
 
-				err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, sdk.Coins{sdk.NewInt64Coin(validMetadata.Base, 1)})
+				err := suite.app.BankKeeper.MintCoins(suite.ctx, "", sdk.Coins{sdk.NewInt64Coin(validMetadata.Base, 1)})
 				suite.Require().NoError(err)
 				suite.app.BankKeeper.SetDenomMetaData(suite.ctx, validMetadata)
 			},
@@ -189,7 +188,7 @@ func (suite KeeperTestSuite) TestRegisterCoin() { //nolint:govet // we can copy 
 			"ok",
 			func() {
 				metadata.Base = cosmosTokenBase
-				err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
+				err := suite.app.BankKeeper.MintCoins(suite.ctx, "", sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
 				suite.Require().NoError(err)
 			},
 			true,
@@ -198,7 +197,7 @@ func (suite KeeperTestSuite) TestRegisterCoin() { //nolint:govet // we can copy 
 			"force fail evm",
 			func() {
 				metadata.Base = cosmosTokenBase
-				err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
+				err := suite.app.BankKeeper.MintCoins(suite.ctx, "", sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
 				suite.Require().NoError(err)
 
 				mockEVMKeeper := &MockEVMKeeper{}
@@ -206,7 +205,7 @@ func (suite KeeperTestSuite) TestRegisterCoin() { //nolint:govet // we can copy 
 				suite.app.Erc20Keeper = keeper.NewKeeper(
 					suite.app.GetKey("erc20"), suite.app.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), suite.app.AccountKeeper,
-					suite.app.BankKeeper, mockEVMKeeper, suite.app.StakingKeeper, suite.app.ClaimsKeeper)
+					suite.app.BankKeeper, mockEVMKeeper, suite.app.StakingKeeper)
 
 				mockEVMKeeper.On("EstimateGas", mock.Anything, mock.Anything).Return(&evmtypes.EstimateGasResponse{Gas: uint64(200)}, nil)
 				mockEVMKeeper.On("ApplyMessage", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil, fmt.Errorf("forced ApplyMessage error"))
@@ -217,7 +216,7 @@ func (suite KeeperTestSuite) TestRegisterCoin() { //nolint:govet // we can copy 
 			"force delete module account evm",
 			func() {
 				metadata.Base = cosmosTokenBase
-				err := suite.app.BankKeeper.MintCoins(suite.ctx, inflationtypes.ModuleName, sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
+				err := suite.app.BankKeeper.MintCoins(suite.ctx, "", sdk.Coins{sdk.NewInt64Coin(metadata.Base, 1)})
 				suite.Require().NoError(err)
 
 				acc := suite.app.AccountKeeper.GetAccount(suite.ctx, types.ModuleAddress.Bytes())
@@ -296,7 +295,7 @@ func (suite KeeperTestSuite) TestRegisterERC20() { //nolint:govet // we can copy
 				suite.app.Erc20Keeper = keeper.NewKeeper(
 					suite.app.GetKey("erc20"), suite.app.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), suite.app.AccountKeeper,
-					suite.app.BankKeeper, mockEVMKeeper, suite.app.StakingKeeper, suite.app.ClaimsKeeper)
+					suite.app.BankKeeper, mockEVMKeeper, suite.app.StakingKeeper)
 
 				mockEVMKeeper.On("EstimateGas", mock.Anything, mock.Anything).Return(&evmtypes.EstimateGasResponse{Gas: uint64(200)}, nil)
 				mockEVMKeeper.On("ApplyMessage", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil, fmt.Errorf("forced ApplyMessage error"))

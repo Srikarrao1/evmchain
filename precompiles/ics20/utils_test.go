@@ -42,7 +42,6 @@ import (
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 
 	. "github.com/onsi/gomega"
 )
@@ -412,9 +411,9 @@ func (s *PrecompileTestSuite) setupIBCTest() {
 	s.Require().True(ok)
 	coinShido := sdk.NewCoin(utils.BaseDenom, amt)
 	coins := sdk.NewCoins(coinShido)
-	err = s.app.BankKeeper.MintCoins(s.chainA.GetContext(), inflationtypes.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(s.chainA.GetContext(), "", coins)
 	s.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(s.chainA.GetContext(), inflationtypes.ModuleName, s.chainA.SenderAccount.GetAddress(), coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(s.chainA.GetContext(), "", s.chainA.SenderAccount.GetAddress(), coins)
 	s.Require().NoError(err)
 
 	s.transferPath = shidoibc.NewTransferPath(s.chainA, s.chainB) // clientID, connectionID, channelID empty

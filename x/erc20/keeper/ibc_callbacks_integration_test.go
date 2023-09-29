@@ -16,10 +16,8 @@ import (
 	"github.com/shido/shido/v2/app"
 	"github.com/shido/shido/v2/contracts"
 	ibctesting "github.com/shido/shido/v2/ibc/testing"
-	"github.com/shido/shido/v2/testutil"
 	teststypes "github.com/shido/shido/v2/types/tests"
 	"github.com/shido/shido/v2/utils"
-	claimstypes "github.com/shido/shido/v2/x/claims/types"
 	"github.com/shido/shido/v2/x/erc20/types"
 )
 
@@ -261,72 +259,6 @@ var _ = Describe("Convert receiving IBC to Erc20", Ordered, func() {
 		})
 	})
 
-	Describe("Performing claims with registered coin", func() {
-		BeforeEach(func() {
-			s.app.Erc20Keeper.SetParams(s.ShidoChain.GetContext(), types.DefaultParams()) //nolint:errcheck
-
-			sender = s.IBCOsmosisChain.SenderAccount.GetAddress().String()
-			// receiver address is on Osmosis Chain also,
-			// but funds are transferred to this address in Shido chain
-			receiver = s.ShidoChain.SenderAccount.GetAddress().String()
-			senderAcc = sdk.MustAccAddressFromBech32(sender)
-			receiverAcc = sdk.MustAccAddressFromBech32(receiver)
-
-			// Register uosmo pair
-			var err error
-			pair, err = s.app.Erc20Keeper.RegisterCoin(s.ShidoChain.GetContext(), osmoMeta)
-			s.Require().NoError(err)
-
-			// Authorize channel-0 for claims (Shido-Osmosis)
-			params := s.app.ClaimsKeeper.GetParams(s.ShidoChain.GetContext())
-			params.AuthorizedChannels = []string{
-				"channel-0",
-			}
-			s.app.ClaimsKeeper.SetParams(s.ShidoChain.GetContext(), params) //nolint:errcheck
-		})
-		It("it should perform the claim and convert the received tokens", func() {
-			// Register claims record
-			initialClaimAmount := sdk.NewInt(100)
-			claimableAmount := sdk.NewInt(25)
-			s.app.ClaimsKeeper.SetClaimsRecord(s.ShidoChain.GetContext(), senderAcc, claimstypes.ClaimsRecord{
-				InitialClaimableAmount: initialClaimAmount,
-				ActionsCompleted:       []bool{true, true, true, false},
-			})
-
-			// escrow coins in module
-			coins := sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, claimableAmount))
-			err := testutil.FundModuleAccount(s.ShidoChain.GetContext(), s.app.BankKeeper, claimstypes.ModuleName, coins)
-			s.Require().NoError(err)
-
-			receiverInitialAshidoBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
-
-			uosmoInitialBalance := s.IBCOsmosisChain.GetSimApp().BankKeeper.GetBalance(s.IBCOsmosisChain.GetContext(), senderAcc, "uosmo")
-
-			// Send 'uosmo' from Osmosis address with claims to Shido address
-			// send the corresponding amount to trigger the claim
-			amount, _ := strconv.ParseInt(claimstypes.IBCTriggerAmt, 10, 64)
-			s.SendAndReceiveMessage(s.pathOsmosisShido, s.IBCOsmosisChain, "uosmo", amount, sender, receiver, 1, "")
-
-			// should trigger claims logic and send ashido coins from claims to receiver
-
-			// ERC-20 balance should be the transferred amount
-			balanceTokenAfter := s.app.Erc20Keeper.BalanceOf(s.ShidoChain.GetContext(), contracts.ERC20MinterBurnerDecimalsContract.ABI, pair.GetERC20Contract(), common.BytesToAddress(receiverAcc.Bytes()))
-			s.Require().Equal(amount, balanceTokenAfter.Int64())
-
-			// IBC coin balance should be zero
-			ibcCoinsBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, teststypes.UosmoIbcdenom)
-			s.Require().Equal(int64(0), ibcCoinsBalance.Amount.Int64())
-
-			// validate that Osmosis address balance is correct
-			uosmoFinalBalance := s.IBCOsmosisChain.GetSimApp().BankKeeper.GetBalance(s.IBCOsmosisChain.GetContext(), senderAcc, "uosmo")
-			s.Require().Equal(uosmoInitialBalance.Amount.Int64()-amount, uosmoFinalBalance.Amount.Int64())
-
-			// validate that Receiver address on Shido got the claims tokens
-			receiverFinalAshidoBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
-
-			s.Require().Equal(receiverInitialAshidoBalance.Amount.Add(claimableAmount).Sub(sendBackCoinsFee), receiverFinalAshidoBalance.Amount)
-		})
-	})
 	Describe("registered erc20", func() {
 		BeforeEach(func() { //nolint:dupl
 			erc20params := types.DefaultParams()

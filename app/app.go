@@ -127,9 +127,6 @@ import (
 	"github.com/shido/shido/v2/precompiles/common"
 	srvflags "github.com/shido/shido/v2/server/flags"
 	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/x/claims"
-	claimskeeper "github.com/shido/shido/v2/x/claims/keeper"
-	claimstypes "github.com/shido/shido/v2/x/claims/types"
 	"github.com/shido/shido/v2/x/epochs"
 	epochskeeper "github.com/shido/shido/v2/x/epochs/keeper"
 	epochstypes "github.com/shido/shido/v2/x/epochs/types"
@@ -143,13 +140,6 @@ import (
 	"github.com/shido/shido/v2/x/feemarket"
 	feemarketkeeper "github.com/shido/shido/v2/x/feemarket/keeper"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
-	"github.com/shido/shido/v2/x/incentives"
-	incentivesclient "github.com/shido/shido/v2/x/incentives/client"
-	incentiveskeeper "github.com/shido/shido/v2/x/incentives/keeper"
-	incentivestypes "github.com/shido/shido/v2/x/incentives/types"
-	"github.com/shido/shido/v2/x/inflation"
-	inflationkeeper "github.com/shido/shido/v2/x/inflation/keeper"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 
 	"github.com/cosmos/cosmos-sdk/x/mint"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
@@ -209,7 +199,6 @@ var (
 				ibcclientclient.UpdateClientProposalHandler, ibcclientclient.UpgradeProposalHandler,
 				// Shido proposal types
 				erc20client.RegisterCoinProposalHandler, erc20client.RegisterERC20ProposalHandler, erc20client.ToggleTokenConversionProposalHandler,
-				incentivesclient.RegisterIncentiveProposalHandler, incentivesclient.CancelIncentiveProposalHandler,
 				vestingclient.RegisterClawbackProposalHandler,
 			},
 		),
@@ -227,11 +216,8 @@ var (
 		vesting.AppModuleBasic{},
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
-		inflation.AppModuleBasic{},
 		erc20.AppModuleBasic{},
-		incentives.AppModuleBasic{},
 		epochs.AppModuleBasic{},
-		claims.AppModuleBasic{},
 		consensus.AppModuleBasic{},
 	)
 
@@ -246,16 +232,11 @@ var (
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		icatypes.ModuleName:            nil,
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
-		inflationtypes.ModuleName:      {authtypes.Minter},
 		erc20types.ModuleName:          {authtypes.Minter, authtypes.Burner},
-		claimstypes.ModuleName:         nil,
-		incentivestypes.ModuleName:     {authtypes.Minter, authtypes.Burner},
 	}
 
-	// module accounts that are allowed to receive tokens
-	allowedReceivingModAcc = map[string]bool{
-		incentivestypes.ModuleName: true,
-	}
+	// // module accounts that are allowed to receive tokens
+	allowedReceivingModAcc = map[string]bool{}
 )
 
 var (
@@ -311,12 +292,9 @@ type Shido struct {
 	FeeMarketKeeper feemarketkeeper.Keeper
 
 	// Shido keepers
-	InflationKeeper  inflationkeeper.Keeper
-	ClaimsKeeper     *claimskeeper.Keeper
-	Erc20Keeper      erc20keeper.Keeper
-	IncentivesKeeper incentiveskeeper.Keeper
-	EpochsKeeper     epochskeeper.Keeper
-	VestingKeeper    vestingkeeper.Keeper
+	Erc20Keeper   erc20keeper.Keeper
+	EpochsKeeper  epochskeeper.Keeper
+	VestingKeeper vestingkeeper.Keeper
 
 	// the module manager
 	mm *module.Manager
@@ -389,8 +367,8 @@ func NewShido(
 		// ethermint keys
 		evmtypes.StoreKey, feemarkettypes.StoreKey,
 		// shido keys
-		inflationtypes.StoreKey, erc20types.StoreKey, incentivestypes.StoreKey,
-		epochstypes.StoreKey, claimstypes.StoreKey, vestingtypes.StoreKey,
+		erc20types.StoreKey,
+		epochstypes.StoreKey, vestingtypes.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -493,7 +471,6 @@ func NewShido(
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(&app.UpgradeKeeper)).
 		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
 		AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper)).
-		AddRoute(incentivestypes.RouterKey, incentives.NewIncentivesProposalHandler(&app.IncentivesKeeper)).
 		AddRoute(vestingtypes.RouterKey, vesting.NewVestingProposalHandler(&app.VestingKeeper))
 
 	govConfig := govtypes.Config{
@@ -508,16 +485,6 @@ func NewShido(
 	govKeeper.SetLegacyRouter(govRouter)
 
 	// Shido Keeper
-	app.InflationKeeper = inflationkeeper.NewKeeper(
-		keys[inflationtypes.StoreKey], appCodec, authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, app.DistrKeeper, stakingKeeper,
-		authtypes.FeeCollectorName,
-	)
-
-	app.ClaimsKeeper = claimskeeper.NewKeeper(
-		appCodec, keys[claimstypes.StoreKey], authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, stakingKeeper, app.DistrKeeper, app.IBCKeeper.ChannelKeeper,
-	)
 
 	// register the staking hooks
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
@@ -526,7 +493,6 @@ func NewShido(
 		stakingtypes.NewMultiStakingHooks(
 			app.DistrKeeper.Hooks(),
 			app.SlashingKeeper.Hooks(),
-			app.ClaimsKeeper.Hooks(),
 		),
 	)
 
@@ -540,17 +506,12 @@ func NewShido(
 
 	app.Erc20Keeper = erc20keeper.NewKeeper(
 		keys[erc20types.StoreKey], appCodec, authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, app.EvmKeeper, app.StakingKeeper, app.ClaimsKeeper,
-	)
-
-	app.IncentivesKeeper = incentiveskeeper.NewKeeper(
-		keys[incentivestypes.StoreKey], appCodec, authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, app.InflationKeeper, app.StakingKeeper, app.EvmKeeper,
+		app.AccountKeeper, app.BankKeeper, app.EvmKeeper, app.StakingKeeper,
 	)
 
 	app.TransferKeeper = transferkeeper.NewKeeper(
 		appCodec, keys[ibctransfertypes.StoreKey], app.GetSubspace(ibctransfertypes.ModuleName),
-		app.ClaimsKeeper, // ICS4 Wrapper: claims IBC middleware
+		app.IBCKeeper.ChannelKeeper, // ICS4 Wrapper: claims IBC middleware
 		app.IBCKeeper.ChannelKeeper, &app.IBCKeeper.PortKeeper,
 		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
 		app.Erc20Keeper, // Add ERC20 Keeper for ERC20 transfers
@@ -571,15 +532,13 @@ func NewShido(
 	epochsKeeper := epochskeeper.NewKeeper(appCodec, keys[epochstypes.StoreKey])
 	app.EpochsKeeper = *epochsKeeper.SetHooks(
 		epochskeeper.NewMultiEpochHooks(
-			// insert epoch hooks receivers here
-			app.IncentivesKeeper.Hooks(),
-			app.InflationKeeper.Hooks(),
+		// insert epoch hooks receivers here
+		// app.InflationKeeper.Hooks(),
 		),
 	)
 
 	app.GovKeeper = *govKeeper.SetHooks(
 		govtypes.NewMultiGovHooks(
-			app.ClaimsKeeper.Hooks(),
 			app.VestingKeeper.Hooks(),
 		),
 	)
@@ -587,8 +546,6 @@ func NewShido(
 	app.EvmKeeper = app.EvmKeeper.SetHooks(
 		evmkeeper.NewMultiEvmHooks(
 			app.Erc20Keeper.Hooks(),
-			app.IncentivesKeeper.Hooks(),
-			app.ClaimsKeeper.Hooks(),
 		),
 	)
 
@@ -603,7 +560,7 @@ func NewShido(
 	app.ICAHostKeeper = icahostkeeper.NewKeeper(
 		appCodec, app.keys[icahosttypes.StoreKey],
 		app.GetSubspace(icahosttypes.SubModuleName),
-		app.ClaimsKeeper,
+		app.IBCKeeper.ChannelKeeper,
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		app.AccountKeeper,
@@ -633,7 +590,7 @@ func NewShido(
 	var transferStack porttypes.IBCModule
 
 	transferStack = transfer.NewIBCModule(app.TransferKeeper)
-	transferStack = claims.NewIBCMiddleware(*app.ClaimsKeeper, transferStack)
+	// transferStack = claims.NewIBCMiddleware(*app.ClaimsKeeper, transferStack)
 	transferStack = erc20.NewIBCMiddleware(app.Erc20Keeper, transferStack)
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -689,15 +646,9 @@ func NewShido(
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
 		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
 		// Shido app modules
-		inflation.NewAppModule(app.InflationKeeper, app.AccountKeeper, app.StakingKeeper,
-			app.GetSubspace(inflationtypes.ModuleName)),
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper,
 			app.GetSubspace(erc20types.ModuleName)),
-		incentives.NewAppModule(app.IncentivesKeeper, app.AccountKeeper,
-			app.GetSubspace(incentivestypes.ModuleName)),
 		epochs.NewAppModule(appCodec, app.EpochsKeeper),
-		claims.NewAppModule(appCodec, *app.ClaimsKeeper,
-			app.GetSubspace(claimstypes.ModuleName)),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 	)
 
@@ -732,10 +683,7 @@ func NewShido(
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
-		inflationtypes.ModuleName,
 		erc20types.ModuleName,
-		claimstypes.ModuleName,
-		incentivestypes.ModuleName,
 		consensusparamtypes.ModuleName,
 	)
 
@@ -748,7 +696,6 @@ func NewShido(
 		feemarkettypes.ModuleName,
 		// Note: epochs' endblock should be "real" end of epochs, we keep epochs endblock at the end
 		epochstypes.ModuleName,
-		claimstypes.ModuleName,
 		// no-op modules
 		ibcexported.ModuleName,
 		ibctransfertypes.ModuleName,
@@ -767,9 +714,7 @@ func NewShido(
 		minttypes.ModuleName,
 		// Shido modules
 		vestingtypes.ModuleName,
-		inflationtypes.ModuleName,
 		erc20types.ModuleName,
-		incentivestypes.ModuleName,
 		consensusparamtypes.ModuleName,
 	)
 
@@ -785,7 +730,6 @@ func NewShido(
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		// NOTE: staking requires the claiming hook
-		claimstypes.ModuleName,
 		stakingtypes.ModuleName,
 		slashingtypes.ModuleName,
 		govtypes.ModuleName,
@@ -807,9 +751,7 @@ func NewShido(
 		minttypes.ModuleName,
 		// Shido modules
 		vestingtypes.ModuleName,
-		inflationtypes.ModuleName,
 		erc20types.ModuleName,
-		incentivestypes.ModuleName,
 		epochstypes.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
@@ -1172,10 +1114,7 @@ func initParamsKeeper(
 	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable()) //nolint:staticcheck
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
 	// shido subspaces
-	paramsKeeper.Subspace(inflationtypes.ModuleName)
 	paramsKeeper.Subspace(erc20types.ModuleName)
-	paramsKeeper.Subspace(claimstypes.ModuleName)
-	paramsKeeper.Subspace(incentivestypes.ModuleName)
 	return paramsKeeper
 }
 

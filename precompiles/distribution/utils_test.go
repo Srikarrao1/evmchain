@@ -29,7 +29,6 @@ import (
 	"github.com/shido/shido/v2/utils"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 // SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
@@ -185,17 +184,6 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 	precompile, err := distribution.NewPrecompile(s.app.DistrKeeper, s.app.AuthzKeeper)
 	s.Require().NoError(err)
 	s.precompile = precompile
-
-	coins := sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(5000000000000000000)))
-	inflCoins := sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(2000000000000000000)))
-	distrCoins := sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(3000000000000000000)))
-	err = s.app.BankKeeper.MintCoins(s.ctx, inflationtypes.ModuleName, coins)
-	s.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToModule(s.ctx, inflationtypes.ModuleName, authtypes.FeeCollectorName, inflCoins)
-	s.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToModule(s.ctx, inflationtypes.ModuleName, distrtypes.ModuleName, distrCoins)
-	s.Require().NoError(err)
-
 	queryHelperEvm := baseapp.NewQueryServerTestHelper(s.ctx, s.app.InterfaceRegistry())
 	evmtypes.RegisterQueryServer(queryHelperEvm, s.app.EvmKeeper)
 	s.queryClientEVM = evmtypes.NewQueryClient(queryHelperEvm)

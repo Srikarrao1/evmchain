@@ -23,7 +23,6 @@ import (
 	teststypes "github.com/shido/shido/v2/types/tests"
 	"github.com/shido/shido/v2/utils"
 	erc20types "github.com/shido/shido/v2/x/erc20/types"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -1277,9 +1276,9 @@ var _ = Describe("Calling ICS20 precompile from another contract", func() {
 				)
 
 				// Mint IBC coins and add them to sender balance
-				err = s.app.BankKeeper.MintCoins(s.chainA.GetContext(), inflationtypes.ModuleName, coins)
+				err = s.app.BankKeeper.MintCoins(s.chainA.GetContext(), "", coins)
 				s.Require().NoError(err)
-				err = s.app.BankKeeper.SendCoinsFromModuleToAccount(s.chainA.GetContext(), inflationtypes.ModuleName, s.chainA.SenderAccount.GetAddress(), coins)
+				err = s.app.BankKeeper.SendCoinsFromModuleToAccount(s.chainA.GetContext(), "", s.chainA.SenderAccount.GetAddress(), coins)
 				s.Require().NoError(err)
 
 				initialOsmoBalance = s.app.BankKeeper.GetBalance(s.chainA.GetContext(), s.address.Bytes(), ibcDenom)

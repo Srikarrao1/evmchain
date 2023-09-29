@@ -9,7 +9,6 @@ import (
 	"github.com/shido/shido/v2/encoding"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
-	infltypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 func getQueryHelper(ctx sdktypes.Context) *baseapp.QueryServiceTestHelper {
@@ -34,12 +33,6 @@ func (n *IntegrationNetwork) GetFeeMarketClient() feemarkettypes.QueryClient {
 	queryHelper := getQueryHelper(n.GetContext())
 	feemarkettypes.RegisterQueryServer(queryHelper, n.app.FeeMarketKeeper)
 	return feemarkettypes.NewQueryClient(queryHelper)
-}
-
-func (n *IntegrationNetwork) GetInflationClient() infltypes.QueryClient {
-	queryHelper := getQueryHelper(n.GetContext())
-	infltypes.RegisterQueryServer(queryHelper, n.app.InflationKeeper)
-	return infltypes.NewQueryClient(queryHelper)
 }
 
 func (n *IntegrationNetwork) GetAuthClient() authtypes.QueryClient {

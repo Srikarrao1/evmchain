@@ -17,7 +17,6 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
-	infltypes "github.com/shido/shido/v2/x/inflation/types"
 )
 
 // Network is the interface that wraps the methods to interact with integration test network.
@@ -33,14 +32,12 @@ type Network interface {
 	NextBlock() error
 
 	GetEvmClient() evmtypes.QueryClient
-	GetInflationClient() infltypes.QueryClient
 	GetBankClient() banktypes.QueryClient
 	GetFeeMarketClient() feemarkettypes.QueryClient
 	GetAuthClient() authtypes.QueryClient
 
 	// Because to update the module params on a conventional manner governance
 	// would be require, we should provide an easier way to update the params
-	UpdateInflationParams(params infltypes.Params) error
 	UpdateEvmParams(params evmtypes.Params) error
 
 	BroadcastTxSync(txBytes []byte) (abcitypes.ResponseDeliverTx, error)
@@ -129,7 +126,7 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 	}
 	genesisState = setStakingGenesisState(shidoApp, genesisState, stakingParams)
 
-	genesisState = setInflationGenesisState(shidoApp, genesisState)
+	// genesisState = setInflationGenesisState(shidoApp, genesisState)
 
 	totalSupply := calculateTotalSupply(fundedAccountBalances)
 	bankParams := BankCustomGenesisState{

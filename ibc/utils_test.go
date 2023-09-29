@@ -3,7 +3,6 @@ package ibc
 import (
 	"testing"
 
-	"github.com/shido/shido/v2/x/claims/types"
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -208,11 +207,11 @@ func TestGetTransferAmount(t *testing.T) {
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
 						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
-						Amount:   types.IBCTriggerAmt,
+						Amount:   "",
 					},
 				),
 			},
-			types.IBCTriggerAmt,
+			"",
 			false,
 		},
 	}

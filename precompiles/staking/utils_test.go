@@ -37,7 +37,6 @@ import (
 	"github.com/shido/shido/v2/utils"
 	"github.com/shido/shido/v2/x/evm/statedb"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	inflationtypes "github.com/shido/shido/v2/x/inflation/types"
 	"golang.org/x/exp/slices"
 )
 
@@ -197,9 +196,9 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 
 	coins := sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(5000000000000000000)))
 	distrCoins := sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(2000000000000000000)))
-	err = s.app.BankKeeper.MintCoins(s.ctx, inflationtypes.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(s.ctx, "", coins)
 	s.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToModule(s.ctx, inflationtypes.ModuleName, authtypes.FeeCollectorName, distrCoins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToModule(s.ctx, "", authtypes.FeeCollectorName, distrCoins)
 	s.Require().NoError(err)
 
 	queryHelperEvm := baseapp.NewQueryServerTestHelper(s.ctx, s.app.InterfaceRegistry())

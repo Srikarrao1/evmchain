@@ -90,9 +90,12 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 
 	fmt.Println("feePayer ==========", feePayer.String())
 	fmt.Println("feeGranter ==========", feeGranter.String())
+	// Check if the fee payer is a validator or delegator and set the fee to 0 if true.
+	if check || len(delegator) != 0 {
+		fee = sdk.NewCoins()
 
-	//====================== feee check implement here not sure about that ==============================
-	// if check==true ||
+	}
+	// The feePayer is neither a validator nor a delegator, process the fee as usual.
 	if err = dfd.deductFee(ctx, tx, fee, feePayer, feeGranter); err != nil {
 		fmt.Println("hello1234 ==========")
 		return ctx, err

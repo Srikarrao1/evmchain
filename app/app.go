@@ -841,7 +841,7 @@ func (app *Shido) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) 
 		SignModeHandler:        txConfig.SignModeHandler(),
 		SigGasConsumer:         ante.SigVerificationGasConsumer,
 		MaxTxGasWanted:         maxGasWanted,
-		 TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
+		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
 		
 	}
 

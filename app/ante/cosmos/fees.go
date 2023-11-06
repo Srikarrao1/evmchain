@@ -68,9 +68,7 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 		err      error
 	)
 
-	fmt.Println("hello4444 ==========")
 	fee := feeTx.GetFee()
-	fmt.Println("hello421 ==========", fee)
 
 	if !simulate {
 		fee, priority, err = dfd.txFeeChecker(ctx, feeTx)
@@ -89,7 +87,7 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 	fmt.Println("hello world=======", delegator)
 
 	fmt.Println("feePayer ==========", feePayer.String())
-	fmt.Println("feeGranter ==========", feeGranter.String())
+
 	// Check if the fee payer is a validator or delegator and set the fee to 0 if true.
 	if check || len(delegator) != 0 {
 		fee = sdk.NewCoins()
@@ -97,7 +95,7 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 	}
 	// The feePayer is neither a validator nor a delegator, process the fee as usual.
 	if err = dfd.deductFee(ctx, tx, fee, feePayer, feeGranter); err != nil {
-		fmt.Println("hello1234 ==========")
+
 		return ctx, err
 	}
 
@@ -119,9 +117,6 @@ func (dfd DeductFeeDecorator) deductFee(ctx sdk.Context, sdkTx sdk.Tx, fees sdk.
 
 	// by default, deduct fees from feePayer address
 	deductFeesFrom := feePayer
-	fmt.Println("hello ==========", deductFeesFrom.String())
-	fmt.Println("hello ==========", feePayer.String())
-	fmt.Println("hello ==========", feePayer)
 	// if feegranter is set, then deduct the fee from the feegranter account.
 	// this works only when feegrant is enabled.
 	if feeGranter != nil {

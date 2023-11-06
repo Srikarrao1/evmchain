@@ -1,18 +1,75 @@
 package evm
 
 import (
+	"fmt"
 	"math"
 
 	errorsmod "cosmossdk.io/errors"
 	sdkmath "cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	//"github.com/cosmos/cosmos-sdk/types/address"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
+
 	anteutils "github.com/shido/shido/v2/app/ante/utils"
 	shidotypes "github.com/shido/shido/v2/types"
 	"github.com/shido/shido/v2/x/evm/types"
 )
+
+var isGenesistxn = true
+
+type GetValidator struct {
+	stakingKeeper    anteutils.StakingKeeper
+	dynamicfeeKeeper anteutils.DynamicFeeEVMKeeper
+}
+
+func NewDecorator(
+	sk anteutils.StakingKeeper,
+	dk anteutils.DynamicFeeEVMKeeper,
+) GetValidator {
+	return GetValidator{
+		stakingKeeper:    sk,
+		dynamicfeeKeeper: dk,
+	}
+}
+
+func (sk GetValidator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (sdk.Context, error) {
+	feeTx, ok := tx.(sdk.FeeTx)
+	if !ok {
+		return ctx, errorsmod.Wrap(errortypes.ErrTxDecode, "Tx must be a FeeTx")
+	}
+
+	var (
+		priority int64
+	)
+	feePayer := feeTx.FeePayer()
+	fmt.Println("feepayer address=========", feePayer.String())
+	validator, check := sk.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
+	delegator := sk.stakingKeeper.GetDelegatorDelegations(ctx, feePayer.Bytes(), 10)
+	fmt.Println("=============val address", validator)
+	fmt.Println("validator check ===", check)
+	fmt.Println("=============del address", delegator)
+	params := sk.dynamicfeeKeeper.GetParams(ctx)
+	denom := params.EvmDenom
+	gas := feeTx.GetGas()
+	feeCoins := feeTx.GetFee()
+	fee := feeCoins.AmountOfNoDenomValidation(denom)
+
+	feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
+	fmt.Println("===========================fee", feeCap)
+	if isGenesistxn == false {
+		if check == false && (len(delegator) == 0) && fee.IsZero() {
+			// If the fee payer is neither a delegator nor a validator and the fees are zero, return an error
+			return ctx, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: required:. Please retry using a higher gas price or a higher fee")
+		}
+	}
+	isGenesistxn = false
+
+	newCtx := ctx.WithPriority(priority)
+	return next(newCtx, tx, simulate)
+
+}
 
 // NewDynamicFeeChecker returns a `TxFeeChecker` that applies a dynamic fee to
 // Cosmos txs using the EIP-1559 fee market logic.
@@ -24,6 +81,7 @@ import (
 // - Tx priority is set to `effectiveGasPrice / DefaultPriorityReduction`.
 func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) anteutils.TxFeeChecker {
 	return func(ctx sdk.Context, feeTx sdk.FeeTx) (sdk.Coins, int64, error) {
+
 		if ctx.BlockHeight() == 0 {
 			// genesis transactions: fallback to min-gas-price logic
 			return checkTxFeeWithValidatorMinGasPrices(ctx, feeTx)
@@ -64,10 +122,10 @@ func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) anteutils.TxFeeChecker {
 		feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
 		baseFeeInt := sdkmath.NewIntFromBigInt(baseFee)
 
-		if feeCap.LT(baseFeeInt) {
-			return nil, 0, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: %s%s required: %s%s. Please retry using a higher gas price or a higher fee", feeCap, denom, baseFeeInt, denom)
-		}
-
+		// if feeCap.LT(baseFeeInt) {
+		// 	return nil, 0, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: %s%s required: %s%s. Please retry using a higher gas price or a higher fee", feeCap, denom, baseFeeInt, denom)
+		// }
+	
 		// calculate the effective gas price using the EIP-1559 logic.
 		effectivePrice := sdkmath.NewIntFromBigInt(types.EffectiveGasPrice(baseFeeInt.BigInt(), feeCap.BigInt(), maxPriorityPrice.BigInt()))
 
@@ -93,6 +151,7 @@ func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) anteutils.TxFeeChecker {
 // checkTxFeeWithValidatorMinGasPrices implements the default fee logic, where the minimum price per
 // unit of gas is fixed and set by each validator, and the tx priority is computed from the gas price.
 func checkTxFeeWithValidatorMinGasPrices(ctx sdk.Context, tx sdk.FeeTx) (sdk.Coins, int64, error) {
+
 	feeCoins := tx.GetFee()
 	minGasPrices := ctx.MinGasPrices()
 	gas := int64(tx.GetGas()) //#nosec G701 -- checked for int overflow on ValidateBasic()

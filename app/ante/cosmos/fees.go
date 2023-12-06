@@ -19,6 +19,7 @@ import (
 // The next AnteHandler is called if fees are successfully deducted.
 //
 // CONTRACT: Tx must implement FeeTx interface to use DeductFeeDecorator
+
 type DeductFeeDecorator struct {
 	accountKeeper      authante.AccountKeeper
 	bankKeeper         BankKeeper
@@ -77,22 +78,18 @@ func (dfd DeductFeeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 		}
 	}
 
+	// zero fee check for validators and delegators
 	feePayer := feeTx.FeePayer()
 	feeGranter := feeTx.FeeGranter()
-	validators, check := dfd.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
+	_, check := dfd.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
 	delegator := dfd.stakingKeeper.GetDelegatorDelegations(ctx, feePayer.Bytes(), 10)
-	fmt.Println("hello world=======", validators)
-	fmt.Println("hello world=======", check)
-
-	fmt.Println("hello world=======", delegator)
-
-	fmt.Println("feePayer ==========", feePayer.String())
 
 	// Check if the fee payer is a validator or delegator and set the fee to 0 if true.
 	if check || len(delegator) != 0 {
 		fee = sdk.NewCoins()
 
 	}
+
 	// The feePayer is neither a validator nor a delegator, process the fee as usual.
 	if err = dfd.deductFee(ctx, tx, fee, feePayer, feeGranter); err != nil {
 
@@ -117,6 +114,7 @@ func (dfd DeductFeeDecorator) deductFee(ctx sdk.Context, sdkTx sdk.Tx, fees sdk.
 
 	// by default, deduct fees from feePayer address
 	deductFeesFrom := feePayer
+
 	// if feegranter is set, then deduct the fee from the feegranter account.
 	// this works only when feegrant is enabled.
 	if feeGranter != nil {

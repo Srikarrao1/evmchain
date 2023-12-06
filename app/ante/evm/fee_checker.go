@@ -1,7 +1,6 @@
 package evm
 
 import (
-	"fmt"
 	"math"
 
 	errorsmod "cosmossdk.io/errors"
@@ -44,26 +43,23 @@ func (sk GetValidator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, nex
 		priority int64
 	)
 	feePayer := feeTx.FeePayer()
-	fmt.Println("feepayer address=========", feePayer.String())
-	validator, check := sk.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
+	_, check := sk.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
 	delegator := sk.stakingKeeper.GetDelegatorDelegations(ctx, feePayer.Bytes(), 10)
-	fmt.Println("=============val address", validator)
-	fmt.Println("validator check ===", check)
-	fmt.Println("=============del address", delegator)
+
 	params := sk.dynamicfeeKeeper.GetParams(ctx)
 	denom := params.EvmDenom
-	gas := feeTx.GetGas()
+	// gas := feeTx.GetGas()
 	feeCoins := feeTx.GetFee()
 	fee := feeCoins.AmountOfNoDenomValidation(denom)
+	// feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
 
-	feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
-	fmt.Println("===========================fee", feeCap)
 	if isGenesistxn == false {
 		if check == false && (len(delegator) == 0) && fee.IsZero() {
 			// If the fee payer is neither a delegator nor a validator and the fees are zero, return an error
 			return ctx, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: required:. Please retry using a higher gas price or a higher fee")
 		}
 	}
+
 	isGenesistxn = false
 
 	newCtx := ctx.WithPriority(priority)
@@ -120,12 +116,13 @@ func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) anteutils.TxFeeChecker {
 		fee := feeCoins.AmountOfNoDenomValidation(denom)
 
 		feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
+
 		baseFeeInt := sdkmath.NewIntFromBigInt(baseFee)
 
 		// if feeCap.LT(baseFeeInt) {
 		// 	return nil, 0, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: %s%s required: %s%s. Please retry using a higher gas price or a higher fee", feeCap, denom, baseFeeInt, denom)
 		// }
-	
+
 		// calculate the effective gas price using the EIP-1559 logic.
 		effectivePrice := sdkmath.NewIntFromBigInt(types.EffectiveGasPrice(baseFeeInt.BigInt(), feeCap.BigInt(), maxPriorityPrice.BigInt()))
 

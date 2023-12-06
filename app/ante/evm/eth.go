@@ -146,6 +146,15 @@ func (egcd EthGasConsumeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simula
 		return next(newCtx, tx, simulate)
 	}
 
+	//Zero Fee check for validator and delgators
+	feeTx, ok := tx.(sdk.FeeTx)
+	if !ok {
+		return ctx, errorsmod.Wrap(errortypes.ErrTxDecode, "Tx must be a FeeTx")
+	}
+	feePayer := feeTx.FeePayer()
+	_, check := egcd.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
+	delegator := egcd.stakingKeeper.GetDelegatorDelegations(ctx, feePayer.Bytes(), 10)
+
 	evmParams := egcd.evmKeeper.GetParams(ctx)
 	evmDenom := evmParams.GetEvmDenom()
 	chainCfg := evmParams.GetChainConfig()
@@ -184,6 +193,12 @@ func (egcd EthGasConsumeDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simula
 		}
 
 		fees, err := keeper.VerifyFee(txData, evmDenom, baseFee, homestead, istanbul, ctx.IsCheckTx())
+
+		// Check if the fee payer is a validator or delegator and set the fee to 0 if true.
+		if check || len(delegator) != 0 {
+			fees = sdk.NewCoins()
+		}
+
 		if err != nil {
 			return ctx, errorsmod.Wrapf(err, "failed to verify the fees")
 		}

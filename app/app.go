@@ -120,7 +120,7 @@ import (
 	_ "github.com/shido/shido/v2/client/docs/statik"
 
 	"github.com/shido/shido/v2/app/ante"
-	// ethante "github.com/shido/shido/v2/app/ante/evm"
+	ethante "github.com/shido/shido/v2/app/ante/evm"
 	v1 "github.com/shido/shido/v2/app/upgrades/v1"
 	"github.com/shido/shido/v2/encoding"
 	"github.com/shido/shido/v2/ethereum/eip712"
@@ -841,8 +841,8 @@ func (app *Shido) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) 
 		SignModeHandler:        txConfig.SignModeHandler(),
 		SigGasConsumer:         ante.SigVerificationGasConsumer,
 		MaxTxGasWanted:         maxGasWanted,
-		// TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
-		TxFeeChecker: nil,
+		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EvmKeeper),
+		
 	}
 
 	if err := options.Validate(); err != nil {

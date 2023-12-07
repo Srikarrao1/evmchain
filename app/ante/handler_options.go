@@ -1,6 +1,8 @@
 package ante
 
 import (
+	//"os"
+
 	errorsmod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -72,9 +74,9 @@ func (options HandlerOptions) Validate() error {
 	if options.DistributionKeeper == nil {
 		return errorsmod.Wrap(errortypes.ErrLogic, "distribution keeper is required for AnteHandler")
 	}
-	// if options.TxFeeChecker == nil {
-	// 	return errorsmod.Wrap(errortypes.ErrLogic, "tx fee checker is required for AnteHandler")
-	// }
+	if options.TxFeeChecker == nil {
+		return errorsmod.Wrap(errortypes.ErrLogic, "tx fee checker is required for AnteHandler")
+	}
 	return nil
 }
 
@@ -97,6 +99,7 @@ func newEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		evmante.NewGasWantedDecorator(options.EvmKeeper, options.FeeMarketKeeper),
 		// emit eth tx hash and index at the very last ante handler.
 		evmante.NewEthEmitEventDecorator(options.EvmKeeper),
+		evmante.NewDecorator(options.StakingKeeper,options.EvmKeeper),
 	)
 }
 
@@ -125,6 +128,7 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		ante.NewIncrementSequenceDecorator(options.AccountKeeper),
 		ibcante.NewRedundantRelayDecorator(options.IBCKeeper),
 		evmante.NewGasWantedDecorator(options.EvmKeeper, options.FeeMarketKeeper),
+		evmante.NewDecorator(options.StakingKeeper,options.EvmKeeper),
 	)
 }
 

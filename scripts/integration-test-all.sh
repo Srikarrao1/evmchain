@@ -70,7 +70,7 @@ init_func() {
     "$PWD"/build/shidod keys add $KEY"$i" --keyring-backend test --home "$DATA_DIR$i" --no-backup --algo "eth_secp256k1"
     "$PWD"/build/shidod init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
     "$PWD"/build/shidod add-genesis-account \
-    "$("$PWD"/build/shidod keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000ashido,1000000000000000000stake \
+    "$("$PWD"/build/shidod keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000shido,1000000000000000000stake \
     --keyring-backend test --home "$DATA_DIR$i"
     "$PWD"/build/shidod gentx "$KEY$i" 1000000000000000000stake --chain-id $CHAINID --keyring-backend test --home "$DATA_DIR$i"
     "$PWD"/build/shidod collect-gentxs --home "$DATA_DIR$i"

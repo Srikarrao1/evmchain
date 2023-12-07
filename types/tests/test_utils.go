@@ -19,7 +19,7 @@ var (
 
 	UshidoDenomtrace = transfertypes.DenomTrace{
 		Path:      "transfer/channel-0",
-		BaseDenom: "ashido",
+		BaseDenom: "shido",
 	}
 	UshidoIbcdenom = UshidoDenomtrace.IBCDenom()
 
@@ -31,7 +31,7 @@ var (
 
 	AshidoDenomtrace = transfertypes.DenomTrace{
 		Path:      "transfer/channel-0",
-		BaseDenom: "ashido",
+		BaseDenom: "shido",
 	}
 	AshidoIbcdenom = AshidoDenomtrace.IBCDenom()
 )

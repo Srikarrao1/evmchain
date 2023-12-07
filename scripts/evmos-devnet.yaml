@@ -3,7 +3,7 @@ shido_9000-1:
   cmd: shidod
   start-flags: "--trace"
   app-config:
-    minimum-gas-prices: 0ashido
+    minimum-gas-prices: 0shido
     index-events:
       - ethereum_tx.ethereumTxHash
     json-rpc:
@@ -14,21 +14,21 @@ shido_9000-1:
     api:
       enable: true    
   validators:
-    - coins: 10001000000000000000000ashido
-      staked: 1000000000000000000ashido
+    - coins: 10001000000000000000000shido
+      staked: 1000000000000000000shido
       mnemonic: ${VALIDATOR1_MNEMONIC}
-    - coins: 10001000000000000000000ashido
-      staked: 1000000000000000000ashido
+    - coins: 10001000000000000000000shido
+      staked: 1000000000000000000shido
       mnemonic: ${VALIDATOR2_MNEMONIC}
   accounts:
     - name: community
-      coins: 10000000000000000000000ashido
+      coins: 10000000000000000000000shido
       mnemonic: ${COMMUNITY_MNEMONIC}
     - name: signer1
-      coins: 20000000000000000000000ashido
+      coins: 20000000000000000000000shido
       mnemonic: ${SIGNER1_MNEMONIC}
     - name: signer2
-      coins: 30000000000000000000000ashido
+      coins: 30000000000000000000000shido
       mnemonic: ${SIGNER2_MNEMONIC}
 
   genesis:
@@ -39,27 +39,27 @@ shido_9000-1:
     app_state:
       evm:
         params:
-          evm_denom: ashido
+          evm_denom: shido
       crisis:
         constant_fee:
-          denom: ashido          
+          denom: shido          
       staking:
         params:
-          bond_denom: ashido      
+          bond_denom: shido      
       inflation:
         params:
-          mint_denom: ashido              
+          mint_denom: shido              
       gov:
         voting_params:
           voting_period: "10s"
         deposit_params:
           max_deposit_period: "10s"
           min_deposit:
-            - denom: ashido
+            - denom: shido
               amount: "1"
         params:
           min_deposit:
-            - denom: ashido
+            - denom: shido
               amount: "1"        
       transfer:
         params:

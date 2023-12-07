@@ -64,12 +64,12 @@ echo "$USER4_MNEMONIC" | shidod keys add "$USER4_KEY" --recover --keyring-backen
 # Set moniker and chain-id for Shido (Moniker can be anything, chain-id must be an integer)
 shidod init "$MONIKER" --chain-id "$CHAINID"
 
-# Change parameter token denominations to ashido
-jq '.app_state.staking.params.bond_denom="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-jq '.app_state.crisis.constant_fee.denom="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-jq '.app_state.gov.deposit_params.min_deposit[0].denom="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-jq '.app_state.evm.params.evm_denom="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-jq '.app_state.inflation.params.mint_denom="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+# Change parameter token denominations to shido
+jq '.app_state.staking.params.bond_denom="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+jq '.app_state.crisis.constant_fee.denom="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+jq '.app_state.gov.deposit_params.min_deposit[0].denom="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+jq '.app_state.evm.params.evm_denom="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+jq '.app_state.inflation.params.mint_denom="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 # set gov proposing && voting period
 jq '.app_state.gov.deposit_params.max_deposit_period="30s"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
@@ -78,7 +78,7 @@ jq '.app_state.gov.voting_params.voting_period="30s"' "$GENESIS" >"$TMP_GENESIS"
 # When upgrade to cosmos-sdk v0.47, use gov.params to edit the deposit params
 # check if the 'params' field exists in the genesis file
 if jq '.app_state.gov.params != null' "$GENESIS" | grep -q "true"; then
-  jq '.app_state.gov.params.min_deposit[0].denom="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+  jq '.app_state.gov.params.min_deposit[0].denom="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
   jq '.app_state.gov.params.max_deposit_period="30s"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
   jq '.app_state.gov.params.voting_period="30s"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 fi
@@ -100,17 +100,17 @@ jq '.app_state.claims.params.duration_until_decay="100000s"' "$GENESIS" >"$TMP_G
 
 # Claim module account:
 # 0xA61808Fe40fEb8B3433778BBC2ecECCAA47c8c47 || shido15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz
-jq -r --arg amount_to_claim "$amount_to_claim" '.app_state.bank.balances += [{"address":"shido15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz","coins":[{"denom":"ashido", "amount":$amount_to_claim}]}]' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+jq -r --arg amount_to_claim "$amount_to_claim" '.app_state.bank.balances += [{"address":"shido15cvq3ljql6utxseh0zau9m8ve2j8erz89m5wkz","coins":[{"denom":"shido", "amount":$amount_to_claim}]}]' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 # disable produce empty block
 sed -i.bak 's/create_empty_blocks = true/create_empty_blocks = false/g' "$CONFIG_TOML"
 
 # Allocate genesis accounts (cosmos formatted addresses)
-shidod add-genesis-account "$(shidod keys show "$VAL_KEY" -a --keyring-backend "$KEYRING")" 100000000000000000000000000ashido --keyring-backend "$KEYRING"
-shidod add-genesis-account "$(shidod keys show "$USER1_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000ashido --keyring-backend "$KEYRING"
-shidod add-genesis-account "$(shidod keys show "$USER2_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000ashido --keyring-backend "$KEYRING"
-shidod add-genesis-account "$(shidod keys show "$USER3_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000ashido --keyring-backend "$KEYRING"
-shidod add-genesis-account "$(shidod keys show "$USER4_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000ashido --keyring-backend "$KEYRING"
+shidod add-genesis-account "$(shidod keys show "$VAL_KEY" -a --keyring-backend "$KEYRING")" 100000000000000000000000000shido --keyring-backend "$KEYRING"
+shidod add-genesis-account "$(shidod keys show "$USER1_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000shido --keyring-backend "$KEYRING"
+shidod add-genesis-account "$(shidod keys show "$USER2_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000shido --keyring-backend "$KEYRING"
+shidod add-genesis-account "$(shidod keys show "$USER3_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000shido --keyring-backend "$KEYRING"
+shidod add-genesis-account "$(shidod keys show "$USER4_KEY" -a --keyring-backend "$KEYRING")" 1000000000000000000000shido --keyring-backend "$KEYRING"
 
 # Update total supply with claim values
 # Bc is required to add this big numbers
@@ -133,7 +133,7 @@ sed -i.bak 's/127.0.0.1/0.0.0.0/g' "$APP_TOML"
 sed -i.bak 's/timeout_commit = "3s"/timeout_commit = "1s"/g' "$CONFIG_TOML"
 
 # Sign genesis transaction
-shidod gentx "$VAL_KEY" 1000000000000000000000ashido --keyring-backend "$KEYRING" --chain-id "$CHAINID"
+shidod gentx "$VAL_KEY" 1000000000000000000000shido --keyring-backend "$KEYRING" --chain-id "$CHAINID"
 ## In case you want to create multiple validators at genesis
 ## 1. Back to `shidod keys add` step, init more keys
 ## 2. Back to `shidod add-genesis-account` step, add balance for those
@@ -154,6 +154,6 @@ shidod validate-genesis
 # Start the node
 shidod start "$TRACE" \
   --log_level $LOGLEVEL \
-  --minimum-gas-prices=0.0001ashido \
+  --minimum-gas-prices=0.0001shido \
   --json-rpc.api eth,txpool,personal,net,debug,web3 \
   --chain-id "$CHAINID"

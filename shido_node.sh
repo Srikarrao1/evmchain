@@ -49,12 +49,12 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
     ./build/shidod keys add bob --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
 	./build/shidod init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
-	# Change parameter token denominations to ashido
-	jq '.app_state["staking"]["params"]["bond_denom"]="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["crisis"]["constant_fee"]["denom"]="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["evm"]["params"]["evm_denom"]="ashido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["mint_denom"]="ashido"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	# Change parameter token denominations to shido
+	jq '.app_state["staking"]["params"]["bond_denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["crisis"]["constant_fee"]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["evm"]["params"]["evm_denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+    jq '.app_state["mint"]["params"]["mint_denom"]="shido"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 
     # jq '.app_state["feemarket"]["params"]["no_base_fee"]=true' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
@@ -81,10 +81,10 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 
 
 	# Allocate genesis accounts (cosmos formatted addresses)
-	./build/shidod add-genesis-account $KEYS 10000000000000000000000000000000000000000000000ashido --keyring-backend $KEYRING --home "$HOMEDIR"
+	./build/shidod add-genesis-account $KEYS 10000000000000000000000000000000000000000000000shido --keyring-backend $KEYRING --home "$HOMEDIR"
 
 	# Sign genesis transaction
-	./build/shidod gentx ${KEYS} 1000000000000000000000ashido --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
+	./build/shidod gentx ${KEYS} 1000000000000000000000shido --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
 	
 	# Collect genesis tx
 	./build/shidod collect-gentxs --home "$HOMEDIR"

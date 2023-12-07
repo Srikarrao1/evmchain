@@ -111,7 +111,7 @@ func DefaultConfig() Config {
 		TimeoutCommit:     3 * time.Second,
 		ChainID:           chainID,
 		NumValidators:     4,
-		BondDenom:         "ashido",
+		BondDenom:         "shido",
 		MinGasPrices:      fmt.Sprintf("0.000006%s", shidotypes.AttoShido),
 		AccountTokens:     sdk.TokensFromConsensusPower(1000000000000000000, shidotypes.PowerReduction),
 		StakingTokens:     sdk.TokensFromConsensusPower(500000000000000000, shidotypes.PowerReduction),

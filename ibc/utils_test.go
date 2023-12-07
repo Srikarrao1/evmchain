@@ -254,9 +254,9 @@ func TestGetReceivedCoin(t *testing.T) {
 			"channel-0",
 			"transfer",
 			"channel-0",
-			"transfer/channel-0/ashido",
+			"transfer/channel-0/shido",
 			"10",
-			sdk.Coin{Denom: "ashido", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "shido", Amount: sdk.NewInt(10)},
 		},
 		{
 			"transfer 2x ibc wrapped coin to destination which is its source",
@@ -294,14 +294,14 @@ func TestGetSentCoin(t *testing.T) {
 		expCoin   sdk.Coin
 	}{
 		{
-			"get unwrapped ashido coin",
-			"ashido",
+			"get unwrapped shido coin",
+			"shido",
 			"10",
-			sdk.Coin{Denom: "ashido", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "shido", Amount: sdk.NewInt(10)},
 		},
 		{
-			"get ibc wrapped ashido coin",
-			"transfer/channel-0/ashido",
+			"get ibc wrapped shido coin",
+			"transfer/channel-0/shido",
 			"10",
 			sdk.Coin{Denom: teststypes.AshidoIbcdenom, Amount: sdk.NewInt(10)},
 		},

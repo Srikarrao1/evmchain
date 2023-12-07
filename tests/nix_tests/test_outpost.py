@@ -27,7 +27,7 @@ def test_ibc_transfer(ibc):
 
     cli = ibc.shido.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "ashido"
+    src_denom = "shido"
 
     old_src_balance = get_balance(ibc.shido, src_addr, src_denom)
     old_dst_balance = get_balance(ibc.other_chain, dst_addr, SHIDO_IBC_DENOM)

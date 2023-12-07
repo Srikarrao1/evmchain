@@ -19,7 +19,7 @@ const (
 	// TestnetChainID defines the Shido EIP155 chain ID for testnet
 	TestnetChainID = "shido_9000"
 	// BaseDenom defines the Shido mainnet denomination
-	BaseDenom = "ashido"
+	BaseDenom = "shido"
 )
 
 // IsMainnet returns true if the chain-id has the Shido mainnet EIP155 chain prefix.

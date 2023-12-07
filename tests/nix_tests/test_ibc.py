@@ -47,7 +47,7 @@ def test_ibc_transfer_with_hermes(ibc):
     criteria = "message.action=/ibc.core.channel.v1.MsgChannelOpenInit"
     tx = cli.tx_search(criteria)["txs"][0]
     events = parse_events_rpc(tx["events"])
-    fee = int(events["tx"]["fee"].removesuffix("ashido"))
+    fee = int(events["tx"]["fee"].removesuffix("shido"))
     gas = int(tx["gas_wanted"])
     # the effective fee is decided by the max_priority_fee (base fee is zero)
     # rather than the normal gas price
@@ -56,7 +56,7 @@ def test_ibc_transfer_with_hermes(ibc):
 
 def test_shido_ibc_transfer(ibc):
     """
-    test sending ashido from shido to crypto-org-chain using cli.
+    test sending shido from shido to crypto-org-chain using cli.
     """
     assert_ready(ibc)
     dst_addr = ibc.other_chain.cosmos_cli().address("signer2")
@@ -64,7 +64,7 @@ def test_shido_ibc_transfer(ibc):
 
     cli = ibc.shido.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "ashido"
+    src_denom = "shido"
 
     # case 1: use shido cli
     old_src_balance = get_balance(ibc.shido, src_addr, src_denom)
@@ -94,7 +94,7 @@ def test_shido_ibc_transfer(ibc):
 
 def test_shido_ibc_transfer_acknowledgement_error(ibc):
     """
-    test sending ashido from shido to crypto-org-chain using cli transfer_tokens
+    test sending shido from shido to crypto-org-chain using cli transfer_tokens
     with invalid receiver for acknowledgement error.
     """
     assert_ready(ibc)
@@ -103,7 +103,7 @@ def test_shido_ibc_transfer_acknowledgement_error(ibc):
 
     cli = ibc.shido.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "ashido"
+    src_denom = "shido"
 
     old_src_balance = get_balance(ibc.shido, src_addr, src_denom)
     rsp = cli.ibc_transfer(

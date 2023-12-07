@@ -60,8 +60,8 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 					s.upgradeParams.ChainID,
 					5000,
 					true,
-					"--fees=5000000000ashido",
-					"--gas-prices=50000ashido",
+					"--fees=5000000000shido",
+					"--gas-prices=50000shido",
 				)
 			},
 			expPass:   false,
@@ -89,7 +89,7 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 					s.upgradeParams.ChainID,
 					5000,
 					true,
-					"--fees=10ashido",
+					"--fees=10shido",
 					"--gas=50000",
 				)
 			},
@@ -104,7 +104,7 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 					s.upgradeParams.ChainID,
 					5000,
 					true,
-					"--fees=500000000000ashido",
+					"--fees=500000000000shido",
 					"--gas=1000",
 				)
 			},
@@ -119,7 +119,7 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 					s.upgradeParams.ChainID,
 					5000,
 					true,
-					"--fees=10000000000000000ashido",
+					"--fees=10000000000000000shido",
 					"--gas=1500000",
 				)
 			},
@@ -133,7 +133,7 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 					s.upgradeParams.ChainID,
 					5000,
 					true,
-					"--gas-prices=1000000000ashido",
+					"--gas-prices=1000000000shido",
 					"--gas=1500000",
 				)
 			},
@@ -147,7 +147,7 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 					1,
 					"--gas=auto",
 					"--gas-adjustment=1.5",
-					"--fees=10000000000000000ashido",
+					"--fees=10000000000000000shido",
 				)
 			},
 			expPass: true,
@@ -158,7 +158,7 @@ func (s *IntegrationTestSuite) TestCLITxs() {
 				return s.upgradeManager.CreateVoteProposalExec(
 					s.upgradeParams.ChainID,
 					1,
-					"--fees=10ashido",
+					"--fees=10shido",
 					"--gas=500000",
 				)
 			},

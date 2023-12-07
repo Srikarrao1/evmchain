@@ -8,7 +8,7 @@ from pystarport import ports
 from .network import CosmosChain, Shido, Hermes, setup_custom_shido
 from .utils import ADDRS, eth_to_bech32, wait_for_port
 
-# SHIDO_IBC_DENOM IBC denom of ashido in crypto-org-chain
+# SHIDO_IBC_DENOM IBC denom of shido in crypto-org-chain
 SHIDO_IBC_DENOM = "ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E"
 RATIO = 10**10
 

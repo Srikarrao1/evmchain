@@ -4,7 +4,7 @@
       "description": 1,
       "denom_units": [
         {
-          "denom": "ashido",
+          "denom": "shido",
           "exponent": 0
         },
         {
@@ -12,9 +12,9 @@
           "exponent": 18
         }
       ],
-      "base": "ashido",
-      "display": "ashido",
-      "name": "ashido",
+      "base": "shido",
+      "display": "shido",
+      "name": "shido",
       "symbol": "SHIDO"
     }
   ]

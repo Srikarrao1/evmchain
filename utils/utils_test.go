@@ -137,7 +137,7 @@ func TestShidoCoinDenom(t *testing.T) {
 	}{
 		{
 			"valid denom - native coin",
-			"ashido",
+			"shido",
 			false,
 		},
 		{

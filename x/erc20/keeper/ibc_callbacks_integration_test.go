@@ -147,36 +147,36 @@ var _ = Describe("Convert receiving IBC to Erc20", Ordered, func() {
 			ibcAtomBalanceAfter := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, teststypes.UatomIbcdenom)
 			s.Require().Equal(amount, ibcAtomBalanceAfter.Amount.Int64())
 		})
-		It("should transfer and not convert ashido", func() {
-			// Register 'ashido' coin in ERC-20 keeper to validate it is not converting the coins when receiving 'ashido' thru IBC
+		It("should transfer and not convert shido", func() {
+			// Register 'shido' coin in ERC-20 keeper to validate it is not converting the coins when receiving 'shido' thru IBC
 			pair, err := s.app.Erc20Keeper.RegisterCoin(s.ShidoChain.GetContext(), shidoMeta)
 			s.Require().NoError(err)
 
-			ashidoInitialBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
+			shidoInitialBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
 
-			// 1. Send ashido from Shido to Osmosis
+			// 1. Send shido from Shido to Osmosis
 			s.SendAndReceiveMessage(s.pathOsmosisShido, s.ShidoChain, utils.BaseDenom, amount, receiver, sender, 1, "")
 
-			ashidoAfterBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
-			s.Require().Equal(ashidoInitialBalance.Amount.Sub(math.NewInt(amount)).Sub(sendAndReceiveMsgFee), ashidoAfterBalance.Amount)
+			shidoAfterBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
+			s.Require().Equal(shidoInitialBalance.Amount.Sub(math.NewInt(amount)).Sub(sendAndReceiveMsgFee), shidoAfterBalance.Amount)
 
-			// check ibc ashido coins balance on Osmosis
-			ashidoIBCBalanceBefore := s.IBCOsmosisChain.GetSimApp().BankKeeper.GetBalance(s.IBCOsmosisChain.GetContext(), senderAcc, teststypes.AshidoIbcdenom)
-			s.Require().Equal(amount, ashidoIBCBalanceBefore.Amount.Int64())
+			// check ibc shido coins balance on Osmosis
+			shidoIBCBalanceBefore := s.IBCOsmosisChain.GetSimApp().BankKeeper.GetBalance(s.IBCOsmosisChain.GetContext(), senderAcc, teststypes.AshidoIbcdenom)
+			s.Require().Equal(amount, shidoIBCBalanceBefore.Amount.Int64())
 
-			// 2. Send ashido IBC coins from Osmosis to Shido
+			// 2. Send shido IBC coins from Osmosis to Shido
 			ibcCoinMeta := fmt.Sprintf("%s/%s", teststypes.AshidoDenomtrace.Path, teststypes.AshidoDenomtrace.BaseDenom)
 			s.SendBackCoins(s.pathOsmosisShido, s.IBCOsmosisChain, teststypes.AshidoIbcdenom, amount, sender, receiver, 1, ibcCoinMeta)
 
-			// check ibc ashido coins balance on Osmosis - should be zero
-			ashidoIBCSenderFinalBalance := s.IBCOsmosisChain.GetSimApp().BankKeeper.GetBalance(s.IBCOsmosisChain.GetContext(), senderAcc, teststypes.AshidoIbcdenom)
-			s.Require().Equal(int64(0), ashidoIBCSenderFinalBalance.Amount.Int64())
+			// check ibc shido coins balance on Osmosis - should be zero
+			shidoIBCSenderFinalBalance := s.IBCOsmosisChain.GetSimApp().BankKeeper.GetBalance(s.IBCOsmosisChain.GetContext(), senderAcc, teststypes.AshidoIbcdenom)
+			s.Require().Equal(int64(0), shidoIBCSenderFinalBalance.Amount.Int64())
 
-			// check ashido balance after transfer - should be equal to initial balance
-			ashidoFinalBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
+			// check shido balance after transfer - should be equal to initial balance
+			shidoFinalBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, utils.BaseDenom)
 
 			totalFees := sendBackCoinsFee.Add(sendAndReceiveMsgFee)
-			s.Require().Equal(ashidoInitialBalance.Amount.Sub(totalFees), ashidoFinalBalance.Amount)
+			s.Require().Equal(shidoInitialBalance.Amount.Sub(totalFees), shidoFinalBalance.Amount)
 
 			// check IBC Coin balance - should be zero
 			ibcCoinsBalance := s.app.BankKeeper.GetBalance(s.ShidoChain.GetContext(), receiverAcc, teststypes.AshidoIbcdenom)

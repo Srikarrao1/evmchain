@@ -28,6 +28,8 @@ import (
 
 	"github.com/shido/shido/v2/cmd/config"
 	"github.com/shido/shido/v2/utils"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 func init() {
@@ -87,12 +89,15 @@ func Setup(
 	}
 
 	db := dbm.NewMemDB()
+	var wasmOpts []wasmkeeper.Option
 	app := NewShido(
 		log.NewNopLogger(),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 5,
 		encoding.MakeConfig(ModuleBasics),
 		simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome),
+		wasmOpts,
+		wasmtypes.EnableAllProposals,
 		baseapp.SetChainID(chainID),
 	)
 	if !isCheckTx {
@@ -197,6 +202,7 @@ func GenesisStateWithValSet(app *Shido, genesisState simapp.GenesisState,
 func SetupTestingApp(chainID string) func() (ibctesting.TestingApp, map[string]json.RawMessage) {
 	return func() (ibctesting.TestingApp, map[string]json.RawMessage) {
 		db := dbm.NewMemDB()
+		var wasmOpts []wasmkeeper.Option
 		cfg := encoding.MakeConfig(ModuleBasics)
 		app := NewShido(
 			log.NewNopLogger(),
@@ -204,6 +210,8 @@ func SetupTestingApp(chainID string) func() (ibctesting.TestingApp, map[string]j
 			map[int64]bool{},
 			DefaultNodeHome, 5, cfg,
 			simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome),
+			wasmOpts,
+			wasmtypes.EnableAllProposals,
 			baseapp.SetChainID(chainID),
 		)
 		return app, NewDefaultGenesisState()

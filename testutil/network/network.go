@@ -56,6 +56,7 @@ import (
 	"github.com/shido/shido/v2/server/config"
 	shidotypes "github.com/shido/shido/v2/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
 )
 
 // package-wide network lock to only allow one test network at a time
@@ -127,10 +128,13 @@ func DefaultConfig() Config {
 // NewAppConstructor returns a new Shido AppConstructor
 func NewAppConstructor(encodingCfg params.EncodingConfig, chainID string) AppConstructor {
 	return func(val Validator) servertypes.Application {
+		var wasmOpts []wasmkeeper.Option
 		return app.NewShido(
 			val.Ctx.Logger, dbm.NewMemDB(), nil, true, make(map[int64]bool), val.Ctx.Config.RootDir, 0,
 			encodingCfg,
 			simutils.NewAppOptionsWithFlagHome(val.Ctx.Config.RootDir),
+			wasmOpts,
+			app.GetEnabledProposals(),
 			baseapp.SetPruning(pruningtypes.NewPruningOptionsFromString(val.AppConfig.Pruning)),
 			baseapp.SetMinGasPrices(val.AppConfig.MinGasPrices),
 			baseapp.SetChainID(chainID),

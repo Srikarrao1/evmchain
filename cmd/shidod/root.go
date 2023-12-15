@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -51,6 +52,7 @@ import (
 	"github.com/shido/shido/v2/app"
 	cmdcfg "github.com/shido/shido/v2/cmd/config"
 	shidokr "github.com/shido/shido/v2/crypto/keyring"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
 )
 
 const (
@@ -283,13 +285,18 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		}
 		chainID = conf.ChainID
 	}
-
+	var wasmOpts []wasmkeeper.Option
+	if cast.ToBool(appOpts.Get("telemetry.enabled")) {
+		wasmOpts = append(wasmOpts, wasmkeeper.WithVMCacheMetrics(prometheus.DefaultRegisterer))
+	}
 	shidoApp := app.NewShido(
 		logger, db, traceStore, true, skipUpgradeHeights,
 		cast.ToString(appOpts.Get(flags.FlagHome)),
 		cast.ToUint(appOpts.Get(sdkserver.FlagInvCheckPeriod)),
 		a.encCfg,
 		appOpts,
+		wasmOpts,
+		app.GetEnabledProposals(),
 		baseapp.SetPruning(pruningOpts),
 		baseapp.SetMinGasPrices(cast.ToString(appOpts.Get(sdkserver.FlagMinGasPrices))),
 		baseapp.SetHaltHeight(cast.ToUint64(appOpts.Get(sdkserver.FlagHaltHeight))),
@@ -320,19 +327,21 @@ func (a appCreator) appExport(
 	modulesToExport []string,
 ) (servertypes.ExportedApp, error) {
 	var shidoApp *app.Shido
+	var emptyWasmOpts []wasmkeeper.Option
+	var wasmOpts []wasmkeeper.Option
 	homePath, ok := appOpts.Get(flags.FlagHome).(string)
 	if !ok || homePath == "" {
 		return servertypes.ExportedApp{}, errors.New("application home not set")
 	}
 
 	if height != -1 {
-		shidoApp = app.NewShido(logger, db, traceStore, false, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
+		shidoApp = app.NewShido(logger, db, traceStore, false, map[int64]bool{}, "", uint(1), a.encCfg, appOpts, wasmOpts, app.GetEnabledProposals())
 
 		if err := shidoApp.LoadHeight(height); err != nil {
 			return servertypes.ExportedApp{}, err
 		}
 	} else {
-		shidoApp = app.NewShido(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts)
+		shidoApp = app.NewShido(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts, emptyWasmOpts, app.GetEnabledProposals())
 	}
 
 	return shidoApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)

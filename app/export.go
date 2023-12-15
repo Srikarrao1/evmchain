@@ -14,6 +14,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/shido/shido/v2/encoding"
+	
 )
 
 // NewDefaultGenesisState generates the default state for the application.

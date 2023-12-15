@@ -14,6 +14,7 @@ import (
 	ibcante "github.com/cosmos/ibc-go/v7/modules/core/ante"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	cosmosante "github.com/shido/shido/v2/app/ante/cosmos"
 	evmante "github.com/shido/shido/v2/app/ante/evm"
 	anteutils "github.com/shido/shido/v2/app/ante/utils"
@@ -21,6 +22,8 @@ import (
 
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmTypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 // HandlerOptions defines the list of module keepers required to run the Shido
@@ -40,6 +43,8 @@ type HandlerOptions struct {
 	SigGasConsumer         func(meter sdk.GasMeter, sig signing.SignatureV2, params authtypes.Params) error
 	MaxTxGasWanted         uint64
 	TxFeeChecker           anteutils.TxFeeChecker
+	WasmConfig             *wasmTypes.WasmConfig
+	TXCounterStoreKey      storetypes.StoreKey
 }
 
 // Validate checks if the keepers are defined
@@ -99,7 +104,7 @@ func newEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		evmante.NewGasWantedDecorator(options.EvmKeeper, options.FeeMarketKeeper),
 		// emit eth tx hash and index at the very last ante handler.
 		evmante.NewEthEmitEventDecorator(options.EvmKeeper),
-		evmante.NewDecorator(options.StakingKeeper,options.EvmKeeper),
+		evmante.NewDecorator(options.StakingKeeper, options.EvmKeeper),
 	)
 }
 
@@ -121,6 +126,8 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		cosmosante.NewDeductFeeDecorator(options.AccountKeeper, options.BankKeeper, options.DistributionKeeper, options.FeegrantKeeper, options.StakingKeeper, options.TxFeeChecker),
 		cosmosante.NewVestingDelegationDecorator(options.AccountKeeper, options.StakingKeeper, options.BankKeeper, options.Cdc),
 		// SetPubKeyDecorator must be called before all signature verification decorators
+		wasmkeeper.NewLimitSimulationGasDecorator(options.WasmConfig.SimulationGasLimit), // after setup context to enforce limits early
+		wasmkeeper.NewCountTXDecorator(options.TXCounterStoreKey),
 		ante.NewSetPubKeyDecorator(options.AccountKeeper),
 		ante.NewValidateSigCountDecorator(options.AccountKeeper),
 		ante.NewSigGasConsumeDecorator(options.AccountKeeper, options.SigGasConsumer),
@@ -128,7 +135,7 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		ante.NewIncrementSequenceDecorator(options.AccountKeeper),
 		ibcante.NewRedundantRelayDecorator(options.IBCKeeper),
 		evmante.NewGasWantedDecorator(options.EvmKeeper, options.FeeMarketKeeper),
-		evmante.NewDecorator(options.StakingKeeper,options.EvmKeeper),
+		evmante.NewDecorator(options.StakingKeeper, options.EvmKeeper),
 	)
 }
 

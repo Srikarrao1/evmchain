@@ -1,7 +1,7 @@
 #!/bin/bash
 
 KEYS="alice"
-CHAINID="shido_9002-1"
+CHAINID="shido_9022-1"
 MONIKER="shidonode"
 KEYRING="test"
 KEYALGO="eth_secp256k1"

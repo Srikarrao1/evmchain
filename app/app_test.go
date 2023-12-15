@@ -22,6 +22,8 @@ import (
 
 	"github.com/shido/shido/v2/encoding"
 	"github.com/shido/shido/v2/utils"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 func TestShidoExport(t *testing.T) {
@@ -41,7 +43,7 @@ func TestShidoExport(t *testing.T) {
 		Address: acc.GetAddress().String(),
 		Coins:   sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100000000000000))),
 	}
-
+	var wasmOpts []wasmkeeper.Option
 	db := dbm.NewMemDB()
 	chainID := utils.MainnetChainID + "-1"
 	app := NewShido(
@@ -50,6 +52,8 @@ func TestShidoExport(t *testing.T) {
 		DefaultNodeHome, 0,
 		encoding.MakeConfig(ModuleBasics),
 		simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome),
+		wasmOpts,
+		wasmtypes.EnableAllProposals,
 		baseapp.SetChainID(chainID),
 	)
 
@@ -75,6 +79,8 @@ func TestShidoExport(t *testing.T) {
 		DefaultNodeHome, 0,
 		encoding.MakeConfig(ModuleBasics),
 		simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome),
+		wasmOpts,
+		wasmtypes.EnableAllProposals,
 		baseapp.SetChainID(chainID),
 	)
 	_, err = app2.ExportAppStateAndValidators(false, []string{}, []string{})

@@ -24,6 +24,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/shido/shido/v2/encoding"
 	"github.com/shido/shido/v2/utils"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 // EthDefaultConsensusParams defines the default Tendermint consensus params used in
@@ -53,6 +55,7 @@ func EthSetup(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisState) sim
 // EthSetupWithDB initializes a new ShidoApp. A Nop logger is set in ShidoApp.
 func EthSetupWithDB(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *Shido {
 	chainID := utils.TestnetChainID + "-1"
+	var wasmOpts []wasmkeeper.Option
 	app := NewShido(log.NewNopLogger(),
 		db,
 		nil,
@@ -62,6 +65,8 @@ func EthSetupWithDB(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisStat
 		5,
 		encoding.MakeConfig(ModuleBasics),
 		simtestutil.NewAppOptionsWithFlagHome(DefaultNodeHome),
+		wasmOpts,
+		wasmtypes.EnableAllProposals,
 		baseapp.SetChainID(chainID),
 	)
 	if !isCheckTx {

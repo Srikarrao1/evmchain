@@ -21,6 +21,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
 )
 
 // createValidatorSet creates validator set with the amount of validators specified
@@ -77,7 +78,7 @@ func createShidoApp(chainID string) *app.Shido {
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
 	appOptions := simutils.NewAppOptionsWithFlagHome(app.DefaultNodeHome)
 	baseAppOptions := []func(*baseapp.BaseApp){baseapp.SetChainID(chainID)}
-
+	var wasmOpts []wasmkeeper.Option
 	return app.NewShido(
 		logger,
 		db,
@@ -88,6 +89,8 @@ func createShidoApp(chainID string) *app.Shido {
 		invCheckPeriod,
 		encodingConfig,
 		appOptions,
+		wasmOpts,
+		app.GetEnabledProposals(),
 		baseAppOptions...,
 	)
 }

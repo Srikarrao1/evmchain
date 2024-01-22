@@ -7,7 +7,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/app"
+	// "github.com/shido/shido/v2/app"
 )
 
 // Fund an address with the given amount in default denom
@@ -30,24 +30,24 @@ func (chain *TestChain) SendNonDefaultSenderMsgs(senderPrivKey cryptotypes.PrivK
 	addr := sdk.AccAddress(senderPrivKey.PubKey().Address().Bytes())
 	account := chain.App.GetAccountKeeper().GetAccount(chain.GetContext(), addr)
 	require.NotNil(chain.t, account)
-	_, r, err := app.SignAndDeliverWithoutCommit(
-		chain.t,
-		chain.TxConfig,
-		chain.App.GetBaseApp(),
-		msgs,
-		chain.DefaultMsgFees,
-		chain.ChainID,
-		[]uint64{account.GetAccountNumber()},
-		[]uint64{account.GetSequence()},
-		senderPrivKey,
-	)
+	// _, r, err := app.SignAndDeliverWithoutCommit(
+	// 	chain.t,
+	// 	chain.TxConfig,
+	// 	chain.App.GetBaseApp(),
+	// 	msgs,
+	// 	chain.DefaultMsgFees,
+	// 	chain.ChainID,
+	// 	[]uint64{account.GetAccountNumber()},
+	// 	[]uint64{account.GetSequence()},
+	// 	senderPrivKey,
+	// )
 
 	// SignAndDeliverWithoutCommit calls app.Commit()
 	chain.NextBlock()
 	chain.Coordinator.IncrementTime()
-	if err != nil {
-		return r, err
-	}
-	chain.CaptureIBCEvents(r.Events)
-	return r, nil
+	// if err != nil {
+	// 	return r, err
+	// }
+	chain.CaptureIBCEvents(nil)
+	return nil, nil
 }

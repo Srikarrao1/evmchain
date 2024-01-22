@@ -12,14 +12,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/app"
+     "github.com/shido/shido/v2/app"
 )
 
 func TestModuleMigrations(t *testing.T) {
 	wasmApp := app.Setup(t)
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
-		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+		return wasmApp.mm.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
 	}
 
 	specs := map[string]struct {

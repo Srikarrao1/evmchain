@@ -35,6 +35,8 @@ import (
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/libs/log"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 func (suite *KeeperTestSuite) SetupApp(checkTx bool, chainID string) {
@@ -150,6 +152,7 @@ func setupChain(localMinGasPricesStr string, chainID string) {
 	// Initialize the app, so we can use SetMinGasPrices to set the
 	// validator-specific min-gas-prices setting
 	db := dbm.NewMemDB()
+	var wasmOpts []wasmkeeper.Option
 	newapp := app.NewShido(
 		log.NewNopLogger(),
 		db,
@@ -160,6 +163,8 @@ func setupChain(localMinGasPricesStr string, chainID string) {
 		5,
 		encoding.MakeConfig(app.ModuleBasics),
 		simutils.NewAppOptionsWithFlagHome(app.DefaultNodeHome),
+		wasmOpts,
+		wasmtypes.EnableAllProposals,
 		baseapp.SetChainID(chainID),
 		baseapp.SetMinGasPrices(localMinGasPricesStr),
 	)

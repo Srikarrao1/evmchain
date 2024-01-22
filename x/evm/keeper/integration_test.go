@@ -26,6 +26,8 @@ import (
 	simutils "github.com/cosmos/cosmos-sdk/testutil/sims"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 var _ = Describe("Feemarket", func() {
@@ -174,6 +176,7 @@ func setupChain(localMinGasPricesStr string) {
 	// Initialize the app, so we can use SetMinGasPrices to set the
 	// validator-specific min-gas-prices setting
 	db := dbm.NewMemDB()
+	var wasmOpts []wasmkeeper.Option
 	chainID := utils.TestnetChainID + "-1"
 	newapp := app.NewShido(
 		log.NewNopLogger(),
@@ -185,6 +188,8 @@ func setupChain(localMinGasPricesStr string) {
 		5,
 		encoding.MakeConfig(app.ModuleBasics),
 		simutils.NewAppOptionsWithFlagHome(app.DefaultNodeHome),
+		wasmOpts,
+		wasmtypes.EnableAllProposals,
 		baseapp.SetChainID(chainID),
 		baseapp.SetMinGasPrices(localMinGasPricesStr),
 	)

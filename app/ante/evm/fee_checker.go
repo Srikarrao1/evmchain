@@ -34,33 +34,33 @@ func NewDecorator(
 }
 
 func (sk GetValidator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (sdk.Context, error) {
-	feeTx, ok := tx.(sdk.FeeTx)
-	if !ok {
-		return ctx, errorsmod.Wrap(errortypes.ErrTxDecode, "Tx must be a FeeTx")
-	}
+	// feeTx, ok := tx.(sdk.FeeTx)
+	// if !ok {
+	// 	return ctx, errorsmod.Wrap(errortypes.ErrTxDecode, "Tx must be a FeeTx")
+	// }
 
 	var (
 		priority int64
 	)
-	feePayer := feeTx.FeePayer()
-	_, check := sk.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
-	delegator := sk.stakingKeeper.GetDelegatorDelegations(ctx, feePayer.Bytes(), 10)
+	// feePayer := feeTx.FeePayer()
+	// _, check := sk.stakingKeeper.GetValidator(ctx, feePayer.Bytes())
+	// delegator := sk.stakingKeeper.GetDelegatorDelegations(ctx, feePayer.Bytes(), 10)
 
-	params := sk.dynamicfeeKeeper.GetParams(ctx)
-	denom := params.EvmDenom
-	// gas := feeTx.GetGas()
-	feeCoins := feeTx.GetFee()
-	fee := feeCoins.AmountOfNoDenomValidation(denom)
-	// feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
+	// params := sk.dynamicfeeKeeper.GetParams(ctx)
+	// denom := params.EvmDenom
+	// // gas := feeTx.GetGas()
+	// feeCoins := feeTx.GetFee()
+	// fee := feeCoins.AmountOfNoDenomValidation(denom)
+	// // feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
 
-	if isGenesistxn == false {
-		if check == false && (len(delegator) == 0) && fee.IsZero() {
-			// If the fee payer is neither a delegator nor a validator and the fees are zero, return an error
-			return ctx, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: required:. Please retry using a higher gas price or a higher fee")
-		}
-	}
+	// if isGenesistxn == false {
+	// 	if check == false && (len(delegator) == 0) && fee.IsZero() {
+	// 		// If the fee payer is neither a delegator nor a validator and the fees are zero, return an error
+	// 		return ctx, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: required:. Please retry using a higher gas price or a higher fee")
+	// 	}
+	// }
 
-	isGenesistxn = false
+	// isGenesistxn = false
 
 	newCtx := ctx.WithPriority(priority)
 	return next(newCtx, tx, simulate)

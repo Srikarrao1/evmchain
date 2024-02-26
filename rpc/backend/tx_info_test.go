@@ -4,6 +4,11 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/anryton/anryton/v2/indexer"
+	"github.com/anryton/anryton/v2/rpc/backend/mocks"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	tmlog "github.com/cometbft/cometbft/libs/log"
@@ -12,11 +17,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/shido/shido/v2/indexer"
-	"github.com/shido/shido/v2/rpc/backend/mocks"
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	shidotypes "github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -467,7 +467,7 @@ func (suite *BackendTestSuite) TestGetTransactionByTxIndex() {
 		registerMock func()
 		height       int64
 		index        uint
-		expTxResult  *shidotypes.TxResult
+		expTxResult  *anrytontypes.TxResult
 		expPass      bool
 	}{
 		{
@@ -479,7 +479,7 @@ func (suite *BackendTestSuite) TestGetTransactionByTxIndex() {
 			},
 			0,
 			0,
-			&shidotypes.TxResult{},
+			&anrytontypes.TxResult{},
 			false,
 		},
 	}
@@ -507,7 +507,7 @@ func (suite *BackendTestSuite) TestQueryTendermintTxIndexer() {
 		registerMock func()
 		txGetter     func(*rpctypes.ParsedTxs) *rpctypes.ParsedTx
 		query        string
-		expTxResult  *shidotypes.TxResult
+		expTxResult  *anrytontypes.TxResult
 		expPass      bool
 	}{
 		{
@@ -520,7 +520,7 @@ func (suite *BackendTestSuite) TestQueryTendermintTxIndexer() {
 				return &rpctypes.ParsedTx{}
 			},
 			"",
-			&shidotypes.TxResult{},
+			&anrytontypes.TxResult{},
 			false,
 		},
 	}
@@ -618,7 +618,7 @@ func (suite *BackendTestSuite) TestGetGasUsed() {
 	testCases := []struct {
 		name                     string
 		fixRevertGasRefundHeight int64
-		txResult                 *shidotypes.TxResult
+		txResult                 *anrytontypes.TxResult
 		price                    *big.Int
 		gas                      uint64
 		exp                      uint64
@@ -626,7 +626,7 @@ func (suite *BackendTestSuite) TestGetGasUsed() {
 		{
 			"success txResult",
 			1,
-			&shidotypes.TxResult{
+			&anrytontypes.TxResult{
 				Height:  1,
 				Failed:  false,
 				GasUsed: 53026,
@@ -638,7 +638,7 @@ func (suite *BackendTestSuite) TestGetGasUsed() {
 		{
 			"fail txResult before cap",
 			2,
-			&shidotypes.TxResult{
+			&anrytontypes.TxResult{
 				Height:  1,
 				Failed:  true,
 				GasUsed: 53026,
@@ -650,7 +650,7 @@ func (suite *BackendTestSuite) TestGetGasUsed() {
 		{
 			"fail txResult after cap",
 			2,
-			&shidotypes.TxResult{
+			&anrytontypes.TxResult{
 				Height:  3,
 				Failed:  true,
 				GasUsed: 53026,

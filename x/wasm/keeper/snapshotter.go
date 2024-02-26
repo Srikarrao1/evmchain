@@ -11,8 +11,8 @@ import (
 	snapshot "github.com/cosmos/cosmos-sdk/snapshots/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/x/wasm/ioutils"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/ioutils"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 var _ snapshot.ExtensionSnapshotter = &WasmSnapshotter{}

@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"math/big"
 
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/precompiles/testutil"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	shidoapp "github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/precompiles/testutil"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // Call is a helper function to call any arbitrary smart contract.
-func Call(ctx sdk.Context, app *shidoapp.Shido, args CallArgs) (res abci.ResponseDeliverTx, ethRes *evmtypes.MsgEthereumTxResponse, err error) {
+func Call(ctx sdk.Context, app *anrytonapp.Anryton, args CallArgs) (res abci.ResponseDeliverTx, ethRes *evmtypes.MsgEthereumTxResponse, err error) {
 	var (
 		nonce    uint64
 		gasLimit = args.GasLimit
@@ -78,7 +78,7 @@ func Call(ctx sdk.Context, app *shidoapp.Shido, args CallArgs) (res abci.Respons
 	})
 	msg.From = addr.Hex()
 
-	res, err = shidoutil.DeliverEthTx(app, args.PrivKey, msg)
+	res, err = anrytonutil.DeliverEthTx(app, args.PrivKey, msg)
 	if err != nil {
 		return abci.ResponseDeliverTx{}, nil, fmt.Errorf("error during deliver tx: %s", err)
 	}
@@ -96,7 +96,7 @@ func Call(ctx sdk.Context, app *shidoapp.Shido, args CallArgs) (res abci.Respons
 
 // CallContractAndCheckLogs is a helper function to call any arbitrary smart contract and check that the logs
 // contain the expected events.
-func CallContractAndCheckLogs(ctx sdk.Context, app *shidoapp.Shido, cArgs CallArgs, logCheckArgs testutil.LogCheckArgs) (abci.ResponseDeliverTx, *evmtypes.MsgEthereumTxResponse, error) {
+func CallContractAndCheckLogs(ctx sdk.Context, app *anrytonapp.Anryton, cArgs CallArgs, logCheckArgs testutil.LogCheckArgs) (abci.ResponseDeliverTx, *evmtypes.MsgEthereumTxResponse, error) {
 	res, ethRes, err := Call(ctx, app, cArgs)
 	if err != nil {
 		return abci.ResponseDeliverTx{}, nil, err

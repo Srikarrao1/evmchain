@@ -3,11 +3,11 @@ package contracts
 import (
 	"math/big"
 
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
 )
 
 // CallArgs is a struct to define all relevant data to call a smart contract.
@@ -82,7 +82,7 @@ func (c CallArgs) WithArgs(args ...interface{}) CallArgs {
 }
 
 // WithAmount populates the CallArgs struct's Amount field with the given amount.
-// This is the amount of Shido that will be sent with the contract call.
+// This is the amount of Anryton that will be sent with the contract call.
 func (c CallArgs) WithAmount(amount *big.Int) CallArgs {
 	c.Amount = amount
 	return c

@@ -1,9 +1,9 @@
 package testutil
 
 import (
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
 )
 
 // NextFn is a no-op function that returns the context and no error in order to mock

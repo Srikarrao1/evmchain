@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	abci "github.com/cometbft/cometbft/abci/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // CheckVMError is a helper function used to check if the transaction is reverted with the expected error message

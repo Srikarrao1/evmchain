@@ -4,18 +4,18 @@
       "description": 1,
       "denom_units": [
         {
-          "denom": "shido",
+          "denom": "anryton",
           "exponent": 0
         },
         {
-          "denom": "shido",
+          "denom": "anryton",
           "exponent": 18
         }
       ],
-      "base": "shido",
-      "display": "shido",
-      "name": "shido",
-      "symbol": "SHIDO"
+      "base": "anryton",
+      "display": "anryton",
+      "name": "anryton",
+      "symbol": "ANRYTON"
     }
   ]
 }

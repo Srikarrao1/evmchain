@@ -9,9 +9,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/keys"
 	"github.com/spf13/cobra"
 
+	clientkeys "github.com/anryton/anryton/v2/client/keys"
+	"github.com/anryton/anryton/v2/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	clientkeys "github.com/shido/shido/v2/client/keys"
-	"github.com/shido/shido/v2/crypto/hd"
 )
 
 // KeyCommands registers a sub-tree of commands to interact with

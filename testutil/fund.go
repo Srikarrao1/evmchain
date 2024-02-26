@@ -1,9 +1,9 @@
 package testutil
 
 import (
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
-	"github.com/shido/shido/v2/utils"
 )
 
 // FundAccount is a utility function that funds an account by minting and
@@ -17,7 +17,7 @@ func FundAccount(ctx sdk.Context, bankKeeper bankkeeper.Keeper, addr sdk.AccAddr
 }
 
 // FundAccountWithBaseDenom is a utility function that uses the FundAccount function
-// to fund an account with the default Shido denomination.
+// to fund an account with the default Anryton denomination.
 func FundAccountWithBaseDenom(ctx sdk.Context, bankKeeper bankkeeper.Keeper, addr sdk.AccAddress, amount int64) error {
 	coins := sdk.NewCoins(
 		sdk.NewCoin(utils.BaseDenom, sdk.NewInt(amount)),

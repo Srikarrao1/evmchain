@@ -3,7 +3,7 @@ package keeper
 import (
 	"math/big"
 
-	"github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

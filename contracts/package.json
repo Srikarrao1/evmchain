@@ -1,5 +1,5 @@
 {
-  "name": "shido",
+  "name": "anryton",
   "version": "1.0.0",
   "description": "<!-- parent:   order: false -->",
   "main": "index.js",
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shido/shido.git"
+    "url": "git+https://github.com/anryton/anryton.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shido/shido/issues"
+    "url": "https://github.com/anryton/anryton/issues"
   },
-  "homepage": "https://github.com/shido/shido#readme"
+  "homepage": "https://github.com/anryton/anryton#readme"
 }

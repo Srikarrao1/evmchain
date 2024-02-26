@@ -3,12 +3,14 @@ package distribution_test
 import (
 	"testing"
 
-	"github.com/shido/shido/v2/precompiles/distribution"
-	"github.com/shido/shido/v2/x/evm/statedb"
+	"github.com/anryton/anryton/v2/precompiles/distribution"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	tmtypes "github.com/cometbft/cometbft/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
@@ -16,8 +18,6 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	shidoapp "github.com/shido/shido/v2/app"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -27,7 +27,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx        sdk.Context
-	app        *shidoapp.Shido
+	app        *anrytonapp.Anryton
 	address    common.Address
 	validators []stakingtypes.Validator
 	valSet     *tmtypes.ValidatorSet

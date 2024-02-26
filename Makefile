@@ -6,10 +6,10 @@ TMVERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::')
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
-SHIDO_BINARY = shidod
-SHIDO_DIR = shido
+ANRYTON_BINARY = anrytond
+ANRYTON_DIR = anryton
 BUILDDIR ?= $(CURDIR)/build
-HTTPS_GIT := https://github.com/shido/shido.git
+HTTPS_GIT := https://github.com/anryton/anryton.git
 DOCKER := $(shell which docker)
 DOCKER_BUILDKIT=1
 DOCKER_ARGS=
@@ -19,7 +19,7 @@ ifdef GITHUB_TOKEN
 	endif
 endif
 NAMESPACE := tharsishq
-PROJECT := shido
+PROJECT := anryton
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 COMMIT_HASH := $(shell git rev-parse --short=7 HEAD)
 DOCKER_TAG := $(COMMIT_HASH)
@@ -68,8 +68,8 @@ build_tags := $(strip $(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=shido \
-          -X github.com/cosmos/cosmos-sdk/version.AppName=$(SHIDO_BINARY) \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=anryton \
+          -X github.com/cosmos/cosmos-sdk/version.AppName=$(ANRYTON_BINARY) \
           -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
           -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
           -X github.com/cometbft/cometbft/version.TMCoreSemVer=$(TMVERSION)
@@ -140,7 +140,7 @@ build-reproducible: go.sum
 	$(DOCKER) rm latest-build || true
 	$(DOCKER) run --volume=$(CURDIR):/sources:ro \
         --env TARGET_PLATFORMS='linux/amd64' \
-        --env APP=shidod \
+        --env APP=anrytond \
         --env VERSION=$(VERSION) \
         --env COMMIT=$(COMMIT) \
         --env CGO_ENABLED=1 \
@@ -155,12 +155,12 @@ build-docker:
 	$(DOCKER) tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
 	# docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${COMMIT_HASH}
 	# move the binaries to the ./build directory
-	mkdir -p ./build/.shidod
-	echo '#!/usr/bin/env bash' > ./build/shidod
-	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/shidod
-	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/shidod
-	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.shidod:/home/shido/.shidod $$IMAGE_NAME shidod "$$@"' >> ./build/shidod
-	chmod +x ./build/shidod
+	mkdir -p ./build/.anrytond
+	echo '#!/usr/bin/env bash' > ./build/anrytond
+	echo "IMAGE_NAME=${DOCKER_IMAGE}:${COMMIT_HASH}" >> ./build/anrytond
+	echo 'SCRIPT_PATH=$$(cd $$(dirname $$0) && pwd -P)' >> ./build/anrytond
+	echo 'docker run -it --rm -v $${SCRIPT_PATH}/.anrytond:/home/anryton/.anrytond $$IMAGE_NAME anrytond "$$@"' >> ./build/anrytond
+	chmod +x ./build/anrytond
 
 push-docker: build-docker
 	$(DOCKER) push ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -286,7 +286,7 @@ swagger-update-docs: statik
 .PHONY: swagger-update-docs
 
 godocs:
-	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/shido/shido"
+	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/anryton/anryton"
 	godoc -http=:6060
 
 ###############################################################################
@@ -320,7 +320,7 @@ test-e2e:
 		make build-docker; \
 	fi
 	@mkdir -p ./build
-	@rm -rf build/.shidod
+	@rm -rf build/.anrytond
 	@INITIAL_VERSION=$(INITIAL_VERSION) TARGET_VERSION=$(TARGET_VERSION) \
 	E2E_SKIP_CLEANUP=$(E2E_SKIP_CLEANUP) MOUNT_PATH=$(MOUNT_PATH) CHAIN_ID=$(CHAIN_ID) \
 	go test -v ./tests/e2e -run ^TestIntegrationTestSuite$
@@ -483,7 +483,7 @@ localnet-build:
 
 # Start a 4-node testnet locally
 localnet-start: localnet-stop localnet-build
-	@if ! [ -f build/node0/$(SHIDO_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/shido:Z shido/node "./shidod testnet init-files --v 4 -o /shido --keyring-backend=test --starting-ip-address 192.167.10.2"; fi
+	@if ! [ -f build/node0/$(ANRYTON_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/build:/anryton:Z anryton/node "./anrytond testnet init-files --v 4 -o /anryton --keyring-backend=test --starting-ip-address 192.167.10.2"; fi
 	docker-compose up -d
 
 # Stop testnet
@@ -499,15 +499,15 @@ localnet-clean:
 localnet-unsafe-reset:
 	docker-compose down
 ifeq ($(OS),Windows_NT)
-	@docker run --rm -v $(CURDIR)\build\node0\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
-	@docker run --rm -v $(CURDIR)\build\node1\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
-	@docker run --rm -v $(CURDIR)\build\node2\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
-	@docker run --rm -v $(CURDIR)\build\node3\shidod:/shido\Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)\build\node0\anrytond:/anryton\Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
+	@docker run --rm -v $(CURDIR)\build\node1\anrytond:/anryton\Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
+	@docker run --rm -v $(CURDIR)\build\node2\anrytond:/anryton\Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
+	@docker run --rm -v $(CURDIR)\build\node3\anrytond:/anryton\Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
 else
-	@docker run --rm -v $(CURDIR)/build/node0/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
-	@docker run --rm -v $(CURDIR)/build/node1/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
-	@docker run --rm -v $(CURDIR)/build/node2/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
-	@docker run --rm -v $(CURDIR)/build/node3/shidod:/shido:Z shido/node "./shidod tendermint unsafe-reset-all --home=/shido"
+	@docker run --rm -v $(CURDIR)/build/node0/anrytond:/anryton:Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
+	@docker run --rm -v $(CURDIR)/build/node1/anrytond:/anryton:Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
+	@docker run --rm -v $(CURDIR)/build/node2/anrytond:/anryton:Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
+	@docker run --rm -v $(CURDIR)/build/node3/anrytond:/anryton:Z anryton/node "./anrytond tendermint unsafe-reset-all --home=/anryton"
 endif
 
 # Clean testnet
@@ -520,7 +520,7 @@ localnet-show-logstream:
 ###                                Releasing                                ###
 ###############################################################################
 
-PACKAGE_NAME:=github.com/shido/shido
+PACKAGE_NAME:=github.com/anryton/anryton
 GOLANG_CROSS_VERSION  = v1.20
 GOPATH ?= '$(HOME)/go'
 release-dry-run:

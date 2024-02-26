@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 
 	"github.com/stretchr/testify/assert"
 
@@ -20,8 +20,8 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/x/wasm/keeper"
 )
 
 func TestSnapshotter(t *testing.T) {

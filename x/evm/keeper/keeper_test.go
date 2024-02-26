@@ -6,10 +6,10 @@ import (
 
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/x/evm/keeper"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/x/evm/keeper"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 
 	"github.com/ethereum/go-ethereum/common"
 
@@ -36,14 +36,14 @@ func (suite *KeeperTestSuite) TestWithChainID() {
 			true,
 		},
 		{
-			"success - Shido mainnet chain ID",
-			"shido_9001-2",
+			"success - Anryton mainnet chain ID",
+			"anryton_9001-2",
 			9001,
 			false,
 		},
 		{
-			"success - Shido testnet chain ID",
-			"shido_9000-4",
+			"success - Anryton testnet chain ID",
+			"anryton_9000-4",
 			9000,
 			false,
 		},
@@ -124,7 +124,7 @@ func (suite *KeeperTestSuite) TestGetAccountStorage() {
 			tc.malleate()
 			i := 0
 			suite.app.AccountKeeper.IterateAccounts(suite.ctx, func(account authtypes.AccountI) bool {
-				ethAccount, ok := account.(shidotypes.EthAccountI)
+				ethAccount, ok := account.(anrytontypes.EthAccountI)
 				if !ok {
 					// ignore non EthAccounts
 					return false

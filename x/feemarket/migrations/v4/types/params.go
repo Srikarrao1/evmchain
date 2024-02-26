@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	"github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"

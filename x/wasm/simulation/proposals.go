@@ -7,9 +7,9 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/shido/shido/v2/app/params"
-	"github.com/shido/shido/v2/x/wasm/keeper/testdata"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/app/params"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/testdata"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 const (

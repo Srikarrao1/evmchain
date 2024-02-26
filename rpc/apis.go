@@ -8,16 +8,16 @@ import (
 
 	"github.com/ethereum/go-ethereum/rpc"
 
-	"github.com/shido/shido/v2/rpc/backend"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/debug"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/eth"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/eth/filters"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/miner"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/net"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/personal"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/txpool"
-	"github.com/shido/shido/v2/rpc/namespaces/ethereum/web3"
-	"github.com/shido/shido/v2/types"
+	"github.com/anryton/anryton/v2/rpc/backend"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/debug"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/eth"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/eth/filters"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/miner"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/net"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/personal"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/txpool"
+	"github.com/anryton/anryton/v2/rpc/namespaces/ethereum/web3"
+	"github.com/anryton/anryton/v2/types"
 
 	rpcclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 )

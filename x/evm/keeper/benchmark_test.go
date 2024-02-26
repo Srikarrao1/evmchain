@@ -11,16 +11,16 @@ import (
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 	"github.com/ethereum/go-ethereum/common"
 
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/x/evm/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/x/evm/types"
 )
 
 func SetupContract(b *testing.B) (*KeeperTestSuite, common.Address) {
 	suite := KeeperTestSuite{}
 	suite.SetupTestWithT(b)
 
-	amt := sdk.Coins{shidotypes.NewShidoCoinInt64(1000000000000000000)}
+	amt := sdk.Coins{anrytontypes.NewAnrytonCoinInt64(1000000000000000000)}
 	err := suite.app.BankKeeper.MintCoins(suite.ctx, types.ModuleName, amt)
 	require.NoError(b, err)
 	err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, types.ModuleName, suite.address.Bytes(), amt)
@@ -36,7 +36,7 @@ func SetupTestMessageCall(b *testing.B) (*KeeperTestSuite, common.Address) {
 	suite := KeeperTestSuite{}
 	suite.SetupTestWithT(b)
 
-	amt := sdk.Coins{shidotypes.NewShidoCoinInt64(1000000000000000000)}
+	amt := sdk.Coins{anrytontypes.NewAnrytonCoinInt64(1000000000000000000)}
 	err := suite.app.BankKeeper.MintCoins(suite.ctx, types.ModuleName, amt)
 	require.NoError(b, err)
 	err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, types.ModuleName, suite.address.Bytes(), amt)

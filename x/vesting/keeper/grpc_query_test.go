@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	"github.com/shido/shido/v2/testutil"
-	"github.com/shido/shido/v2/x/vesting/types"
+	"github.com/anryton/anryton/v2/testutil"
+	"github.com/anryton/anryton/v2/x/vesting/types"
 )
 
 func (suite *KeeperTestSuite) TestBalances() {
@@ -42,7 +42,7 @@ func (suite *KeeperTestSuite) TestBalances() {
 			name: "invalid address",
 			malleate: func() {
 				req = &types.QueryBalancesRequest{
-					Address: "shido1",
+					Address: "anryton1",
 				}
 			},
 			expPass:     false,

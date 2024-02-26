@@ -1,10 +1,10 @@
 package backend
 
 import (
+	"github.com/anryton/anryton/v2/rpc/backend/mocks"
+	rpc "github.com/anryton/anryton/v2/rpc/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/shido/shido/v2/rpc/backend/mocks"
-	rpc "github.com/shido/shido/v2/rpc/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 )
 
 var _ feemarkettypes.QueryClient = &mocks.FeeMarketQueryClient{}

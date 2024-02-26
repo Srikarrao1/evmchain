@@ -1,11 +1,11 @@
 {
   dotenv: '../../../scripts/.env',
-  'shido_9000-1': {
-    cmd: 'shidod',
+  'anryton_9000-1': {
+    cmd: 'anrytond',
     'start-flags': '--trace',
     'app-config': {
       'app-db-backend': 'goleveldb',      
-      'minimum-gas-prices': '0shido',
+      'minimum-gas-prices': '0anryton',
       'index-events': ['ethereum_tx.ethereumTxHash'],
       'json-rpc': {
         address: '127.0.0.1:{EVMRPC_PORT}',
@@ -22,25 +22,25 @@
       }
     },
     validators: [{
-      coins: '10001000000000000000000shido',
-      staked: '1000000000000000000shido',
+      coins: '10001000000000000000000anryton',
+      staked: '1000000000000000000anryton',
       mnemonic: '${VALIDATOR1_MNEMONIC}',
     }, {
-      coins: '10001000000000000000000shido',
-      staked: '1000000000000000000shido',
+      coins: '10001000000000000000000anryton',
+      staked: '1000000000000000000anryton',
       mnemonic: '${VALIDATOR2_MNEMONIC}',
     }],
     accounts: [{
       name: 'community',
-      coins: '10000000000000000000000shido',
+      coins: '10000000000000000000000anryton',
       mnemonic: '${COMMUNITY_MNEMONIC}',
     }, {
       name: 'signer1',
-      coins: '20000000000000000000000shido',
+      coins: '20000000000000000000000anryton',
       mnemonic: '${SIGNER1_MNEMONIC}',
     }, {
       name: 'signer2',
-      coins: '30000000000000000000000shido',
+      coins: '30000000000000000000000anryton',
       mnemonic: '${SIGNER2_MNEMONIC}',
     }],
     genesis: {
@@ -53,22 +53,22 @@
       app_state: {
         evm: {
           params: {
-            evm_denom: 'shido',
+            evm_denom: 'anryton',
           },
         },
         crisis: {
           constant_fee: {
-            denom: 'shido',
+            denom: 'anryton',
           },
         },
         staking: {
           params: {
-            bond_denom: 'shido',
+            bond_denom: 'anryton',
           },
         },     
         inflation: {
           params: {
-            mint_denom: 'shido',
+            mint_denom: 'anryton',
           },
         },           
         gov: {
@@ -79,7 +79,7 @@
             max_deposit_period: '10s',
             min_deposit: [
               {
-                denom: 'shido',
+                denom: 'anryton',
                 amount: '1',
               },
             ],
@@ -87,7 +87,7 @@
           params: {
             min_deposit: [
               {
-                denom: 'shido',
+                denom: 'anryton',
                 amount: '1',
               },
             ],

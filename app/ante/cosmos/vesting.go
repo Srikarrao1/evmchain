@@ -2,13 +2,13 @@ package cosmos
 
 import (
 	errorsmod "cosmossdk.io/errors"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 // TODO: remove once Cosmos SDK is upgraded to v0.46

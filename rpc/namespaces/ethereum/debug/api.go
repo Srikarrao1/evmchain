@@ -14,7 +14,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 
 	stderrors "github.com/pkg/errors"
 
@@ -26,8 +26,8 @@ import (
 	"github.com/ethereum/go-ethereum/consensus/ethash"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	"github.com/shido/shido/v2/rpc/backend"
-	rpctypes "github.com/shido/shido/v2/rpc/types"
+	"github.com/anryton/anryton/v2/rpc/backend"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
 )
 
 // HandlerT keeps track of the cpu profiler and trace execution

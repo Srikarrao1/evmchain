@@ -6,7 +6,7 @@ import pytest
 from pystarport import ports
 from pystarport.cluster import SUPERVISOR_CONFIG_FILE
 
-from .network import setup_custom_shido
+from .network import setup_custom_anryton
 from .utils import supervisorctl, wait_for_block, wait_for_port
 
 
@@ -15,7 +15,7 @@ def update_node_cmd(path, cmd, i):
     ini = configparser.RawConfigParser()
     ini.read(ini_path)
     for section in ini.sections():
-        if section == f"program:shido_9000-1-node{i}":
+        if section == f"program:anryton_9000-1-node{i}":
             ini[section].update(
                 {
                     "command": f"{cmd} start --home %(here)s/node{i}",
@@ -28,27 +28,27 @@ def update_node_cmd(path, cmd, i):
 
 def post_init(broken_binary):
     def inner(path, base_port, config):
-        chain_id = "shido_9000-1"
+        chain_id = "anryton_9000-1"
         update_node_cmd(path / chain_id, broken_binary, 1)
 
     return inner
 
 
 @pytest.fixture(scope="module")
-def custom_shido(tmp_path_factory):
+def custom_anryton(tmp_path_factory):
     path = tmp_path_factory.mktemp("rollback")
 
     cmd = [
         "nix-build",
         "--no-out-link",
-        Path(__file__).parent / "configs/broken-shidod.nix",
+        Path(__file__).parent / "configs/broken-anrytond.nix",
     ]
     print(*cmd)
-    broken_binary = Path(subprocess.check_output(cmd).strip().decode()) / "bin/shidod"
+    broken_binary = Path(subprocess.check_output(cmd).strip().decode()) / "bin/anrytond"
     print(broken_binary)
 
     # init with genesis binary
-    yield from setup_custom_shido(
+    yield from setup_custom_anryton(
         path,
         26300,
         Path(__file__).parent / "configs/rollback-test.jsonnet",
@@ -57,22 +57,22 @@ def custom_shido(tmp_path_factory):
     )
 
 
-def test_rollback(custom_shido):
+def test_rollback(custom_anryton):
     """
     test using rollback command to fix app-hash mismatch situation.
     - the broken node will sync up to block 10 then crash.
     - use rollback command to rollback the db.
     - switch to correct binary should make the node syncing again.
     """
-    target_port = ports.rpc_port(custom_shido.base_port(1))
+    target_port = ports.rpc_port(custom_anryton.base_port(1))
     wait_for_port(target_port)
 
     print("wait for node1 to sync the first 10 blocks")
-    cli1 = custom_shido.cosmos_cli(1)
+    cli1 = custom_anryton.cosmos_cli(1)
     wait_for_block(cli1, 10)
 
     print("wait for a few more blocks on the healthy nodes")
-    cli0 = custom_shido.cosmos_cli(0)
+    cli0 = custom_anryton.cosmos_cli(0)
     wait_for_block(cli0, 13)
 
     # (app hash mismatch happens after the 10th block, detected in the 11th block)
@@ -80,14 +80,14 @@ def test_rollback(custom_shido):
     assert cli1.block_height() == 10
 
     print("stop node1")
-    supervisorctl(custom_shido.base_dir / "../tasks.ini", "stop", "shido_9000-1-node1")
+    supervisorctl(custom_anryton.base_dir / "../tasks.ini", "stop", "anryton_9000-1-node1")
 
     print("do rollback on node1")
     cli1.rollback()
 
     print("switch to normal binary")
-    update_node_cmd(custom_shido.base_dir, "shidod", 1)
-    supervisorctl(custom_shido.base_dir / "../tasks.ini", "update")
+    update_node_cmd(custom_anryton.base_dir, "anrytond", 1)
+    supervisorctl(custom_anryton.base_dir / "../tasks.ini", "update")
     wait_for_port(target_port)
 
     print("check node1 sync again")

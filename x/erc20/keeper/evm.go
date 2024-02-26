@@ -5,6 +5,8 @@ import (
 	"math/big"
 
 	errorsmod "cosmossdk.io/errors"
+	"github.com/anryton/anryton/v2/server/config"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -13,11 +15,9 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/shido/shido/v2/server/config"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 // DeployERC20Contract creates and deploys an ERC20 contract on the EVM with the

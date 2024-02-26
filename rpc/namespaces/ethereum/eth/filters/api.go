@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/anryton/anryton/v2/rpc/types"
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/shido/shido/v2/rpc/types"
 
 	"github.com/cometbft/cometbft/libs/log"
 
@@ -20,7 +20,7 @@ import (
 	"github.com/ethereum/go-ethereum/eth/filters"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // FilterAPI gathers

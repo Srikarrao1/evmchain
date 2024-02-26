@@ -1,8 +1,8 @@
 package miner
 
 import (
+	"github.com/anryton/anryton/v2/rpc/backend"
 	"github.com/cosmos/cosmos-sdk/server"
-	"github.com/shido/shido/v2/rpc/backend"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"

@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	v2 "github.com/anryton/anryton/v2/x/vesting/migrations/v2"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	v2 "github.com/shido/shido/v2/x/vesting/migrations/v2"
 )
 
 var _ module.MigrationHandler = Migrator{}.Migrate1to2

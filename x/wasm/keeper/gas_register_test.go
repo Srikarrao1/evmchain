@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"

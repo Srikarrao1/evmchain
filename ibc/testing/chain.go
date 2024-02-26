@@ -18,13 +18,13 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/cosmos/ibc-go/v7/testing/mock"
 
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
-// ChainIDPrefix defines the default chain ID prefix for Shido test chains
+// ChainIDPrefix defines the default chain ID prefix for Anryton test chains
 var (
 	ChainIDPrefix = utils.MainnetChainID + "-"
 	ChainIDSuffix = ""
@@ -63,12 +63,12 @@ func NewTestChain(t *testing.T, coord *ibcgotesting.Coordinator, chainID string)
 
 	baseAcc := authtypes.NewBaseAccount(senderPrivKey.PubKey().Address().Bytes(), senderPrivKey.PubKey(), 0, 0)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(1, anrytontypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),

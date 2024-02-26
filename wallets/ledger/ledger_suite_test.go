@@ -17,16 +17,16 @@ import (
 	auxTx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	bankTypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/shido/shido/v2/wallets/ledger"
-	"github.com/shido/shido/v2/wallets/ledger/mocks"
-	"github.com/shido/shido/v2/wallets/usbwallet"
+	"github.com/anryton/anryton/v2/wallets/ledger"
+	"github.com/anryton/anryton/v2/wallets/ledger/mocks"
+	"github.com/anryton/anryton/v2/wallets/usbwallet"
 )
 
 type LedgerTestSuite struct {
 	suite.Suite
 	txAmino    []byte
 	txProtobuf []byte
-	ledger     ledger.ShidoSECP256K1
+	ledger     ledger.AnrytonSECP256K1
 	mockWallet *mocks.Wallet
 	hrp        string
 }
@@ -36,7 +36,7 @@ func TestLedgerTestSuite(t *testing.T) {
 }
 
 func (suite *LedgerTestSuite) SetupTest() {
-	suite.hrp = "shido"
+	suite.hrp = "anryton"
 
 	suite.txAmino = suite.getMockTxAmino()
 	suite.txProtobuf = suite.getMockTxProtobuf()
@@ -46,7 +46,7 @@ func (suite *LedgerTestSuite) SetupTest() {
 
 	mockWallet := new(mocks.Wallet)
 	suite.mockWallet = mockWallet
-	suite.ledger = ledger.ShidoSECP256K1{Hub: hub, PrimaryWallet: mockWallet}
+	suite.ledger = ledger.AnrytonSECP256K1{Hub: hub, PrimaryWallet: mockWallet}
 }
 
 func (suite *LedgerTestSuite) newPubKey(pk string) (res cryptoTypes.PubKey) {
@@ -63,7 +63,7 @@ func (suite *LedgerTestSuite) getMockTxAmino() []byte {
 	tmp := whitespaceRegex.ReplaceAllString(
 		`{
 			"account_number": "0",
-			"chain_id":"shido_9000-1",
+			"chain_id":"anryton_9000-1",
 			"fee":{
 				"amount":[{"amount":"150","denom":"atom"}],
 				"gas":"20000"
@@ -142,7 +142,7 @@ func (suite *LedgerTestSuite) getMockTxProtobuf() []byte {
 	signBytes, err := auxTx.DirectSignBytes(
 		bodyBytes,
 		authInfoBytes,
-		"shido_9000-1",
+		"anryton_9000-1",
 		0,
 	)
 	suite.Require().NoError(err)

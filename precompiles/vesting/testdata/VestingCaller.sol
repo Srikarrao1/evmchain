@@ -5,7 +5,7 @@ import "../../common/Types.sol";
 import "../Vesting.sol" as vesting;
 
 /// @title VestingCaller
-/// @author Shido Core Team
+/// @author Anryton Core Team
 /// @dev This contract is used to test external contract calls to the vesting precompile.
 contract VestingCaller {
 

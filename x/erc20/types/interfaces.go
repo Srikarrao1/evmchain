@@ -13,8 +13,8 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/vm"
 
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // AccountKeeper defines the expected interface needed to retrieve account info.

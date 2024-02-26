@@ -3,14 +3,15 @@ package network
 import (
 	"time"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
 
 	"cosmossdk.io/simapp"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/testutil/mock"
 
 	sdkmath "cosmossdk.io/math"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
 	dbm "github.com/cometbft/cometbft-db"
 	"github.com/cometbft/cometbft/libs/log"
 	tmtypes "github.com/cometbft/cometbft/types"
@@ -21,7 +22,6 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
 )
 
 // createValidatorSet creates validator set with the amount of validators specified
@@ -66,9 +66,9 @@ func createBalances(accounts []sdktypes.AccAddress, coin sdktypes.Coin) []bankty
 	return fundedAccountBalances
 }
 
-// createShidoApp creates an shido app
-func createShidoApp(chainID string) *app.Shido {
-	// Create shido app
+// createAnrytonApp creates an anryton app
+func createAnrytonApp(chainID string) *app.Anryton {
+	// Create anryton app
 	db := dbm.NewMemDB()
 	logger := log.NewNopLogger()
 	loadLatest := true
@@ -79,7 +79,7 @@ func createShidoApp(chainID string) *app.Shido {
 	appOptions := simutils.NewAppOptionsWithFlagHome(app.DefaultNodeHome)
 	baseAppOptions := []func(*baseapp.BaseApp){baseapp.SetChainID(chainID)}
 	var wasmOpts []wasmkeeper.Option
-	return app.NewShido(
+	return app.NewAnryton(
 		logger,
 		db,
 		nil,
@@ -159,20 +159,20 @@ type StakingCustomGenesisState struct {
 }
 
 // setStakingGenesisState sets the staking genesis state
-func setStakingGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisState, overwriteParams StakingCustomGenesisState) simapp.GenesisState {
+func setStakingGenesisState(anrytonApp *app.Anryton, genesisState simapp.GenesisState, overwriteParams StakingCustomGenesisState) simapp.GenesisState {
 	// Set staking params
 	stakingParams := stakingtypes.DefaultParams()
 	stakingParams.BondDenom = overwriteParams.denom
 
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, overwriteParams.validators, overwriteParams.delegations)
-	genesisState[stakingtypes.ModuleName] = shidoApp.AppCodec().MustMarshalJSON(stakingGenesis)
+	genesisState[stakingtypes.ModuleName] = anrytonApp.AppCodec().MustMarshalJSON(stakingGenesis)
 	return genesisState
 }
 
 // setAuthGenesisState sets the auth genesis state
-func setAuthGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisState, genAccounts []authtypes.GenesisAccount) simapp.GenesisState {
+func setAuthGenesisState(anrytonApp *app.Anryton, genesisState simapp.GenesisState, genAccounts []authtypes.GenesisAccount) simapp.GenesisState {
 	authGenesis := authtypes.NewGenesisState(authtypes.DefaultParams(), genAccounts)
-	genesisState[authtypes.ModuleName] = shidoApp.AppCodec().MustMarshalJSON(authGenesis)
+	genesisState[authtypes.ModuleName] = anrytonApp.AppCodec().MustMarshalJSON(authGenesis)
 	return genesisState
 }
 
@@ -182,7 +182,7 @@ type BankCustomGenesisState struct {
 }
 
 // setBankGenesisState sets the bank genesis state
-func setBankGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisState, overwriteParams BankCustomGenesisState) simapp.GenesisState {
+func setBankGenesisState(anrytonApp *app.Anryton, genesisState simapp.GenesisState, overwriteParams BankCustomGenesisState) simapp.GenesisState {
 	bankGenesis := banktypes.NewGenesisState(
 		banktypes.DefaultGenesisState().Params,
 		overwriteParams.balances,
@@ -190,7 +190,7 @@ func setBankGenesisState(shidoApp *app.Shido, genesisState simapp.GenesisState, 
 		[]banktypes.Metadata{},
 		[]banktypes.SendEnabled{},
 	)
-	genesisState[banktypes.ModuleName] = shidoApp.AppCodec().MustMarshalJSON(bankGenesis)
+	genesisState[banktypes.ModuleName] = anrytonApp.AppCodec().MustMarshalJSON(bankGenesis)
 	return genesisState
 }
 

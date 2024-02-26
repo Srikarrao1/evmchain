@@ -4,19 +4,19 @@ import (
 	"encoding/json"
 	"math"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/types"
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	abcitypes "github.com/cometbft/cometbft/abci/types"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	txtypes "github.com/cosmos/cosmos-sdk/types/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 )
 
 // Network is the interface that wraps the methods to interact with integration test network.
@@ -50,7 +50,7 @@ var _ Network = (*IntegrationNetwork)(nil)
 type IntegrationNetwork struct {
 	cfg        Config
 	ctx        sdktypes.Context
-	app        *app.Shido
+	app        *app.Anryton
 	validators []stakingtypes.Validator
 }
 
@@ -111,29 +111,29 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 
 	delegations := createDelegations(valSet.Validators, genAccounts[0].GetAddress())
 
-	// Create a new ShidoApp with the following params
-	shidoApp := createShidoApp(n.cfg.chainID)
+	// Create a new AnrytonApp with the following params
+	anrytonApp := createAnrytonApp(n.cfg.chainID)
 
 	// Configure Genesis state
 	genesisState := app.NewDefaultGenesisState()
 
-	genesisState = setAuthGenesisState(shidoApp, genesisState, genAccounts)
+	genesisState = setAuthGenesisState(anrytonApp, genesisState, genAccounts)
 
 	stakingParams := StakingCustomGenesisState{
 		denom:       n.cfg.denom,
 		validators:  validators,
 		delegations: delegations,
 	}
-	genesisState = setStakingGenesisState(shidoApp, genesisState, stakingParams)
+	genesisState = setStakingGenesisState(anrytonApp, genesisState, stakingParams)
 
-	// genesisState = setInflationGenesisState(shidoApp, genesisState)
+	// genesisState = setInflationGenesisState(anrytonApp, genesisState)
 
 	totalSupply := calculateTotalSupply(fundedAccountBalances)
 	bankParams := BankCustomGenesisState{
 		totalSupply: totalSupply,
 		balances:    fundedAccountBalances,
 	}
-	genesisState = setBankGenesisState(shidoApp, genesisState, bankParams)
+	genesisState = setBankGenesisState(anrytonApp, genesisState, bankParams)
 
 	// Init chain
 	stateBytes, err := json.MarshalIndent(genesisState, "", " ")
@@ -141,7 +141,7 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 		return err
 	}
 
-	shidoApp.InitChain(
+	anrytonApp.InitChain(
 		abcitypes.RequestInitChain{
 			ChainId:         n.cfg.chainID,
 			Validators:      []abcitypes.ValidatorUpdate{},
@@ -150,22 +150,22 @@ func (n *IntegrationNetwork) configureAndInitChain() error {
 		},
 	)
 	// Commit genesis changes
-	shidoApp.Commit()
+	anrytonApp.Commit()
 
 	header := tmproto.Header{
 		ChainID:            n.cfg.chainID,
-		Height:             shidoApp.LastBlockHeight() + 1,
-		AppHash:            shidoApp.LastCommitID().Hash,
+		Height:             anrytonApp.LastBlockHeight() + 1,
+		AppHash:            anrytonApp.LastCommitID().Hash,
 		ValidatorsHash:     valSet.Hash(),
 		NextValidatorsHash: valSet.Hash(),
 		ProposerAddress:    valSet.Proposer.Address,
 	}
-	shidoApp.BeginBlock(abcitypes.RequestBeginBlock{Header: header})
+	anrytonApp.BeginBlock(abcitypes.RequestBeginBlock{Header: header})
 
 	// Set networks global parameters
-	n.app = shidoApp
+	n.app = anrytonApp
 	// TODO - this might not be the best way to initilize the context
-	n.ctx = shidoApp.BaseApp.NewContext(false, header)
+	n.ctx = anrytonApp.BaseApp.NewContext(false, header)
 	n.validators = validators
 	return nil
 }

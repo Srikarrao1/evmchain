@@ -7,7 +7,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 type optsFn func(*Keeper)

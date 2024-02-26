@@ -6,12 +6,12 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	anrytontypes "github.com/anryton/anryton/v2/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	shidotypes "github.com/shido/shido/v2/types"
 
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 var _ types.QueryServer = Keeper{}
@@ -54,7 +54,7 @@ func (k Keeper) TokenPair(c context.Context, req *types.QueryTokenPairRequest) (
 
 	// check if the token is a hex address, if not, check if it is a valid SDK
 	// denom
-	if err := shidotypes.ValidateAddress(req.Token); err != nil {
+	if err := anrytontypes.ValidateAddress(req.Token); err != nil {
 		if err := sdk.ValidateDenom(req.Token); err != nil {
 			return nil, status.Errorf(
 				codes.InvalidArgument,

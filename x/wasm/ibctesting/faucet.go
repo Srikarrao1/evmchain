@@ -6,8 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
-
-	// "github.com/shido/shido/v2/app"
+	// "github.com/anryton/anryton/v2/app"
 )
 
 // Fund an address with the given amount in default denom

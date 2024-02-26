@@ -1,9 +1,9 @@
 package keeper_test
 
 import (
+	feemarketkeeper "github.com/anryton/anryton/v2/x/feemarket/keeper"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	feemarketkeeper "github.com/shido/shido/v2/x/feemarket/keeper"
-	"github.com/shido/shido/v2/x/feemarket/types"
 )
 
 type mockSubspace struct {

@@ -5,8 +5,8 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/x/wasm/exported"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/exported"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 // MigrateStore migrates the x/wasm module state from the consensus version 2 to

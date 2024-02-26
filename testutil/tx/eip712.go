@@ -13,11 +13,11 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 
+	"github.com/anryton/anryton/v2/app"
+	cryptocodec "github.com/anryton/anryton/v2/crypto/codec"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	"github.com/anryton/anryton/v2/types"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/shido/shido/v2/app"
-	cryptocodec "github.com/shido/shido/v2/crypto/codec"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	"github.com/shido/shido/v2/types"
 )
 
 type EIP712TxArgs struct {
@@ -50,12 +50,12 @@ type legacyWeb3ExtensionArgs struct {
 // It returns the signed transaction and an error
 func CreateEIP712CosmosTx(
 	ctx sdk.Context,
-	appShido *app.Shido,
+	appAnryton *app.Anryton,
 	args EIP712TxArgs,
 ) (sdk.Tx, error) {
 	builder, err := PrepareEIP712CosmosTx(
 		ctx,
-		appShido,
+		appAnryton,
 		args,
 	)
 	return builder.GetTx(), err
@@ -66,7 +66,7 @@ func CreateEIP712CosmosTx(
 // It returns the tx builder with the signed transaction and an error
 func PrepareEIP712CosmosTx(
 	ctx sdk.Context,
-	appShido *app.Shido,
+	appAnryton *app.Anryton,
 	args EIP712TxArgs,
 ) (client.TxBuilder, error) {
 	txArgs := args.CosmosTxArgs
@@ -78,9 +78,9 @@ func PrepareEIP712CosmosTx(
 	chainIDNum := pc.Uint64()
 
 	from := sdk.AccAddress(txArgs.Priv.PubKey().Address().Bytes())
-	accNumber := appShido.AccountKeeper.GetAccount(ctx, from).GetAccountNumber()
+	accNumber := appAnryton.AccountKeeper.GetAccount(ctx, from).GetAccountNumber()
 
-	nonce, err := appShido.AccountKeeper.GetSequence(ctx, from)
+	nonce, err := appAnryton.AccountKeeper.GetSequence(ctx, from)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func PrepareEIP712CosmosTx(
 
 	return signCosmosEIP712Tx(
 		ctx,
-		appShido,
+		appAnryton,
 		args,
 		builder,
 		chainIDNum,
@@ -129,7 +129,7 @@ func PrepareEIP712CosmosTx(
 // the provided private key and the typed data
 func signCosmosEIP712Tx(
 	ctx sdk.Context,
-	appShido *app.Shido,
+	appAnryton *app.Anryton,
 	args EIP712TxArgs,
 	builder authtx.ExtensionOptionsTxBuilder,
 	chainID uint64,
@@ -138,7 +138,7 @@ func signCosmosEIP712Tx(
 	priv := args.CosmosTxArgs.Priv
 
 	from := sdk.AccAddress(priv.PubKey().Address().Bytes())
-	nonce, err := appShido.AccountKeeper.GetSequence(ctx, from)
+	nonce, err := appAnryton.AccountKeeper.GetSequence(ctx, from)
 	if err != nil {
 		return nil, err
 	}
@@ -191,14 +191,14 @@ func createTypedData(args typedDataArgs, useLegacy bool) (apitypes.TypedData, er
 		registry := codectypes.NewInterfaceRegistry()
 		types.RegisterInterfaces(registry)
 		cryptocodec.RegisterInterfaces(registry)
-		shidoCodec := codec.NewProtoCodec(registry)
+		anrytonCodec := codec.NewProtoCodec(registry)
 
 		feeDelegation := &eip712.FeeDelegationOptions{
 			FeePayer: args.legacyFeePayer,
 		}
 
 		return eip712.LegacyWrapTxToTypedData(
-			shidoCodec,
+			anrytonCodec,
 			args.chainID,
 			args.legacyMsg,
 			args.data,

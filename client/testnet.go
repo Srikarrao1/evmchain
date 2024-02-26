@@ -38,13 +38,13 @@ import (
 	mintypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/shido/shido/v2/crypto/hd"
-	"github.com/shido/shido/v2/server/config"
-	srvflags "github.com/shido/shido/v2/server/flags"
-	shidotypes "github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/crypto/hd"
+	"github.com/anryton/anryton/v2/server/config"
+	srvflags "github.com/anryton/anryton/v2/server/flags"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/testutil/network"
+	"github.com/anryton/anryton/v2/testutil/network"
 )
 
 var (
@@ -91,7 +91,7 @@ func addTestnetFlagsToCmd(cmd *cobra.Command) {
 	cmd.Flags().String(flags.FlagChainID, "", "genesis file chain-id, if left blank will be randomly created")
 	cmd.Flags().String(sdkserver.FlagMinGasPrices,
 		fmt.Sprintf("0.000006%s",
-			shidotypes.AttoShido),
+			anrytontypes.AttoAnryton),
 		"Minimum gas prices to accept for transactions; All fees in a tx must meet this minimum (e.g. 0.01photino,0.001stake)")
 	cmd.Flags().String(flags.FlagKeyType, string(hd.EthSecp256k1Type), "Key signing algorithm to generate keys for")
 }
@@ -127,7 +127,7 @@ or a similar setup where each node has a manually configurable IP address.
 Note, strict routability for addresses is turned off in the config file.
 
 Example:
-	shidod testnet init-files --v 4 --output-dir ./.testnets --starting-ip-address 192.168.10.2
+	anrytond testnet init-files --v 4 --output-dir ./.testnets --starting-ip-address 192.168.10.2
 	`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
@@ -173,7 +173,7 @@ and generate "v" directories, populated with necessary validator configuration f
 (private validator, genesis, config, etc.).
 
 Example:
-	shidod testnet --v 4 --output-dir ./.testnets
+	anrytond testnet --v 4 --output-dir ./.testnets
 	`,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			args := startArgs{}
@@ -296,22 +296,22 @@ func initTestnetFiles(
 			return err
 		}
 
-		accStakingTokens := sdk.TokensFromConsensusPower(5000, shidotypes.PowerReduction)
+		accStakingTokens := sdk.TokensFromConsensusPower(5000, anrytontypes.PowerReduction)
 		coins := sdk.Coins{
-			sdk.NewCoin(shidotypes.AttoShido, accStakingTokens),
+			sdk.NewCoin(anrytontypes.AttoAnryton, accStakingTokens),
 		}
 
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: coins.Sort()})
-		genAccounts = append(genAccounts, &shidotypes.EthAccount{
+		genAccounts = append(genAccounts, &anrytontypes.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
 
-		valTokens := sdk.TokensFromConsensusPower(100, shidotypes.PowerReduction)
+		valTokens := sdk.TokensFromConsensusPower(100, anrytontypes.PowerReduction)
 		createValMsg, err := stakingtypes.NewMsgCreateValidator(
 			sdk.ValAddress(addr),
 			valPubKeys[i],
-			sdk.NewCoin(shidotypes.AttoShido, valTokens),
+			sdk.NewCoin(anrytontypes.AttoAnryton, valTokens),
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
 			stakingtypes.NewCommissionRates(sdk.OneDec(), sdk.OneDec(), sdk.OneDec()),
 			sdk.OneInt(),
@@ -347,7 +347,7 @@ func initTestnetFiles(
 			return err
 		}
 
-		customAppTemplate, customAppConfig := config.AppConfig(shidotypes.AttoShido)
+		customAppTemplate, customAppConfig := config.AppConfig(anrytontypes.AttoAnryton)
 		srvconfig.SetConfigTemplate(customAppTemplate)
 		if err := sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig, tmconfig.DefaultConfig()); err != nil {
 			return err
@@ -356,7 +356,7 @@ func initTestnetFiles(
 		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config/app.toml"), appConfig)
 	}
 
-	if err := initGenFiles(clientCtx, mbm, args.chainID, shidotypes.AttoShido, genAccounts, genBalances, genFiles, args.numValidators); err != nil {
+	if err := initGenFiles(clientCtx, mbm, args.chainID, anrytontypes.AttoAnryton, genAccounts, genBalances, genFiles, args.numValidators); err != nil {
 		return err
 	}
 

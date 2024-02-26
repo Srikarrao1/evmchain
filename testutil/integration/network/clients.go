@@ -1,14 +1,14 @@
 package network
 
 import (
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 )
 
 func getQueryHelper(ctx sdktypes.Context) *baseapp.QueryServiceTestHelper {

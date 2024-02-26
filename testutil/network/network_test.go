@@ -10,11 +10,11 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
+	"github.com/anryton/anryton/v2/server/config"
+	"github.com/anryton/anryton/v2/testutil/network"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/shido/shido/v2/server/config"
-	"github.com/shido/shido/v2/testutil/network"
 
-	shidonetwork "github.com/shido/shido/v2/testutil/network"
+	anrytonnetwork "github.com/anryton/anryton/v2/testutil/network"
 )
 
 type IntegrationTestSuite struct {
@@ -27,7 +27,7 @@ func (s *IntegrationTestSuite) SetupSuite() {
 	s.T().Log("setting up integration test suite")
 
 	var err error
-	cfg := shidonetwork.DefaultConfig()
+	cfg := anrytonnetwork.DefaultConfig()
 	cfg.JSONRPCAddress = config.DefaultJSONRPCAddress
 	cfg.NumValidators = 1
 

@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/shido/shido/v2/utils"
+	"github.com/anryton/anryton/v2/utils"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
 	"github.com/stretchr/testify/require"
 )
 

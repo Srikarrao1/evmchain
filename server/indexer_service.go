@@ -8,7 +8,7 @@ import (
 	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	"github.com/cometbft/cometbft/types"
 
-	shidotypes "github.com/shido/shido/v2/types"
+	anrytontypes "github.com/anryton/anryton/v2/types"
 )
 
 const (
@@ -21,13 +21,13 @@ const (
 type EVMIndexerService struct {
 	service.BaseService
 
-	txIdxr shidotypes.EVMTxIndexer
+	txIdxr anrytontypes.EVMTxIndexer
 	client rpcclient.Client
 }
 
 // NewEVMIndexerService returns a new service instance.
 func NewEVMIndexerService(
-	txIdxr shidotypes.EVMTxIndexer,
+	txIdxr anrytontypes.EVMTxIndexer,
 	client rpcclient.Client,
 ) *EVMIndexerService {
 	is := &EVMIndexerService{txIdxr: txIdxr, client: client}

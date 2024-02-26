@@ -3,7 +3,7 @@ package types
 import (
 	"fmt"
 
-	"github.com/shido/shido/v2/types"
+	"github.com/anryton/anryton/v2/types"
 )
 
 // Validate performs a basic validation of a GenesisAccount fields.

@@ -18,19 +18,19 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/shido/shido/v2/app"
-	cosmosante "github.com/shido/shido/v2/app/ante/cosmos"
-	evmante "github.com/shido/shido/v2/app/ante/evm"
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	epochstypes "github.com/shido/shido/v2/x/epochs/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	"github.com/shido/shido/v2/x/vesting/types"
+	"github.com/anryton/anryton/v2/app"
+	cosmosante "github.com/anryton/anryton/v2/app/ante/cosmos"
+	evmante "github.com/anryton/anryton/v2/app/ante/evm"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	epochstypes "github.com/anryton/anryton/v2/x/epochs/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/vesting/types"
 
 	"github.com/stretchr/testify/require"
 )
@@ -80,7 +80,7 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 		suite.app.EpochsKeeper.SetEpochInfo(suite.ctx, epoch)
 	}
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 	}

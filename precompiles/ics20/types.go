@@ -6,14 +6,14 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
 )
 
 // EventIBCTransfer is the event type emitted when a transfer is executed.

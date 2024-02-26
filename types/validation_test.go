@@ -3,9 +3,9 @@ package types_test
 import (
 	"testing"
 
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/types"
 	"github.com/ethereum/go-ethereum/common"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/types"
 	"github.com/stretchr/testify/require"
 )
 

@@ -3,9 +3,9 @@ before:
     - go mod download
 
 builds:
-  - id: "shidod-darwin"
-    main: ./cmd/shidod
-    binary: bin/shidod
+  - id: "anrytond-darwin"
+    main: ./cmd/anrytond
+    binary: bin/anrytond
     env:
       - CGO_ENABLED=1
       - CC=o64-clang
@@ -17,10 +17,10 @@ builds:
     flags:
       - -tags=cgo
     ldflags:
-      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=shido -X github.com/cosmos/cosmos-sdk/version.AppName=shidod -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
-  - id: "shidod-darwin-arm64"
-    main: ./cmd/shidod
-    binary: bin/shidod
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=anryton -X github.com/cosmos/cosmos-sdk/version.AppName=anrytond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  - id: "anrytond-darwin-arm64"
+    main: ./cmd/anrytond
+    binary: bin/anrytond
     env:
       - CGO_ENABLED=1
       - CC=oa64-clang
@@ -32,10 +32,10 @@ builds:
     flags:
       - -tags=cgo
     ldflags:
-      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=shido -X github.com/cosmos/cosmos-sdk/version.AppName=shidod -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
-  - id: "shidod-linux"
-    main: ./cmd/shidod
-    binary: bin/shidod
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=anryton -X github.com/cosmos/cosmos-sdk/version.AppName=anrytond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  - id: "anrytond-linux"
+    main: ./cmd/anrytond
+    binary: bin/anrytond
     env:
       - CGO_ENABLED=1
       - CC=gcc
@@ -47,10 +47,10 @@ builds:
     flags:
       - -tags=cgo
     ldflags:
-      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=shido -X github.com/cosmos/cosmos-sdk/version.AppName=shidod -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
-  - id: "shidod-linux-arm64"
-    main: ./cmd/shidod
-    binary: bin/shidod
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=anryton -X github.com/cosmos/cosmos-sdk/version.AppName=anrytond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  - id: "anrytond-linux-arm64"
+    main: ./cmd/anrytond
+    binary: bin/anrytond
     env:
       - CGO_ENABLED=1
       - CC=aarch64-linux-gnu-gcc
@@ -62,10 +62,10 @@ builds:
     flags:
       - -tags=cgo
     ldflags:
-      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=shido -X github.com/cosmos/cosmos-sdk/version.AppName=shidod -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
-  - id: "shidod-windows"
-    main: ./cmd/shidod
-    binary: bin/shidod
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=anryton -X github.com/cosmos/cosmos-sdk/version.AppName=anrytond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+  - id: "anrytond-windows"
+    main: ./cmd/anrytond
+    binary: bin/anrytond
     env:
       - CGO_ENABLED=1
       - CC=x86_64-w64-mingw32-gcc
@@ -78,7 +78,7 @@ builds:
       - -tags=cgo
       - -buildmode=exe
     ldflags:
-      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=shido -X github.com/cosmos/cosmos-sdk/version.AppName=shidod -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
+      - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=anryton -X github.com/cosmos/cosmos-sdk/version.AppName=anrytond -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
 
 archives:
   - name_template: '{{ .ProjectName }}_{{ .Version }}_{{- title .Os }}_{{ .Arch }}'
@@ -86,11 +86,11 @@ archives:
       - goos: windows
         format: zip
     builds:
-      - shidod-darwin
-      - shidod-darwin-arm64
-      - shidod-windows
-      - shidod-linux
-      - shidod-linux-arm64
+      - anrytond-darwin
+      - anrytond-darwin-arm64
+      - anrytond-windows
+      - anrytond-linux
+      - anrytond-linux-arm64
   
 checksum:
   name_template: 'checksums.txt'

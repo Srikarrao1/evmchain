@@ -5,15 +5,15 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/shido/shido/v2/precompiles/authorization"
+	"github.com/anryton/anryton/v2/precompiles/authorization"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
-	cmn "github.com/shido/shido/v2/precompiles/common"
 )
 
 const (

@@ -6,7 +6,7 @@ import (
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 // MintingEnabled checks that:

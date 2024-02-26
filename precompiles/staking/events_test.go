@@ -3,13 +3,13 @@ package staking_test
 import (
 	"math/big"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/staking"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/staking"
 )
 
 func (s *PrecompileTestSuite) TestApprovalEvent() {
@@ -91,7 +91,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowanceEvent() {
 		postCheck   func()
 	}{
 		{
-			"success - increased allowance for all 3 methods by 1 shido",
+			"success - increased allowance for all 3 methods by 1 anryton",
 			func() []interface{} {
 				return []interface{}{
 					s.address,
@@ -129,7 +129,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowanceEvent() {
 			err := s.CreateAuthorization(s.address, staking.DelegateAuthz, nil)
 			s.Require().NoError(err)
 
-			// Approve first with 1 shido
+			// Approve first with 1 anryton
 			_, err = s.precompile.Approve(s.ctx, s.address, s.stateDB, &approvalMethod, tc.malleate())
 			s.Require().NoError(err)
 
@@ -158,7 +158,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowanceEvent() {
 		postCheck   func()
 	}{
 		{
-			"success - decreased allowance for all 3 methods by 1 shido",
+			"success - decreased allowance for all 3 methods by 1 anryton",
 			func() []interface{} {
 				return []interface{}{
 					s.address,
@@ -196,7 +196,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowanceEvent() {
 			err := s.CreateAuthorization(s.address, staking.DelegateAuthz, nil)
 			s.Require().NoError(err)
 
-			// Approve first with 2 shido
+			// Approve first with 2 anryton
 			args := []interface{}{
 				s.address,
 				big.NewInt(2000000000000000000),

@@ -4,6 +4,18 @@ import (
 	"encoding/json"
 	"time"
 
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/testutil/contracts"
+	"github.com/anryton/anryton/v2/precompiles/vesting"
+	"github.com/anryton/anryton/v2/precompiles/vesting/testdata"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	tmtypes "github.com/cometbft/cometbft/types"
@@ -17,29 +29,17 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	shidoapp "github.com/shido/shido/v2/app"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	"github.com/shido/shido/v2/precompiles/vesting"
-	"github.com/shido/shido/v2/precompiles/vesting/testdata"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 
 	. "github.com/onsi/gomega"
 )
 
-// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new AnrytonApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
-	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*shidoapp.Shido)
+	appI, genesisState := anrytonapp.SetupTestingApp(cmn.DefaultChainID)()
+	app, ok := appI.(*anrytonapp.Anryton)
 	s.Require().True(ok)
 
 	// set genesis accounts
@@ -49,7 +49,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
 
-	bondAmt := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
+	bondAmt := sdk.TokensFromConsensusPower(1, anrytontypes.PowerReduction)
 
 	for _, val := range valSet.Validators {
 		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
@@ -76,7 +76,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be shido
+	// set bond demon to be anryton
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)
@@ -104,7 +104,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	stateBytes, err := json.MarshalIndent(genesisState, "", " ")
 	s.Require().NoError(err)
 
-	header := shidoutil.NewHeader(
+	header := anrytonutil.NewHeader(
 		2,
 		time.Now().UTC(),
 		cmn.DefaultChainID,
@@ -118,7 +118,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 		abci.RequestInitChain{
 			ChainId:         cmn.DefaultChainID,
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: shidoapp.DefaultConsensusParams,
+			ConsensusParams: anrytonapp.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
@@ -157,12 +157,12 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 
 	baseAcc := authtypes.NewBaseAccount(priv.PubKey().Address().Bytes(), priv.PubKey(), 0, 0)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(5, shidotypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(5, anrytontypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),
@@ -247,7 +247,7 @@ func (s *PrecompileTestSuite) CreateTestClawbackVestingAccount(funder, vestingAd
 	msgArgs := []interface{}{funder, vestingAddr, false}
 	//nolint
 	msg, _, _, err := vesting.NewMsgCreateClawbackVestingAccount(msgArgs)
-	err = shidoutil.FundAccount(s.ctx, s.app.BankKeeper, vestingAddr.Bytes(), sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100))))
+	err = anrytonutil.FundAccount(s.ctx, s.app.BankKeeper, vestingAddr.Bytes(), sdk.NewCoins(sdk.NewCoin(utils.BaseDenom, sdk.NewInt(100))))
 	s.Require().NoError(err)
 	_, err = s.app.VestingKeeper.CreateClawbackVestingAccount(s.ctx, msg)
 	s.Require().NoError(err)
@@ -255,7 +255,7 @@ func (s *PrecompileTestSuite) CreateTestClawbackVestingAccount(funder, vestingAd
 
 // DeployContract deploys a contract that calls the staking precompile's methods for testing purposes.
 func (s *PrecompileTestSuite) DeployContract(contract evmtypes.CompiledContract) (addr common.Address, err error) {
-	addr, err = shidoutil.DeployContract(
+	addr, err = anrytonutil.DeployContract(
 		s.ctx,
 		s.app,
 		s.privKey,
@@ -305,6 +305,6 @@ func (s *PrecompileTestSuite) GetVestingAccount(addr common.Address) *vestingtyp
 // NextBlock commits the current block and sets up the next block.
 func (s *PrecompileTestSuite) NextBlock() {
 	var err error
-	s.ctx, err = shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second, nil)
+	s.ctx, err = anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second, nil)
 	Expect(err).To(BeNil(), "failed to commit block")
 }

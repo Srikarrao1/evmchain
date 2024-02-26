@@ -3,7 +3,7 @@ package cli
 import (
 	"testing"
 
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	"github.com/stretchr/testify/require"
 )
 

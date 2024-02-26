@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"math/big"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/ics20"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/ics20"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
 )
 
 var (
@@ -138,14 +138,14 @@ func (s *PrecompileTestSuite) TestTransfer() {
 			"requested amount is more than spend limit",
 		},
 		{
-			"fail - transfer 1 Shido from chainA to chainB from somebody else's account",
+			"fail - transfer 1 Anryton from chainA to chainB from somebody else's account",
 			func(sender, receiver sdk.AccAddress) []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
 				err := s.NewTransferAuthorization(s.ctx, s.app, common.BytesToAddress(sender), common.BytesToAddress(sender), path, defaultCoins, nil)
 				s.Require().NoError(err)
 				// fund another user's account
-				err = shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddress.Bytes(), amt)
+				err = anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddress.Bytes(), amt)
 				s.Require().NoError(err)
 
 				return []interface{}{
@@ -176,7 +176,7 @@ func (s *PrecompileTestSuite) TestTransfer() {
 			"does not exist",
 		},
 		{
-			"pass - transfer 1 Shido from chainA to chainB and spend the entire allowance",
+			"pass - transfer 1 Anryton from chainA to chainB and spend the entire allowance",
 			func(sender, receiver sdk.AccAddress) []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -209,7 +209,7 @@ func (s *PrecompileTestSuite) TestTransfer() {
 		},
 		//nolint:dupl
 		{
-			"pass - transfer 1 Shido from chainA to chainB and don't change the unlimited spending limit",
+			"pass - transfer 1 Anryton from chainA to chainB and don't change the unlimited spending limit",
 			func(sender, receiver sdk.AccAddress) []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -243,7 +243,7 @@ func (s *PrecompileTestSuite) TestTransfer() {
 		},
 		//nolint:dupl
 		{
-			"pass - transfer 1 Shido from chainA to chainB and only change 1 spend limit",
+			"pass - transfer 1 Anryton from chainA to chainB and only change 1 spend limit",
 			func(sender, receiver sdk.AccAddress) []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -276,7 +276,7 @@ func (s *PrecompileTestSuite) TestTransfer() {
 			"",
 		},
 		{
-			"pass - transfer 1 Shido from chainA to chainB and only change 1 spend limit for the associated allocation",
+			"pass - transfer 1 Anryton from chainA to chainB and only change 1 spend limit for the associated allocation",
 			func(sender, receiver sdk.AccAddress) []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)

@@ -1,17 +1,17 @@
 package keeper_test
 
 import (
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
+	erc20keeper "github.com/anryton/anryton/v2/x/erc20/keeper"
+	v3types "github.com/anryton/anryton/v2/x/erc20/migrations/v3/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
-	erc20keeper "github.com/shido/shido/v2/x/erc20/keeper"
-	v3types "github.com/shido/shido/v2/x/erc20/migrations/v3/types"
-	"github.com/shido/shido/v2/x/erc20/types"
 )
 
 type mockSubspace struct {

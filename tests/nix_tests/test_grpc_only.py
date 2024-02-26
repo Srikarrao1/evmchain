@@ -8,7 +8,7 @@ import pytest
 import requests
 from pystarport import ports
 
-from .network import setup_custom_shido
+from .network import setup_custom_anryton
 from .utils import (
     CONTRACTS,
     decode_bech32,
@@ -20,11 +20,11 @@ from .utils import (
 
 
 @pytest.fixture(scope="module")
-def custom_shido(tmp_path_factory):
+def custom_anryton(tmp_path_factory):
     path = tmp_path_factory.mktemp("grpc-only")
 
     # reuse rollback-test config because it has an extra fullnode
-    yield from setup_custom_shido(
+    yield from setup_custom_anryton(
         path,
         26400,
         Path(__file__).parent / "configs/rollback-test.jsonnet",
@@ -42,15 +42,15 @@ def grpc_eth_call(port: int, args: dict, chain_id=None, proposer_address=None):
         params["chain_id"] = str(chain_id)
     if proposer_address is not None:
         params["proposer_address"] = str(proposer_address)
-    return requests.get(f"http://localhost:{port}/shido/evm/v1/eth_call", params).json()
+    return requests.get(f"http://localhost:{port}/anryton/evm/v1/eth_call", params).json()
 
 
-def test_grpc_mode(custom_shido):
+def test_grpc_mode(custom_anryton):
     """
     - restart a fullnode in grpc-only mode
     - test the grpc queries all works
     """
-    w3 = custom_shido.w3
+    w3 = custom_anryton.w3
     contract, _ = deploy_contract(w3, CONTRACTS["TestChainID"])
     assert 9000 == contract.caller.currentChainID()
 
@@ -58,7 +58,7 @@ def test_grpc_mode(custom_shido):
         "to": contract.address,
         "data": contract.encodeABI(fn_name="currentChainID"),
     }
-    api_port = ports.api_port(custom_shido.base_port(1))
+    api_port = ports.api_port(custom_anryton.base_port(1))
     # in normal mode, grpc query works even if we don't pass chain_id explicitly
     success = False
     max_retry = 3
@@ -74,25 +74,25 @@ def test_grpc_mode(custom_shido):
     assert success
     # wait 1 more block for both nodes to avoid node stopped before tnx get included
     for i in range(2):
-        wait_for_block(custom_shido.cosmos_cli(i), 1)
-    supervisorctl(custom_shido.base_dir / "../tasks.ini", "stop", "shido_9000-1-node1")
+        wait_for_block(custom_anryton.cosmos_cli(i), 1)
+    supervisorctl(custom_anryton.base_dir / "../tasks.ini", "stop", "anryton_9000-1-node1")
 
     # run grpc-only mode directly with existing chain state
-    with (custom_shido.base_dir / "node1.log").open("a") as logfile:
+    with (custom_anryton.base_dir / "node1.log").open("a") as logfile:
         proc = subprocess.Popen(
             [
-                "shidod",
+                "anrytond",
                 "start",
                 "--grpc-only",
                 "--home",
-                custom_shido.base_dir / "node1",
+                custom_anryton.base_dir / "node1",
             ],
             stdout=logfile,
             stderr=subprocess.STDOUT,
         )
         try:
             # wait for grpc and rest api ports
-            grpc_port = ports.grpc_port(custom_shido.base_port(1))
+            grpc_port = ports.grpc_port(custom_anryton.base_port(1))
             wait_for_port(grpc_port)
             wait_for_port(api_port)
 
@@ -111,7 +111,7 @@ def test_grpc_mode(custom_shido):
             assert "validator does not exist" in rsp["message"]
 
             # pass the first validator's consensus address to grpc query
-            addr = custom_shido.cosmos_cli(0).consensus_address()
+            addr = custom_anryton.cosmos_cli(0).consensus_address()
             cons_addr = decode_bech32(addr)
             proposer_addr = base64.b64encode(cons_addr).decode()
 
@@ -119,7 +119,7 @@ def test_grpc_mode(custom_shido):
             rsp = grpc_eth_call(
                 api_port,
                 msg,
-                chain_id="shido_9000",
+                chain_id="anryton_9000",
                 proposer_address=proposer_addr,
             )
             assert rsp["code"] != 0, str(rsp)

@@ -1,6 +1,7 @@
 package types
 
 import (
+	migrationtypes "github.com/anryton/anryton/v2/x/vesting/migrations/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -9,7 +10,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/vesting/exported"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	migrationtypes "github.com/shido/shido/v2/x/vesting/migrations/types"
 )
 
 var (
@@ -23,11 +23,11 @@ var (
 
 const (
 	// Amino names
-	clawback                     = "shido/MsgClawback"
-	createClawbackVestingAccount = "shido/MsgCreateClawbackVestingAccount"
-	updateVestingFunder          = "shido/MsgUpdateVestingFunder"
-	convertVestingAccount        = "shido/MsgConvertVestingAccount"
-	fundVestingAccount           = "shido/MsgFundVestingAccount"
+	clawback                     = "anryton/MsgClawback"
+	createClawbackVestingAccount = "anryton/MsgCreateClawbackVestingAccount"
+	updateVestingFunder          = "anryton/MsgUpdateVestingFunder"
+	convertVestingAccount        = "anryton/MsgConvertVestingAccount"
+	fundVestingAccount           = "anryton/MsgFundVestingAccount"
 )
 
 // NOTE: This is required for the GetSignBytes function

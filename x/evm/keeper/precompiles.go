@@ -8,16 +8,16 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 
+	distprecompile "github.com/anryton/anryton/v2/precompiles/distribution"
+	ics20precompile "github.com/anryton/anryton/v2/precompiles/ics20"
+	stakingprecompile "github.com/anryton/anryton/v2/precompiles/staking"
+	vestingprecompile "github.com/anryton/anryton/v2/precompiles/vesting"
+	transferkeeper "github.com/anryton/anryton/v2/x/ibc/transfer/keeper"
+	vestingkeeper "github.com/anryton/anryton/v2/x/vesting/keeper"
 	authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"
 	distributionkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	channelkeeper "github.com/cosmos/ibc-go/v7/modules/core/04-channel/keeper"
-	distprecompile "github.com/shido/shido/v2/precompiles/distribution"
-	ics20precompile "github.com/shido/shido/v2/precompiles/ics20"
-	stakingprecompile "github.com/shido/shido/v2/precompiles/staking"
-	vestingprecompile "github.com/shido/shido/v2/precompiles/vesting"
-	transferkeeper "github.com/shido/shido/v2/x/ibc/transfer/keeper"
-	vestingkeeper "github.com/shido/shido/v2/x/vesting/keeper"
 )
 
 // AvailablePrecompiles returns the list of all available precompiled contracts.

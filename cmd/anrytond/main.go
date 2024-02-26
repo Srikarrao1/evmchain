@@ -7,8 +7,8 @@ import (
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/app"
-	cmdcfg "github.com/shido/shido/v2/cmd/config"
+	"github.com/anryton/anryton/v2/app"
+	cmdcfg "github.com/anryton/anryton/v2/cmd/config"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 
 	rootCmd, _ := NewRootCmd()
 
-	if err := svrcmd.Execute(rootCmd, "shidod", app.DefaultNodeHome); err != nil {
+	if err := svrcmd.Execute(rootCmd, "anrytond", app.DefaultNodeHome); err != nil {
 		switch e := err.(type) {
 		case server.ErrorCode:
 			os.Exit(e.Code)

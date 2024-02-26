@@ -14,10 +14,10 @@ import (
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/rpc/backend/mocks"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/rpc/backend/mocks"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 func (suite *BackendTestSuite) TestSendTransaction() {

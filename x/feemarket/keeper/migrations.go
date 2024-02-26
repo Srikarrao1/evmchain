@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	v4 "github.com/anryton/anryton/v2/x/feemarket/migrations/v4"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v4 "github.com/shido/shido/v2/x/feemarket/migrations/v4"
-	"github.com/shido/shido/v2/x/feemarket/types"
 )
 
 // Migrator is a struct for handling in-place store migrations.

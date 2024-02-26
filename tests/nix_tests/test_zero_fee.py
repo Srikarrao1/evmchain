@@ -3,25 +3,25 @@ from pathlib import Path
 import pytest
 from web3 import Web3
 
-from .network import setup_custom_shido
+from .network import setup_custom_anryton
 from .utils import ADDRS, eth_to_bech32, wait_for_fn
 
 
 @pytest.fixture(scope="module")
-def shido(request, tmp_path_factory):
-    yield from setup_custom_shido(
+def anryton(request, tmp_path_factory):
+    yield from setup_custom_anryton(
         tmp_path_factory.mktemp("zero-fee"),
         26900,
         Path(__file__).parent / "configs/zero-fee.jsonnet",
     )
 
 
-def test_cosmos_tx(shido):
+def test_cosmos_tx(anryton):
     """
     test basic cosmos transaction works with zero fees
     """
-    denom = "shido"
-    cli = shido.cosmos_cli()
+    denom = "anryton"
+    cli = anryton.cosmos_cli()
     sender = eth_to_bech32(ADDRS["signer1"])
     receiver = eth_to_bech32(ADDRS["signer2"])
     amt = 1000
@@ -57,11 +57,11 @@ def test_cosmos_tx(shido):
     assert old_src_balance - amt == new_src_balance
 
 
-def test_eth_tx(shido):
+def test_eth_tx(anryton):
     """
     test basic Ethereum transaction works with zero fees
     """
-    w3: Web3 = shido.w3
+    w3: Web3 = anryton.w3
 
     sender = ADDRS["signer1"]
     receiver = ADDRS["signer2"]

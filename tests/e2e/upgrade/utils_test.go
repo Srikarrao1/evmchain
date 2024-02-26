@@ -46,10 +46,10 @@ func TestCheckLegacyProposal(t *testing.T) {
 	}
 }
 
-// TestShidoVersionsLess tests the ShidoVersions type's Less method with
+// TestAnrytonVersionsLess tests the AnrytonVersions type's Less method with
 // different version strings
-func TestShidoVersionsLess(t *testing.T) {
-	var version ShidoVersions
+func TestAnrytonVersionsLess(t *testing.T) {
+	var version AnrytonVersions
 
 	testCases := []struct {
 		Name string
@@ -76,18 +76,18 @@ func TestShidoVersionsLess(t *testing.T) {
 	}
 }
 
-// TestShidoVersionsSwap tests the ShidoVersions type's Swap method
-func TestShidoVersionsSwap(t *testing.T) {
-	var version ShidoVersions
+// TestAnrytonVersionsSwap tests the AnrytonVersions type's Swap method
+func TestAnrytonVersionsSwap(t *testing.T) {
+	var version AnrytonVersions
 	value := "v9.1.0"
 	version = []string{value, "v10.0.0"}
 	version.Swap(0, 1)
 	require.Equal(t, value, version[1], "expected: %v, got: %v", value, version[1])
 }
 
-// TestShidoVersionsLen tests the ShidoVersions type's Len method
-func TestShidoVersionsLen(t *testing.T) {
-	var version ShidoVersions = []string{"v9.1.0", "v10.0.0"}
+// TestAnrytonVersionsLen tests the AnrytonVersions type's Len method
+func TestAnrytonVersionsLen(t *testing.T) {
+	var version AnrytonVersions = []string{"v9.1.0", "v10.0.0"}
 	require.Equal(t, 2, version.Len(), "expected: %v, got: %v", 2, version.Len())
 }
 

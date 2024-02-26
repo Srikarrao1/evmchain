@@ -1,23 +1,23 @@
 import pytest
 
-from .network import setup_shido
+from .network import setup_anryton
 from .utils import CONTRACTS, deploy_contract, w3_wait_for_new_blocks
 
 
 @pytest.fixture(scope="module")
-def custom_shido(tmp_path_factory):
+def custom_anryton(tmp_path_factory):
     path = tmp_path_factory.mktemp("storage-proof")
-    yield from setup_shido(path, 26800)
+    yield from setup_anryton(path, 26800)
 
 
-@pytest.fixture(scope="module", params=["shido", "geth"])
-def cluster(request, custom_shido, geth):
+@pytest.fixture(scope="module", params=["anryton", "geth"])
+def cluster(request, custom_anryton, geth):
     """
-    run on both shido and geth
+    run on both anryton and geth
     """
     provider = request.param
-    if provider == "shido":
-        yield custom_shido
+    if provider == "anryton":
+        yield custom_anryton
     elif provider == "geth":
         yield geth
     else:

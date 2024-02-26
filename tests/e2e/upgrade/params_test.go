@@ -38,17 +38,17 @@ func TestLoadUpgradeParams(t *testing.T) {
 			vars: envVars{
 				initialVersion: "v0.1.0",
 				targetVersion:  "v0.2.0",
-				chainID:        "shido_9123-1",
+				chainID:        "anryton_9123-1",
 				skipCleanup:    "true",
-				mountPath:      "/tmp/shido",
+				mountPath:      "/tmp/anryton",
 			},
 			want: Params{
-				MountPath: "/tmp/shido",
+				MountPath: "/tmp/anryton",
 				Versions: []VersionConfig{
 					{"v0.1.0", "v0.1.0", tharsisRepo},
 					{"v0.2.0", "v0.2.0", tharsisRepo},
 				},
-				ChainID:     "shido_9123-1",
+				ChainID:     "anryton_9123-1",
 				WorkDirRoot: wd,
 			},
 			expPass: true,

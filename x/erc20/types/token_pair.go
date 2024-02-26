@@ -1,10 +1,10 @@
 package types
 
 import (
+	anrytontypes "github.com/anryton/anryton/v2/types"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
-	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // NewTokenPair returns an instance of TokenPair
@@ -34,7 +34,7 @@ func (tp TokenPair) Validate() error {
 		return err
 	}
 
-	return shidotypes.ValidateAddress(tp.Erc20Address)
+	return anrytontypes.ValidateAddress(tp.Erc20Address)
 }
 
 // IsNativeCoin returns true if the owner of the ERC20 contract is the

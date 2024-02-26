@@ -4,14 +4,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/anryton/anryton/v2/utils"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
-	"github.com/shido/shido/v2/utils"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 
-	simapp "github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/x/epochs"
-	"github.com/shido/shido/v2/x/epochs/types"
+	simapp "github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/x/epochs"
+	"github.com/anryton/anryton/v2/x/epochs/types"
 )
 
 func TestEpochsExportGenesis(t *testing.T) {

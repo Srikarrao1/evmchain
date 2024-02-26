@@ -1,7 +1,7 @@
 package web3
 
 import (
-	"github.com/shido/shido/v2/version"
+	"github.com/anryton/anryton/v2/version"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"

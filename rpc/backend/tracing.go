@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"math"
 
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	tmrpcclient "github.com/cometbft/cometbft/rpc/client"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/pkg/errors"
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // TraceTransaction returns the structured logs created during the execution of EVM

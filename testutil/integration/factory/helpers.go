@@ -1,10 +1,13 @@
 package factory
 
 import (
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
 	errorsmod "cosmossdk.io/errors"
+	enccodec "github.com/anryton/anryton/v2/encoding/codec"
+	"github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
 	amino "github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
@@ -12,9 +15,6 @@ import (
 	testutiltypes "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	enccodec "github.com/shido/shido/v2/encoding/codec"
-	"github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // buildMsgEthereumTx builds an Ethereum transaction from the given arguments and populates the From field.
@@ -32,7 +32,7 @@ func buildMsgEthereumTx(txArgs evmtypes.EvmTxArgs, fromAddr common.Address) (evm
 
 // signMsgEthereumTx signs a MsgEthereumTx with the provided private key and chainID.
 func signMsgEthereumTx(msgEthereumTx evmtypes.MsgEthereumTx, privKey cryptotypes.PrivKey, chainID string) (evmtypes.MsgEthereumTx, error) {
-	ethChainID, err := shidotypes.ParseChainID(chainID)
+	ethChainID, err := anrytontypes.ParseChainID(chainID)
 	if err != nil {
 		return evmtypes.MsgEthereumTx{}, errorsmod.Wrapf(err, "failed to parse chainID: %v", chainID)
 	}

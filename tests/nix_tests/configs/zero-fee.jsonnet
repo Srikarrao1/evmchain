@@ -1,7 +1,7 @@
 local config = import 'default.jsonnet';
 
 config {
-  'shido_9000-1'+: {
+  'anryton_9000-1'+: {
     genesis+: {
       app_state+: {
         feemarket+: {

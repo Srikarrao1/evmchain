@@ -1,16 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Shido Chain - gRPC Gateway docs",
+    "title": "Anryton Chain - gRPC Gateway docs",
     "description": "A REST interface for state queries and transactions",
     "version": "1.0.0"
   },
   "apis": [
     {
-      "url": "./tmp-swagger-gen/shido/epochs/v1/query.swagger.json"
+      "url": "./tmp-swagger-gen/anryton/epochs/v1/query.swagger.json"
     },
     {
-      "url": "./tmp-swagger-gen/shido/erc20/v1/query.swagger.json",
+      "url": "./tmp-swagger-gen/anryton/erc20/v1/query.swagger.json",
       "operationIds": {
         "rename": {
           "Params": "ERC20Params"
@@ -18,7 +18,7 @@
       }
     },
     {
-      "url": "./tmp-swagger-gen/shido/vesting/v2/query.swagger.json"
+      "url": "./tmp-swagger-gen/anryton/vesting/v2/query.swagger.json"
     },
     {
       "url": "./tmp-swagger-gen/ethermint/evm/v1/query.swagger.json",

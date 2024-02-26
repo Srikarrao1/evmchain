@@ -13,7 +13,7 @@ import (
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 
-	"github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // CheckSenderBalance validates that the tx cost value is positive and that the

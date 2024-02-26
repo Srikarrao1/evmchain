@@ -18,9 +18,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/shido/shido/v2/x/feemarket/client/cli"
-	"github.com/shido/shido/v2/x/feemarket/keeper"
-	"github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/x/feemarket/client/cli"
+	"github.com/anryton/anryton/v2/x/feemarket/keeper"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 )
 
 // consensusVersion defines the current x/feemarket module consensus version.

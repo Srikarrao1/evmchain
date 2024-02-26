@@ -40,26 +40,26 @@ import (
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	shidoclient "github.com/shido/shido/v2/client"
-	"github.com/shido/shido/v2/client/block"
-	"github.com/shido/shido/v2/client/debug"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	shidoserver "github.com/shido/shido/v2/server"
-	servercfg "github.com/shido/shido/v2/server/config"
-	srvflags "github.com/shido/shido/v2/server/flags"
+	anrytonclient "github.com/anryton/anryton/v2/client"
+	"github.com/anryton/anryton/v2/client/block"
+	"github.com/anryton/anryton/v2/client/debug"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	anrytonserver "github.com/anryton/anryton/v2/server"
+	servercfg "github.com/anryton/anryton/v2/server/config"
+	srvflags "github.com/anryton/anryton/v2/server/flags"
 
-	"github.com/shido/shido/v2/app"
-	cmdcfg "github.com/shido/shido/v2/cmd/config"
-	shidokr "github.com/shido/shido/v2/crypto/keyring"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/app"
+	cmdcfg "github.com/anryton/anryton/v2/cmd/config"
+	anrytonkr "github.com/anryton/anryton/v2/crypto/keyring"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
 )
 
 const (
-	EnvPrefix = "SHIDO"
+	EnvPrefix = "ANRYTON"
 )
 
-// NewRootCmd creates a new root command for shidod. It is called once in the
+// NewRootCmd creates a new root command for anrytond. It is called once in the
 // main function.
 func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
@@ -72,7 +72,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithAccountRetriever(types.AccountRetriever{}).
 		WithBroadcastMode(flags.FlagBroadcastMode).
 		WithHomeDir(app.DefaultNodeHome).
-		WithKeyringOptions(shidokr.Option()).
+		WithKeyringOptions(anrytonkr.Option()).
 		WithViper(EnvPrefix).
 		WithLedgerHasProtobuf(true)
 
@@ -80,7 +80,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 	rootCmd := &cobra.Command{
 		Use:   app.Name,
-		Short: "Shido Daemon",
+		Short: "Anryton Daemon",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			// set the default command outputs
 			cmd.SetOut(cmd.OutOrStdout())
@@ -113,7 +113,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 	a := appCreator{encodingConfig}
 	rootCmd.AddCommand(
-		shidoclient.ValidateChainID(
+		anrytonclient.ValidateChainID(
 			InitCmd(app.ModuleBasics, app.DefaultNodeHome),
 		),
 		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome, genutiltypes.DefaultMessageValidator),
@@ -130,9 +130,9 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		block.Cmd(),
 	)
 
-	shidoserver.AddCommands(
+	anrytonserver.AddCommands(
 		rootCmd,
-		shidoserver.NewDefaultStartOptions(a.newApp, app.DefaultNodeHome),
+		anrytonserver.NewDefaultStartOptions(a.newApp, app.DefaultNodeHome),
 		a.appExport,
 		addModuleInitFlags,
 	)
@@ -142,7 +142,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		rpc.StatusCommand(),
 		queryCommand(),
 		txCommand(),
-		shidoclient.KeyCommands(app.DefaultNodeHome),
+		anrytonclient.KeyCommands(app.DefaultNodeHome),
 	)
 	rootCmd, err := srvflags.AddTxFlags(rootCmd)
 	if err != nil {
@@ -289,7 +289,7 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 	if cast.ToBool(appOpts.Get("telemetry.enabled")) {
 		wasmOpts = append(wasmOpts, wasmkeeper.WithVMCacheMetrics(prometheus.DefaultRegisterer))
 	}
-	shidoApp := app.NewShido(
+	anrytonApp := app.NewAnryton(
 		logger, db, traceStore, true, skipUpgradeHeights,
 		cast.ToString(appOpts.Get(flags.FlagHome)),
 		cast.ToUint(appOpts.Get(sdkserver.FlagInvCheckPeriod)),
@@ -311,7 +311,7 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		baseapp.SetChainID(chainID),
 	)
 
-	return shidoApp
+	return anrytonApp
 }
 
 // appExport creates a new simapp (optionally at a given height)
@@ -326,7 +326,7 @@ func (a appCreator) appExport(
 	appOpts servertypes.AppOptions,
 	modulesToExport []string,
 ) (servertypes.ExportedApp, error) {
-	var shidoApp *app.Shido
+	var anrytonApp *app.Anryton
 	var emptyWasmOpts []wasmkeeper.Option
 	var wasmOpts []wasmkeeper.Option
 	homePath, ok := appOpts.Get(flags.FlagHome).(string)
@@ -335,16 +335,16 @@ func (a appCreator) appExport(
 	}
 
 	if height != -1 {
-		shidoApp = app.NewShido(logger, db, traceStore, false, map[int64]bool{}, "", uint(1), a.encCfg, appOpts, wasmOpts, app.GetEnabledProposals())
+		anrytonApp = app.NewAnryton(logger, db, traceStore, false, map[int64]bool{}, "", uint(1), a.encCfg, appOpts, wasmOpts, app.GetEnabledProposals())
 
-		if err := shidoApp.LoadHeight(height); err != nil {
+		if err := anrytonApp.LoadHeight(height); err != nil {
 			return servertypes.ExportedApp{}, err
 		}
 	} else {
-		shidoApp = app.NewShido(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts, emptyWasmOpts, app.GetEnabledProposals())
+		anrytonApp = app.NewAnryton(logger, db, traceStore, true, map[int64]bool{}, "", uint(1), a.encCfg, appOpts, emptyWasmOpts, app.GetEnabledProposals())
 	}
 
-	return shidoApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
+	return anrytonApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
 }
 
 // initTendermintConfig helps to override default Tendermint Config values.

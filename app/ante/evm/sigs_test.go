@@ -3,9 +3,9 @@ package evm_test
 import (
 	"math/big"
 
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 func (suite *AnteTestSuite) TestSignatures() {

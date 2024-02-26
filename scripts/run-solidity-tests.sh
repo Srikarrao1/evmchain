@@ -3,9 +3,9 @@ export GOPATH="$HOME"/go
 export PATH="$PATH":"$GOPATH"/bin
 
 # remove existing data
-rm -rf "$HOME"/.shidod
+rm -rf "$HOME"/.anrytond
 
-# build shido binary
+# build anryton binary
 make install
 
 cd tests/solidity || exit
@@ -19,4 +19,4 @@ else
     yarn install
 fi
 
-yarn test --network shido "$@"
+yarn test --network anryton "$@"

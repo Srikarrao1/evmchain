@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/staking"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/staking"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
 func (s *PrecompileTestSuite) TestDelegation() {

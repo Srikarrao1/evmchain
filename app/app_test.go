@@ -20,13 +20,13 @@ import (
 	"github.com/cometbft/cometbft/libs/log"
 	tmtypes "github.com/cometbft/cometbft/types"
 
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/utils"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/utils"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 )
 
-func TestShidoExport(t *testing.T) {
+func TestAnrytonExport(t *testing.T) {
 	// create public key
 	privVal := mock.NewPV()
 	pubKey, err := privVal.GetPubKey()
@@ -46,7 +46,7 @@ func TestShidoExport(t *testing.T) {
 	var wasmOpts []wasmkeeper.Option
 	db := dbm.NewMemDB()
 	chainID := utils.MainnetChainID + "-1"
-	app := NewShido(
+	app := NewAnryton(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 0,
@@ -73,7 +73,7 @@ func TestShidoExport(t *testing.T) {
 	app.Commit()
 
 	// Making a new app object with the db, so that initchain hasn't been called
-	app2 := NewShido(
+	app2 := NewAnryton(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 0,

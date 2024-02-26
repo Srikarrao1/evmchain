@@ -1,10 +1,10 @@
 package keeper
 
 import (
+	v4 "github.com/anryton/anryton/v2/x/evm/migrations/v4"
+	v5 "github.com/anryton/anryton/v2/x/evm/migrations/v5"
+	"github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v4 "github.com/shido/shido/v2/x/evm/migrations/v4"
-	v5 "github.com/shido/shido/v2/x/evm/migrations/v5"
-	"github.com/shido/shido/v2/x/evm/types"
 )
 
 // Migrator is a struct for handling in-place store migrations.

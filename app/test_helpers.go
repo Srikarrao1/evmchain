@@ -23,13 +23,13 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/shido/shido/v2/encoding"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/encoding"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 
-	"github.com/shido/shido/v2/cmd/config"
-	"github.com/shido/shido/v2/utils"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/cmd/config"
+	"github.com/anryton/anryton/v2/utils"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 func init() {
@@ -42,7 +42,7 @@ func init() {
 var DefaultTestingAppInit func(chainID string) func() (ibctesting.TestingApp, map[string]json.RawMessage) = SetupTestingApp
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in
-// Shido testing.
+// Anryton testing.
 var DefaultConsensusParams = &tmproto.ConsensusParams{
 	Block: &tmproto.BlockParams{
 		MaxBytes: 200000,
@@ -67,12 +67,12 @@ func init() {
 	config.SetBip44CoinType(cfg)
 }
 
-// Setup initializes a new Shido. A Nop logger is set in Shido.
+// Setup initializes a new Anryton. A Nop logger is set in Anryton.
 func Setup(
 	isCheckTx bool,
 	feemarketGenesis *feemarkettypes.GenesisState,
 	chainID string,
-) *Shido {
+) *Anryton {
 	privVal := mock.NewPV()
 	pubKey, _ := privVal.GetPubKey()
 
@@ -90,7 +90,7 @@ func Setup(
 
 	db := dbm.NewMemDB()
 	var wasmOpts []wasmkeeper.Option
-	app := NewShido(
+	app := NewAnryton(
 		log.NewNopLogger(),
 		db, nil, true, map[int64]bool{},
 		DefaultNodeHome, 5,
@@ -133,7 +133,7 @@ func Setup(
 	return app
 }
 
-func GenesisStateWithValSet(app *Shido, genesisState simapp.GenesisState,
+func GenesisStateWithValSet(app *Anryton, genesisState simapp.GenesisState,
 	valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount,
 	balances ...banktypes.Balance,
 ) simapp.GenesisState {
@@ -204,7 +204,7 @@ func SetupTestingApp(chainID string) func() (ibctesting.TestingApp, map[string]j
 		db := dbm.NewMemDB()
 		var wasmOpts []wasmkeeper.Option
 		cfg := encoding.MakeConfig(ModuleBasics)
-		app := NewShido(
+		app := NewAnryton(
 			log.NewNopLogger(),
 			db, nil, true,
 			map[int64]bool{},

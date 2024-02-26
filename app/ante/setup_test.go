@@ -7,14 +7,14 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/testutil"
+	"github.com/anryton/anryton/v2/utils"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/testutil"
-	"github.com/shido/shido/v2/utils"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )
@@ -26,7 +26,7 @@ type AnteTestSuite struct {
 
 	ctx       sdk.Context
 	clientCtx client.Context
-	app       *app.Shido
+	app       *app.Anryton
 	denom     string
 }
 

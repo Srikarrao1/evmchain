@@ -1,6 +1,6 @@
 FROM golang:1.21.1-alpine3.18 AS build-env
 
-WORKDIR /go/src/github.com/shido/shido
+WORKDIR /go/src/github.com/anryton/anryton
 
 COPY go.mod go.sum ./
 
@@ -20,16 +20,16 @@ FROM alpine:3.18
 
 WORKDIR /root
 
-COPY --from=build-env /go/src/github.com/shido/shido/build/shidod /usr/bin/shidod
+COPY --from=build-env /go/src/github.com/anryton/anryton/build/anrytond /usr/bin/anrytond
 COPY --from=build-env /go/bin/toml-cli /usr/bin/toml-cli
 
 RUN apk add --no-cache ca-certificates=20230506-r0 jq=1.6-r3 curl=8.2.1-r0 bash=5.2.15-r5 vim=9.0.1568-r0 lz4=1.9.4-r4 rclone=1.62.2-r4 \
-    && addgroup -g 1000 shido \
-    && adduser -S -h /home/shido -D shido -u 1000 -G shido
+    && addgroup -g 1000 anryton \
+    && adduser -S -h /home/anryton -D anryton -u 1000 -G anryton
 
 USER 1000
-WORKDIR /home/shido
+WORKDIR /home/anryton
 
 EXPOSE 26656 26657 1317 9090 8545 8546
 
-CMD ["shidod"]
+CMD ["anrytond"]

@@ -10,19 +10,19 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/testutil"
+	"github.com/anryton/anryton/v2/testutil"
 
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 var erc20Denom = "erc20/0xdac17f958d2ee523a2206206994597c13d831ec7"
 
 func (suite *KeeperTestSuite) TestConvertCoinToERC20FromPacket() {
-	senderAddr := "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
+	senderAddr := "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
 
 	testCases := []struct {
 		name     string
@@ -33,14 +33,14 @@ func (suite *KeeperTestSuite) TestConvertCoinToERC20FromPacket() {
 		{
 			name: "error - invalid sender",
 			malleate: func() transfertypes.FungibleTokenPacketData {
-				return transfertypes.NewFungibleTokenPacketData("shido", "10", "", "", "")
+				return transfertypes.NewFungibleTokenPacketData("anryton", "10", "", "", "")
 			},
 			expPass: false,
 		},
 		{
 			name: "pass - is base denom",
 			malleate: func() transfertypes.FungibleTokenPacketData {
-				return transfertypes.NewFungibleTokenPacketData("shido", "10", senderAddr, "", "")
+				return transfertypes.NewFungibleTokenPacketData("anryton", "10", senderAddr, "", "")
 			},
 			expPass: true,
 		},
@@ -73,8 +73,8 @@ func (suite *KeeperTestSuite) TestConvertCoinToERC20FromPacket() {
 				sender := sdk.MustAccAddressFromBech32(senderAddr)
 
 				// Mint coins on account to simulate receiving ibc transfer
-				coinShido := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
-				coins := sdk.NewCoins(coinShido)
+				coinAnryton := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
+				coins := sdk.NewCoins(coinAnryton)
 				err := suite.app.BankKeeper.MintCoins(suite.ctx, "", coins)
 				suite.Require().NoError(err)
 				err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, "", sender, coins)
@@ -167,7 +167,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 
 				sender = sdk.AccAddress(senderPk.PubKey().Address())
 
-				// Fund receiver account with SHIDO, ERC20 coins and IBC vouchers
+				// Fund receiver account with ANRYTON, ERC20 coins and IBC vouchers
 				// We do this since we are interested in the conversion portion w/ OnRecvPacket
 				err := testutil.FundAccount(
 					suite.ctx,
@@ -194,7 +194,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 
 				sender = sdk.AccAddress(senderPk.PubKey().Address())
 
-				// Fund receiver account with SHIDO, ERC20 coins and IBC vouchers
+				// Fund receiver account with ANRYTON, ERC20 coins and IBC vouchers
 				// We do this since we are interested in the conversion portion w/ OnRecvPacket
 				err := testutil.FundAccount(
 					suite.ctx,
@@ -241,7 +241,7 @@ func (suite *KeeperTestSuite) TestOnAcknowledgementPacket() {
 }
 
 func (suite *KeeperTestSuite) TestOnTimeoutPacket() {
-	senderAddr := "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
+	senderAddr := "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v"
 
 	testCases := []struct {
 		name     string
@@ -268,8 +268,8 @@ func (suite *KeeperTestSuite) TestOnTimeoutPacket() {
 				sender := sdk.MustAccAddressFromBech32(senderAddr)
 
 				// Mint coins on account to simulate receiving ibc transfer
-				coinShido := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
-				coins := sdk.NewCoins(coinShido)
+				coinAnryton := sdk.NewCoin(pair.Denom, sdk.NewInt(10))
+				coins := sdk.NewCoins(coinAnryton)
 				err := suite.app.BankKeeper.MintCoins(suite.ctx, "", coins)
 				suite.Require().NoError(err)
 				err = suite.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ctx, "", sender, coins)

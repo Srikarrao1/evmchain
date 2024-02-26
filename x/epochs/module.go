@@ -19,9 +19,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/shido/shido/v2/x/epochs/client/cli"
-	"github.com/shido/shido/v2/x/epochs/keeper"
-	"github.com/shido/shido/v2/x/epochs/types"
+	"github.com/anryton/anryton/v2/x/epochs/client/cli"
+	"github.com/anryton/anryton/v2/x/epochs/keeper"
+	"github.com/anryton/anryton/v2/x/epochs/types"
 )
 
 // consensusVersion defines the current x/epochs module consensus version.

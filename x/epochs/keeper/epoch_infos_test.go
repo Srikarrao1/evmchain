@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"time"
 
-	"github.com/shido/shido/v2/x/epochs/types"
+	"github.com/anryton/anryton/v2/x/epochs/types"
 )
 
 func (suite *KeeperTestSuite) TestEpochLifeCycle() {

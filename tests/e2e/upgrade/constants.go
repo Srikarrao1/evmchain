@@ -3,13 +3,13 @@ package upgrade
 // The constants used in the upgrade tests are defined here
 const (
 	// the defaultChainID used for testing
-	defaultChainID = "shido_9000-1"
+	defaultChainID = "anryton_9000-1"
 
 	// LocalVersionTag defines the docker image ImageTag when building locally
 	LocalVersionTag = "latest"
 
-	// tharsisRepo is the docker hub repository that contains the Shido images pulled during tests
-	tharsisRepo = "tharsishq/shido"
+	// tharsisRepo is the docker hub repository that contains the Anryton images pulled during tests
+	tharsisRepo = "tharsishq/anryton"
 
 	// upgradesPath is the relative path from this folder to the app/upgrades folder
 	upgradesPath = "../../../app/upgrades"

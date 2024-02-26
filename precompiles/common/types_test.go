@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"cosmossdk.io/math"
+	"github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/utils"
 	"github.com/stretchr/testify/require"
 )
 

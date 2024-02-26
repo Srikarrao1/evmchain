@@ -7,15 +7,15 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	teststypes "github.com/anryton/anryton/v2/types/tests"
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
-	teststypes "github.com/shido/shido/v2/types/tests"
 )
 
 func init() {
 	cfg := sdk.GetConfig()
-	cfg.SetBech32PrefixForAccount("shido", "shidopub")
+	cfg.SetBech32PrefixForAccount("anryton", "anrytonpub")
 }
 
 func TestGetTransferSenderRecipient(t *testing.T) {
@@ -56,7 +56,7 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "123456",
 					},
 				),
@@ -70,7 +70,7 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "shido1",
+						Receiver: "anryton1",
 						Amount:   "123456",
 					},
 				),
@@ -79,48 +79,48 @@ func TestGetTransferSenderRecipient(t *testing.T) {
 			true,
 		},
 		{
-			"valid - cosmos sender, shido recipient",
+			"valid - cosmos sender, anryton recipient",
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "123456",
 					},
 				),
 			},
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 			false,
 		},
 		{
-			"valid - shido sender, cosmos recipient",
+			"valid - anryton sender, cosmos recipient",
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
-						Sender:   "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Sender:   "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Receiver: "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
 						Amount:   "123456",
 					},
 				),
 			},
-			"shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
 			false,
 		},
 		{
-			"valid - osmosis sender, shido recipient",
+			"valid - osmosis sender, anryton recipient",
 			channeltypes.Packet{
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "osmo1qql8ag4cluz6r4dz28p3w00dnc9w8ueuhnecd2",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "123456",
 					},
 				),
 			},
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 			false,
 		},
 	}
@@ -164,7 +164,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "",
 					},
 				),
@@ -178,7 +178,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "test",
 					},
 				),
@@ -192,7 +192,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "10000",
 					},
 				),
@@ -206,7 +206,7 @@ func TestGetTransferAmount(t *testing.T) {
 				Data: transfertypes.ModuleCdc.MustMarshalJSON(
 					&transfertypes.FungibleTokenPacketData{
 						Sender:   "cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-						Receiver: "shido1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
+						Receiver: "anryton1x2w87cvt5mqjncav4lxy8yfreynn273xn5335v",
 						Amount:   "",
 					},
 				),
@@ -254,9 +254,9 @@ func TestGetReceivedCoin(t *testing.T) {
 			"channel-0",
 			"transfer",
 			"channel-0",
-			"transfer/channel-0/shido",
+			"transfer/channel-0/anryton",
 			"10",
-			sdk.Coin{Denom: "shido", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "anryton", Amount: sdk.NewInt(10)},
 		},
 		{
 			"transfer 2x ibc wrapped coin to destination which is its source",
@@ -294,16 +294,16 @@ func TestGetSentCoin(t *testing.T) {
 		expCoin   sdk.Coin
 	}{
 		{
-			"get unwrapped shido coin",
-			"shido",
+			"get unwrapped anryton coin",
+			"anryton",
 			"10",
-			sdk.Coin{Denom: "shido", Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: "anryton", Amount: sdk.NewInt(10)},
 		},
 		{
-			"get ibc wrapped shido coin",
-			"transfer/channel-0/shido",
+			"get ibc wrapped anryton coin",
+			"transfer/channel-0/anryton",
 			"10",
-			sdk.Coin{Denom: teststypes.AshidoIbcdenom, Amount: sdk.NewInt(10)},
+			sdk.Coin{Denom: teststypes.AanrytonIbcdenom, Amount: sdk.NewInt(10)},
 		},
 		{
 			"get ibc wrapped uosmo coin",

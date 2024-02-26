@@ -1,18 +1,18 @@
-// Copyright 2022 Shido Foundation
-// This file is part of the Shido Network packages.
+// Copyright 2022 Anryton Foundation
+// This file is part of the Anryton Network packages.
 //
-// Shido is free software: you can redistribute it and/or modify
+// Anryton is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The Shido packages are distributed in the hope that it will be useful,
+// The Anryton packages are distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the Shido packages. If not, see https://github.com/shido/shido/blob/main/LICENSE
+// along with the Anryton packages. If not, see https://github.com/anryton/anryton/blob/main/LICENSE
 package v5_test
 
 import (
@@ -22,11 +22,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
-	v5 "github.com/shido/shido/v2/x/evm/migrations/v5"
-	v5types "github.com/shido/shido/v2/x/evm/migrations/v5/types"
-	"github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
+	v5 "github.com/anryton/anryton/v2/x/evm/migrations/v5"
+	v5types "github.com/anryton/anryton/v2/x/evm/migrations/v5/types"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 func TestMigrate(t *testing.T) {

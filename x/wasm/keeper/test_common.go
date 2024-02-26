@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shido/shido/v2/x/wasm/keeper/testdata"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/testdata"
 
 	icacontrollertypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts/host/types"
@@ -79,9 +79,9 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 	"github.com/stretchr/testify/require"
 
-	wasmappparams "github.com/shido/shido/v2/app/params"
-	"github.com/shido/shido/v2/x/wasm/keeper/wasmtesting"
-	"github.com/shido/shido/v2/x/wasm/types"
+	wasmappparams "github.com/anryton/anryton/v2/app/params"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/wasmtesting"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 var moduleBasics = module.NewBasicManager(

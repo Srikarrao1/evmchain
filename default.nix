@@ -5,10 +5,10 @@
 }:
 let
   version = "latest";
-  pname = "shidod";
+  pname = "anrytond";
   tags = [ "netgo" ];
   ldflags = lib.concatStringsSep "\n" ([
-    "-X github.com/cosmos/cosmos-sdk/version.Name=shido"
+    "-X github.com/cosmos/cosmos-sdk/version.Name=anryton"
     "-X github.com/cosmos/cosmos-sdk/version.AppName=${pname}"
     "-X github.com/cosmos/cosmos-sdk/version.Version=${version}"
     "-X github.com/cosmos/cosmos-sdk/version.BuildTags=${lib.concatStringsSep "," tags}"
@@ -22,13 +22,13 @@ buildGoApplication rec {
   modules = ./gomod2nix.toml;
   doCheck = false;
   pwd = src; # needed to support replace
-  subPackages = [ "cmd/shidod" ];
+  subPackages = [ "cmd/anrytond" ];
   CGO_ENABLED = "1";
 
   meta = with lib; {
-    description = "Shido is a scalable and interoperable blockchain, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of CometBFT Core consensus engine.";
-    homepage = "https://github.com/shido/shido";
+    description = "Anryton is a scalable and interoperable blockchain, built on Proof-of-Stake with fast-finality using the Cosmos SDK which runs on top of CometBFT Core consensus engine.";
+    homepage = "https://github.com/anryton/anryton";
     license = licenses.asl20;
-    mainProgram = "shidod";
+    mainProgram = "anrytond";
   };
 }

@@ -11,13 +11,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/utils"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/utils"
 )
 
 var (
 	feeAmt     = math.Pow10(16)
-	DefaultFee = sdk.NewCoin(utils.BaseDenom, sdk.NewIntFromUint64(uint64(feeAmt))) // 0.01 SHIDO
+	DefaultFee = sdk.NewCoin(utils.BaseDenom, sdk.NewIntFromUint64(uint64(feeAmt))) // 0.01 ANRYTON
 )
 
 // CosmosTxArgs contains the params to create a cosmos tx
@@ -26,7 +26,7 @@ type CosmosTxArgs struct {
 	TxCfg client.TxConfig
 	// Priv is the private key that will be used to sign the tx
 	Priv cryptotypes.PrivKey
-	// ChainID is the chain's id on cosmos format, e.g. 'shido_9000-1'
+	// ChainID is the chain's id on cosmos format, e.g. 'anryton_9000-1'
 	ChainID string
 	// Gas to be used on the tx
 	Gas uint64
@@ -44,7 +44,7 @@ type CosmosTxArgs struct {
 // It returns the signed transaction and an error
 func PrepareCosmosTx(
 	ctx sdk.Context,
-	appShido *app.Shido,
+	appAnryton *app.Anryton,
 	args CosmosTxArgs,
 ) (authsigning.Tx, error) {
 	txBuilder := args.TxCfg.NewTxBuilder()
@@ -67,7 +67,7 @@ func PrepareCosmosTx(
 
 	return signCosmosTx(
 		ctx,
-		appShido,
+		appAnryton,
 		args,
 		txBuilder,
 	)
@@ -77,12 +77,12 @@ func PrepareCosmosTx(
 // the provided private key
 func signCosmosTx(
 	ctx sdk.Context,
-	appShido *app.Shido,
+	appAnryton *app.Anryton,
 	args CosmosTxArgs,
 	txBuilder client.TxBuilder,
 ) (authsigning.Tx, error) {
 	addr := sdk.AccAddress(args.Priv.PubKey().Address().Bytes())
-	seq, err := appShido.AccountKeeper.GetSequence(ctx, addr)
+	seq, err := appAnryton.AccountKeeper.GetSequence(ctx, addr)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func signCosmosTx(
 	}
 
 	// Second round: all signer infos are set, so each signer can sign.
-	accNumber := appShido.AccountKeeper.GetAccount(ctx, addr).GetAccountNumber()
+	accNumber := appAnryton.AccountKeeper.GetAccount(ctx, addr).GetAccountNumber()
 	signerData := authsigning.SignerData{
 		ChainID:       args.ChainID,
 		AccountNumber: accNumber,

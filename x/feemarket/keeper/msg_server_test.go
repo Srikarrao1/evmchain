@@ -1,9 +1,9 @@
 package keeper_test
 
 import (
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	"github.com/shido/shido/v2/x/feemarket/types"
 )
 
 func (suite *KeeperTestSuite) TestUpdateParams() {

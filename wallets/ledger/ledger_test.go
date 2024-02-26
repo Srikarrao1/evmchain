@@ -1,15 +1,15 @@
 package ledger_test
 
 import (
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	"github.com/anryton/anryton/v2/wallets/accounts"
+	"github.com/anryton/anryton/v2/wallets/ledger"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	gethaccounts "github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	"github.com/shido/shido/v2/wallets/accounts"
-	"github.com/shido/shido/v2/wallets/ledger"
 )
 
 // Test Mnemonic:
@@ -22,7 +22,7 @@ func init() {
 	sdk.GetConfig().SetBech32PrefixForAccount("cosmos", "")
 }
 
-func (suite *LedgerTestSuite) TestShidoLedgerDerivation() {
+func (suite *LedgerTestSuite) TestAnrytonLedgerDerivation() {
 	testCases := []struct {
 		name     string
 		mockFunc func()
@@ -38,7 +38,7 @@ func (suite *LedgerTestSuite) TestShidoLedgerDerivation() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			suite.SetupTest() // reset
-			derivationFunc := ledger.ShidoLedgerDerivation()
+			derivationFunc := ledger.AnrytonLedgerDerivation()
 			_, err := derivationFunc()
 			if tc.expPass {
 				suite.Require().NoError(err)
@@ -215,7 +215,7 @@ func (suite *LedgerTestSuite) TestGetAddressPubKeySECP256K1() {
 	suite.Require().NoError(err)
 
 	addr := crypto.PubkeyToAddress(privKey.PublicKey)
-	expAddr, err := sdk.Bech32ifyAddressBytes("shido", common.HexToAddress(addr.String()).Bytes())
+	expAddr, err := sdk.Bech32ifyAddressBytes("anryton", common.HexToAddress(addr.String()).Bytes())
 	suite.Require().NoError(err)
 
 	testCases := []struct {

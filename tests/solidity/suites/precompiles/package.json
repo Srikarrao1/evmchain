@@ -1,13 +1,13 @@
 {
   "name": "precompiles",
   "version": "1.0.0",
-  "author": "Shido team",
+  "author": "Anryton team",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "get-contracts": "mkdir -p ./contracts/shido && rsync -avm --include='*/' --include='*.sol' --exclude='*' ../../../../precompiles/ ./contracts/shido/",
-    "clean-contracts": "rm -rf ./contracts/shido/*",
+    "get-contracts": "mkdir -p ./contracts/anryton && rsync -avm --include='*/' --include='*.sol' --exclude='*' ../../../../precompiles/ ./contracts/anryton/",
+    "clean-contracts": "rm -rf ./contracts/anryton/*",
     "test-ganache": "yarn hardhat test",
-    "test-shido": "yarn get-contracts && yarn hardhat test --network shido && yarn clean-contracts"
+    "test-anryton": "yarn get-contracts && yarn hardhat test --network anryton && yarn clean-contracts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.2",

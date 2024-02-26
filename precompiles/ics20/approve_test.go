@@ -1,18 +1,18 @@
-// Copyright Tharsis Labs Ltd.(Shido)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/shido/shido/blob/main/LICENSE)
+// Copyright Tharsis Labs Ltd.(Anryton)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/anryton/anryton/blob/main/LICENSE)
 package ics20_test
 
 import (
 	"fmt"
 	"math/big"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/ics20"
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	channeltypes "github.com/cosmos/ibc-go/v7/modules/core/04-channel/types"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/ics20"
-	"github.com/shido/shido/v2/utils"
 )
 
 type allowanceTestCase struct {
@@ -340,7 +340,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 			cmn.ErrIntegerOverflow,
 		},
 		{
-			"pass - increase allowance by 1 SHIDO for a single allocation with a single coin denomination",
+			"pass - increase allowance by 1 ANRYTON for a single allocation with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -392,7 +392,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 			"",
 		},
 		{
-			"pass - increase allowance by 1 Shido for multiple allocations with a single coin denomination",
+			"pass - increase allowance by 1 Anryton for multiple allocations with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -484,7 +484,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowance() {
 			cmn.ErrNegativeAmount,
 		},
 		{
-			"pass - decrease allowance by 1 SHIDO for a single allocation with a single coin denomination",
+			"pass - decrease allowance by 1 ANRYTON for a single allocation with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)
@@ -546,7 +546,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowance() {
 			"",
 		},
 		{
-			"pass - decrease allowance by 0.5 Shido for multiple allocations with a single coin denomination",
+			"pass - decrease allowance by 0.5 Anryton for multiple allocations with a single coin denomination",
 			func() []interface{} {
 				path := NewTransferPath(s.chainA, s.chainB)
 				s.coordinator.Setup(path)

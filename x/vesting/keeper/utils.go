@@ -3,9 +3,9 @@ package keeper
 import (
 	errorsmod "cosmossdk.io/errors"
 
+	"github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/shido/shido/v2/x/vesting/types"
 )
 
 // GetClawbackVestingAccount is a helper function to get the account from the

@@ -3,10 +3,10 @@ package keeper
 import (
 	"errors"
 
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 var _ govtypes.GovHooks = Hooks{}

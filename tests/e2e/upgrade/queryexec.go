@@ -4,10 +4,10 @@ import (
 	"fmt"
 )
 
-// CreateModuleQueryExec creates a Shido module query
+// CreateModuleQueryExec creates a Anryton module query
 func (m *Manager) CreateModuleQueryExec(moduleName, subCommand, chainID string) (string, error) {
 	cmd := []string{
-		"shidod",
+		"anrytond",
 		"q",
 		moduleName,
 		subCommand,

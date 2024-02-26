@@ -10,11 +10,11 @@ address constant VESTING_PRECOMPILE_ADDRESS = 0x00000000000000000000000000000000
 VestingI constant VESTING_CONTRACT = VestingI(VESTING_PRECOMPILE_ADDRESS);
 
 /// @dev Define all the available staking methods.
-string constant MSG_CREATE_CLAWBACK_VESTING_ACCOUNT = "/shido.vesting.v2.MsgCreateClawbackVestingAccount";
-string constant MSG_FUND_VESTING_ACCOUNT = "/shido.vesting.v2.MsgFundVestingAccount";
-string constant MSG_CLAWBACK = "/shido.vesting.v2.MsgClawback";
-string constant MSG_CONVERT_VESTING_ACCOUNT = "/shido.vesting.v2.MsgConvertVestingAccount";
-string constant MSG_UPDATE_VESTING_FUNDER = "/shido.vesting.v2.MsgUpdateVestingFunder";
+string constant MSG_CREATE_CLAWBACK_VESTING_ACCOUNT = "/anryton.vesting.v2.MsgCreateClawbackVestingAccount";
+string constant MSG_FUND_VESTING_ACCOUNT = "/anryton.vesting.v2.MsgFundVestingAccount";
+string constant MSG_CLAWBACK = "/anryton.vesting.v2.MsgClawback";
+string constant MSG_CONVERT_VESTING_ACCOUNT = "/anryton.vesting.v2.MsgConvertVestingAccount";
+string constant MSG_UPDATE_VESTING_FUNDER = "/anryton.vesting.v2.MsgUpdateVestingFunder";
 
 
 // Period defines a length of time and amount of coins that will vest.
@@ -23,7 +23,7 @@ struct Period {
     Coin[] amount;
 }
 
-/// @author Shido Team
+/// @author Anryton Team
 /// @title Vesting Precompiled Contract
 /// @dev The interface through which solidity contracts will interact with vesting.
 /// We follow this same interface including four-byte function selectors, in the precompile that

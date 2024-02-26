@@ -9,11 +9,11 @@ import (
 	"sync"
 	"time"
 
+	"github.com/anryton/anryton/v2/wallets/accounts"
 	gethaccounts "github.com/ethereum/go-ethereum/accounts"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-	"github.com/shido/shido/v2/wallets/accounts"
 	usb "github.com/zondax/hid"
 )
 

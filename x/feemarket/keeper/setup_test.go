@@ -6,15 +6,15 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/feemarket/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -22,7 +22,7 @@ type KeeperTestSuite struct {
 	suite.Suite
 
 	ctx         sdk.Context
-	app         *app.Shido
+	app         *app.Anryton
 	queryClient types.QueryClient
 	address     common.Address
 	consAddress sdk.ConsAddress

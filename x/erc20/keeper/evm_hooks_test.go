@@ -8,9 +8,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/shido/shido/v2/contracts"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/contracts"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 // ensureHooksSet tries to set the hooks on EVMKeeper, this will fail if the erc20 hook is already set

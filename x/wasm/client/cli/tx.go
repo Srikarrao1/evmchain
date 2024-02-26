@@ -18,8 +18,8 @@ import (
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
 
-	"github.com/shido/shido/v2/x/wasm/ioutils"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/ioutils"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 const (

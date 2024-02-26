@@ -1,11 +1,11 @@
 package network
 
 import (
-	testtx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
+	testtx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
 
+	anrytontypes "github.com/anryton/anryton/v2/types"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
-	shidotypes "github.com/shido/shido/v2/types"
 )
 
 // Config defines the configuration for a chain.
@@ -37,7 +37,7 @@ type ConfigOption func(*Config)
 
 // WithChainID sets a custom chainID for the network. It panics if the chainID is invalid.
 func WithChainID(chainID string) ConfigOption {
-	_, err := shidotypes.ParseChainID(chainID)
+	_, err := anrytontypes.ParseChainID(chainID)
 	if err != nil {
 		panic(err)
 	}

@@ -18,23 +18,23 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/hd"
+	"github.com/anryton/anryton/v2/tests/integration/ledger/mocks"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	"github.com/cometbft/cometbft/version"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/hd"
-	"github.com/shido/shido/v2/tests/integration/ledger/mocks"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
 	"github.com/stretchr/testify/suite"
 
+	clientkeys "github.com/anryton/anryton/v2/client/keys"
+	anrytonkeyring "github.com/anryton/anryton/v2/crypto/keyring"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	tmversion "github.com/cometbft/cometbft/proto/tendermint/version"
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	cosmosledger "github.com/cosmos/cosmos-sdk/crypto/ledger"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	clientkeys "github.com/shido/shido/v2/client/keys"
-	shidokeyring "github.com/shido/shido/v2/crypto/keyring"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -45,7 +45,7 @@ var s *LedgerTestSuite
 type LedgerTestSuite struct {
 	suite.Suite
 
-	app *app.Shido
+	app *app.Anryton
 	ctx sdk.Context
 
 	ledger       *mocks.SECP256K1
@@ -62,7 +62,7 @@ func TestLedger(t *testing.T) {
 	suite.Run(t, s)
 
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Shidod Suite")
+	RunSpecs(t, "Anrytond Suite")
 }
 
 func (suite *LedgerTestSuite) SetupTest() {
@@ -81,7 +81,7 @@ func (suite *LedgerTestSuite) SetupTest() {
 	suite.accAddr = sdk.AccAddress(ethAddr.Bytes())
 }
 
-func (suite *LedgerTestSuite) SetupShidoApp() {
+func (suite *LedgerTestSuite) SetupAnrytonApp() {
 	consAddress := sdk.ConsAddress(utiltx.GenerateAddress().Bytes())
 
 	// init app
@@ -144,7 +144,7 @@ func (suite *LedgerTestSuite) NewKeyringAndCtxs(krHome string, input io.Reader, 
 	return kr, initClientCtx, ctx
 }
 
-func (suite *LedgerTestSuite) shidoAddKeyCmd() *cobra.Command {
+func (suite *LedgerTestSuite) anrytonAddKeyCmd() *cobra.Command {
 	cmd := keys.AddKeyCommand()
 
 	algoFlag := cmd.Flag(flags.FlagKeyType)
@@ -169,12 +169,12 @@ func (suite *LedgerTestSuite) shidoAddKeyCmd() *cobra.Command {
 
 func (suite *LedgerTestSuite) MockKeyringOption() keyring.Option {
 	return func(options *keyring.Options) {
-		options.SupportedAlgos = shidokeyring.SupportedAlgorithms
-		options.SupportedAlgosLedger = shidokeyring.SupportedAlgorithmsLedger
+		options.SupportedAlgos = anrytonkeyring.SupportedAlgorithms
+		options.SupportedAlgosLedger = anrytonkeyring.SupportedAlgorithmsLedger
 		options.LedgerDerivation = func() (cosmosledger.SECP256K1, error) { return suite.ledger, nil }
-		options.LedgerCreateKey = shidokeyring.CreatePubkey
-		options.LedgerAppName = shidokeyring.AppName
-		options.LedgerSigSkipDERConv = shidokeyring.SkipDERConversion
+		options.LedgerCreateKey = anrytonkeyring.CreatePubkey
+		options.LedgerAppName = anrytonkeyring.AppName
+		options.LedgerSigSkipDERConv = anrytonkeyring.SkipDERConversion
 	}
 }
 

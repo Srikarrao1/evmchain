@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/x/wasm/keeper/testdata"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/testdata"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 type StakingInitMsg struct {

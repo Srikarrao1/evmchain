@@ -6,7 +6,7 @@ import (
 
 	rand "github.com/cometbft/cometbft/libs/rand"
 
-	"github.com/shido/shido/v2/ethereum/eip712"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 )

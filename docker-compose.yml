@@ -2,53 +2,53 @@ version: '3'
 
 services:
   node0:
-    container_name: shidonode0
-    image: "shido/node"
+    container_name: anrytonnode0
+    image: "anryton/node"
     ports:
       - "26656-26657:26656-26657"
     volumes:
-      - ./build/node0/shidod:/shido:Z
+      - ./build/node0/anrytond:/anryton:Z
     command:
-      - /shidod start --home /shido
+      - /anrytond start --home /anryton
     networks:
       localnet:
         ipv4_address: 192.167.10.2
 
   node1:
-    container_name: shidonode1
-    image: "shido/node"
+    container_name: anrytonnode1
+    image: "anryton/node"
     ports:
       - "26659-26660:26656-26657"
     volumes:
-      - ./build/node1/shidod:/shido:Z
+      - ./build/node1/anrytond:/anryton:Z
     command:
-      - /shidod start --home /shido
+      - /anrytond start --home /anryton
     networks:
       localnet:
         ipv4_address: 192.167.10.3
 
   node2:
-    container_name: shidonode2
-    image: "shido/node"
+    container_name: anrytonnode2
+    image: "anryton/node"
     ports:
       - "26661-26662:26656-26657"
     volumes:
-      - ./build/node2/shidod:/shido:Z
+      - ./build/node2/anrytond:/anryton:Z
     command:
-      - /shidod start --home /shido
+      - /anrytond start --home /anryton
     networks:
       localnet:
         ipv4_address: 192.167.10.4
 
   node3:
-    container_name: shidonode3
-    image: "shido/node"
+    container_name: anrytonnode3
+    image: "anryton/node"
     ports:
       - "26663-26664:26656-26657"
     volumes:
-      - ./build/node3/shidod:/shido:Z
+      - ./build/node3/anrytond:/anryton:Z
     command:
-      - /shidod start --home /shido
+      - /anrytond start --home /anryton
     networks:
       localnet:
         ipv4_address: 192.167.10.5

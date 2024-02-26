@@ -9,12 +9,12 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/params"
 
-	"github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
+	"github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
 )
 
 var (
-	// DefaultEVMDenom defines the default EVM denomination on Shido
+	// DefaultEVMDenom defines the default EVM denomination on Anryton
 	DefaultEVMDenom = utils.BaseDenom
 	// DefaultAllowUnprotectedTxs rejects all unprotected txs (i.e false)
 	DefaultAllowUnprotectedTxs = false

@@ -10,7 +10,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 
-	erc20types "github.com/shido/shido/v2/x/erc20/types"
+	erc20types "github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 // AccountKeeper defines the expected interface needed to retrieve account info.

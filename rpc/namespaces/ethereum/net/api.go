@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/anryton/anryton/v2/types"
 	rpcclient "github.com/cometbft/cometbft/rpc/client"
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/shido/shido/v2/types"
 )
 
 // PublicAPI is the eth_ prefixed set of APIs in the Web3 JSON-RPC spec.

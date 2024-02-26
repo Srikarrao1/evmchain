@@ -4,10 +4,10 @@ import (
 	"math/big"
 
 	errorsmod "cosmossdk.io/errors"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 // EthVestingTransactionDecorator validates if clawback vesting accounts are

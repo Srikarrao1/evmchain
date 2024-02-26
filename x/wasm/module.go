@@ -25,11 +25,11 @@ import (
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 
-	"github.com/shido/shido/v2/x/wasm/client/cli"
-	"github.com/shido/shido/v2/x/wasm/exported"
-	"github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/simulation"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/client/cli"
+	"github.com/anryton/anryton/v2/x/wasm/exported"
+	"github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/simulation"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 var (

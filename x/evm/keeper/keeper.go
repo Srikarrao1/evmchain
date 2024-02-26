@@ -16,9 +16,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/params"
 
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	"github.com/shido/shido/v2/x/evm/types"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // Keeper grants access to the EVM module state and implements the go-ethereum StateDB interface.
@@ -107,7 +107,7 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 
 // WithChainID sets the chain id to the local variable in the keeper
 func (k *Keeper) WithChainID(ctx sdk.Context) {
-	chainID, err := shidotypes.ParseChainID(ctx.ChainID())
+	chainID, err := anrytontypes.ParseChainID(ctx.ChainID())
 	if err != nil {
 		panic(err)
 	}
@@ -117,7 +117,7 @@ func (k *Keeper) WithChainID(ctx sdk.Context) {
 	}
 
 	// if !(chainID.Cmp(big.NewInt(9001)) == 0 || chainID.Cmp(big.NewInt(9000)) == 0) {
-	// 	panic("EVM only supports Shido chain identifiers (9000 or 9001)")
+	// 	panic("EVM only supports Anryton chain identifiers (9000 or 9001)")
 	// }
 
 	k.eip155ChainID = chainID
@@ -272,7 +272,7 @@ func (k *Keeper) GetAccountWithoutBalance(ctx sdk.Context, addr common.Address) 
 	}
 
 	codeHash := types.EmptyCodeHash
-	ethAcct, ok := acct.(shidotypes.EthAccountI)
+	ethAcct, ok := acct.(anrytontypes.EthAccountI)
 	if ok {
 		codeHash = ethAcct.GetCodeHash().Bytes()
 	}

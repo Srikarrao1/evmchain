@@ -5,13 +5,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shido/shido/v2/utils"
+	"github.com/anryton/anryton/v2/utils"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
 	sdkmath "cosmossdk.io/math"
 	"cosmossdk.io/simapp"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	tmjson "github.com/cometbft/cometbft/libs/json"
@@ -27,14 +35,6 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )
@@ -43,7 +43,7 @@ type KeeperTestSuite struct {
 	suite.Suite
 
 	ctx         sdk.Context
-	app         *app.Shido
+	app         *app.Anryton
 	queryClient evmtypes.QueryClient
 	address     common.Address
 	consAddress sdk.ConsAddress
@@ -108,7 +108,7 @@ func (suite *KeeperTestSuite) SetupAppWithT(checkTx bool, t require.TestingT, ch
 	require.NoError(t, err)
 	suite.consAddress = sdk.ConsAddress(priv.PubKey().Address())
 
-	suite.app = app.EthSetup(checkTx, func(app *app.Shido, genesis simapp.GenesisState) simapp.GenesisState {
+	suite.app = app.EthSetup(checkTx, func(app *app.Anryton, genesis simapp.GenesisState) simapp.GenesisState {
 		feemarketGenesis := feemarkettypes.DefaultGenesisState()
 		if suite.enableFeemarket {
 			feemarketGenesis.Params.EnableHeight = 1
@@ -173,7 +173,7 @@ func (suite *KeeperTestSuite) SetupAppWithT(checkTx bool, t require.TestingT, ch
 	evmtypes.RegisterQueryServer(queryHelper, suite.app.EvmKeeper)
 	suite.queryClient = evmtypes.NewQueryClient(queryHelper)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 	}

@@ -9,11 +9,11 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/x/vesting/types"
 	vestingexported "github.com/cosmos/cosmos-sdk/x/auth/vesting/exported"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/x/vesting/types"
 )
 
 var (
@@ -733,7 +733,7 @@ func (suite *KeeperTestSuite) TestConvertVestingAccount() {
 				_, ok := account.(vestingexported.VestingAccount)
 				suite.Require().False(ok)
 
-				_, ok = account.(shidotypes.EthAccountI)
+				_, ok = account.(anrytontypes.EthAccountI)
 				suite.Require().True(ok)
 
 			} else {

@@ -1,7 +1,7 @@
 package network
 
 import (
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 func (n *IntegrationNetwork) UpdateEvmParams(params evmtypes.Params) error {

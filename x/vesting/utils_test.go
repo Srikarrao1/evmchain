@@ -4,6 +4,13 @@ import (
 	"encoding/json"
 	"time"
 
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	tmtypes "github.com/cometbft/cometbft/types"
@@ -15,22 +22,15 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
-	shidoapp "github.com/shido/shido/v2/app"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
-// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new AnrytonApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
-	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*shidoapp.Shido)
+	appI, genesisState := anrytonapp.SetupTestingApp(cmn.DefaultChainID)()
+	app, ok := appI.(*anrytonapp.Anryton)
 	s.Require().True(ok)
 
 	// set genesis accounts
@@ -40,7 +40,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
 
-	bondAmt := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
+	bondAmt := sdk.TokensFromConsensusPower(1, anrytontypes.PowerReduction)
 
 	for _, val := range valSet.Validators {
 		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
@@ -67,7 +67,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be shido
+	// set bond demon to be anryton
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)
@@ -95,7 +95,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 	stateBytes, err := json.MarshalIndent(genesisState, "", " ")
 	s.Require().NoError(err)
 
-	header := shidoutil.NewHeader(
+	header := anrytonutil.NewHeader(
 		2,
 		time.Now().UTC(),
 		cmn.DefaultChainID,
@@ -109,7 +109,7 @@ func (s *VestingTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, 
 		abci.RequestInitChain{
 			ChainId:         cmn.DefaultChainID,
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: shidoapp.DefaultConsensusParams,
+			ConsensusParams: anrytonapp.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
@@ -148,12 +148,12 @@ func (s *VestingTestSuite) DoSetupTest() {
 
 	baseAcc := authtypes.NewBaseAccount(priv.PubKey().Address().Bytes(), priv.PubKey(), 0, 0)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(5, shidotypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(5, anrytontypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),

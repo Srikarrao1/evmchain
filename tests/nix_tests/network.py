@@ -12,10 +12,10 @@ from web3.middleware import geth_poa_middleware
 from .cosmoscli import CosmosCLI
 from .utils import supervisorctl, wait_for_port
 
-DEFAULT_CHAIN_BINARY = "shidod"
+DEFAULT_CHAIN_BINARY = "anrytond"
 
 
-class Shido:
+class Anryton:
     def __init__(self, base_dir, chain_binary=DEFAULT_CHAIN_BINARY):
         self._w3 = None
         self.base_dir = base_dir
@@ -25,7 +25,7 @@ class Shido:
         self.chain_binary = chain_binary
 
     def copy(self):
-        return Shido(self.base_dir)
+        return Anryton(self.base_dir)
 
     @property
     def w3_http_endpoint(self, i=0):
@@ -101,12 +101,12 @@ class Geth:
         self.w3 = w3
 
 
-def setup_shido(path, base_port, long_timeout_commit=False):
+def setup_anryton(path, base_port, long_timeout_commit=False):
     config = "configs/default.jsonnet"
     if long_timeout_commit is True:
         config = "configs/long_timeout_commit.jsonnet"
     cfg = Path(__file__).parent / config
-    yield from setup_custom_shido(path, base_port, cfg)
+    yield from setup_custom_anryton(path, base_port, cfg)
 
 
 def setup_geth(path, base_port):
@@ -139,7 +139,7 @@ def setup_geth(path, base_port):
             proc.wait()
 
 
-def setup_custom_shido(
+def setup_custom_anryton(
     path, base_port, config, post_init=None, chain_binary=None, wait_port=True
 ):
     cmd = [
@@ -167,8 +167,8 @@ def setup_custom_shido(
         if wait_port:
             wait_for_port(ports.evmrpc_port(base_port))
             wait_for_port(ports.evmrpc_ws_port(base_port))
-        yield Shido(
-            path / "shido_9000-1", chain_binary=chain_binary or DEFAULT_CHAIN_BINARY
+        yield Anryton(
+            path / "anryton_9000-1", chain_binary=chain_binary or DEFAULT_CHAIN_BINARY
         )
     finally:
         os.killpg(os.getpgid(proc.pid), signal.SIGTERM)

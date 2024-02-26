@@ -5,11 +5,11 @@ import (
 	"math"
 
 	errorsmod "cosmossdk.io/errors"
+	anteutils "github.com/anryton/anryton/v2/app/ante/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	anteutils "github.com/shido/shido/v2/app/ante/utils"
 )
 
 // DeductFeeDecorator deducts fees from the first signer of the tx.

@@ -8,14 +8,14 @@ import (
 	errorsmod "cosmossdk.io/errors"
 
 	sdkmath "cosmossdk.io/math"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/pkg/errors"
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // GetCode returns the contract code at the given address and block number.
@@ -114,7 +114,7 @@ func (b *Backend) GetProof(address common.Address, storageKeys []string, blockNr
 		Balance:      (*hexutil.Big)(balance.BigInt()),
 		CodeHash:     common.HexToHash(res.CodeHash),
 		Nonce:        hexutil.Uint64(res.Nonce),
-		StorageHash:  common.Hash{}, // NOTE: Shido doesn't have a storage hash. TODO: implement?
+		StorageHash:  common.Hash{}, // NOTE: Anryton doesn't have a storage hash. TODO: implement?
 		StorageProof: storageProofs,
 	}, nil
 }

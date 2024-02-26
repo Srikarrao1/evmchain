@@ -9,9 +9,9 @@ import (
 	porttypes "github.com/cosmos/ibc-go/v7/modules/core/05-port/types"
 	"github.com/cosmos/ibc-go/v7/modules/core/exported"
 
+	"github.com/anryton/anryton/v2/ibc"
+	"github.com/anryton/anryton/v2/x/erc20/keeper"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/shido/shido/v2/ibc"
-	"github.com/shido/shido/v2/x/erc20/keeper"
 )
 
 var _ porttypes.IBCModule = &IBCMiddleware{}

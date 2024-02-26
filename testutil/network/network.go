@@ -30,6 +30,8 @@ import (
 
 	"cosmossdk.io/simapp"
 	"cosmossdk.io/simapp/params"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -49,14 +51,12 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/hd"
 
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/server/config"
-	shidotypes "github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/server/config"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
 )
 
 // package-wide network lock to only allow one test network at a time
@@ -100,7 +100,7 @@ type Config struct {
 // testing requirements.
 func DefaultConfig() Config {
 	encCfg := encoding.MakeConfig(app.ModuleBasics)
-	chainID := fmt.Sprintf("shido_%d-1", tmrand.Int63n(9999999999999)+1)
+	chainID := fmt.Sprintf("anryton_%d-1", tmrand.Int63n(9999999999999)+1)
 	return Config{
 		Codec:             encCfg.Codec,
 		TxConfig:          encCfg.TxConfig,
@@ -112,11 +112,11 @@ func DefaultConfig() Config {
 		TimeoutCommit:     3 * time.Second,
 		ChainID:           chainID,
 		NumValidators:     4,
-		BondDenom:         "shido",
-		MinGasPrices:      fmt.Sprintf("0.000006%s", shidotypes.AttoShido),
-		AccountTokens:     sdk.TokensFromConsensusPower(1000000000000000000, shidotypes.PowerReduction),
-		StakingTokens:     sdk.TokensFromConsensusPower(500000000000000000, shidotypes.PowerReduction),
-		BondedTokens:      sdk.TokensFromConsensusPower(100000000000000000, shidotypes.PowerReduction),
+		BondDenom:         "anryton",
+		MinGasPrices:      fmt.Sprintf("0.000006%s", anrytontypes.AttoAnryton),
+		AccountTokens:     sdk.TokensFromConsensusPower(1000000000000000000, anrytontypes.PowerReduction),
+		StakingTokens:     sdk.TokensFromConsensusPower(500000000000000000, anrytontypes.PowerReduction),
+		BondedTokens:      sdk.TokensFromConsensusPower(100000000000000000, anrytontypes.PowerReduction),
 		PruningStrategy:   pruningtypes.PruningOptionNothing,
 		CleanupDir:        true,
 		SigningAlgo:       string(hd.EthSecp256k1Type),
@@ -125,11 +125,11 @@ func DefaultConfig() Config {
 	}
 }
 
-// NewAppConstructor returns a new Shido AppConstructor
+// NewAppConstructor returns a new Anryton AppConstructor
 func NewAppConstructor(encodingCfg params.EncodingConfig, chainID string) AppConstructor {
 	return func(val Validator) servertypes.Application {
 		var wasmOpts []wasmkeeper.Option
-		return app.NewShido(
+		return app.NewAnryton(
 			val.Ctx.Logger, dbm.NewMemDB(), nil, true, make(map[int64]bool), val.Ctx.Config.RootDir, 0,
 			encodingCfg,
 			simutils.NewAppOptionsWithFlagHome(val.Ctx.Config.RootDir),
@@ -223,7 +223,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 	l.Log("acquiring test network lock")
 	lock.Lock()
 
-	if !shidotypes.IsValidChainID(cfg.ChainID) {
+	if !anrytontypes.IsValidChainID(cfg.ChainID) {
 		return nil, fmt.Errorf("invalid chain-id: %s", cfg.ChainID)
 	}
 
@@ -338,8 +338,8 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 		ctx.Logger = logger
 
 		nodeDirName := fmt.Sprintf("node%d", i)
-		nodeDir := filepath.Join(network.BaseDir, nodeDirName, "shidod")
-		clientDir := filepath.Join(network.BaseDir, nodeDirName, "shidocli")
+		nodeDir := filepath.Join(network.BaseDir, nodeDirName, "anrytond")
+		clientDir := filepath.Join(network.BaseDir, nodeDirName, "anrytoncli")
 		gentxsDir := filepath.Join(network.BaseDir, "gentxs")
 
 		err := os.MkdirAll(filepath.Join(nodeDir, "config"), 0o750)
@@ -418,7 +418,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 
 		genFiles = append(genFiles, tmCfg.GenesisFile())
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: balances.Sort()})
-		genAccounts = append(genAccounts, &shidotypes.EthAccount{
+		genAccounts = append(genAccounts, &anrytontypes.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
@@ -476,7 +476,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			return nil, err
 		}
 
-		customAppTemplate, _ := config.AppConfig(shidotypes.AttoShido)
+		customAppTemplate, _ := config.AppConfig(anrytontypes.AttoAnryton)
 		srvconfig.SetConfigTemplate(customAppTemplate)
 		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config/app.toml"), appCfg)
 

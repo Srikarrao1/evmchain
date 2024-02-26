@@ -18,9 +18,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/shido/shido/v2/x/evm/client/cli"
-	"github.com/shido/shido/v2/x/evm/keeper"
-	"github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/evm/client/cli"
+	"github.com/anryton/anryton/v2/x/evm/keeper"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // consensusVersion defines the current x/evm module consensus version.

@@ -1,10 +1,10 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "author": "Shido team",
+  "author": "Anryton team",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "get-contracts": "rm -rf ./contracts/shido && mkdir -p ./contracts/shido && rsync -avm --include='*/' --include='*.sol' --exclude='*' ../../../precompiles/ ./contracts/shido/",
+    "get-contracts": "rm -rf ./contracts/anryton && mkdir -p ./contracts/anryton && rsync -avm --include='*/' --include='*.sol' --exclude='*' ../../../precompiles/ ./contracts/anryton/",
     "typechain": "npm run get-contracts && npx hardhat typechain"
   },
   "devDependencies": {

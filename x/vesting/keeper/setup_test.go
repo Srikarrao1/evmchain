@@ -14,11 +14,11 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/stretchr/testify/suite"
 
+	evm "github.com/anryton/anryton/v2/x/evm/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evm "github.com/shido/shido/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/x/vesting/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/x/vesting/types"
 )
 
 var (
@@ -38,7 +38,7 @@ type KeeperTestSuite struct {
 	suite.Suite
 
 	ctx            sdk.Context
-	app            *app.Shido
+	app            *app.Anryton
 	queryClientEvm evm.QueryClient
 	queryClient    types.QueryClient
 	address        common.Address

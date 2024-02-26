@@ -3,15 +3,15 @@ package distribution_test
 import (
 	"math/big"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/precompiles/distribution"
+	"github.com/anryton/anryton/v2/utils"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/distribution/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/precompiles/distribution"
-	"github.com/shido/shido/v2/utils"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 func (s *PrecompileTestSuite) TestIsTransaction() {

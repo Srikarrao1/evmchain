@@ -14,8 +14,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 func TestOnRecvPacket(t *testing.T) {

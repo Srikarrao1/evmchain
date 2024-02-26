@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/anryton/anryton/v2/precompiles/testutil"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/shido/shido/v2/precompiles/testutil"
 
 	"github.com/ethereum/go-ethereum/common"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/distribution"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/distribution/types"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/distribution"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
 )
 
 func (s *PrecompileTestSuite) TestSetWithdrawAddress() {
@@ -198,7 +198,7 @@ func (s *PrecompileTestSuite) TestWithdrawDelegatorRewards() {
 		s.Run(tc.name, func() {
 			s.SetupTest()
 
-			// sanity check to make sure the starting balance is always 5 SHIDO
+			// sanity check to make sure the starting balance is always 5 ANRYTON
 			balance := s.app.BankKeeper.GetBalance(s.ctx, s.address.Bytes(), utils.BaseDenom)
 			s.Require().Equal(balance.Amount.BigInt(), big.NewInt(5000000000000000000))
 

@@ -4,7 +4,7 @@ coverage
 coverage.json
 typechain
 typechain-types
-contracts/shido
+contracts/anryton
 
 #Hardhat files
 cache

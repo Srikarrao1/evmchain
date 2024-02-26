@@ -5,9 +5,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/x/erc20/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/x/erc20/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestGetTokenPairs() {

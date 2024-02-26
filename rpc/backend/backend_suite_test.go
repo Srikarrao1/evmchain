@@ -18,15 +18,15 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/hd"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/indexer"
-	"github.com/shido/shido/v2/rpc/backend/mocks"
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/hd"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/indexer"
+	"github.com/anryton/anryton/v2/rpc/backend/mocks"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 type BackendTestSuite struct {
@@ -51,7 +51,7 @@ func (suite *BackendTestSuite) SetupTest() {
 
 	baseDir := suite.T().TempDir()
 	nodeDirName := "node"
-	clientDir := filepath.Join(baseDir, nodeDirName, "shidocli")
+	clientDir := filepath.Join(baseDir, nodeDirName, "anrytoncli")
 	keyRing, err := suite.generateTestKeyring(clientDir)
 	if err != nil {
 		panic(err)

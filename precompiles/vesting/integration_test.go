@@ -5,17 +5,17 @@ import (
 	"math/big"
 	"time"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/testutil"
+	"github.com/anryton/anryton/v2/precompiles/testutil/contracts"
+	"github.com/anryton/anryton/v2/precompiles/vesting"
+	"github.com/anryton/anryton/v2/precompiles/vesting/testdata"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/testutil"
-	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	"github.com/shido/shido/v2/precompiles/vesting"
-	"github.com/shido/shido/v2/precompiles/vesting/testdata"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -92,7 +92,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 			callType := callType
 
 			It(fmt.Sprintf("should create a clawback vesting account (%s)", callType.name), func() {
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, toAddr.Bytes(), 10000)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, toAddr.Bytes(), 10000)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 				createClawbackArgs := s.BuildCallArgs(callType, contractAddr).
 					WithMethodName(vesting.CreateClawbackVestingAccountMethod).
@@ -157,7 +157,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 			})
 
 			It(fmt.Sprintf("should not create a clawback vesting account if the origin is different than the vesting address (%s)", callType.name), func() {
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 10000)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 10000)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 				createClawbackArgs := s.BuildCallArgs(callType, contractAddr).
 					WithMethodName(vesting.CreateClawbackVestingAccountMethod).
@@ -198,7 +198,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 
 			It(fmt.Sprintf("should not create a clawback vesting account if the account already is subject to vesting (%s)", callType.name), func() {
 				addr, priv := testutiltx.NewAddrKey()
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, addr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, addr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 
 				s.CreateTestClawbackVestingAccount(s.address, addr)
@@ -575,7 +575,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 			It(fmt.Sprintf("should return an error when not sending as the funder (%s)", callType.name), func() {
 				// create and fund new account
 				differentAddr, differentPriv := testutiltx.NewAddrKey()
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 
 				balancePre := s.app.BankKeeper.GetBalance(s.ctx, toAddr.Bytes(), s.bondDenom)
@@ -610,7 +610,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 
 			It(fmt.Sprintf("should return an error when the vesting does not exist (%s)", callType.name), func() {
 				// fund the new account
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 
 				clawbackArgs := s.BuildCallArgs(callType, contractAddr).
@@ -637,7 +637,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 
 			It(fmt.Sprintf("should succeed and return empty Coins when all tokens are vested (%s)", callType.name), func() {
 				// commit block with time so that vesting has ended
-				ctx, err := shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Hour*24, nil)
+				ctx, err := anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Hour*24, nil)
 				Expect(err).ToNot(HaveOccurred(), "error while committing block: %v", err)
 				s.ctx = ctx
 
@@ -695,7 +695,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 
 			It(fmt.Sprintf("should return an error when not sending as the funder (%s)", callType.name), func() {
 				differentAddr, differentPriv := testutiltx.NewAddrKey()
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 
 				updateFunderArgs := s.BuildCallArgs(callType, contractAddr).
@@ -758,7 +758,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 			It(fmt.Sprintf("should return an error when the account is no vesting account (%s)", callType.name), func() {
 				// Check that there's no vesting account
 				nonVestingAddr := testutiltx.GenerateAddress()
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, nonVestingAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, nonVestingAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding the account: %v", err)
 				acc := s.app.AccountKeeper.GetAccount(s.ctx, nonVestingAddr.Bytes())
 				Expect(acc).ToNot(BeNil(), "expected account to be found")
@@ -875,7 +875,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 
 			It(fmt.Sprintf("should convert the vesting account into a normal one after vesting has ended (%s)", callType.name), func() {
 				// commit block with new time so that the vesting period has ended
-				s.ctx, err = shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Hour*24, nil)
+				s.ctx, err = anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Hour*24, nil)
 				Expect(err).To(BeNil(), "failed to commit block")
 
 				convertClawbackArgs := s.BuildCallArgs(callType, contractAddr).
@@ -915,11 +915,11 @@ var _ = Describe("Interacting with the vesting extension", func() {
 
 			It(fmt.Sprintf("should return an error when not sending as the funder (%s)", callType.name), func() {
 				// commit block with new time so that the vesting period has ended
-				s.ctx, err = shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Hour*24, nil)
+				s.ctx, err = anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Hour*24, nil)
 				Expect(err).To(BeNil(), "failed to commit block")
 
 				differentAddr, differentPriv := testutiltx.NewAddrKey()
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding account: %v", err)
 
 				convertClawbackArgs := s.BuildCallArgs(callType, contractAddr).
@@ -939,7 +939,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 			})
 
 			It(fmt.Sprintf("should return an error when the vesting does not exist (%s)", callType.name), func() {
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, differentAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding account: %v", err)
 
 				convertClawbackArgs := s.BuildCallArgs(callType, contractAddr).
@@ -995,7 +995,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 				Expect(res.Vested).To(BeEmpty(), "expected different vested coins")
 
 				// Commit new block so that the vesting period is at the half and the lockup period is over
-				s.ctx, err = shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second*5000, nil)
+				s.ctx, err = anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second*5000, nil)
 				Expect(err).To(BeNil(), "failed to commit block")
 
 				// Recheck balances
@@ -1011,7 +1011,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 				Expect(res.Vested).To(Equal(halfCoins), "expected different vested coins")
 
 				// Commit new block so that the vesting period is over
-				s.ctx, err = shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second*5000, nil)
+				s.ctx, err = anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second*5000, nil)
 				Expect(err).To(BeNil(), "failed to commit block")
 
 				// Recheck balances
@@ -1049,7 +1049,7 @@ var _ = Describe("Interacting with the vesting extension", func() {
 			})
 
 			It(fmt.Sprintf("should return an error when the account is not a vesting account (%s)", callType.name), func() {
-				err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, toAddr.Bytes(), 1e18)
+				err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, toAddr.Bytes(), 1e18)
 				Expect(err).ToNot(HaveOccurred(), "error while funding account: %v", err)
 
 				balancesArgs := s.BuildCallArgs(callType, contractAddr).

@@ -4,18 +4,18 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/shido/shido/v2/app"
+	"github.com/anryton/anryton/v2/app"
 
-	"github.com/shido/shido/v2/precompiles/authorization"
+	"github.com/anryton/anryton/v2/precompiles/authorization"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
 
+	"github.com/anryton/anryton/v2/precompiles/staking"
+	"github.com/anryton/anryton/v2/utils"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/shido/shido/v2/precompiles/staking"
-	"github.com/shido/shido/v2/utils"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 func (s *PrecompileTestSuite) TestIsTransaction() {

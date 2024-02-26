@@ -3,7 +3,7 @@ package keeper_test
 import (
 	"testing"
 
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-     "github.com/shido/shido/v2/app"
+	"github.com/anryton/anryton/v2/app"
 )
 
 func TestModuleMigrations(t *testing.T) {

@@ -13,17 +13,17 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 
-	"github.com/shido/shido/v2/app"
+	"github.com/anryton/anryton/v2/app"
 )
 
 type UpgradeTestSuite struct {
 	suite.Suite
 
 	ctx         sdk.Context
-	app         *app.Shido
+	app         *app.Anryton
 	consAddress sdk.ConsAddress
 }
 

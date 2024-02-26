@@ -12,10 +12,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	cryptocodec "github.com/shido/shido/v2/crypto/codec"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	encodingcodec "github.com/shido/shido/v2/encoding/codec"
-	"github.com/shido/shido/v2/types"
+	cryptocodec "github.com/anryton/anryton/v2/crypto/codec"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	encodingcodec "github.com/anryton/anryton/v2/encoding/codec"
+	"github.com/anryton/anryton/v2/types"
 )
 
 func init() {

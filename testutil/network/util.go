@@ -28,8 +28,8 @@ import (
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/shido/shido/v2/server"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/server"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 func startInProcess(cfg Config, val *Validator) error {
@@ -152,7 +152,7 @@ func collectGenFiles(cfg Config, vals []*Validator, outputDir string) error {
 	for i := 0; i < cfg.NumValidators; i++ {
 		tmCfg := vals[i].Ctx.Config
 
-		nodeDir := filepath.Join(outputDir, vals[i].Moniker, "shidod")
+		nodeDir := filepath.Join(outputDir, vals[i].Moniker, "anrytond")
 		gentxsDir := filepath.Join(outputDir, "gentxs")
 
 		tmCfg.Moniker = vals[i].Moniker

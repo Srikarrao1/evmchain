@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 )
 
 var _ types.QueryServer = Keeper{}

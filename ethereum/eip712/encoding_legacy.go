@@ -10,8 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	txTypes "github.com/cosmos/cosmos-sdk/types/tx"
 
+	anryton "github.com/anryton/anryton/v2/types"
 	apitypes "github.com/ethereum/go-ethereum/signer/core/apitypes"
-	shido "github.com/shido/shido/v2/types"
 )
 
 type aminoMessage struct {
@@ -93,7 +93,7 @@ func legacyDecodeAminoSignDoc(signDocBytes []byte) (apitypes.TypedData, error) {
 		FeePayer: feePayer,
 	}
 
-	chainID, err := shido.ParseChainID(aminoDoc.ChainID)
+	chainID, err := anryton.ParseChainID(aminoDoc.ChainID)
 	if err != nil {
 		return apitypes.TypedData{}, errors.New("invalid chain ID passed as argument")
 	}
@@ -163,7 +163,7 @@ func legacyDecodeProtobufSignDoc(signDocBytes []byte) (apitypes.TypedData, error
 
 	signerInfo := authInfo.SignerInfos[0]
 
-	chainID, err := shido.ParseChainID(signDoc.ChainId)
+	chainID, err := anryton.ParseChainID(signDoc.ChainId)
 	if err != nil {
 		return apitypes.TypedData{}, fmt.Errorf("invalid chain ID passed as argument: %w", err)
 	}

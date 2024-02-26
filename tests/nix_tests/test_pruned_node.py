@@ -6,7 +6,7 @@ from eth_utils import abi, big_endian_to_int
 from hexbytes import HexBytes
 from web3.datastructures import AttributeDict
 
-from .network import setup_custom_shido
+from .network import setup_custom_anryton
 from .utils import (
     ADDRS,
     CONTRACTS,
@@ -19,10 +19,10 @@ from .utils import (
 
 @pytest.fixture(scope="module")
 def pruned(request, tmp_path_factory):
-    """start-shido
+    """start-anryton
     params: enable_auto_deployment
     """
-    yield from setup_custom_shido(
+    yield from setup_custom_anryton(
         tmp_path_factory.mktemp("pruned"),
         26900,
         Path(__file__).parent / "configs/pruned_node.jsonnet",

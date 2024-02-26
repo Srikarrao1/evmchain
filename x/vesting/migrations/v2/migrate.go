@@ -1,10 +1,10 @@
 package v2
 
 import (
+	v1vestingtypes "github.com/anryton/anryton/v2/x/vesting/migrations/types"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	accounttypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	v1vestingtypes "github.com/shido/shido/v2/x/vesting/migrations/types"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 // MigrateStore migrates the x/vesting module state from the consensus version 1 to

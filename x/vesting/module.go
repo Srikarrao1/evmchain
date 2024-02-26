@@ -19,9 +19,9 @@ import (
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 
-	"github.com/shido/shido/v2/x/vesting/client/cli"
-	"github.com/shido/shido/v2/x/vesting/keeper"
-	"github.com/shido/shido/v2/x/vesting/types"
+	"github.com/anryton/anryton/v2/x/vesting/client/cli"
+	"github.com/anryton/anryton/v2/x/vesting/keeper"
+	"github.com/anryton/anryton/v2/x/vesting/types"
 )
 
 // consensusVersion defines the current x/vesting module consensus version.

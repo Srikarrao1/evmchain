@@ -1,8 +1,8 @@
 package keeper
 
 import (
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/x/erc20/types"
 )
 
 var isTrue = []byte("0x01")

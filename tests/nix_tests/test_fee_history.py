@@ -3,24 +3,24 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import pytest
 from web3 import Web3
 
-from .network import setup_shido
+from .network import setup_anryton
 from .utils import ADDRS, send_transaction
 
 
 @pytest.fixture(scope="module")
-def custom_shido(tmp_path_factory):
+def custom_anryton(tmp_path_factory):
     path = tmp_path_factory.mktemp("fee-history")
-    yield from setup_shido(path, 26500)
+    yield from setup_anryton(path, 26500)
 
 
-@pytest.fixture(scope="module", params=["shido", "geth"])
-def cluster(request, custom_shido, geth):
+@pytest.fixture(scope="module", params=["anryton", "geth"])
+def cluster(request, custom_anryton, geth):
     """
-    run on both shido and geth
+    run on both anryton and geth
     """
     provider = request.param
-    if provider == "shido":
-        yield custom_shido
+    if provider == "anryton":
+        yield custom_anryton
     elif provider == "geth":
         yield geth
     else:

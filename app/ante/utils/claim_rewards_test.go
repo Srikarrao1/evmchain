@@ -3,11 +3,11 @@ package utils_test
 import (
 	"time"
 
+	anteutils "github.com/anryton/anryton/v2/app/ante/utils"
+	"github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	anteutils "github.com/shido/shido/v2/app/ante/utils"
-	"github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
 )
 
 // TestClaimStakingRewardsIfNecessary tests the ClaimStakingRewardsIfNecessary function

@@ -12,8 +12,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	"github.com/shido/shido/v2/x/evm/types"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // GetTxCmd returns the transaction commands for this module

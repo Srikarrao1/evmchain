@@ -1,12 +1,12 @@
 package ante_test
 
 import (
-	ethante "github.com/shido/shido/v2/app/ante/evm"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/types"
+	ethante "github.com/anryton/anryton/v2/app/ante/evm"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/types"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/app/ante"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/app/ante"
 )
 
 func (suite *AnteTestSuite) TestValidateHandlerOptions() {

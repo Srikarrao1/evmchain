@@ -13,19 +13,19 @@ import (
 	tmversion "github.com/cometbft/cometbft/proto/tendermint/version"
 	"github.com/cometbft/cometbft/version"
 
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/x/erc20"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/x/erc20"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 type GenesisTestSuite struct {
 	suite.Suite
 	ctx     sdk.Context
-	app     *app.Shido
+	app     *app.Anryton
 	genesis types.GenesisState
 }
 

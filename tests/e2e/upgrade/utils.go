@@ -12,17 +12,17 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-// ShidoVersions is a custom comparator for sorting semver version strings.
-type ShidoVersions []string
+// AnrytonVersions is a custom comparator for sorting semver version strings.
+type AnrytonVersions []string
 
 // Len is the number of stored versions..
-func (v ShidoVersions) Len() int { return len(v) }
+func (v AnrytonVersions) Len() int { return len(v) }
 
 // Swap swaps the elements with indexes i and j. It is needed to sort the slice.
-func (v ShidoVersions) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
+func (v AnrytonVersions) Swap(i, j int) { v[i], v[j] = v[j], v[i] }
 
 // Less compares semver versions strings properly
-func (v ShidoVersions) Less(i, j int) bool {
+func (v AnrytonVersions) Less(i, j int) bool {
 	v1, err := version.NewVersion(v[i])
 	if err != nil {
 		log.Fatalf("couldn't interpret version as SemVer string: %s: %s", v[i], err.Error())
@@ -42,7 +42,7 @@ func CheckLegacyProposal(version string) bool {
 	}
 
 	// check if the version is lower than v10.x.x
-	cmp := ShidoVersions([]string{version, "v10.0.0"})
+	cmp := AnrytonVersions([]string{version, "v10.0.0"})
 	isLegacyProposal := !cmp.Less(0, 1)
 
 	return isLegacyProposal
@@ -74,12 +74,12 @@ func RetrieveUpgradesList(upgradesPath string) ([]string, error) {
 		versions[i] = v[1 : len(v)-1]
 	}
 
-	sort.Sort(ShidoVersions(versions))
+	sort.Sort(AnrytonVersions(versions))
 
 	return versions, nil
 }
 
-// ExportState executes the  'docker cp' command to copy container .shidod dir
+// ExportState executes the  'docker cp' command to copy container .anrytond dir
 // to the specified target dir (local)
 //
 // See https://docs.docker.com/engine/reference/commandline/cp/
@@ -88,7 +88,7 @@ func (m *Manager) ExportState(targetDir string) error {
 	cmd := exec.Command(
 		"docker",
 		"cp",
-		fmt.Sprintf("%s:/root/.shidod", m.ContainerID()),
+		fmt.Sprintf("%s:/root/.anrytond", m.ContainerID()),
 		targetDir,
 	)
 	return cmd.Run()

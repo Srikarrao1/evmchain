@@ -12,12 +12,12 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
 )
 
 func init() {
 	cfg := sdk.GetConfig()
-	cfg.SetBech32PrefixForAccount("shido", "shidopub")
+	cfg.SetBech32PrefixForAccount("anryton", "anrytonpub")
 }
 
 func TestIsSupportedKeys(t *testing.T) {
@@ -73,7 +73,7 @@ func TestIsSupportedKeys(t *testing.T) {
 	}
 }
 
-func TestGetShidoAddressFromBech32(t *testing.T) {
+func TestGetAnrytonAddressFromBech32(t *testing.T) {
 	testCases := []struct {
 		name       string
 		address    string
@@ -88,38 +88,38 @@ func TestGetShidoAddressFromBech32(t *testing.T) {
 		},
 		{
 			"invalid bech32 address",
-			"shido",
+			"anryton",
 			"",
 			true,
 		},
 		{
 			"invalid address bytes",
-			"shido1123",
+			"anryton1123",
 			"",
 			true,
 		},
 		{
-			"shido address",
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton address",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
 			false,
 		},
 		{
 			"cosmos address",
 			"cosmos1qql8ag4cluz6r4dz28p3w00dnc9w8ueulg2gmc",
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
 			false,
 		},
 		{
 			"osmosis address",
 			"osmo1qql8ag4cluz6r4dz28p3w00dnc9w8ueuhnecd2",
-			"shido1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
+			"anryton1qql8ag4cluz6r4dz28p3w00dnc9w8ueuafmxps",
 			false,
 		},
 	}
 
 	for _, tc := range testCases {
-		addr, err := GetShidoAddressFromBech32(tc.address)
+		addr, err := GetAnrytonAddressFromBech32(tc.address)
 		if tc.expError {
 			require.Error(t, err, tc.name)
 		} else {
@@ -129,7 +129,7 @@ func TestGetShidoAddressFromBech32(t *testing.T) {
 	}
 }
 
-func TestShidoCoinDenom(t *testing.T) {
+func TestAnrytonCoinDenom(t *testing.T) {
 	testCases := []struct {
 		name     string
 		denom    string
@@ -137,7 +137,7 @@ func TestShidoCoinDenom(t *testing.T) {
 	}{
 		{
 			"valid denom - native coin",
-			"shido",
+			"anryton",
 			false,
 		},
 		{

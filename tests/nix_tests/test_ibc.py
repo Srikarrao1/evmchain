@@ -1,7 +1,7 @@
 import pytest
 
 from .ibc_utils import (
-    SHIDO_IBC_DENOM,
+    ANRYTON_IBC_DENOM,
     assert_ready,
     get_balance,
     hermes_transfer,
@@ -30,45 +30,45 @@ def test_ibc_transfer_with_hermes(ibc):
     """
     amt = hermes_transfer(ibc)
     dst_denom = "ibc/6411AE2ADA1E73DB59DB151A8988F9B7D5E7E233D8414DB6817F8F1A01611F86"  # ibc denom of the basecro sent
-    dst_addr = ibc.shido.cosmos_cli().address("signer2")
-    old_dst_balance = get_balance(ibc.shido, dst_addr, dst_denom)
+    dst_addr = ibc.anryton.cosmos_cli().address("signer2")
+    old_dst_balance = get_balance(ibc.anryton, dst_addr, dst_denom)
     new_dst_balance = 0
 
     def check_balance_change():
         nonlocal new_dst_balance
-        new_dst_balance = get_balance(ibc.shido, dst_addr, dst_denom)
+        new_dst_balance = get_balance(ibc.anryton, dst_addr, dst_denom)
         return new_dst_balance != old_dst_balance
 
     wait_for_fn("balance change", check_balance_change)
     assert old_dst_balance + amt == new_dst_balance
 
     # assert that the relayer transactions do enables the dynamic fee extension option.
-    cli = ibc.shido.cosmos_cli()
+    cli = ibc.anryton.cosmos_cli()
     criteria = "message.action=/ibc.core.channel.v1.MsgChannelOpenInit"
     tx = cli.tx_search(criteria)["txs"][0]
     events = parse_events_rpc(tx["events"])
-    fee = int(events["tx"]["fee"].removesuffix("shido"))
+    fee = int(events["tx"]["fee"].removesuffix("anryton"))
     gas = int(tx["gas_wanted"])
     # the effective fee is decided by the max_priority_fee (base fee is zero)
     # rather than the normal gas price
     assert fee == gas * 1000000
 
 
-def test_shido_ibc_transfer(ibc):
+def test_anryton_ibc_transfer(ibc):
     """
-    test sending shido from shido to crypto-org-chain using cli.
+    test sending anryton from anryton to crypto-org-chain using cli.
     """
     assert_ready(ibc)
     dst_addr = ibc.other_chain.cosmos_cli().address("signer2")
     amt = 1000000
 
-    cli = ibc.shido.cosmos_cli()
+    cli = ibc.anryton.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "shido"
+    src_denom = "anryton"
 
-    # case 1: use shido cli
-    old_src_balance = get_balance(ibc.shido, src_addr, src_denom)
-    old_dst_balance = get_balance(ibc.other_chain, dst_addr, SHIDO_IBC_DENOM)
+    # case 1: use anryton cli
+    old_src_balance = get_balance(ibc.anryton, src_addr, src_denom)
+    old_dst_balance = get_balance(ibc.other_chain, dst_addr, ANRYTON_IBC_DENOM)
 
     rsp = cli.ibc_transfer(
         src_addr,
@@ -83,29 +83,29 @@ def test_shido_ibc_transfer(ibc):
 
     def check_balance_change():
         nonlocal new_dst_balance
-        new_dst_balance = get_balance(ibc.other_chain, dst_addr, SHIDO_IBC_DENOM)
+        new_dst_balance = get_balance(ibc.other_chain, dst_addr, ANRYTON_IBC_DENOM)
         return old_dst_balance != new_dst_balance
 
     wait_for_fn("balance change", check_balance_change)
     assert old_dst_balance + amt == new_dst_balance
-    new_src_balance = get_balance(ibc.shido, src_addr, src_denom)
+    new_src_balance = get_balance(ibc.anryton, src_addr, src_denom)
     assert old_src_balance - amt == new_src_balance
 
 
-def test_shido_ibc_transfer_acknowledgement_error(ibc):
+def test_anryton_ibc_transfer_acknowledgement_error(ibc):
     """
-    test sending shido from shido to crypto-org-chain using cli transfer_tokens
+    test sending anryton from anryton to crypto-org-chain using cli transfer_tokens
     with invalid receiver for acknowledgement error.
     """
     assert_ready(ibc)
     dst_addr = "invalid_address"
     amt = 1000000
 
-    cli = ibc.shido.cosmos_cli()
+    cli = ibc.anryton.cosmos_cli()
     src_addr = cli.address("signer2")
-    src_denom = "shido"
+    src_denom = "anryton"
 
-    old_src_balance = get_balance(ibc.shido, src_addr, src_denom)
+    old_src_balance = get_balance(ibc.anryton, src_addr, src_denom)
     rsp = cli.ibc_transfer(
         src_addr,
         dst_addr,
@@ -119,8 +119,8 @@ def test_shido_ibc_transfer_acknowledgement_error(ibc):
 
     def check_balance_change():
         nonlocal new_src_balance
-        new_src_balance = get_balance(ibc.shido, src_addr, src_denom)
+        new_src_balance = get_balance(ibc.anryton, src_addr, src_denom)
         return old_src_balance == new_src_balance
 
     wait_for_fn("balance no change", check_balance_change)
-    new_src_balance = get_balance(ibc.shido, src_addr, src_denom)
+    new_src_balance = get_balance(ibc.anryton, src_addr, src_denom)

@@ -3,12 +3,12 @@ package keeper_test
 import (
 	"time"
 
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/x/vesting/keeper"
+	v1vestingtypes "github.com/anryton/anryton/v2/x/vesting/migrations/types"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/x/vesting/keeper"
-	v1vestingtypes "github.com/shido/shido/v2/x/vesting/migrations/types"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 func (suite *KeeperTestSuite) TestMigration() {

@@ -1,9 +1,9 @@
 package transfer
 
 import (
+	"github.com/anryton/anryton/v2/x/ibc/transfer/keeper"
 	ibctransfer "github.com/cosmos/ibc-go/v7/modules/apps/transfer"
 	porttypes "github.com/cosmos/ibc-go/v7/modules/core/05-port/types"
-	"github.com/shido/shido/v2/x/ibc/transfer/keeper"
 )
 
 var _ porttypes.IBCModule = IBCModule{}

@@ -7,8 +7,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 func TestInitGenesis(t *testing.T) {

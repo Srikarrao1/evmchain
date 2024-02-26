@@ -3,7 +3,7 @@ package utils
 import (
 	"strings"
 
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
 
 	errorsmod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
@@ -14,20 +14,20 @@ import (
 )
 
 const (
-	// MainnetChainID defines the Shido EIP155 chain ID for mainnet
-	MainnetChainID = "shido_9001"
-	// TestnetChainID defines the Shido EIP155 chain ID for testnet
-	TestnetChainID = "shido_9000"
-	// BaseDenom defines the Shido mainnet denomination
-	BaseDenom = "shido"
+	// MainnetChainID defines the Anryton EIP155 chain ID for mainnet
+	MainnetChainID = "anryton_9001"
+	// TestnetChainID defines the Anryton EIP155 chain ID for testnet
+	TestnetChainID = "anryton_9000"
+	// BaseDenom defines the Anryton mainnet denomination
+	BaseDenom = "anryton"
 )
 
-// IsMainnet returns true if the chain-id has the Shido mainnet EIP155 chain prefix.
+// IsMainnet returns true if the chain-id has the Anryton mainnet EIP155 chain prefix.
 func IsMainnet(chainID string) bool {
 	return strings.HasPrefix(chainID, MainnetChainID)
 }
 
-// IsTestnet returns true if the chain-id has the Shido testnet EIP155 chain prefix.
+// IsTestnet returns true if the chain-id has the Anryton testnet EIP155 chain prefix.
 func IsTestnet(chainID string) bool {
 	return strings.HasPrefix(chainID, TestnetChainID)
 }
@@ -60,11 +60,11 @@ func IsSupportedKey(pubkey cryptotypes.PubKey) bool {
 	}
 }
 
-// GetShidoAddressFromBech32 returns the sdk.Account address of given address,
+// GetAnrytonAddressFromBech32 returns the sdk.Account address of given address,
 // while also changing bech32 human readable prefix (HRP) to the value set on
-// the global sdk.Config (eg: `shido`).
+// the global sdk.Config (eg: `anryton`).
 // The function fails if the provided bech32 address is invalid.
-func GetShidoAddressFromBech32(address string) (sdk.AccAddress, error) {
+func GetAnrytonAddressFromBech32(address string) (sdk.AccAddress, error) {
 	bech32Prefix := strings.SplitN(address, "1", 2)[0]
 	if bech32Prefix == address {
 		return nil, errorsmod.Wrapf(errortypes.ErrInvalidAddress, "invalid bech32 address: %s", address)

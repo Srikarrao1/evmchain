@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/shido/shido/v2/utils"
+	"github.com/anryton/anryton/v2/utils"
 
 	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -21,22 +21,22 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	"github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 
 	"github.com/stretchr/testify/require"
 
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/libs/log"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 func (suite *KeeperTestSuite) SetupApp(checkTx bool, chainID string) {
@@ -62,7 +62,7 @@ func (suite *KeeperTestSuite) SetupApp(checkTx bool, chainID string) {
 	types.RegisterQueryServer(queryHelper, suite.app.FeeMarketKeeper)
 	suite.queryClient = types.NewQueryClient(queryHelper)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: authtypes.NewBaseAccount(sdk.AccAddress(suite.address.Bytes()), nil, 0, 0),
 		CodeHash:    common.BytesToHash(crypto.Keccak256(nil)).String(),
 	}
@@ -153,7 +153,7 @@ func setupChain(localMinGasPricesStr string, chainID string) {
 	// validator-specific min-gas-prices setting
 	db := dbm.NewMemDB()
 	var wasmOpts []wasmkeeper.Option
-	newapp := app.NewShido(
+	newapp := app.NewAnryton(
 		log.NewNopLogger(),
 		db,
 		nil,

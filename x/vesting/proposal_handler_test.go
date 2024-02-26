@@ -3,12 +3,12 @@ package vesting_test
 import (
 	"fmt"
 
+	"github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/x/vesting"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	"github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/x/vesting"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 var (

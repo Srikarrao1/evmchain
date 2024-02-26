@@ -3,8 +3,8 @@ package types_test
 import (
 	"math/big"
 
+	"github.com/anryton/anryton/v2/x/evm/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/shido/shido/v2/x/evm/types"
 )
 
 func (suite *TxDataTestSuite) TestAccessListTxCopy() {

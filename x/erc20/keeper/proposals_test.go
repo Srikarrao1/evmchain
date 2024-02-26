@@ -12,11 +12,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/x/erc20/keeper"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/keeper"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 const (

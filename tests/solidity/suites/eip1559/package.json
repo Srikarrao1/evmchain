@@ -4,7 +4,7 @@
   "license": "GPL-3.0-or-later",
   "scripts": {
     "test-ganache": "yarn truffle test",
-    "test-shido": "yarn truffle test --network shido"
+    "test-anryton": "yarn truffle test --network anryton"
   },
   "devDependencies": {
     "truffle": "^5.4.14",

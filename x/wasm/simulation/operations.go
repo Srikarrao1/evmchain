@@ -17,10 +17,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/shido/shido/v2/app/params"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/keeper/testdata"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/app/params"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/testdata"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 // Simulation operation weights constants

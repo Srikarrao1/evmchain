@@ -7,7 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	shidotypes "github.com/shido/shido/v2/types"
+	anrytontypes "github.com/anryton/anryton/v2/types"
 )
 
 // NewTransactionLogs creates a new NewTransactionLogs instance.
@@ -28,7 +28,7 @@ func NewTransactionLogsFromEth(hash common.Hash, ethlogs []*ethtypes.Log) Transa
 
 // Validate performs a basic validation of a GenesisAccount fields.
 func (tx TransactionLogs) Validate() error {
-	if shidotypes.IsEmptyHash(tx.Hash) {
+	if anrytontypes.IsEmptyHash(tx.Hash) {
 		return fmt.Errorf("hash cannot be the empty %s", tx.Hash)
 	}
 
@@ -53,16 +53,16 @@ func (tx TransactionLogs) EthLogs() []*ethtypes.Log {
 
 // Validate performs a basic validation of an ethereum Log fields.
 func (log *Log) Validate() error {
-	if err := shidotypes.ValidateAddress(log.Address); err != nil {
+	if err := anrytontypes.ValidateAddress(log.Address); err != nil {
 		return fmt.Errorf("invalid log address %w", err)
 	}
-	if shidotypes.IsEmptyHash(log.BlockHash) {
+	if anrytontypes.IsEmptyHash(log.BlockHash) {
 		return fmt.Errorf("block hash cannot be the empty %s", log.BlockHash)
 	}
 	if log.BlockNumber == 0 {
 		return errors.New("block number cannot be zero")
 	}
-	if shidotypes.IsEmptyHash(log.TxHash) {
+	if anrytontypes.IsEmptyHash(log.TxHash) {
 		return fmt.Errorf("tx hash cannot be the empty %s", log.TxHash)
 	}
 	return nil

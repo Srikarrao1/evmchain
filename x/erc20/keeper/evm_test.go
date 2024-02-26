@@ -6,14 +6,14 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/ethereum/go-ethereum/common"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/x/erc20/keeper"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/x/erc20/keeper"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 func (suite *KeeperTestSuite) TestQueryERC20() {

@@ -4,9 +4,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/shido/shido/v2/x/erc20/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -60,37 +60,37 @@ func TestEqualMetadata(t *testing.T) {
 		{
 			"equal metadata",
 			banktypes.Metadata{
-				Base:        "shido",
-				Display:     "shido",
-				Name:        "Shido",
-				Symbol:      "SHIDO",
-				Description: "EVM, staking and governance denom of Shido",
+				Base:        "anryton",
+				Display:     "anryton",
+				Name:        "Anryton",
+				Symbol:      "ANRYTON",
+				Description: "EVM, staking and governance denom of Anryton",
 				DenomUnits: []*banktypes.DenomUnit{
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 0,
-						Aliases:  []string{"atto shido"},
+						Aliases:  []string{"atto anryton"},
 					},
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 18,
 					},
 				},
 			},
 			banktypes.Metadata{
-				Base:        "shido",
-				Display:     "shido",
-				Name:        "Shido",
-				Symbol:      "SHIDO",
-				Description: "EVM, staking and governance denom of Shido",
+				Base:        "anryton",
+				Display:     "anryton",
+				Name:        "Anryton",
+				Symbol:      "ANRYTON",
+				Description: "EVM, staking and governance denom of Anryton",
 				DenomUnits: []*banktypes.DenomUnit{
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 0,
-						Aliases:  []string{"atto shido"},
+						Aliases:  []string{"atto anryton"},
 					},
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 18,
 					},
 				},
@@ -100,44 +100,44 @@ func TestEqualMetadata(t *testing.T) {
 		{
 			"different base field",
 			banktypes.Metadata{
-				Base: "shido",
+				Base: "anryton",
 			},
 			banktypes.Metadata{
-				Base: "tshido",
+				Base: "tanryton",
 			},
 			true,
 		},
 		{
 			"different denom units length",
 			banktypes.Metadata{
-				Base:        "shido",
-				Display:     "shido",
-				Name:        "Shido",
-				Symbol:      "SHIDO",
-				Description: "EVM, staking and governance denom of Shido",
+				Base:        "anryton",
+				Display:     "anryton",
+				Name:        "Anryton",
+				Symbol:      "ANRYTON",
+				Description: "EVM, staking and governance denom of Anryton",
 				DenomUnits: []*banktypes.DenomUnit{
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 0,
-						Aliases:  []string{"atto shido"},
+						Aliases:  []string{"atto anryton"},
 					},
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 18,
 					},
 				},
 			},
 			banktypes.Metadata{
-				Base:        "shido",
-				Display:     "shido",
-				Name:        "Shido",
-				Symbol:      "SHIDO",
-				Description: "EVM, staking and governance denom of Shido",
+				Base:        "anryton",
+				Display:     "anryton",
+				Name:        "Anryton",
+				Symbol:      "ANRYTON",
+				Description: "EVM, staking and governance denom of Anryton",
 				DenomUnits: []*banktypes.DenomUnit{
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 0,
-						Aliases:  []string{"atto shido"},
+						Aliases:  []string{"atto anryton"},
 					},
 				},
 			},
@@ -146,47 +146,47 @@ func TestEqualMetadata(t *testing.T) {
 		{
 			"different denom units",
 			banktypes.Metadata{
-				Base:        "shido",
-				Display:     "shido",
-				Name:        "Shido",
-				Symbol:      "SHIDO",
-				Description: "EVM, staking and governance denom of Shido",
+				Base:        "anryton",
+				Display:     "anryton",
+				Name:        "Anryton",
+				Symbol:      "ANRYTON",
+				Description: "EVM, staking and governance denom of Anryton",
 				DenomUnits: []*banktypes.DenomUnit{
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 0,
-						Aliases:  []string{"atto shido"},
+						Aliases:  []string{"atto anryton"},
 					},
 					{
-						Denom:    "ushido",
+						Denom:    "uanryton",
 						Exponent: 12,
-						Aliases:  []string{"micro shido"},
+						Aliases:  []string{"micro anryton"},
 					},
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 18,
 					},
 				},
 			},
 			banktypes.Metadata{
-				Base:        "shido",
-				Display:     "shido",
-				Name:        "Shido",
-				Symbol:      "SHIDO",
-				Description: "EVM, staking and governance denom of Shido",
+				Base:        "anryton",
+				Display:     "anryton",
+				Name:        "Anryton",
+				Symbol:      "ANRYTON",
+				Description: "EVM, staking and governance denom of Anryton",
 				DenomUnits: []*banktypes.DenomUnit{
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 0,
-						Aliases:  []string{"atto shido"},
+						Aliases:  []string{"atto anryton"},
 					},
 					{
-						Denom:    "Ushido",
+						Denom:    "Uanryton",
 						Exponent: 12,
-						Aliases:  []string{"micro shido"},
+						Aliases:  []string{"micro anryton"},
 					},
 					{
-						Denom:    "shido",
+						Denom:    "anryton",
 						Exponent: 18,
 					},
 				},
@@ -221,25 +221,25 @@ func TestEqualAliases(t *testing.T) {
 		{
 			"different lengths",
 			[]string{},
-			[]string{"atto shido"},
+			[]string{"atto anryton"},
 			false,
 		},
 		{
 			"different values",
-			[]string{"attoshido"},
-			[]string{"atto shido"},
+			[]string{"attoanryton"},
+			[]string{"atto anryton"},
 			false,
 		},
 		{
 			"same values, unsorted",
-			[]string{"atto shido", "shido"},
-			[]string{"shido", "atto shido"},
+			[]string{"atto anryton", "anryton"},
+			[]string{"anryton", "atto anryton"},
 			false,
 		},
 		{
 			"same values, sorted",
-			[]string{"shido", "atto shido"},
-			[]string{"shido", "atto shido"},
+			[]string{"anryton", "atto anryton"},
+			[]string{"anryton", "atto anryton"},
 			true,
 		},
 	}

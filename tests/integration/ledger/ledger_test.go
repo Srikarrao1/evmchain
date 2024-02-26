@@ -9,12 +9,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/crypto/hd"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/tests/integration/ledger/mocks"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/crypto/hd"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/tests/integration/ledger/mocks"
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
 
 	"github.com/spf13/cobra"
 
@@ -52,14 +52,14 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 	ledgerKey := "ledger_key"
 
 	s.SetupTest()
-	s.SetupShidoApp()
+	s.SetupAnrytonApp()
 
 	Describe("Adding a key from ledger using the CLI", func() {
 		BeforeEach(func() {
 			krHome = s.T().TempDir()
 			encCfg = encoding.MakeConfig(app.ModuleBasics)
 
-			cmd = s.shidoAddKeyCmd()
+			cmd = s.anrytonAddKeyCmd()
 
 			mockedIn = sdktestutil.ApplyMockIODiscardOutErr(cmd)
 
@@ -107,7 +107,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 			var err error
 
 			// create add key command
-			cmd = s.shidoAddKeyCmd()
+			cmd = s.anrytonAddKeyCmd()
 
 			mockedIn = sdktestutil.ApplyMockIODiscardOutErr(cmd)
 			mocks.MGetAddressPubKeySECP256K1(s.ledger, s.accAddr, s.pubKey)
@@ -174,7 +174,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 						s.app.BankKeeper,
 						s.accAddr,
 						sdk.NewCoins(
-							sdk.NewCoin("shido", sdk.NewInt(100000000000000)),
+							sdk.NewCoin("anryton", sdk.NewInt(100000000000000)),
 						),
 					)
 					s.Require().NoError(err)
@@ -199,7 +199,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 					cmd.SetArgs([]string{
 						ledgerKey,
 						receiverAccAddr.String(),
-						sdk.NewCoin("shido", sdk.NewInt(1000)).String(),
+						sdk.NewCoin("anryton", sdk.NewInt(1000)).String(),
 						s.FormatFlag(flags.FlagUseLedger),
 						s.FormatFlag(flags.FlagSkipConfirmation),
 					})
@@ -217,7 +217,7 @@ var _ = Describe("Ledger CLI and keyring functionality: ", func() {
 					cmd.SetArgs([]string{
 						ledgerKey,
 						receiverAccAddr.String(),
-						sdk.NewCoin("shido", sdk.NewInt(1000)).String(),
+						sdk.NewCoin("anryton", sdk.NewInt(1000)).String(),
 						s.FormatFlag(flags.FlagUseLedger),
 						s.FormatFlag(flags.FlagSkipConfirmation),
 					})

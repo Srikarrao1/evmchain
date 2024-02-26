@@ -11,8 +11,8 @@ import (
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
 	"github.com/stretchr/testify/require"
 
-	wasmibctesting "github.com/shido/shido/v2/x/wasm/ibctesting"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	wasmibctesting "github.com/anryton/anryton/v2/x/wasm/ibctesting"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
 )
 
 func TestIBCReflectContract(t *testing.T) {

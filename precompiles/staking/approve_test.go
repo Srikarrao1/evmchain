@@ -5,18 +5,18 @@ import (
 	"math/big"
 	"time"
 
+	anrytonutiltx "github.com/anryton/anryton/v2/testutil/tx"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	shidoutiltx "github.com/shido/shido/v2/testutil/tx"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/staking"
+	"github.com/anryton/anryton/v2/precompiles/testutil"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkauthz "github.com/cosmos/cosmos-sdk/x/authz"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/staking"
-	"github.com/shido/shido/v2/precompiles/testutil"
-	shidoutil "github.com/shido/shido/v2/testutil"
 )
 
 func (s *PrecompileTestSuite) TestApprove() {
@@ -191,7 +191,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgDelegate with 1 Shido as limit amount",
+			"success - MsgDelegate with 1 Anryton as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -217,7 +217,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			func(_ *vm.Contract) []interface{} {
 				// Commit block (otherwise test logic will not be executed correctly, i.e. somehow unbonding does not take effect)
 				var err error
-				s.ctx, err = shidoutil.Commit(s.ctx, s.app, time.Second, nil)
+				s.ctx, err = anrytonutil.Commit(s.ctx, s.app, time.Second, nil)
 				s.Require().NoError(err, "failed to commit block")
 
 				// Jail a validator
@@ -233,7 +233,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 				s.Require().Equal(sdk.NewInt(1e18), amount, "expected different amount of tokens to be unbonded")
 
 				// Commit block and update time to one year later
-				s.ctx, err = shidoutil.Commit(s.ctx, s.app, time.Hour*24*365, nil)
+				s.ctx, err = anrytonutil.Commit(s.ctx, s.app, time.Hour*24*365, nil)
 				s.Require().NoError(err, "failed to commit block")
 
 				return []interface{}{
@@ -258,7 +258,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgUndelegate with 1 Shido as limit amount",
+			"success - MsgUndelegate with 1 Anryton as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -280,7 +280,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgRedelegate with 1 Shido as limit amount",
+			"success - MsgRedelegate with 1 Anryton as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -300,7 +300,7 @@ func (s *PrecompileTestSuite) TestApprove() {
 			"",
 		},
 		{
-			"success - MsgRedelegate, MsgUndelegate and MsgDelegate with 1 Shido as limit amount",
+			"success - MsgRedelegate, MsgUndelegate and MsgDelegate with 1 Anryton as limit amount",
 			func(_ *vm.Contract) []interface{} {
 				return []interface{}{
 					s.address,
@@ -467,7 +467,7 @@ func (s *PrecompileTestSuite) TestDecreaseAllowance() {
 			"amount by which the allowance should be decreased is greater than the authorization limit",
 		},
 		{
-			"success - decrease delegate authorization allowance by 1 Shido",
+			"success - decrease delegate authorization allowance by 1 Anryton",
 			func(_ *vm.Contract) []interface{} {
 				s.ApproveAndCheckAuthz(method, staking.DelegateMsg, big.NewInt(2e18))
 				return []interface{}{
@@ -591,7 +591,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 			"",
 		},
 		{
-			"success - increase delegate authorization allowance by 1 Shido",
+			"success - increase delegate authorization allowance by 1 Anryton",
 			func() []interface{} {
 				s.ApproveAndCheckAuthz(method, staking.DelegateMsg, big.NewInt(1e18))
 				return []interface{}{
@@ -633,7 +633,7 @@ func (s *PrecompileTestSuite) TestIncreaseAllowance() {
 
 func (s *PrecompileTestSuite) TestRevoke() {
 	method := s.precompile.Methods[authorization.RevokeMethod]
-	granteeAddr := shidoutiltx.GenerateAddress()
+	granteeAddr := anrytonutiltx.GenerateAddress()
 	granterAddr := s.address
 	createdAuthz := staking.DelegateAuthz
 	approvedCoin := &sdk.Coin{Denom: s.bondDenom, Amount: sdk.NewInt(1e18)}

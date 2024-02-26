@@ -42,8 +42,8 @@ import (
 	"github.com/cosmos/ibc-go/v7/testing/mock"
 	"github.com/stretchr/testify/require"
 
-	// "github.com/shido/shido/v2/app"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
+	// "github.com/anryton/anryton/v2/app"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
 )
 
 var MaxAccounts = 10

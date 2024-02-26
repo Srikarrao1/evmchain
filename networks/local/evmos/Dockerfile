@@ -6,7 +6,7 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y $PACKAGES
 
 # Set working directory for the build
-WORKDIR /go/src/github.com/shido/shido
+WORKDIR /go/src/github.com/anryton/anryton
 
 # Add source files
 COPY . .
@@ -22,10 +22,10 @@ WORKDIR /
 RUN apt-get update
 
 # Copy over binaries from the build-env
-COPY --from=build-env /go/src/github.com/shido/shido/build/shidod /
-COPY --from=build-env /go/src/github.com/shido/shido/scripts/start-docker.sh /
+COPY --from=build-env /go/src/github.com/anryton/anryton/build/anrytond /
+COPY --from=build-env /go/src/github.com/anryton/anryton/scripts/start-docker.sh /
 
 EXPOSE 26656 26657 1317 9090 8545 8546
 
-# Run shidod by default, omit entrypoint to ease using container with shidod
+# Run anrytond by default, omit entrypoint to ease using container with anrytond
 ENTRYPOINT ["/bin/bash", "-c"]

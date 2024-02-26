@@ -3,12 +3,12 @@ package evm_test
 import (
 	"math/big"
 
+	ethante "github.com/anryton/anryton/v2/app/ante/evm"
+	"github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	ethante "github.com/shido/shido/v2/app/ante/evm"
-	"github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 func (suite *AnteTestSuite) TestEthSigVerificationDecorator() {

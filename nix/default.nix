@@ -37,7 +37,7 @@ import sources.nixpkgs {
       import ./scripts.nix {
         inherit pkgs;
         config = {
-          shido-config = ../scripts/shido-devnet.yaml;
+          anryton-config = ../scripts/anryton-devnet.yaml;
           geth-genesis = ../scripts/geth-genesis.json;
           dotenv = builtins.path { name = "dotenv"; path = ../scripts/.env; };
         };

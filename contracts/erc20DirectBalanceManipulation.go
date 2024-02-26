@@ -4,10 +4,10 @@ import (
 	_ "embed" // embed compiled smart contract
 	"encoding/json"
 
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 // This is an evil token. Whenever an A -> B transfer is called,

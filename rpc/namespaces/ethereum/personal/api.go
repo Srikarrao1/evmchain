@@ -6,10 +6,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/shido/shido/v2/rpc/backend"
+	"github.com/anryton/anryton/v2/rpc/backend"
 
-	"github.com/shido/shido/v2/crypto/hd"
-	"github.com/shido/shido/v2/types"
+	"github.com/anryton/anryton/v2/crypto/hd"
+	"github.com/anryton/anryton/v2/types"
 
 	"github.com/cometbft/cometbft/libs/log"
 
@@ -21,7 +21,7 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // PrivateAccountAPI is the personal_ prefixed set of APIs in the Web3 JSON-RPC spec.
@@ -96,7 +96,7 @@ func (api *PrivateAccountAPI) NewAccount(password string) (common.Address, error
 	}
 	addr := common.BytesToAddress(pubKey.Address().Bytes())
 	api.logger.Info("Your new key was generated", "address", addr.String())
-	api.logger.Info("Please backup your key file!", "path", os.Getenv("HOME")+"/.shido/"+name) // TODO: pass the correct binary
+	api.logger.Info("Please backup your key file!", "path", os.Getenv("HOME")+"/.anryton/"+name) // TODO: pass the correct binary
 	api.logger.Info("Please remember your password!")
 	return addr, nil
 }

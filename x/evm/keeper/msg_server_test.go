@@ -6,10 +6,10 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	"github.com/anryton/anryton/v2/x/evm/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	"github.com/shido/shido/v2/x/evm/types"
 )
 
 func (suite *KeeperTestSuite) TestEthereumTx() {

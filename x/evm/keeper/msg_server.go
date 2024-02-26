@@ -16,7 +16,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 var _ types.MsgServer = &Keeper{}

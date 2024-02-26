@@ -3,13 +3,13 @@ package ics20_test
 import (
 	"fmt"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/ics20"
+	"github.com/anryton/anryton/v2/utils"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/ics20"
-	"github.com/shido/shido/v2/utils"
 )
 
 func (s *PrecompileTestSuite) TestDenomTrace() {

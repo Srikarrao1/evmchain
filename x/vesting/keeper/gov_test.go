@@ -1,8 +1,8 @@
 package keeper_test
 
 import (
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
 func (suite *KeeperTestSuite) TestGovClawbackStore() {

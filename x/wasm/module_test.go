@@ -23,11 +23,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/app/params"
-	"github.com/shido/shido/v2/x/wasm/exported"
-	"github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/keeper/testdata"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/app/params"
+	"github.com/anryton/anryton/v2/x/wasm/exported"
+	"github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/testdata"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 type mockSubspace struct {

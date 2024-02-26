@@ -3,9 +3,9 @@ package grpc
 import (
 	"context"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
 )
 
 // GetAccount returns the account for the given address.

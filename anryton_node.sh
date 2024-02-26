@@ -1,13 +1,13 @@
 #!/bin/bash
 
 KEYS="alice"
-CHAINID="shido_9022-1"
-MONIKER="shidonode"
+CHAINID="anryton_9022-1"
+MONIKER="anrytonnode"
 KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
 # Set dedicated home directory for the streakkd instance
-HOMEDIR="/data/shidod"
+HOMEDIR="/data/anrytond"
 
 # Path variables
 CONFIG=$HOMEDIR/config/config.toml
@@ -42,19 +42,19 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 	rm -rf "$HOMEDIR"
 
 	# Set client config
-	./build/shidod config keyring-backend $KEYRING --home "$HOMEDIR"
-	./build/shidod config chain-id $CHAINID --home "$HOMEDIR"
+	./build/anrytond config keyring-backend $KEYRING --home "$HOMEDIR"
+	./build/anrytond config chain-id $CHAINID --home "$HOMEDIR"
 
-	./build/shidod keys add $KEYS --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
-    ./build/shidod keys add bob --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
-	./build/shidod init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
+	./build/anrytond keys add $KEYS --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
+    ./build/anrytond keys add bob --keyring-backend $KEYRING --algo $KEYALGO --home "$HOMEDIR"
+	./build/anrytond init $MONIKER -o --chain-id $CHAINID --home "$HOMEDIR"
 
-	# Change parameter token denominations to shido
-	jq '.app_state["staking"]["params"]["bond_denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["crisis"]["constant_fee"]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-	jq '.app_state["evm"]["params"]["evm_denom"]="shido"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
-    jq '.app_state["mint"]["params"]["mint_denom"]="shido"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	# Change parameter token denominations to anryton
+	jq '.app_state["staking"]["params"]["bond_denom"]="anryton"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["crisis"]["constant_fee"]["denom"]="anryton"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="anryton"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+	jq '.app_state["evm"]["params"]["evm_denom"]="anryton"' "$GENESIS" >"$TMP_GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
+    jq '.app_state["mint"]["params"]["mint_denom"]="anryton"' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
 
 
     # jq '.app_state["feemarket"]["params"]["no_base_fee"]=true' >"$TMP_GENESIS" "$GENESIS" && mv "$TMP_GENESIS" "$GENESIS"
@@ -81,20 +81,18 @@ if [[ $overwrite == "y" || $overwrite == "Y" ]]; then
 
 
 	# Allocate genesis accounts (cosmos formatted addresses)
-	./build/shidod add-genesis-account $KEYS 10000000000000000000000000000000000000000000000shido --keyring-backend $KEYRING --home "$HOMEDIR"
+	./build/anrytond add-genesis-account $KEYS 10000000000000000000000000000000000000000000000anryton --keyring-backend $KEYRING --home "$HOMEDIR"
 
 	# Sign genesis transaction
-	./build/shidod gentx ${KEYS} 1000000000000000000000shido --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
+	./build/anrytond gentx ${KEYS} 1000000000000000000000anryton --keyring-backend $KEYRING --chain-id $CHAINID --home "$HOMEDIR"
 	
 	# Collect genesis tx
-	./build/shidod collect-gentxs --home "$HOMEDIR"
+	./build/anrytond collect-gentxs --home "$HOMEDIR"
 
 	# Run this to ensure everything worked and that the genesis file is setup correctly
-	./build/shidod validate-genesis --home "$HOMEDIR"
+	./build/anrytond validate-genesis --home "$HOMEDIR"
 
 fi
 
 # Start the node
-./build/shidod start --home "$HOMEDIR"
-
-
+./build/anrytond start --home "$HOMEDIR"

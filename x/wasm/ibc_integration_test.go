@@ -3,11 +3,11 @@ package wasm_test
 import (
 	"testing"
 
-	"github.com/shido/shido/v2/app"
+	"github.com/anryton/anryton/v2/app"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 
 	wasmvm "github.com/CosmWasm/wasmvm"
 	wasmvmtypes "github.com/CosmWasm/wasmvm/types"
@@ -17,9 +17,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	wasmibctesting "github.com/shido/shido/v2/x/wasm/ibctesting"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/keeper/wasmtesting"
+	wasmibctesting "github.com/anryton/anryton/v2/x/wasm/ibctesting"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/wasmtesting"
 )
 
 func TestOnChanOpenInitVersion(t *testing.T) {

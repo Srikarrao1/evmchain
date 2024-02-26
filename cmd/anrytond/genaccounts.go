@@ -20,13 +20,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 
-	"github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 
-	shidokr "github.com/shido/shido/v2/crypto/keyring"
+	anrytonkr "github.com/anryton/anryton/v2/crypto/keyring"
 
-	vestingcli "github.com/shido/shido/v2/x/vesting/client/cli"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
+	vestingcli "github.com/anryton/anryton/v2/x/vesting/client/cli"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 )
 
 const (
@@ -66,7 +66,7 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 						clientCtx.HomeDir,
 						inBuf,
 						clientCtx.Codec,
-						shidokr.Option(),
+						anrytonkr.Option(),
 					)
 					if err != nil {
 						return err

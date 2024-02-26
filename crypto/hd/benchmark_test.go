@@ -3,8 +3,8 @@ package hd
 import (
 	"testing"
 
+	"github.com/anryton/anryton/v2/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/shido/shido/v2/types"
 )
 
 func BenchmarkEthSecp256k1Algo_Derive(b *testing.B) {

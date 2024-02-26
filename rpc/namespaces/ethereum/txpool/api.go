@@ -5,11 +5,11 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 
-	"github.com/shido/shido/v2/rpc/types"
+	"github.com/anryton/anryton/v2/rpc/types"
 )
 
 // PublicAPI offers and API for the transaction pool. It only operates on data that is non-confidential.
-// NOTE: For more info about the current status of this endpoints see https://github.com/shido/ethermint/issues/124
+// NOTE: For more info about the current status of this endpoints see https://github.com/anryton/ethermint/issues/124
 type PublicAPI struct {
 	logger log.Logger
 }

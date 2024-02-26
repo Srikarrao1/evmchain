@@ -1,9 +1,9 @@
 package keeper_test
 
 import (
+	evmkeeper "github.com/anryton/anryton/v2/x/evm/keeper"
+	"github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	evmkeeper "github.com/shido/shido/v2/x/evm/keeper"
-	"github.com/shido/shido/v2/x/evm/types"
 )
 
 type mockSubspace struct {

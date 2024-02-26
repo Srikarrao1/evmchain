@@ -3,8 +3,8 @@ package vesting_test
 import (
 	"fmt"
 
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/vesting"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/vesting"
 )
 
 func (s *PrecompileTestSuite) TestBalances() {

@@ -3,8 +3,8 @@ package v3types
 import (
 	"fmt"
 
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/shido/shido/v2/x/erc20/types"
 )
 
 var _ types.LegacyParams = &V3Params{}

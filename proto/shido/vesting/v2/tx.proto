@@ -1,6 +1,6 @@
 
 syntax = "proto3";
-package shido.vesting.v2;
+package anryton.vesting.v2;
 
 import "cosmos/base/v1beta1/coin.proto";
 import "cosmos/msg/v1/msg.proto";
@@ -9,31 +9,31 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/shido/shido/v2/x/vesting/types";
+option go_package = "github.com/anryton/anryton/v2/x/vesting/types";
 
 // Msg defines the vesting Msg service.
 service Msg {
   // CreateClawbackVestingAccount creats a vesting account that is subject to clawback.
   rpc CreateClawbackVestingAccount(MsgCreateClawbackVestingAccount) returns (MsgCreateClawbackVestingAccountResponse) {
-    option (google.api.http).get = "/shido/vesting/v2/tx/create_clawback_vesting_account";
+    option (google.api.http).get = "/anryton/vesting/v2/tx/create_clawback_vesting_account";
   }
   // FundVestingAccount funds an existing ClawbackVestingAccount with tokens
   // according to the vesting and lockup schedules.
   rpc FundVestingAccount(MsgFundVestingAccount) returns (MsgFundVestingAccountResponse) {
-    option (google.api.http).get = "/shido/vesting/v2/tx/fund_vesting_account";
+    option (google.api.http).get = "/anryton/vesting/v2/tx/fund_vesting_account";
   }
   // Clawback removes the unvested tokens from a ClawbackVestingAccount.
   rpc Clawback(MsgClawback) returns (MsgClawbackResponse) {
-    option (google.api.http).get = "/shido/vesting/v2/tx/clawback";
+    option (google.api.http).get = "/anryton/vesting/v2/tx/clawback";
   }
   // UpdateVestingFunder updates the funder address of an existing
   // ClawbackVestingAccount.
   rpc UpdateVestingFunder(MsgUpdateVestingFunder) returns (MsgUpdateVestingFunderResponse) {
-    option (google.api.http).get = "/shido/vesting/v2/tx/update_vesting_funder";
+    option (google.api.http).get = "/anryton/vesting/v2/tx/update_vesting_funder";
   }
   // ConvertVestingAccount converts a ClawbackVestingAccount to an Eth account
   rpc ConvertVestingAccount(MsgConvertVestingAccount) returns (MsgConvertVestingAccountResponse) {
-    option (google.api.http).get = "/shido/vesting/v2/tx/convert_vesting_account";
+    option (google.api.http).get = "/anryton/vesting/v2/tx/convert_vesting_account";
   }
 }
 

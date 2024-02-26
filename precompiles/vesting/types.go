@@ -9,9 +9,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
 	cosmosvestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
 )
 
 // LockupPeriods is a struct used to parse the LockupPeriods parameter

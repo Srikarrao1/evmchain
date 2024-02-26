@@ -5,6 +5,21 @@ import (
 	"math/big"
 	"time"
 
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	anrytoncontracts "github.com/anryton/anryton/v2/contracts"
+	anrytonibc "github.com/anryton/anryton/v2/ibc/testing"
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/ics20"
+	"github.com/anryton/anryton/v2/precompiles/testutil"
+	"github.com/anryton/anryton/v2/precompiles/testutil/contracts"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	anrytonutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
@@ -27,21 +42,6 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/crypto"
-	shidoapp "github.com/shido/shido/v2/app"
-	shidocontracts "github.com/shido/shido/v2/contracts"
-	shidoibc "github.com/shido/shido/v2/ibc/testing"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/ics20"
-	"github.com/shido/shido/v2/precompiles/testutil"
-	"github.com/shido/shido/v2/precompiles/testutil/contracts"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	shidoutiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 
 	. "github.com/onsi/gomega"
 )
@@ -70,13 +70,13 @@ var (
 	}
 )
 
-// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new AnrytonApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
-	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*shidoapp.Shido)
+	appI, genesisState := anrytonapp.SetupTestingApp(cmn.DefaultChainID)()
+	app, ok := appI.(*anrytonapp.Anryton)
 	s.Require().True(ok)
 
 	// set genesis accounts
@@ -86,7 +86,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
 
-	bondAmt := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
+	bondAmt := sdk.TokensFromConsensusPower(1, anrytontypes.PowerReduction)
 
 	for _, val := range valSet.Validators {
 		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
@@ -113,7 +113,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be shido
+	// set bond demon to be anryton
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)
@@ -146,7 +146,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 		abci.RequestInitChain{
 			ChainId:         cmn.DefaultChainID,
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: shidoapp.DefaultConsensusParams,
+			ConsensusParams: anrytonapp.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
@@ -155,7 +155,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	app.Commit()
 
 	// instantiate new header
-	header := shidoutil.NewHeader(
+	header := anrytonutil.NewHeader(
 		2,
 		time.Now().UTC(),
 		cmn.DefaultChainID,
@@ -201,7 +201,7 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 		// NOTE: This year has to be updated otherwise the client will be shown as expired
 		CurrentTime: time.Date(time.Now().Year()+1, 1, 2, 0, 0, 0, 0, time.UTC),
 	}
-	// Create 2 Shido chains
+	// Create 2 Anryton chains
 	chains[cmn.DefaultChainID] = s.NewTestChainWithValSet(s.coordinator, s.valSet, signersByAddress)
 	// TODO: Figure out if we want to make the second chain keepers accessible to the tests to check the state
 	chainID2 := utils.MainnetChainID + "-2"
@@ -219,21 +219,21 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 
 func (s *PrecompileTestSuite) NewTestChainWithValSet(coord *ibctesting.Coordinator, valSet *tmtypes.ValidatorSet, signers map[string]tmtypes.PrivValidator) *ibctesting.TestChain {
 	// generate genesis account
-	addr, priv := shidoutiltx.NewAddrKey()
+	addr, priv := anrytonutiltx.NewAddrKey()
 	s.privKey = priv
 	s.address = addr
 	// differentAddr is an address generated for testing purposes that e.g. raises the different origin error
-	s.differentAddr = shidoutiltx.GenerateAddress()
-	s.signer = shidoutiltx.NewSigner(priv)
+	s.differentAddr = anrytonutiltx.GenerateAddress()
+	s.signer = anrytonutiltx.NewSigner(priv)
 
 	baseAcc := authtypes.NewBaseAccount(priv.PubKey().Address().Bytes(), priv.PubKey(), 0, 0)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(5, shidotypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(5, anrytontypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),
@@ -311,7 +311,7 @@ func (s *PrecompileTestSuite) NewPrecompileContract(gas uint64) *vm.Contract {
 }
 
 // NewTransferAuthorizationWithAllocations creates a new allocation for the given grantee and granter and the given coins
-func (s *PrecompileTestSuite) NewTransferAuthorizationWithAllocations(ctx sdk.Context, app *shidoapp.Shido, grantee, granter common.Address, allocations []transfertypes.Allocation) error {
+func (s *PrecompileTestSuite) NewTransferAuthorizationWithAllocations(ctx sdk.Context, app *anrytonapp.Anryton, grantee, granter common.Address, allocations []transfertypes.Allocation) error {
 	transferAuthz := &transfertypes.TransferAuthorization{Allocations: allocations}
 	if err := transferAuthz.ValidateBasic(); err != nil {
 		return err
@@ -322,7 +322,7 @@ func (s *PrecompileTestSuite) NewTransferAuthorizationWithAllocations(ctx sdk.Co
 }
 
 // NewTransferAuthorization creates a new transfer authorization for the given grantee and granter and the given coins
-func (s *PrecompileTestSuite) NewTransferAuthorization(ctx sdk.Context, app *shidoapp.Shido, grantee, granter common.Address, path *ibctesting.Path, coins sdk.Coins, allowList []string) error {
+func (s *PrecompileTestSuite) NewTransferAuthorization(ctx sdk.Context, app *anrytonapp.Anryton, grantee, granter common.Address, path *ibctesting.Path, coins sdk.Coins, allowList []string) error {
 	allocations := []transfertypes.Allocation{
 		{
 			SourcePort:    path.EndpointA.ChannelConfig.PortID,
@@ -388,7 +388,7 @@ func (s *PrecompileTestSuite) setupIBCTest() {
 	s.coordinator.CommitNBlocks(s.chainA, 2)
 	s.coordinator.CommitNBlocks(s.chainB, 2)
 
-	s.app = s.chainA.App.(*shidoapp.Shido)
+	s.app = s.chainA.App.(*anrytonapp.Anryton)
 	evmParams := s.app.EvmKeeper.GetParams(s.chainA.GetContext())
 	evmParams.EvmDenom = utils.BaseDenom
 	err := s.app.EvmKeeper.SetParams(s.chainA.GetContext(), evmParams)
@@ -406,18 +406,18 @@ func (s *PrecompileTestSuite) setupIBCTest() {
 	_, err = s.app.EvmKeeper.GetCoinbaseAddress(s.chainA.GetContext(), sdk.ConsAddress(s.chainA.CurrentHeader.ProposerAddress))
 	s.Require().NoError(err)
 
-	// Mint coins locked on the shido account generated with secp.
+	// Mint coins locked on the anryton account generated with secp.
 	amt, ok := sdk.NewIntFromString("1000000000000000000000")
 	s.Require().True(ok)
-	coinShido := sdk.NewCoin(utils.BaseDenom, amt)
-	coins := sdk.NewCoins(coinShido)
+	coinAnryton := sdk.NewCoin(utils.BaseDenom, amt)
+	coins := sdk.NewCoins(coinAnryton)
 	err = s.app.BankKeeper.MintCoins(s.chainA.GetContext(), "", coins)
 	s.Require().NoError(err)
 	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(s.chainA.GetContext(), "", s.chainA.SenderAccount.GetAddress(), coins)
 	s.Require().NoError(err)
 
-	s.transferPath = shidoibc.NewTransferPath(s.chainA, s.chainB) // clientID, connectionID, channelID empty
-	shidoibc.SetupPath(s.coordinator, s.transferPath)             // clientID, connectionID, channelID filled
+	s.transferPath = anrytonibc.NewTransferPath(s.chainA, s.chainB) // clientID, connectionID, channelID empty
+	anrytonibc.SetupPath(s.coordinator, s.transferPath)             // clientID, connectionID, channelID filled
 	s.Require().Equal("07-tendermint-0", s.transferPath.EndpointA.ClientID)
 	s.Require().Equal("connection-0", s.transferPath.EndpointA.ConnectionID)
 	s.Require().Equal("channel-0", s.transferPath.EndpointA.ChannelID)
@@ -504,21 +504,21 @@ func (s *PrecompileTestSuite) setupAllocationsForTesting() {
 	}
 }
 
-// TODO upstream this change to shido (adding gasPrice)
+// TODO upstream this change to anryton (adding gasPrice)
 // DeployContract deploys a contract with the provided private key,
 // compiled contract data and constructor arguments
 func DeployContract(
 	ctx sdk.Context,
-	shidoApp *shidoapp.Shido,
+	anrytonApp *anrytonapp.Anryton,
 	priv cryptotypes.PrivKey,
 	gasPrice *big.Int,
 	queryClientEvm evmtypes.QueryClient,
 	contract evmtypes.CompiledContract,
 	constructorArgs ...interface{},
 ) (common.Address, error) {
-	chainID := shidoApp.EvmKeeper.ChainID()
+	chainID := anrytonApp.EvmKeeper.ChainID()
 	from := common.BytesToAddress(priv.PubKey().Address().Bytes())
-	nonce := shidoApp.EvmKeeper.GetNonce(ctx, from)
+	nonce := anrytonApp.EvmKeeper.GetNonce(ctx, from)
 
 	ctorArgs, err := contract.ABI.Pack("", constructorArgs...)
 	if err != nil {
@@ -526,7 +526,7 @@ func DeployContract(
 	}
 
 	data := append(contract.Bin, ctorArgs...) //nolint:gocritic
-	gas, err := shidoutiltx.GasLimit(ctx, from, data, queryClientEvm)
+	gas, err := anrytonutiltx.GasLimit(ctx, from, data, queryClientEvm)
 	if err != nil {
 		return common.Address{}, err
 	}
@@ -535,7 +535,7 @@ func DeployContract(
 		ChainID:   chainID,
 		Nonce:     nonce,
 		GasLimit:  gas,
-		GasFeeCap: shidoApp.FeeMarketKeeper.GetBaseFee(ctx),
+		GasFeeCap: anrytonApp.FeeMarketKeeper.GetBaseFee(ctx),
 		GasTipCap: big.NewInt(1),
 		GasPrice:  gasPrice,
 		Input:     data,
@@ -543,12 +543,12 @@ func DeployContract(
 	})
 	msgEthereumTx.From = from.String()
 
-	res, err := shidoutil.DeliverEthTx(shidoApp, priv, msgEthereumTx)
+	res, err := anrytonutil.DeliverEthTx(anrytonApp, priv, msgEthereumTx)
 	if err != nil {
 		return common.Address{}, err
 	}
 
-	if _, err := shidoutil.CheckEthTxResponse(res, shidoApp.AppCodec()); err != nil {
+	if _, err := anrytonutil.CheckEthTxResponse(res, anrytonApp.AppCodec()); err != nil {
 		return common.Address{}, err
 	}
 
@@ -563,7 +563,7 @@ func (s *PrecompileTestSuite) DeployERC20Contract(chain *ibctesting.TestChain, n
 		s.privKey,
 		gasPrice,
 		s.queryClientEVM,
-		shidocontracts.ERC20MinterBurnerDecimalsContract,
+		anrytoncontracts.ERC20MinterBurnerDecimalsContract,
 		name,
 		symbol,
 		decimals,
@@ -582,7 +582,7 @@ func (s *PrecompileTestSuite) setupERC20ContractTests(amount *big.Int) common.Ad
 
 	defaultERC20CallArgs := contracts.CallArgs{
 		ContractAddr: erc20Addr,
-		ContractABI:  shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
+		ContractABI:  anrytoncontracts.ERC20MinterBurnerDecimalsContract.ABI,
 		PrivKey:      s.privKey,
 		GasPrice:     gasPrice,
 	}
@@ -593,7 +593,7 @@ func (s *PrecompileTestSuite) setupERC20ContractTests(amount *big.Int) common.Ad
 		WithArgs(s.address, amount)
 
 	mintCheck := testutil.LogCheckArgs{
-		ABIEvents: shidocontracts.ERC20MinterBurnerDecimalsContract.ABI.Events,
+		ABIEvents: anrytoncontracts.ERC20MinterBurnerDecimalsContract.ABI.Events,
 		ExpEvents: []string{"Transfer"}, // upon minting the tokens are sent to the receiving address
 		ExpPass:   true,
 	}
@@ -607,7 +607,7 @@ func (s *PrecompileTestSuite) setupERC20ContractTests(amount *big.Int) common.Ad
 	// unregistered token pairs do not show up in the bank keeper
 	balance := s.app.Erc20Keeper.BalanceOf(
 		s.chainA.GetContext(),
-		shidocontracts.ERC20MinterBurnerDecimalsContract.ABI,
+		anrytoncontracts.ERC20MinterBurnerDecimalsContract.ABI,
 		erc20Addr,
 		s.address,
 	)

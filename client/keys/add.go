@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"sort"
 
-	cryptohd "github.com/shido/shido/v2/crypto/hd"
+	cryptohd "github.com/anryton/anryton/v2/crypto/hd"
 
 	bip39 "github.com/cosmos/go-bip39"
 	"github.com/spf13/cobra"

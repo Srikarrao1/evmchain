@@ -3,8 +3,8 @@ package keeper
 import (
 	"fmt"
 
+	"github.com/anryton/anryton/v2/x/feemarket/types"
 	abci "github.com/cometbft/cometbft/abci/types"
-	"github.com/shido/shido/v2/x/feemarket/types"
 
 	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/telemetry"
@@ -60,7 +60,7 @@ func (k *Keeper) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) {
 	// to prevent BaseFee manipulation we limit the gasWanted so that
 	// gasWanted = max(gasWanted * MinGasMultiplier, gasUsed)
 	// this will be keep BaseFee protected from un-penalized manipulation
-	// more info here https://github.com/shido/ethermint/pull/1105#discussion_r888798925
+	// more info here https://github.com/anryton/ethermint/pull/1105#discussion_r888798925
 	minGasMultiplier := k.GetParams(ctx).MinGasMultiplier
 	limitedGasWanted := sdk.NewDec(gasWanted.Int64()).Mul(minGasMultiplier)
 	updatedGasWanted := sdk.MaxDec(limitedGasWanted, sdk.NewDec(gasUsed.Int64())).TruncateInt().Uint64()

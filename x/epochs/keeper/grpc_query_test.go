@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/anryton/anryton/v2/x/epochs/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/shido/shido/v2/x/epochs/types"
 )
 
 func (suite *KeeperTestSuite) TestEpochInfo() {

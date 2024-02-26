@@ -17,10 +17,10 @@ RPC_PORT="854"
 IP_ADDR="0.0.0.0"
 
 KEY="dev0"
-CHAINID="shido_9000-1"
+CHAINID="anryton_9000-1"
 MONIKER="mymoniker"
 
-## default port prefixes for shidod
+## default port prefixes for anrytond
 NODE_P2P_PORT="2660"
 NODE_PORT="2663"
 NODE_RPC_PORT="2666"
@@ -52,29 +52,29 @@ done
 
 set -euxo pipefail
 
-DATA_DIR=$(mktemp -d -t shido-datadir.XXXXX)
+DATA_DIR=$(mktemp -d -t anryton-datadir.XXXXX)
 
 if [[ ! "$DATA_DIR" ]]; then
     echo "Could not create $DATA_DIR"
     exit 1
 fi
 
-# Compile shido
-echo "compiling shido"
+# Compile anryton
+echo "compiling anryton"
 make build
 
 # PID array declaration
 arr=()
 
 init_func() {
-    "$PWD"/build/shidod keys add $KEY"$i" --keyring-backend test --home "$DATA_DIR$i" --no-backup --algo "eth_secp256k1"
-    "$PWD"/build/shidod init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
-    "$PWD"/build/shidod add-genesis-account \
-    "$("$PWD"/build/shidod keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000shido,1000000000000000000stake \
+    "$PWD"/build/anrytond keys add $KEY"$i" --keyring-backend test --home "$DATA_DIR$i" --no-backup --algo "eth_secp256k1"
+    "$PWD"/build/anrytond init $MONIKER --chain-id $CHAINID --home "$DATA_DIR$i"
+    "$PWD"/build/anrytond add-genesis-account \
+    "$("$PWD"/build/anrytond keys show "$KEY$i" --keyring-backend test -a --home "$DATA_DIR$i")" 1000000000000000000anryton,1000000000000000000stake \
     --keyring-backend test --home "$DATA_DIR$i"
-    "$PWD"/build/shidod gentx "$KEY$i" 1000000000000000000stake --chain-id $CHAINID --keyring-backend test --home "$DATA_DIR$i"
-    "$PWD"/build/shidod collect-gentxs --home "$DATA_DIR$i"
-    "$PWD"/build/shidod validate-genesis --home "$DATA_DIR$i"
+    "$PWD"/build/anrytond gentx "$KEY$i" 1000000000000000000stake --chain-id $CHAINID --keyring-backend test --home "$DATA_DIR$i"
+    "$PWD"/build/anrytond collect-gentxs --home "$DATA_DIR$i"
+    "$PWD"/build/anrytond validate-genesis --home "$DATA_DIR$i"
 
     if [[ $MODE == "pending" ]]; then
       ls $DATA_DIR$i
@@ -103,17 +103,17 @@ init_func() {
 }
 
 start_func() {
-    echo "starting shido node $i in background ..."
-    "$PWD"/build/shidod start --pruning=nothing --rpc.unsafe \
+    echo "starting anryton node $i in background ..."
+    "$PWD"/build/anrytond start --pruning=nothing --rpc.unsafe \
     --p2p.laddr tcp://$IP_ADDR:$NODE_P2P_PORT"$i" --address tcp://$IP_ADDR:$NODE_PORT"$i" --rpc.laddr tcp://$IP_ADDR:$NODE_RPC_PORT"$i" \
     --json-rpc.address=$IP_ADDR:$RPC_PORT"$i" \
     --keyring-backend test --home "$DATA_DIR$i" \
     >"$DATA_DIR"/node"$i".log 2>&1 & disown
 
-    SHIDO_PID=$!
-    echo "started shido node, pid=$SHIDO_PID"
+    ANRYTON_PID=$!
+    echo "started anryton node, pid=$ANRYTON_PID"
     # add PID to array
-    arr+=("$SHIDO_PID")
+    arr+=("$ANRYTON_PID")
 
     if [[ $MODE == "pending" ]]; then
       echo "waiting for the first block..."
@@ -147,7 +147,7 @@ if [[ -z $TEST || $TEST == "rpc" ||  $TEST == "pending" ]]; then
 
     for i in $(seq 1 "$TEST_QTD"); do
         HOST_RPC=http://$IP_ADDR:$RPC_PORT"$i"
-        echo "going to test shido node $HOST_RPC ..."
+        echo "going to test anryton node $HOST_RPC ..."
         MODE=$MODE HOST=$HOST_RPC go test ./tests/... -timeout=$time_out -v -short
 
         RPC_FAIL=$?
@@ -156,12 +156,12 @@ if [[ -z $TEST || $TEST == "rpc" ||  $TEST == "pending" ]]; then
 fi
 
 stop_func() {
-    SHIDO_PID=$i
-    echo "shutting down node, pid=$SHIDO_PID ..."
+    ANRYTON_PID=$i
+    echo "shutting down node, pid=$ANRYTON_PID ..."
 
-    # Shutdown shido node
-    kill -9 "$SHIDO_PID"
-    wait "$SHIDO_PID"
+    # Shutdown anryton node
+    kill -9 "$ANRYTON_PID"
+    wait "$ANRYTON_PID"
 
     if [ $REMOVE_DATA_DIR == "true" ]
     then

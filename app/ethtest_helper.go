@@ -16,20 +16,20 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/utils"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 	dbm "github.com/cometbft/cometbft-db"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/libs/log"
 	tmtypes "github.com/cometbft/cometbft/proto/tendermint/types"
 	cmtypes "github.com/cometbft/cometbft/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/utils"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
 // EthDefaultConsensusParams defines the default Tendermint consensus params used in
-// ShidoApp testing.
+// AnrytonApp testing.
 var EthDefaultConsensusParams = &tmtypes.ConsensusParams{
 	Block: &tmtypes.BlockParams{
 		MaxBytes: 200000,
@@ -47,16 +47,16 @@ var EthDefaultConsensusParams = &tmtypes.ConsensusParams{
 	},
 }
 
-// EthSetup initializes a new ShidoApp. A Nop logger is set in ShidoApp.
-func EthSetup(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisState) simapp.GenesisState) *Shido {
+// EthSetup initializes a new AnrytonApp. A Nop logger is set in AnrytonApp.
+func EthSetup(isCheckTx bool, patchGenesis func(*Anryton, simapp.GenesisState) simapp.GenesisState) *Anryton {
 	return EthSetupWithDB(isCheckTx, patchGenesis, dbm.NewMemDB())
 }
 
-// EthSetupWithDB initializes a new ShidoApp. A Nop logger is set in ShidoApp.
-func EthSetupWithDB(isCheckTx bool, patchGenesis func(*Shido, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *Shido {
+// EthSetupWithDB initializes a new AnrytonApp. A Nop logger is set in AnrytonApp.
+func EthSetupWithDB(isCheckTx bool, patchGenesis func(*Anryton, simapp.GenesisState) simapp.GenesisState, db dbm.DB) *Anryton {
 	chainID := utils.TestnetChainID + "-1"
 	var wasmOpts []wasmkeeper.Option
-	app := NewShido(log.NewNopLogger(),
+	app := NewAnryton(log.NewNopLogger(),
 		db,
 		nil,
 		true,

@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"math/big"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	cmn "github.com/shido/shido/v2/precompiles/common"
 )
 
 // EventDelegate defines the event data for the staking Delegate transaction.

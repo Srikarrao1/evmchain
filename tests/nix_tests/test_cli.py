@@ -1,21 +1,21 @@
 from .utils import supervisorctl, wait_for_block
 
 
-def test_block_cmd(shido):
+def test_block_cmd(anryton):
     """
-    - start 2 shido nodes
+    - start 2 anryton nodes
     - wait for a certain height
     - stop the node1
     - use the 'block' cli cmd
-    - restart shido node1
+    - restart anryton node1
     """
 
     # wait for height 10
-    node1 = shido.cosmos_cli(1)
+    node1 = anryton.cosmos_cli(1)
     wait_for_block(node1, 10)
 
     # stop node1
-    supervisorctl(shido.base_dir / "../tasks.ini", "stop", "shido_9000-1-node1")
+    supervisorctl(anryton.base_dir / "../tasks.ini", "stop", "anryton_9000-1-node1")
 
     # use 'block' CLI cmd in node1
     test_cases = [
@@ -54,6 +54,6 @@ def test_block_cmd(shido):
                 raise
 
     # start node1 again
-    supervisorctl(shido.base_dir / "../tasks.ini", "start", "shido_9000-1-node1")
+    supervisorctl(anryton.base_dir / "../tasks.ini", "start", "anryton_9000-1-node1")
     # check is chain continues alright
     wait_for_block(node1, 12)

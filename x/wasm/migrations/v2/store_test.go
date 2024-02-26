@@ -9,10 +9,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 
-	"github.com/shido/shido/v2/x/wasm"
-	"github.com/shido/shido/v2/x/wasm/exported"
-	v2 "github.com/shido/shido/v2/x/wasm/migrations/v2"
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm"
+	"github.com/anryton/anryton/v2/x/wasm/exported"
+	v2 "github.com/anryton/anryton/v2/x/wasm/migrations/v2"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 type mockSubspace struct {

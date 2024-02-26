@@ -5,7 +5,7 @@ import requests
 from dateutil.parser import isoparse
 from pystarport.utils import build_cli_args_safe, interact
 
-DEFAULT_DENOM = "shido"
+DEFAULT_DENOM = "anryton"
 DEFAULT_GAS_PRICE = f"5000000000000{DEFAULT_DENOM}"
 DEFAULT_GAS = "250000"
 

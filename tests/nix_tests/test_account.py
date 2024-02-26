@@ -1,28 +1,28 @@
 import pytest
 from web3 import Web3
 
-from .network import setup_shido
+from .network import setup_anryton
 from .utils import ADDRS, derive_new_account, w3_wait_for_new_blocks
 
 
 @pytest.fixture(scope="module")
-def custom_shido(tmp_path_factory):
+def custom_anryton(tmp_path_factory):
     path = tmp_path_factory.mktemp("account")
-    yield from setup_shido(path, 26700, long_timeout_commit=True)
+    yield from setup_anryton(path, 26700, long_timeout_commit=True)
 
 
-@pytest.fixture(scope="module", params=["shido", "shido-ws", "geth"])
-def cluster(request, custom_shido, geth):
+@pytest.fixture(scope="module", params=["anryton", "anryton-ws", "geth"])
+def cluster(request, custom_anryton, geth):
     """
-    run on shido, shido websocket and geth
+    run on anryton, anryton websocket and geth
     """
     provider = request.param
-    if provider == "shido":
-        yield custom_shido
-    elif provider == "shido-ws":
-        shido_ws = custom_shido.copy()
-        shido_ws.use_websocket()
-        yield shido_ws
+    if provider == "anryton":
+        yield custom_anryton
+    elif provider == "anryton-ws":
+        anryton_ws = custom_anryton.copy()
+        anryton_ws.use_websocket()
+        yield anryton_ws
     elif provider == "geth":
         yield geth
     else:

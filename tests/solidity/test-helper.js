@@ -18,21 +18,21 @@ function panic (errMsg) {
 function checkTestEnv () {
   const argv = yargs(hideBin(process.argv))
     .usage('Usage: $0 [options] <tests>')
-    .example('$0 --network shido', 'run all tests using shido network')
+    .example('$0 --network anryton', 'run all tests using anryton network')
     .example(
-      '$0 --network shido --allowTests=test1,test2',
-      'run only test1 and test2 using shido network'
+      '$0 --network anryton --allowTests=test1,test2',
+      'run only test1 and test2 using anryton network'
     )
     .help('h')
     .alias('h', 'help')
-    .describe('network', 'set which network to use: ganache|shido')
+    .describe('network', 'set which network to use: ganache|anryton')
     .describe(
       'batch',
       'set the test batch in parallelized testing. Format: %d-%d'
     )
     .describe('allowTests', 'only run specified tests. Separated by comma.')
     .boolean('verbose-log')
-    .describe('verbose-log', 'print shidod output, default false').argv
+    .describe('verbose-log', 'print anrytond output, default false').argv
 
   if (!fs.existsSync(path.join(__dirname, './node_modules'))) {
     panic(
@@ -45,8 +45,8 @@ function checkTestEnv () {
   if (!argv.network) {
     runConfig.network = 'ganache'
   } else {
-    if (argv.network !== 'shido' && argv.network !== 'ganache') {
-      panic('network is invalid. Must be ganache or shido')
+    if (argv.network !== 'anryton' && argv.network !== 'ganache') {
+      panic('network is invalid. Must be ganache or anryton')
     } else {
       runConfig.network = argv.network
     }
@@ -112,7 +112,7 @@ function loadTests (runConfig) {
           'utf-8'
         )
       )
-      const needScripts = ['test-ganache', 'test-shido']
+      const needScripts = ['test-ganache', 'test-anryton']
       for (const s of needScripts) {
         if (Object.keys(testManifest.scripts).indexOf(s) === -1) {
           logger.warn(
@@ -150,7 +150,7 @@ function loadTests (runConfig) {
 }
 
 function performTestSuite ({ testName, network }) {
-  const cmd = network === 'ganache' ? 'test-ganache' : 'test-shido'
+  const cmd = network === 'ganache' ? 'test-ganache' : 'test-anryton'
   return new Promise((resolve, reject) => {
     const testProc = spawn('yarn', [cmd], {
       cwd: path.join(__dirname, 'suites', testName)
@@ -187,28 +187,28 @@ async function performTests ({ allTests, runConfig }) {
 }
 
 function setupNetwork ({ runConfig, timeout }) {
-  if (runConfig.network !== 'shido') {
+  if (runConfig.network !== 'anryton') {
     // no need to start ganache. Truffle will start it
     return
   }
 
-  // Spawn the shido process
+  // Spawn the anryton process
 
   const spawnPromise = new Promise((resolve, reject) => {
     const serverStartedLog = 'Starting JSON-RPC server'
-    const serverStartedMsg = 'shidod started'
+    const serverStartedMsg = 'anrytond started'
 
-    const shidodProc = spawn('../e2e/init-node.sh', {
+    const anrytondProc = spawn('../e2e/init-node.sh', {
       cwd: __dirname,
       stdio: ['ignore', 'pipe', 'pipe']
     })
 
-    logger.info(`Starting shidod process... timeout: ${timeout}ms`)
+    logger.info(`Starting anrytond process... timeout: ${timeout}ms`)
     if (runConfig.verboseLog) {
-      shidodProc.stdout.pipe(process.stdout)
+      anrytondProc.stdout.pipe(process.stdout)
     }
 
-    shidodProc.stdout.on('data', (d) => {
+    anrytondProc.stdout.on('data', (d) => {
       const oLine = d.toString()
       if (runConfig.verboseLog) {
         process.stdout.write(oLine)
@@ -216,11 +216,11 @@ function setupNetwork ({ runConfig, timeout }) {
 
       if (oLine.indexOf(serverStartedLog) !== -1) {
         logger.info(serverStartedMsg)
-        resolve(shidodProc)
+        resolve(anrytondProc)
       }
     })
 
-    shidodProc.stderr.on('data', (d) => {
+    anrytondProc.stderr.on('data', (d) => {
       const oLine = d.toString()
       if (runConfig.verboseLog) {
         process.stdout.write(oLine)
@@ -228,13 +228,13 @@ function setupNetwork ({ runConfig, timeout }) {
 
       if (oLine.indexOf(serverStartedLog) !== -1) {
         logger.info(serverStartedMsg)
-        resolve(shidodProc)
+        resolve(anrytondProc)
       }
     })
   })
 
   const timeoutPromise = new Promise((resolve, reject) => {
-    setTimeout(() => reject(new Error('Start shidod timeout!')), timeout)
+    setTimeout(() => reject(new Error('Start anrytond timeout!')), timeout)
   })
   return Promise.race([spawnPromise, timeoutPromise])
 }

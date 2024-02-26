@@ -1,10 +1,10 @@
 package v3
 
 import (
+	v3types "github.com/anryton/anryton/v2/x/erc20/migrations/v3/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v3types "github.com/shido/shido/v2/x/erc20/migrations/v3/types"
-	"github.com/shido/shido/v2/x/erc20/types"
 )
 
 var isTrue = []byte{0x01}

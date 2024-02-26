@@ -3,19 +3,19 @@ package v3_test
 import (
 	"testing"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
 
-	v3types "github.com/shido/shido/v2/x/erc20/migrations/v3/types"
+	v3types "github.com/anryton/anryton/v2/x/erc20/migrations/v3/types"
 
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 	"github.com/stretchr/testify/require"
 
+	v3 "github.com/anryton/anryton/v2/x/erc20/migrations/v3"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v3 "github.com/shido/shido/v2/x/erc20/migrations/v3"
 )
 
 type mockSubspace struct {

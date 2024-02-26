@@ -6,6 +6,10 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
+	"github.com/anryton/anryton/v2/app"
+	ibctesting "github.com/anryton/anryton/v2/ibc/testing"
+	"github.com/anryton/anryton/v2/x/erc20/types"
+	evm "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
@@ -14,10 +18,6 @@ import (
 	ibcgotesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/shido/shido/v2/app"
-	ibctesting "github.com/shido/shido/v2/ibc/testing"
-	"github.com/shido/shido/v2/x/erc20/types"
-	evm "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -25,7 +25,7 @@ type KeeperTestSuite struct {
 	suite.Suite
 
 	ctx              sdk.Context
-	app              *app.Shido
+	app              *app.Anryton
 	queryClientEvm   evm.QueryClient
 	queryClient      types.QueryClient
 	address          common.Address
@@ -40,24 +40,24 @@ type KeeperTestSuite struct {
 	coordinator *ibcgotesting.Coordinator
 
 	// testing chains used for convenience and readability
-	ShidoChain      *ibcgotesting.TestChain
+	AnrytonChain    *ibcgotesting.TestChain
 	IBCOsmosisChain *ibcgotesting.TestChain
 	IBCCosmosChain  *ibcgotesting.TestChain
 
-	pathOsmosisShido  *ibctesting.Path
-	pathCosmosShido   *ibctesting.Path
-	pathOsmosisCosmos *ibctesting.Path
+	pathOsmosisAnryton *ibctesting.Path
+	pathCosmosAnryton  *ibctesting.Path
+	pathOsmosisCosmos  *ibctesting.Path
 
 	suiteIBCTesting bool
 }
 
 var (
 	s *KeeperTestSuite
-	// sendAndReceiveMsgFee corresponds to the fees paid on Shido chain when calling the SendAndReceive function
+	// sendAndReceiveMsgFee corresponds to the fees paid on Anryton chain when calling the SendAndReceive function
 	// This function makes 3 cosmos txs under the hood
 	sendAndReceiveMsgFee = sdk.NewInt(ibctesting.DefaultFeeAmt * 3)
-	// sendBackCoinsFee corresponds to the fees paid on Shido chain when calling the SendBackCoins function
-	// or calling the SendAndReceive from another chain to Shido
+	// sendBackCoinsFee corresponds to the fees paid on Anryton chain when calling the SendBackCoins function
+	// or calling the SendAndReceive from another chain to Anryton
 	// This function makes 2 cosmos txs under the hood
 	sendBackCoinsFee = sdk.NewInt(ibctesting.DefaultFeeAmt * 2)
 )

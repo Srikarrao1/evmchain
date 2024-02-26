@@ -11,18 +11,18 @@ import (
 	sdkmath "cosmossdk.io/math"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 const invalidAddress = "0x0000"
@@ -441,7 +441,7 @@ func (suite *MsgsTestSuite) TestMsgEthereumTx_ValidateBasic() {
 		// 	accessList: &ethtypes.AccessList{},
 		// 	chainID:    hundredInt,
 		// 	expectPass: false,
-		// 	errMsg:     "chain ID must be 9000 or 9001 on Shido",
+		// 	errMsg:     "chain ID must be 9000 or 9001 on Anryton",
 		// },
 	}
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	app2 "github.com/shido/shido/v2/app"
+	app2 "github.com/anryton/anryton/v2/app"
 
 	ibctransfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
@@ -18,10 +18,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	wasmibctesting "github.com/shido/shido/v2/x/wasm/ibctesting"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/keeper/wasmtesting"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
+	wasmibctesting "github.com/anryton/anryton/v2/x/wasm/ibctesting"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/wasmtesting"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 const (

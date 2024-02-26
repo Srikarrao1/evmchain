@@ -181,7 +181,7 @@ func AppConfig(denom string) (string, interface{}) {
 	// - if you set srvCfg.MinGasPrices non-empty, validators CAN tweak their
 	//   own app.toml to override, or use this default value.
 	//
-	// In shido, we set the min gas prices to 0.
+	// In anryton, we set the min gas prices to 0.
 	if denom != "" {
 		customAppConfig.Config.MinGasPrices = "0" + denom
 	}

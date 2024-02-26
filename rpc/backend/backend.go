@@ -5,6 +5,10 @@ import (
 	"math/big"
 	"time"
 
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	"github.com/anryton/anryton/v2/server/config"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/cometbft/cometbft/libs/log"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -17,10 +21,6 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	"github.com/shido/shido/v2/server/config"
-	shidotypes "github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // BackendI implements the Cosmos and EVM backend.
@@ -100,8 +100,8 @@ type EVMBackend interface {
 
 	// Tx Info
 	GetTransactionByHash(txHash common.Hash) (*rpctypes.RPCTransaction, error)
-	GetTxByEthHash(txHash common.Hash) (*shidotypes.TxResult, error)
-	GetTxByTxIndex(height int64, txIndex uint) (*shidotypes.TxResult, error)
+	GetTxByEthHash(txHash common.Hash) (*anrytontypes.TxResult, error)
+	GetTxByTxIndex(height int64, txIndex uint) (*anrytontypes.TxResult, error)
 	GetTransactionByBlockAndIndex(block *tmrpctypes.ResultBlock, idx hexutil.Uint) (*rpctypes.RPCTransaction, error)
 	GetTransactionReceipt(hash common.Hash) (map[string]interface{}, error)
 	GetTransactionByBlockHashAndIndex(hash common.Hash, idx hexutil.Uint) (*rpctypes.RPCTransaction, error)
@@ -136,7 +136,7 @@ type Backend struct {
 	chainID             *big.Int
 	cfg                 config.Config
 	allowUnprotectedTxs bool
-	indexer             shidotypes.EVMTxIndexer
+	indexer             anrytontypes.EVMTxIndexer
 }
 
 // NewBackend creates a new Backend instance for cosmos and ethereum namespaces
@@ -145,9 +145,9 @@ func NewBackend(
 	logger log.Logger,
 	clientCtx client.Context,
 	allowUnprotectedTxs bool,
-	indexer shidotypes.EVMTxIndexer,
+	indexer anrytontypes.EVMTxIndexer,
 ) *Backend {
-	chainID, err := shidotypes.ParseChainID(clientCtx.ChainID)
+	chainID, err := anrytontypes.ParseChainID(clientCtx.ChainID)
 	if err != nil {
 		panic(err)
 	}

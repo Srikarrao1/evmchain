@@ -4,9 +4,9 @@ import (
 	"math/big"
 	"testing"
 
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 	"github.com/stretchr/testify/require"
 )
 

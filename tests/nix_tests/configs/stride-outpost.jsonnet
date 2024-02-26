@@ -1,8 +1,8 @@
 local config = import 'default.jsonnet';
 
 config {
-  'shido_9000-1'+: {
-    'account-prefix': 'shido',
+  'anryton_9000-1'+: {
+    'account-prefix': 'anryton',
     'coin-type': 60,
     key_name: 'signer1',
     'app-config'+: {
@@ -112,7 +112,7 @@ config {
     },
     chains: [
       {
-        id: 'shido_9000-1',
+        id: 'anryton_9000-1',
         max_gas: 3000000,
         default_gas: 100000,
         gas_multiplier: 1.2,
@@ -124,7 +124,7 @@ config {
         },
         gas_price: {
           price: 40000000000,
-          denom: 'shido',
+          denom: 'anryton',
         },
         extension_options: [{
           type: 'ethermint_dynamic_fee',

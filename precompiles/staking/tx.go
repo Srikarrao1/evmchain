@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/anryton/anryton/v2/precompiles/authorization"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/shido/shido/v2/precompiles/authorization"
-	"github.com/shido/shido/v2/x/evm/statedb"
 )
 
 const (

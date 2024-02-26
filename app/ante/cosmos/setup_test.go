@@ -19,25 +19,25 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/app/ante"
-	evmante "github.com/shido/shido/v2/app/ante/evm"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	"github.com/shido/shido/v2/testutil"
-	"github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/app/ante"
+	evmante "github.com/anryton/anryton/v2/app/ante/evm"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	"github.com/anryton/anryton/v2/testutil"
+	"github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 )
 
 type AnteTestSuite struct {
 	suite.Suite
 
 	ctx             sdk.Context
-	app             *app.Shido
+	app             *app.Anryton
 	clientCtx       client.Context
 	anteHandler     sdk.AnteHandler
 	ethSigner       ethtypes.Signer
@@ -61,7 +61,7 @@ func (suite *AnteTestSuite) SetupTest() {
 	suite.Require().NoError(err)
 	suite.priv = priv
 
-	suite.app = app.EthSetup(checkTx, func(app *app.Shido, genesis simapp.GenesisState) simapp.GenesisState {
+	suite.app = app.EthSetup(checkTx, func(app *app.Anryton, genesis simapp.GenesisState) simapp.GenesisState {
 		if suite.enableFeemarket {
 			// setup feemarketGenesis params
 			feemarketGenesis := feemarkettypes.DefaultGenesisState()

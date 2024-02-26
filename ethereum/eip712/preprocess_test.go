@@ -14,13 +14,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/cmd/config"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/cmd/config"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
 	"github.com/stretchr/testify/require"
 )
 
@@ -31,7 +31,7 @@ var (
 		encoding.MakeConfig(app.ModuleBasics).TxConfig,
 	)
 )
-var feePayerAddress = "shido17xpfvakm2amg962yls6f84z3kell8c5ljcjw34"
+var feePayerAddress = "anryton17xpfvakm2amg962yls6f84z3kell8c5ljcjw34"
 
 type TestCaseStruct struct {
 	txBuilder              client.TxBuilder
@@ -203,7 +203,7 @@ func createPopulatedTestCase(t *testing.T) TestCaseStruct {
 
 	msgSend := banktypes.MsgSend{
 		FromAddress: feePayerAddress,
-		ToAddress:   "shido12luku6uxehhak02py4rcz65zu0swh7wjun6msa",
+		ToAddress:   "anryton12luku6uxehhak02py4rcz65zu0swh7wjun6msa",
 		Amount: sdk.NewCoins(
 			sdk.NewCoin(
 				utils.BaseDenom,

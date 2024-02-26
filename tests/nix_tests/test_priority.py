@@ -2,18 +2,18 @@ import sys
 
 import pytest
 
-from .network import setup_shido
+from .network import setup_anryton
 from .utils import ADDRS, KEYS, eth_to_bech32, sign_transaction, wait_for_new_blocks
 
 PRIORITY_REDUCTION = 1000000
 
 
 @pytest.fixture(scope="module")
-def custom_shido(tmp_path_factory):
+def custom_anryton(tmp_path_factory):
     path = tmp_path_factory.mktemp("priority")
     # run with long timeout commit to ensure all
     # txs are included in the same block
-    yield from setup_shido(path, 26800, long_timeout_commit=True)
+    yield from setup_anryton(path, 26800, long_timeout_commit=True)
 
 
 def effective_gas_price(tx, base_fee):
@@ -37,7 +37,7 @@ def tx_priority(tx, base_fee):
         return (tx["gasPrice"] - base_fee) // PRIORITY_REDUCTION
 
 
-def test_priority(custom_shido):
+def test_priority(custom_anryton):
     """
     test priorities of different tx types
 
@@ -47,7 +47,7 @@ def test_priority(custom_shido):
     UPDATE: in cometbft v0.37.2, the v1 (priority mempool)
     was deprecated. So txs should be FIFO
     """
-    w3 = custom_shido.w3
+    w3 = custom_anryton.w3
     amount = 10000
     base_fee = w3.eth.get_block("latest").baseFeePerGas
 
@@ -128,37 +128,37 @@ def test_priority(custom_shido):
     assert all(i1 < i2 for i1, i2 in zip(tx_indexes, tx_indexes[1:]))
 
 
-def test_native_tx_priority(custom_shido):
-    cli = custom_shido.cosmos_cli()
+def test_native_tx_priority(custom_anryton):
+    cli = custom_anryton.cosmos_cli()
     base_fee = cli.query_base_fee()
 
     test_cases = [
         {
             "from": eth_to_bech32(ADDRS["community"]),
             "to": eth_to_bech32(ADDRS["validator"]),
-            "amount": "1000shido",
-            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}shido",
+            "amount": "1000anryton",
+            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}anryton",
             "max_priority_price": 0,
         },
         {
             "from": eth_to_bech32(ADDRS["signer1"]),
             "to": eth_to_bech32(ADDRS["signer2"]),
-            "amount": "1000shido",
-            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}shido",
+            "amount": "1000anryton",
+            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}anryton",
             "max_priority_price": PRIORITY_REDUCTION * 200000,
         },
         {
             "from": eth_to_bech32(ADDRS["signer2"]),
             "to": eth_to_bech32(ADDRS["signer1"]),
-            "amount": "1000shido",
-            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 400000}shido",
+            "amount": "1000anryton",
+            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 400000}anryton",
             "max_priority_price": PRIORITY_REDUCTION * 400000,
         },
         {
             "from": eth_to_bech32(ADDRS["validator"]),
             "to": eth_to_bech32(ADDRS["community"]),
-            "amount": "1000shido",
-            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}shido",
+            "amount": "1000anryton",
+            "gas_prices": f"{base_fee + PRIORITY_REDUCTION * 600000}anryton",
             "max_priority_price": None,  # no extension, maximum tipFeeCap
         },
     ]
@@ -177,7 +177,7 @@ def test_native_tx_priority(custom_shido):
                 tx, tc["from"], max_priority_price=tc.get("max_priority_price")
             )
         )
-        gas_price = int(tc["gas_prices"].removesuffix("shido"))
+        gas_price = int(tc["gas_prices"].removesuffix("anryton"))
         expect_priorities.append(
             min(
                 get_max_priority_price(tc.get("max_priority_price")),

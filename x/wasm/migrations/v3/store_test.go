@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/shido/shido/v2/x/wasm"
-	"github.com/shido/shido/v2/x/wasm/keeper"
-	"github.com/shido/shido/v2/x/wasm/keeper/wasmtesting"
-	v3 "github.com/shido/shido/v2/x/wasm/migrations/v3"
+	"github.com/anryton/anryton/v2/x/wasm"
+	"github.com/anryton/anryton/v2/x/wasm/keeper"
+	"github.com/anryton/anryton/v2/x/wasm/keeper/wasmtesting"
+	v3 "github.com/anryton/anryton/v2/x/wasm/migrations/v3"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/address"
@@ -15,7 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/shido/shido/v2/x/wasm/types"
+	"github.com/anryton/anryton/v2/x/wasm/types"
 )
 
 func TestMigrate3To4(t *testing.T) {

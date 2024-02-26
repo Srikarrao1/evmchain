@@ -4,12 +4,12 @@ import (
 	"fmt"
 
 	"cosmossdk.io/math"
+	cosmosante "github.com/anryton/anryton/v2/app/ante/cosmos"
+	"github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
-	cosmosante "github.com/shido/shido/v2/app/ante/cosmos"
-	"github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
 )
 
 type deductFeeDecoratorTestCase struct {

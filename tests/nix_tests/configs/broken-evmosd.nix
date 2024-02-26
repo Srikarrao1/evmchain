@@ -1,8 +1,8 @@
 { pkgs ? import ../../../nix { } }:
-let shidod = (pkgs.callPackage ../../../. { });
+let anrytond = (pkgs.callPackage ../../../. { });
 in
-shidod.overrideAttrs (oldAttrs: {
+anrytond.overrideAttrs (oldAttrs: {
   patches = oldAttrs.patches or [ ] ++ [
-    ./broken-shidod.patch
+    ./broken-anrytond.patch
   ];
 })

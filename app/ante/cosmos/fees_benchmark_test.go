@@ -6,9 +6,9 @@ import (
 	"time"
 
 	sdkmath "cosmossdk.io/math"
+	"github.com/anryton/anryton/v2/testutil"
+	testutiltx "github.com/anryton/anryton/v2/testutil/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/testutil"
-	testutiltx "github.com/shido/shido/v2/testutil/tx"
 )
 
 // This tests setup contains expensive operations.

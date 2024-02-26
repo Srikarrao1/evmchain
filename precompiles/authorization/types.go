@@ -5,13 +5,13 @@ import (
 	"math/big"
 	"time"
 
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 	authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	cmn "github.com/shido/shido/v2/precompiles/common"
 	"golang.org/x/exp/slices"
 )
 
@@ -128,7 +128,7 @@ func CheckDistributionApprovalArgs(args []interface{}, origin common.Address) (c
 	for i, addr := range allowedList {
 		// If the address is hex, convert it to bech32
 		if common.IsHexAddress(addr) {
-			allowedList[i], err = sdk.Bech32ifyAddressBytes("shido", common.HexToAddress(addr).Bytes())
+			allowedList[i], err = sdk.Bech32ifyAddressBytes("anryton", common.HexToAddress(addr).Bytes())
 			if err != nil {
 				return common.Address{}, nil, nil, fmt.Errorf("failed to convert hex address to bech32: %w", err)
 			}

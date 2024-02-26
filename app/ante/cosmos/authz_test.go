@@ -16,11 +16,11 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	cosmosante "github.com/anryton/anryton/v2/app/ante/cosmos"
+	testutil "github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	cosmosante "github.com/shido/shido/v2/app/ante/cosmos"
-	testutil "github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 func TestAuthzLimiterDecorator(t *testing.T) {

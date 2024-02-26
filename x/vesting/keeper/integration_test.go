@@ -10,6 +10,14 @@ import (
 	. "github.com/onsi/gomega"
 
 	"cosmossdk.io/math"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	"github.com/anryton/anryton/v2/utils"
+	erc20types "github.com/anryton/anryton/v2/x/erc20/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -19,14 +27,6 @@ import (
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	"github.com/shido/shido/v2/utils"
-	erc20types "github.com/shido/shido/v2/x/erc20/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	"github.com/shido/shido/v2/x/vesting/types"
 )
 
 // TestClawbackAccount is a struct to store all relevant information that is corresponding
@@ -45,7 +45,7 @@ var err error
 // employee starts before mainnet launch (periodsCliff < lockupPeriod)
 //
 // Example:
-// 21/10 Employee joins Shido and vesting starts
+// 21/10 Employee joins Anryton and vesting starts
 // 22/03 Mainnet launch
 // 22/09 Cliff ends
 // 23/02 Lock ends
@@ -607,7 +607,7 @@ var _ = Describe("Clawback Vesting Accounts", Ordered, func() {
 })
 
 // Example:
-// 21/10 Employee joins Shido and vesting starts
+// 21/10 Employee joins Anryton and vesting starts
 // 22/03 Mainnet launch
 // 22/09 Cliff ends
 // 23/02 Lock ends
@@ -884,7 +884,7 @@ var _ = Describe("Clawback Vesting Accounts - claw back tokens", func() {
 			msgSubmitProposal, err := govv1beta1.NewMsgSubmitProposal(
 				&erc20types.RegisterERC20Proposal{
 					Title:          "test gov upgrade",
-					Description:    "this is an example of a governance proposal to upgrade the shido app",
+					Description:    "this is an example of a governance proposal to upgrade the anryton app",
 					Erc20Addresses: []string{},
 				},
 				sdk.NewCoins(sdk.NewCoin(stakeDenom, sdk.NewInt(1e9))),

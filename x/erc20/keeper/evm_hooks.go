@@ -4,14 +4,14 @@ import (
 	"bytes"
 	"math/big"
 
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 var _ evmtypes.EvmHooks = Hooks{}

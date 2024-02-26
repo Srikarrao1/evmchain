@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/shido/shido/v2/rpc/backend"
-	"github.com/shido/shido/v2/rpc/types"
+	"github.com/anryton/anryton/v2/rpc/backend"
+	"github.com/anryton/anryton/v2/rpc/types"
 
 	"github.com/cometbft/cometbft/libs/log"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"

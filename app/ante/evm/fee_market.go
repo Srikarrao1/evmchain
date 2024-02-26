@@ -4,9 +4,9 @@ import (
 	"math/big"
 
 	errorsmod "cosmossdk.io/errors"
+	"github.com/anryton/anryton/v2/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/shido/shido/v2/types"
 )
 
 // GasWantedDecorator keeps track of the gasWanted amount on the current block in transient store

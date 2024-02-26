@@ -13,15 +13,15 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 
-	"github.com/shido/shido/v2/rpc/backend"
+	"github.com/anryton/anryton/v2/rpc/backend"
 
-	rpctypes "github.com/shido/shido/v2/rpc/types"
-	"github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
+	"github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 )
 
-// The Ethereum API allows applications to connect to an Shido node that is
-// part of the Shido blockchain. Developers can interact with on-chain EVM data
+// The Ethereum API allows applications to connect to an Anryton node that is
+// part of the Anryton blockchain. Developers can interact with on-chain EVM data
 // and send different types of transactions to the network by utilizing the
 // endpoints provided by the API. The API follows a JSON-RPC standard. If not
 // otherwise specified, the interface is derived from the Alchemy Ethereum API:

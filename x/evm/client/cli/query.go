@@ -1,13 +1,13 @@
 package cli
 
 import (
-	rpctypes "github.com/shido/shido/v2/rpc/types"
+	rpctypes "github.com/anryton/anryton/v2/rpc/types"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 
-	"github.com/shido/shido/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/evm/types"
 )
 
 // GetQueryCmd returns the parent command for all x/bank CLi query commands.

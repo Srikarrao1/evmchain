@@ -118,47 +118,47 @@ import (
 	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
 	// unnamed import of statik for swagger UI support
-	_ "github.com/shido/shido/v2/client/docs/statik"
+	_ "github.com/anryton/anryton/v2/client/docs/statik"
 
-	"github.com/shido/shido/v2/app/ante"
-	ethante "github.com/shido/shido/v2/app/ante/evm"
-	v1 "github.com/shido/shido/v2/app/upgrades/v1"
-	"github.com/shido/shido/v2/encoding"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	"github.com/shido/shido/v2/precompiles/common"
-	srvflags "github.com/shido/shido/v2/server/flags"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/x/epochs"
-	epochskeeper "github.com/shido/shido/v2/x/epochs/keeper"
-	epochstypes "github.com/shido/shido/v2/x/epochs/types"
-	"github.com/shido/shido/v2/x/erc20"
-	erc20client "github.com/shido/shido/v2/x/erc20/client"
-	erc20keeper "github.com/shido/shido/v2/x/erc20/keeper"
-	erc20types "github.com/shido/shido/v2/x/erc20/types"
-	"github.com/shido/shido/v2/x/evm"
-	evmkeeper "github.com/shido/shido/v2/x/evm/keeper"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	"github.com/shido/shido/v2/x/feemarket"
-	feemarketkeeper "github.com/shido/shido/v2/x/feemarket/keeper"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/app/ante"
+	ethante "github.com/anryton/anryton/v2/app/ante/evm"
+	v1 "github.com/anryton/anryton/v2/app/upgrades/v1"
+	"github.com/anryton/anryton/v2/encoding"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	"github.com/anryton/anryton/v2/precompiles/common"
+	srvflags "github.com/anryton/anryton/v2/server/flags"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/x/epochs"
+	epochskeeper "github.com/anryton/anryton/v2/x/epochs/keeper"
+	epochstypes "github.com/anryton/anryton/v2/x/epochs/types"
+	"github.com/anryton/anryton/v2/x/erc20"
+	erc20client "github.com/anryton/anryton/v2/x/erc20/client"
+	erc20keeper "github.com/anryton/anryton/v2/x/erc20/keeper"
+	erc20types "github.com/anryton/anryton/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/evm"
+	evmkeeper "github.com/anryton/anryton/v2/x/evm/keeper"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	"github.com/anryton/anryton/v2/x/feemarket"
+	feemarketkeeper "github.com/anryton/anryton/v2/x/feemarket/keeper"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 
+	"github.com/anryton/anryton/v2/x/vesting"
+	vestingclient "github.com/anryton/anryton/v2/x/vesting/client"
+	vestingkeeper "github.com/anryton/anryton/v2/x/vesting/keeper"
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
+	"github.com/anryton/anryton/v2/x/wasm"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	wasmtypes "github.com/anryton/anryton/v2/x/wasm/types"
 	"github.com/cosmos/cosmos-sdk/x/mint"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	ibcfee "github.com/cosmos/ibc-go/v7/modules/apps/29-fee"
 	ibcfeekeeper "github.com/cosmos/ibc-go/v7/modules/apps/29-fee/keeper"
 	ibcfeetypes "github.com/cosmos/ibc-go/v7/modules/apps/29-fee/types"
-	"github.com/shido/shido/v2/x/vesting"
-	vestingclient "github.com/shido/shido/v2/x/vesting/client"
-	vestingkeeper "github.com/shido/shido/v2/x/vesting/keeper"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
-	"github.com/shido/shido/v2/x/wasm"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	wasmtypes "github.com/shido/shido/v2/x/wasm/types"
 
 	// NOTE: override ICS20 keeper to support IBC transfers of ERC20 tokens
-	"github.com/shido/shido/v2/x/ibc/transfer"
-	transferkeeper "github.com/shido/shido/v2/x/ibc/transfer/keeper"
+	"github.com/anryton/anryton/v2/x/ibc/transfer"
+	transferkeeper "github.com/anryton/anryton/v2/x/ibc/transfer/keeper"
 
 	// Force-load the tracer engines to trigger registration due to Go-Ethereum v1.10.15 changes
 	_ "github.com/ethereum/go-ethereum/eth/tracers/js"
@@ -171,7 +171,7 @@ var (
 	ProposalsEnabled = "false"
 	// If set to non-empty string it must be comma-separated list of values that are all a subset
 	// of "EnableAllProposals" (takes precedence over ProposalsEnabled)
-	// https://github.com/shido/shido/v2/blob/02a54d33ff2c064f3539ae12d75d027d9c665f05/x/wasm/internal/types/proposal.go#L28-L34
+	// https://github.com/anryton/anryton/v2/blob/02a54d33ff2c064f3539ae12d75d027d9c665f05/x/wasm/internal/types/proposal.go#L28-L34
 	EnableSpecificProposals = ""
 )
 
@@ -196,10 +196,10 @@ func init() {
 		panic(err)
 	}
 
-	DefaultNodeHome = filepath.Join(userHomeDir, ".shidod")
+	DefaultNodeHome = filepath.Join(userHomeDir, ".anrytond")
 
-	// manually update the power reduction by replacing micro (u) -> atto (a) shido
-	sdk.DefaultPowerReduction = shidotypes.PowerReduction
+	// manually update the power reduction by replacing micro (u) -> atto (a) anryton
+	sdk.DefaultPowerReduction = anrytontypes.PowerReduction
 	// modify fee market parameter defaults through global
 	feemarkettypes.DefaultMinGasPrice = MainnetMinGasPrices
 	feemarkettypes.DefaultMinGasMultiplier = MainnetMinGasMultiplier
@@ -208,7 +208,7 @@ func init() {
 }
 
 // Name defines the application binary name
-const Name = "shidod"
+const Name = "anrytond"
 
 var (
 	// DefaultNodeHome default home directories for the application daemon
@@ -230,7 +230,7 @@ var (
 			[]govclient.ProposalHandler{
 				paramsclient.ProposalHandler, upgradeclient.LegacyProposalHandler, upgradeclient.LegacyCancelProposalHandler,
 				ibcclientclient.UpdateClientProposalHandler, ibcclientclient.UpgradeProposalHandler,
-				// Shido proposal types
+				// Anryton proposal types
 				erc20client.RegisterCoinProposalHandler, erc20client.RegisterERC20ProposalHandler, erc20client.ToggleTokenConversionProposalHandler,
 				vestingclient.RegisterClawbackProposalHandler,
 			},
@@ -274,15 +274,15 @@ var (
 )
 
 var (
-	_ servertypes.Application = (*Shido)(nil)
-	_ ibctesting.TestingApp   = (*Shido)(nil)
-	_ runtime.AppI            = (*Shido)(nil)
+	_ servertypes.Application = (*Anryton)(nil)
+	_ ibctesting.TestingApp   = (*Anryton)(nil)
+	_ runtime.AppI            = (*Anryton)(nil)
 )
 
-// Shido implements an extended ABCI application. It is an application
+// Anryton implements an extended ABCI application. It is an application
 // that may process transactions through Ethereum's EVM running atop of
 // Tendermint consensus.
-type Shido struct {
+type Anryton struct {
 	*baseapp.BaseApp
 
 	// encoding
@@ -326,7 +326,7 @@ type Shido struct {
 	EvmKeeper       *evmkeeper.Keeper
 	FeeMarketKeeper feemarketkeeper.Keeper
 
-	// Shido keepers
+	// Anryton keepers
 	Erc20Keeper   erc20keeper.Keeper
 	EpochsKeeper  epochskeeper.Keeper
 	VestingKeeper vestingkeeper.Keeper
@@ -346,7 +346,7 @@ type Shido struct {
 }
 
 // SimulationManager implements runtime.AppI
-func (*Shido) SimulationManager() *module.SimulationManager {
+func (*Anryton) SimulationManager() *module.SimulationManager {
 	panic("unimplemented")
 }
 func AllCapabilities() []string {
@@ -360,8 +360,8 @@ func AllCapabilities() []string {
 	}
 }
 
-// NewShido returns a reference to a new initialized Ethermint application.
-func NewShido(
+// NewAnryton returns a reference to a new initialized Ethermint application.
+func NewAnryton(
 	logger log.Logger,
 	db dbm.DB,
 	traceStore io.Writer,
@@ -374,7 +374,7 @@ func NewShido(
 	wasmOpts []wasmkeeper.Option,
 	enabledProposals []wasmtypes.ProposalType,
 	baseAppOptions ...func(*baseapp.BaseApp),
-) *Shido {
+) *Anryton {
 	appCodec := encodingConfig.Codec
 	cdc := encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
@@ -415,7 +415,7 @@ func NewShido(
 		icahosttypes.StoreKey,
 		// ethermint keys
 		evmtypes.StoreKey, feemarkettypes.StoreKey,
-		// shido keys
+		// anryton keys
 		erc20types.StoreKey,
 		epochstypes.StoreKey, vestingtypes.StoreKey,
 		//wasm keys
@@ -432,7 +432,7 @@ func NewShido(
 		os.Exit(1)
 	}
 
-	app := &Shido{
+	app := &Anryton{
 		BaseApp:           bApp,
 		cdc:               cdc,
 		appCodec:          appCodec,
@@ -468,7 +468,7 @@ func NewShido(
 	// use custom Ethermint account for contracts
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
 		appCodec, keys[authtypes.StoreKey],
-		shidotypes.ProtoAccount, maccPerms,
+		anrytontypes.ProtoAccount, maccPerms,
 		sdk.GetConfig().GetBech32AccountAddrPrefix(),
 		authAddr,
 	)
@@ -536,7 +536,7 @@ func NewShido(
 	// Set legacy router for backwards compatibility with gov v1beta1
 	govKeeper.SetLegacyRouter(govRouter)
 
-	// Shido Keeper
+	// Anryton Keeper
 
 	// register the staking hooks
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
@@ -740,7 +740,7 @@ func NewShido(
 		// Ethermint app modules
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
 		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
-		// Shido app modules
+		// Anryton app modules
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper,
 			app.GetSubspace(erc20types.ModuleName)),
 		epochs.NewAppModule(appCodec, app.EpochsKeeper),
@@ -809,7 +809,7 @@ func NewShido(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		minttypes.ModuleName,
-		// Shido modules
+		// Anryton modules
 		vestingtypes.ModuleName,
 		erc20types.ModuleName,
 		consensusparamtypes.ModuleName,
@@ -847,7 +847,7 @@ func NewShido(
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		minttypes.ModuleName,
-		// Shido modules
+		// Anryton modules
 		vestingtypes.ModuleName,
 		erc20types.ModuleName,
 		epochstypes.ModuleName,
@@ -929,16 +929,16 @@ func NewShido(
 }
 
 // Name returns the name of the App
-func (app *Shido) Name() string { return app.BaseApp.Name() }
+func (app *Anryton) Name() string { return app.BaseApp.Name() }
 
-func (app *Shido) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, wasmConfig wasmtypes.WasmConfig, txCounterStoreKey storetypes.StoreKey) {
+func (app *Anryton) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, wasmConfig wasmtypes.WasmConfig, txCounterStoreKey storetypes.StoreKey) {
 	// validator := app.StakingKeeper.GetAllValidators(sdk.Context{})
 	// fmt.Println("validators=======", validator)
 	options := ante.HandlerOptions{
 		Cdc:                    app.appCodec,
 		AccountKeeper:          app.AccountKeeper,
 		BankKeeper:             app.BankKeeper,
-		ExtensionOptionChecker: shidotypes.HasDynamicFeeExtensionOption,
+		ExtensionOptionChecker: anrytontypes.HasDynamicFeeExtensionOption,
 		EvmKeeper:              app.EvmKeeper,
 		StakingKeeper:          app.StakingKeeper,
 		FeegrantKeeper:         app.FeeGrantKeeper,
@@ -960,7 +960,7 @@ func (app *Shido) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, 
 	app.SetAnteHandler(ante.NewAnteHandler(options))
 }
 
-func (app *Shido) setPostHandler() {
+func (app *Anryton) setPostHandler() {
 	postHandler, err := posthandler.NewPostHandler(
 		posthandler.HandlerOptions{},
 	)
@@ -974,19 +974,19 @@ func (app *Shido) setPostHandler() {
 // BeginBlocker runs the Tendermint ABCI BeginBlock logic. It executes state changes at the beginning
 // of the new block for every registered module. If there is a registered fork at the current height,
 // BeginBlocker will schedule the upgrade plan and perform the state migration (if any).
-func (app *Shido) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+func (app *Anryton) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
 	// Perform any scheduled forks before executing the modules logic
 	app.ScheduleForkUpgrade(ctx)
 	return app.mm.BeginBlock(ctx, req)
 }
 
 // EndBlocker updates every end block
-func (app *Shido) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
+func (app *Anryton) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.ResponseEndBlock {
 	return app.mm.EndBlock(ctx, req)
 }
 
 // The DeliverTx method is intentionally decomposed to calculate the transactions per second.
-func (app *Shido) DeliverTx(req abci.RequestDeliverTx) (res abci.ResponseDeliverTx) {
+func (app *Anryton) DeliverTx(req abci.RequestDeliverTx) (res abci.ResponseDeliverTx) {
 	defer func() {
 		// TODO: Record the count along with the code and or reason so as to display
 		// in the transactions per second live dashboards.
@@ -1000,7 +1000,7 @@ func (app *Shido) DeliverTx(req abci.RequestDeliverTx) (res abci.ResponseDeliver
 }
 
 // InitChainer updates at chain initialization
-func (app *Shido) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
+func (app *Anryton) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
 	var genesisState simapp.GenesisState
 	if err := json.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
@@ -1012,12 +1012,12 @@ func (app *Shido) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.R
 }
 
 // LoadHeight loads state at a particular height
-func (app *Shido) LoadHeight(height int64) error {
+func (app *Anryton) LoadHeight(height int64) error {
 	return app.LoadVersion(height)
 }
 
 // ModuleAccountAddrs returns all the app's module account addresses.
-func (app *Shido) ModuleAccountAddrs() map[string]bool {
+func (app *Anryton) ModuleAccountAddrs() map[string]bool {
 	modAccAddrs := make(map[string]bool)
 
 	accs := make([]string, 0, len(maccPerms))
@@ -1035,7 +1035,7 @@ func (app *Shido) ModuleAccountAddrs() map[string]bool {
 
 // BlockedAddrs returns all the app's module account addresses that are not
 // allowed to receive external tokens.
-func (app *Shido) BlockedAddrs() map[string]bool {
+func (app *Anryton) BlockedAddrs() map[string]bool {
 	blockedAddrs := make(map[string]bool)
 
 	accs := make([]string, 0, len(maccPerms))
@@ -1055,59 +1055,59 @@ func (app *Shido) BlockedAddrs() map[string]bool {
 	return blockedAddrs
 }
 
-// LegacyAmino returns Shido's amino codec.
+// LegacyAmino returns Anryton's amino codec.
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *Shido) LegacyAmino() *codec.LegacyAmino {
+func (app *Anryton) LegacyAmino() *codec.LegacyAmino {
 	return app.cdc
 }
 
-// AppCodec returns Shido's app codec.
+// AppCodec returns Anryton's app codec.
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *Shido) AppCodec() codec.Codec {
+func (app *Anryton) AppCodec() codec.Codec {
 	return app.appCodec
 }
 
-// InterfaceRegistry returns Shido's InterfaceRegistry
-func (app *Shido) InterfaceRegistry() types.InterfaceRegistry {
+// InterfaceRegistry returns Anryton's InterfaceRegistry
+func (app *Anryton) InterfaceRegistry() types.InterfaceRegistry {
 	return app.interfaceRegistry
 }
 
 // GetKey returns the KVStoreKey for the provided store key.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *Shido) GetKey(storeKey string) *storetypes.KVStoreKey {
+func (app *Anryton) GetKey(storeKey string) *storetypes.KVStoreKey {
 	return app.keys[storeKey]
 }
 
 // GetTKey returns the TransientStoreKey for the provided store key.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *Shido) GetTKey(storeKey string) *storetypes.TransientStoreKey {
+func (app *Anryton) GetTKey(storeKey string) *storetypes.TransientStoreKey {
 	return app.tkeys[storeKey]
 }
 
 // GetMemKey returns the MemStoreKey for the provided mem key.
 //
 // NOTE: This is solely used for testing purposes.
-func (app *Shido) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
+func (app *Anryton) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
 	return app.memKeys[storeKey]
 }
 
 // GetSubspace returns a param subspace for a given module name.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *Shido) GetSubspace(moduleName string) paramstypes.Subspace {
+func (app *Anryton) GetSubspace(moduleName string) paramstypes.Subspace {
 	subspace, _ := app.ParamsKeeper.GetSubspace(moduleName)
 	return subspace
 }
 
 // RegisterAPIRoutes registers all application module routes with the provided
 // API server.
-func (app *Shido) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
+func (app *Anryton) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
 	clientCtx := apiSvr.ClientCtx
 
 	// Register new tx routes from grpc-gateway.
@@ -1126,12 +1126,12 @@ func (app *Shido) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConf
 	}
 }
 
-func (app *Shido) RegisterTxService(clientCtx client.Context) {
+func (app *Anryton) RegisterTxService(clientCtx client.Context) {
 	authtx.RegisterTxService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.BaseApp.Simulate, app.interfaceRegistry)
 }
 
 // RegisterTendermintService implements the Application.RegisterTendermintService method.
-func (app *Shido) RegisterTendermintService(clientCtx client.Context) {
+func (app *Anryton) RegisterTendermintService(clientCtx client.Context) {
 	tmservice.RegisterTendermintService(
 		clientCtx,
 		app.BaseApp.GRPCQueryRouter(),
@@ -1142,39 +1142,39 @@ func (app *Shido) RegisterTendermintService(clientCtx client.Context) {
 
 // RegisterNodeService registers the node gRPC service on the provided
 // application gRPC query router.
-func (app *Shido) RegisterNodeService(clientCtx client.Context) {
+func (app *Anryton) RegisterNodeService(clientCtx client.Context) {
 	node.RegisterNodeService(clientCtx, app.GRPCQueryRouter())
 }
 
 // IBC Go TestingApp functions
 
 // GetBaseApp implements the TestingApp interface.
-func (app *Shido) GetBaseApp() *baseapp.BaseApp {
+func (app *Anryton) GetBaseApp() *baseapp.BaseApp {
 	return app.BaseApp
 }
 
 // GetStakingKeeper implements the TestingApp interface.
-func (app *Shido) GetStakingKeeper() ibctestingtypes.StakingKeeper {
+func (app *Anryton) GetStakingKeeper() ibctestingtypes.StakingKeeper {
 	return app.StakingKeeper
 }
 
 // GetStakingKeeperSDK implements the TestingApp interface.
-func (app *Shido) GetStakingKeeperSDK() stakingkeeper.Keeper {
+func (app *Anryton) GetStakingKeeperSDK() stakingkeeper.Keeper {
 	return app.StakingKeeper
 }
 
 // GetIBCKeeper implements the TestingApp interface.
-func (app *Shido) GetIBCKeeper() *ibckeeper.Keeper {
+func (app *Anryton) GetIBCKeeper() *ibckeeper.Keeper {
 	return app.IBCKeeper
 }
 
 // GetScopedIBCKeeper implements the TestingApp interface.
-func (app *Shido) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
+func (app *Anryton) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
 	return app.ScopedIBCKeeper
 }
 
 // GetTxConfig implements the TestingApp interface.
-func (app *Shido) GetTxConfig() client.TxConfig {
+func (app *Anryton) GetTxConfig() client.TxConfig {
 	cfg := encoding.MakeConfig(ModuleBasics)
 	return cfg.TxConfig
 }
@@ -1221,13 +1221,13 @@ func initParamsKeeper(
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable()) //nolint:staticcheck
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
-	// shido subspaces
+	// anryton subspaces
 	paramsKeeper.Subspace(erc20types.ModuleName)
 	paramsKeeper.Subspace(wasmtypes.ModuleName)
 	return paramsKeeper
 }
 
-func (app *Shido) setupUpgradeHandlers() {
+func (app *Anryton) setupUpgradeHandlers() {
 	// v8 upgrade handler
 	app.UpgradeKeeper.SetUpgradeHandler(
 		v1.UpgradeName,

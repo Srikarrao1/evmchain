@@ -9,17 +9,17 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	evm "github.com/shido/shido/v2/x/evm/types"
+	evm "github.com/anryton/anryton/v2/x/evm/types"
 
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/x/epochs/types"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/x/epochs/types"
 )
 
 type KeeperTestSuite struct {
 	suite.Suite
 
 	ctx            sdk.Context
-	app            *app.Shido
+	app            *app.Anryton
 	queryClientEvm evm.QueryClient
 	queryClient    types.QueryClient
 	consAddress    sdk.ConsAddress

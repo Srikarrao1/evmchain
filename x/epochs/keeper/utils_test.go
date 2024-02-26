@@ -3,12 +3,12 @@ package keeper_test
 import (
 	"time"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/testutil"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/epochs/types"
+	evm "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/testutil"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/epochs/types"
-	evm "github.com/shido/shido/v2/x/evm/types"
 )
 
 // Test helpers

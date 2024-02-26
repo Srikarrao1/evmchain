@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Shido Chain - gRPC Gateway docs",
+    "title": "Anryton Chain - gRPC Gateway docs",
     "description": "A REST interface for state queries and transactions",
     "version": "1.0.0"
   },
   "paths": {
-    "/shido/epochs/v1/current_epoch": {
+    "/anryton/epochs/v1/current_epoch": {
       "get": {
         "summary": "CurrentEpoch provide current epoch of specified identifier",
         "operationId": "CurrentEpoch",
@@ -73,7 +73,7 @@
         ]
       }
     },
-    "/shido/epochs/v1/epochs": {
+    "/anryton/epochs/v1/epochs": {
       "get": {
         "summary": "EpochInfos provide running epochInfos",
         "operationId": "EpochInfos",
@@ -224,7 +224,7 @@
         ]
       }
     },
-    "/shido/erc20/v1/params": {
+    "/anryton/erc20/v1/params": {
       "get": {
         "summary": "Params retrieves the erc20 module params",
         "operationId": "ERC20Params",
@@ -291,7 +291,7 @@
         ]
       }
     },
-    "/shido/erc20/v1/token_pairs": {
+    "/anryton/erc20/v1/token_pairs": {
       "get": {
         "summary": "TokenPairs retrieves registered token pairs",
         "operationId": "TokenPairs",
@@ -433,7 +433,7 @@
         ]
       }
     },
-    "/shido/erc20/v1/token_pairs/{token}": {
+    "/anryton/erc20/v1/token_pairs/{token}": {
       "get": {
         "summary": "TokenPair retrieves a registered token pair",
         "operationId": "TokenPair",
@@ -525,7 +525,7 @@
         ]
       }
     },
-    "/shido/vesting/v2/balances/{address}": {
+    "/anryton/vesting/v2/balances/{address}": {
       "get": {
         "summary": "Balances retrieves the unvested, vested and locked tokens for a vesting account",
         "operationId": "Balances",
@@ -635,7 +635,7 @@
         ]
       }
     },
-    "/shido/evm/v1/account/{address}": {
+    "/anryton/evm/v1/account/{address}": {
       "get": {
         "summary": "Account queries an Ethereum account.",
         "operationId": "Account",
@@ -713,7 +713,7 @@
         ]
       }
     },
-    "/shido/evm/v1/balances/{address}": {
+    "/anryton/evm/v1/balances/{address}": {
       "get": {
         "summary": "Balance queries the balance of a the EVM denomination for a single\nEthAccount.",
         "operationId": "Balance",
@@ -782,7 +782,7 @@
         ]
       }
     },
-    "/shido/evm/v1/base_fee": {
+    "/anryton/evm/v1/base_fee": {
       "get": {
         "summary": "BaseFee queries the base fee of the parent block of the current block,\nit's similar to feemarket module's method, but also checks london hardfork status.",
         "operationId": "BaseFee",
@@ -842,7 +842,7 @@
         ]
       }
     },
-    "/shido/evm/v1/codes/{address}": {
+    "/anryton/evm/v1/codes/{address}": {
       "get": {
         "summary": "Code queries the balance of all coins for a single account.",
         "operationId": "Code",
@@ -912,7 +912,7 @@
         ]
       }
     },
-    "/shido/evm/v1/cosmos_account/{address}": {
+    "/anryton/evm/v1/cosmos_account/{address}": {
       "get": {
         "summary": "CosmosAccount queries an Ethereum account's Cosmos Address.",
         "operationId": "CosmosAccount",
@@ -991,7 +991,7 @@
         ]
       }
     },
-    "/shido/evm/v1/estimate_gas": {
+    "/anryton/evm/v1/estimate_gas": {
       "get": {
         "summary": "EstimateGas implements the `eth_estimateGas` rpc api",
         "operationId": "EstimateGas",
@@ -1086,7 +1086,7 @@
         ]
       }
     },
-    "/shido/evm/v1/eth_call": {
+    "/anryton/evm/v1/eth_call": {
       "get": {
         "summary": "EthCall implements the `eth_call` rpc api",
         "operationId": "EthCall",
@@ -1247,7 +1247,7 @@
         ]
       }
     },
-    "/shido/evm/v1/params": {
+    "/anryton/evm/v1/params": {
       "get": {
         "summary": "Params queries the parameters of x/evm module.",
         "operationId": "EvmParams",
@@ -1424,7 +1424,7 @@
         ]
       }
     },
-    "/shido/evm/v1/storage/{address}/{key}": {
+    "/anryton/evm/v1/storage/{address}/{key}": {
       "get": {
         "summary": "Storage queries the balance of all coins for a single account.",
         "operationId": "Storage",
@@ -1500,7 +1500,7 @@
         ]
       }
     },
-    "/shido/evm/v1/trace_block": {
+    "/anryton/evm/v1/trace_block": {
       "get": {
         "summary": "TraceBlock implements the `debug_traceBlockByNumber` and `debug_traceBlockByHash` rpc api",
         "operationId": "TraceBlock",
@@ -1815,7 +1815,7 @@
         ]
       }
     },
-    "/shido/evm/v1/trace_tx": {
+    "/anryton/evm/v1/trace_tx": {
       "get": {
         "summary": "TraceTx implements the `debug_traceTransaction` rpc api",
         "operationId": "TraceTx",
@@ -2167,7 +2167,7 @@
         ]
       }
     },
-    "/shido/evm/v1/validator_account/{cons_address}": {
+    "/anryton/evm/v1/validator_account/{cons_address}": {
       "get": {
         "summary": "ValidatorAccount queries an Ethereum account's from a validator consensus\nAddress.",
         "operationId": "ValidatorAccount",
@@ -2246,7 +2246,7 @@
         ]
       }
     },
-    "/shido/feemarket/v1/base_fee": {
+    "/anryton/feemarket/v1/base_fee": {
       "get": {
         "summary": "BaseFee queries the base fee of the parent block of the current block.",
         "operationId": "FeeMarketBaseFee",
@@ -2303,7 +2303,7 @@
         ]
       }
     },
-    "/shido/feemarket/v1/block_gas": {
+    "/anryton/feemarket/v1/block_gas": {
       "get": {
         "summary": "BlockGas queries the gas used at a given block height",
         "operationId": "BlockGas",
@@ -2361,7 +2361,7 @@
         ]
       }
     },
-    "/shido/feemarket/v1/params": {
+    "/anryton/feemarket/v1/params": {
       "get": {
         "summary": "Params queries the parameters of x/feemarket module.",
         "operationId": "FeeMarketParams",
@@ -20938,7 +20938,7 @@
         }
       }
     },
-    "shido.epochs.v1.EpochInfo": {
+    "anryton.epochs.v1.EpochInfo": {
       "type": "object",
       "properties": {
         "identifier": {
@@ -20976,7 +20976,7 @@
       },
       "description": "EpochInfo defines the message interface containing the relevant informations about\nan epoch."
     },
-    "shido.epochs.v1.QueryCurrentEpochResponse": {
+    "anryton.epochs.v1.QueryCurrentEpochResponse": {
       "type": "object",
       "properties": {
         "current_epoch": {
@@ -20987,7 +20987,7 @@
       },
       "description": "QueryCurrentEpochResponse is the response type for the Query/EpochInfos RPC\nmethod."
     },
-    "shido.epochs.v1.QueryEpochsInfoResponse": {
+    "anryton.epochs.v1.QueryEpochsInfoResponse": {
       "type": "object",
       "properties": {
         "epochs": {
@@ -21051,7 +21051,7 @@
       },
       "description": "QueryEpochsInfoResponse is the response type for the Query/EpochInfos RPC\nmethod."
     },
-    "shido.erc20.v1.Owner": {
+    "anryton.erc20.v1.Owner": {
       "type": "string",
       "enum": [
         "OWNER_UNSPECIFIED",
@@ -21061,7 +21061,7 @@
       "default": "OWNER_UNSPECIFIED",
       "description": "Owner enumerates the ownership of a ERC20 contract.\n\n - OWNER_UNSPECIFIED: OWNER_UNSPECIFIED defines an invalid/undefined owner.\n - OWNER_MODULE: OWNER_MODULE - erc20 is owned by the erc20 module account.\n - OWNER_EXTERNAL: OWNER_EXTERNAL - erc20 is owned by an external account."
     },
-    "shido.erc20.v1.Params": {
+    "anryton.erc20.v1.Params": {
       "type": "object",
       "properties": {
         "enable_erc20": {
@@ -21075,7 +21075,7 @@
       },
       "title": "Params defines the erc20 module params"
     },
-    "shido.erc20.v1.QueryParamsResponse": {
+    "anryton.erc20.v1.QueryParamsResponse": {
       "type": "object",
       "properties": {
         "params": {
@@ -21095,7 +21095,7 @@
       },
       "description": "QueryParamsResponse is the response type for the Query/Params RPC\nmethod."
     },
-    "shido.erc20.v1.QueryTokenPairResponse": {
+    "anryton.erc20.v1.QueryTokenPairResponse": {
       "type": "object",
       "properties": {
         "token_pair": {
@@ -21131,7 +21131,7 @@
       },
       "description": "QueryTokenPairResponse is the response type for the Query/TokenPair RPC\nmethod."
     },
-    "shido.erc20.v1.QueryTokenPairsResponse": {
+    "anryton.erc20.v1.QueryTokenPairsResponse": {
       "type": "object",
       "properties": {
         "token_pairs": {
@@ -21186,7 +21186,7 @@
       },
       "description": "QueryTokenPairsResponse is the response type for the Query/TokenPairs RPC\nmethod."
     },
-    "shido.erc20.v1.TokenPair": {
+    "anryton.erc20.v1.TokenPair": {
       "type": "object",
       "properties": {
         "erc20_address": {
@@ -21227,7 +21227,7 @@
       },
       "description": "Coin defines a token with a denomination and an amount.\n\nNOTE: The amount field is an Int which implements the custom method\nsignatures required by gogoproto."
     },
-    "shido.vesting.v2.QueryBalancesResponse": {
+    "anryton.vesting.v2.QueryBalancesResponse": {
       "type": "object",
       "properties": {
         "locked": {

@@ -16,7 +16,7 @@ func TestParseChainID(t *testing.T) {
 		expInt   *big.Int
 	}{
 		{
-			"valid chain-id, single digit", "shido_1-1", false, big.NewInt(1),
+			"valid chain-id, single digit", "anryton_1-1", false, big.NewInt(1),
 		},
 		{
 			"valid chain-id, multiple digits", "aragonchain_256-1", false, big.NewInt(256),
@@ -37,25 +37,25 @@ func TestParseChainID(t *testing.T) {
 			"invalid chain-id, undefined identifier", "_1-1", true, nil,
 		},
 		{
-			"invalid chain-id, uppercases", "SHIDO_1-1", true, nil,
+			"invalid chain-id, uppercases", "ANRYTON_1-1", true, nil,
 		},
 		{
-			"invalid chain-id, mixed cases", "Shido_1-1", true, nil,
+			"invalid chain-id, mixed cases", "Anryton_1-1", true, nil,
 		},
 		{
 			"invalid chain-id, special chars", "$&*#!_1-1", true, nil,
 		},
 		{
-			"invalid eip155 chain-id, cannot start with 0", "shido_001-1", true, nil,
+			"invalid eip155 chain-id, cannot start with 0", "anryton_001-1", true, nil,
 		},
 		{
-			"invalid eip155 chain-id, cannot invalid base", "shido_0x212-1", true, nil,
+			"invalid eip155 chain-id, cannot invalid base", "anryton_0x212-1", true, nil,
 		},
 		{
-			"invalid eip155 chain-id, non-integer", "shido_shido_9000-1", true, nil,
+			"invalid eip155 chain-id, non-integer", "anryton_anryton_9000-1", true, nil,
 		},
 		{
-			"invalid epoch, undefined", "shido_-", true, nil,
+			"invalid epoch, undefined", "anryton_-", true, nil,
 		},
 		{
 			"blank chain ID", " ", true, nil,
@@ -67,7 +67,7 @@ func TestParseChainID(t *testing.T) {
 			"empty content for chain id, eip155 and epoch numbers", "_-", true, nil,
 		},
 		{
-			"long chain-id", "shido_" + strings.Repeat("1", 45) + "-1", true, nil,
+			"long chain-id", "anryton_" + strings.Repeat("1", 45) + "-1", true, nil,
 		},
 	}
 

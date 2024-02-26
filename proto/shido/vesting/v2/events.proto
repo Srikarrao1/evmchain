@@ -1,8 +1,8 @@
 
 syntax = "proto3";
-package shido.vesting.v2;
+package anryton.vesting.v2;
 
-option go_package = "github.com/shido/shido/v2/x/vesting/types";
+option go_package = "github.com/anryton/anryton/v2/x/vesting/types";
 
 // EventCreateClawbackVestingAccount defines the event type
 // for creating a clawback vesting account

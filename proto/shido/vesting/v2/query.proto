@@ -1,18 +1,18 @@
 
 syntax = "proto3";
-package shido.vesting.v2;
+package anryton.vesting.v2;
 
 import "cosmos/base/v1beta1/coin.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 
-option go_package = "github.com/shido/shido/v2/x/vesting/types";
+option go_package = "github.com/anryton/anryton/v2/x/vesting/types";
 
 // Query defines the gRPC querier service.
 service Query {
   // Balances retrieves the unvested, vested and locked tokens for a vesting account
   rpc Balances(QueryBalancesRequest) returns (QueryBalancesResponse) {
-    option (google.api.http).get = "/shido/vesting/v2/balances/{address}";
+    option (google.api.http).get = "/anryton/vesting/v2/balances/{address}";
   }
 }
 

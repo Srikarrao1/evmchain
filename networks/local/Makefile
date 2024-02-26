@@ -1,4 +1,4 @@
 all:
-	docker build --no-cache --tag shido/node ../.. -f shido/Dockerfile
+	docker build --no-cache --tag anryton/node ../.. -f anryton/Dockerfile
 
 .PHONY: all

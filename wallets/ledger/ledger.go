@@ -11,34 +11,34 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 
-	"github.com/shido/shido/v2/ethereum/eip712"
-	"github.com/shido/shido/v2/wallets/accounts"
-	"github.com/shido/shido/v2/wallets/usbwallet"
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	"github.com/anryton/anryton/v2/wallets/accounts"
+	"github.com/anryton/anryton/v2/wallets/usbwallet"
 )
 
 // Secp256k1DerivationFn defines the derivation function used on the Cosmos SDK Keyring.
 type Secp256k1DerivationFn func() (sdkledger.SECP256K1, error)
 
-func ShidoLedgerDerivation() Secp256k1DerivationFn {
-	shidoSECP256K1 := new(ShidoSECP256K1)
+func AnrytonLedgerDerivation() Secp256k1DerivationFn {
+	anrytonSECP256K1 := new(AnrytonSECP256K1)
 
 	return func() (sdkledger.SECP256K1, error) {
-		return shidoSECP256K1.connectToLedgerApp()
+		return anrytonSECP256K1.connectToLedgerApp()
 	}
 }
 
-var _ sdkledger.SECP256K1 = &ShidoSECP256K1{}
+var _ sdkledger.SECP256K1 = &AnrytonSECP256K1{}
 
-// ShidoSECP256K1 defines a wrapper of the Ethereum App to
+// AnrytonSECP256K1 defines a wrapper of the Ethereum App to
 // for compatibility with Cosmos SDK chains.
-type ShidoSECP256K1 struct {
+type AnrytonSECP256K1 struct {
 	*usbwallet.Hub
 	PrimaryWallet accounts.Wallet
 }
 
 // Close closes the associated primary wallet. Any requests on
 // the object after a successful Close() should not work
-func (e ShidoSECP256K1) Close() error {
+func (e AnrytonSECP256K1) Close() error {
 	if e.PrimaryWallet == nil {
 		return errors.New("could not close Ledger: no wallet found")
 	}
@@ -48,7 +48,7 @@ func (e ShidoSECP256K1) Close() error {
 
 // GetPublicKeySECP256K1 returns the public key associated with the address derived from
 // the provided hdPath using the primary wallet
-func (e ShidoSECP256K1) GetPublicKeySECP256K1(hdPath []uint32) ([]byte, error) {
+func (e AnrytonSECP256K1) GetPublicKeySECP256K1(hdPath []uint32) ([]byte, error) {
 	if e.PrimaryWallet == nil {
 		return nil, errors.New("could not get Ledger public key: no wallet found")
 	}
@@ -66,9 +66,9 @@ func (e ShidoSECP256K1) GetPublicKeySECP256K1(hdPath []uint32) ([]byte, error) {
 	return pubkeyBz, nil
 }
 
-// GetAddressPubKeySECP256K1 takes in the HD path as well as a "Human Readable Prefix" (HRP, e.g. "shido")
+// GetAddressPubKeySECP256K1 takes in the HD path as well as a "Human Readable Prefix" (HRP, e.g. "anryton")
 // to return the public key bytes in secp256k1 format as well as the account address.
-func (e ShidoSECP256K1) GetAddressPubKeySECP256K1(hdPath []uint32, hrp string) ([]byte, string, error) {
+func (e AnrytonSECP256K1) GetAddressPubKeySECP256K1(hdPath []uint32, hrp string) ([]byte, string, error) {
 	if e.PrimaryWallet == nil {
 		return nil, "", errors.New("could not get Ledger address: no wallet found")
 	}
@@ -93,7 +93,7 @@ func (e ShidoSECP256K1) GetAddressPubKeySECP256K1(hdPath []uint32, hrp string) (
 
 // SignSECP256K1 returns the signature bytes generated from signing a transaction
 // using the EIP712 signature.
-func (e ShidoSECP256K1) SignSECP256K1(hdPath []uint32, signDocBytes []byte) ([]byte, error) {
+func (e AnrytonSECP256K1) SignSECP256K1(hdPath []uint32, signDocBytes []byte) ([]byte, error) {
 	fmt.Printf("Generating payload, please check your Ledger...\n")
 
 	if e.PrimaryWallet == nil {
@@ -131,7 +131,7 @@ func (e ShidoSECP256K1) SignSECP256K1(hdPath []uint32, signDocBytes []byte) ([]b
 
 // displayEIP712Hash is a helper function to display the EIP-712 hashes.
 // This allows users to verify the hashed message they are signing via Ledger.
-func (e ShidoSECP256K1) displayEIP712Hash(typedData apitypes.TypedData) error {
+func (e AnrytonSECP256K1) displayEIP712Hash(typedData apitypes.TypedData) error {
 	domainSeparator, err := typedData.HashStruct("EIP712Domain", typedData.Domain.Map())
 	if err != nil {
 		return err
@@ -148,7 +148,7 @@ func (e ShidoSECP256K1) displayEIP712Hash(typedData apitypes.TypedData) error {
 	return nil
 }
 
-func (e *ShidoSECP256K1) connectToLedgerApp() (sdkledger.SECP256K1, error) {
+func (e *AnrytonSECP256K1) connectToLedgerApp() (sdkledger.SECP256K1, error) {
 	// Instantiate new Ledger object
 	ledger, err := usbwallet.NewLedgerHub()
 	if err != nil {

@@ -3,8 +3,8 @@ package grpc
 import (
 	"context"
 
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	"github.com/ethereum/go-ethereum/common"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
 // GetEvmAccount returns the EVM account for the given address.

@@ -6,8 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	v1 "github.com/shido/shido/v2/app/upgrades/v1"
-	"github.com/shido/shido/v2/utils"
+	v1 "github.com/anryton/anryton/v2/app/upgrades/v1"
+	"github.com/anryton/anryton/v2/utils"
 )
 
 // ScheduleForkUpgrade executes any necessary fork logic for based upon the current
@@ -18,7 +18,7 @@ import (
 //
 //  1. Release a non-breaking patch version so that the chain can set the scheduled upgrade plan at upgrade-height.
 //  2. Release the software defined in the upgrade-info
-func (app *Shido) ScheduleForkUpgrade(ctx sdk.Context) {
+func (app *Anryton) ScheduleForkUpgrade(ctx sdk.Context) {
 	// NOTE: there are no testnet forks for the existing versions
 	if !utils.IsMainnet(ctx.ChainID()) {
 		return

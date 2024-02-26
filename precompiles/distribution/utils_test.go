@@ -5,6 +5,15 @@ import (
 	"time"
 
 	sdkmath "cosmossdk.io/math"
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	cmn "github.com/anryton/anryton/v2/precompiles/common"
+	"github.com/anryton/anryton/v2/precompiles/distribution"
+	anrytonutil "github.com/anryton/anryton/v2/testutil"
+	anrytonutiltx "github.com/anryton/anryton/v2/testutil/tx"
+	anrytontypes "github.com/anryton/anryton/v2/types"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	abci "github.com/cometbft/cometbft/abci/types"
 	"github.com/cometbft/cometbft/crypto/tmhash"
 	tmtypes "github.com/cometbft/cometbft/types"
@@ -20,24 +29,15 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	shidoapp "github.com/shido/shido/v2/app"
-	cmn "github.com/shido/shido/v2/precompiles/common"
-	"github.com/shido/shido/v2/precompiles/distribution"
-	shidoutil "github.com/shido/shido/v2/testutil"
-	shidoutiltx "github.com/shido/shido/v2/testutil/tx"
-	shidotypes "github.com/shido/shido/v2/types"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 )
 
-// SetupWithGenesisValSet initializes a new ShidoApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new AnrytonApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
 // of one consensus engine unit (10^6) in the default token of the simapp from first genesis
 // account. A Nop logger is set in SimApp.
 func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSet, genAccs []authtypes.GenesisAccount, balances ...banktypes.Balance) {
-	appI, genesisState := shidoapp.SetupTestingApp(cmn.DefaultChainID)()
-	app, ok := appI.(*shidoapp.Shido)
+	appI, genesisState := anrytonapp.SetupTestingApp(cmn.DefaultChainID)()
+	app, ok := appI.(*anrytonapp.Anryton)
 	s.Require().True(ok)
 
 	// set genesis accounts
@@ -47,7 +47,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 	validators := make([]stakingtypes.Validator, 0, len(valSet.Validators))
 	delegations := make([]stakingtypes.Delegation, 0, len(valSet.Validators))
 
-	bondAmt := sdk.TokensFromConsensusPower(1, shidotypes.PowerReduction)
+	bondAmt := sdk.TokensFromConsensusPower(1, anrytontypes.PowerReduction)
 
 	for _, val := range valSet.Validators {
 		pk, err := cryptocodec.FromTmPubKeyInterface(val.PubKey)
@@ -74,7 +74,7 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 
 	// set validators and delegations
 	stakingParams := stakingtypes.DefaultParams()
-	// set bond demon to be shido
+	// set bond demon to be anryton
 	stakingParams.BondDenom = utils.BaseDenom
 	stakingGenesis := stakingtypes.NewGenesisState(stakingParams, validators, delegations)
 	genesisState[stakingtypes.ModuleName] = app.AppCodec().MustMarshalJSON(stakingGenesis)
@@ -104,14 +104,14 @@ func (s *PrecompileTestSuite) SetupWithGenesisValSet(valSet *tmtypes.ValidatorSe
 		abci.RequestInitChain{
 			ChainId:         cmn.DefaultChainID,
 			Validators:      []abci.ValidatorUpdate{},
-			ConsensusParams: shidoapp.DefaultConsensusParams,
+			ConsensusParams: anrytonapp.DefaultConsensusParams,
 			AppStateBytes:   stateBytes,
 		},
 	)
 	app.Commit()
 
 	// instantiate new header
-	header := shidoutil.NewHeader(
+	header := anrytonutil.NewHeader(
 		2,
 		time.Now().UTC(),
 		cmn.DefaultChainID,
@@ -148,19 +148,19 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 	signers[pubKey2.Address().String()] = privVal2
 
 	// generate genesis account
-	addr, priv := shidoutiltx.NewAddrKey()
+	addr, priv := anrytonutiltx.NewAddrKey()
 	s.privKey = priv
 	s.address = addr
-	s.signer = shidoutiltx.NewSigner(priv)
+	s.signer = anrytonutiltx.NewSigner(priv)
 
 	baseAcc := authtypes.NewBaseAccount(priv.PubKey().Address().Bytes(), priv.PubKey(), 0, 0)
 
-	acc := &shidotypes.EthAccount{
+	acc := &anrytontypes.EthAccount{
 		BaseAccount: baseAcc,
 		CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 	}
 
-	amount := sdk.TokensFromConsensusPower(5, shidotypes.PowerReduction)
+	amount := sdk.TokensFromConsensusPower(5, anrytontypes.PowerReduction)
 
 	balance := banktypes.Balance{
 		Address: acc.GetAddress().String(),
@@ -191,7 +191,7 @@ func (s *PrecompileTestSuite) DoSetupTest() {
 
 // DeployContract deploys a contract that calls the distribution precompile's methods for testing purposes.
 func (s *PrecompileTestSuite) DeployContract(contract evmtypes.CompiledContract) (addr common.Address, err error) {
-	addr, err = shidoutil.DeployContract(
+	addr, err = anrytonutil.DeployContract(
 		s.ctx,
 		s.app,
 		s.privKey,
@@ -219,11 +219,11 @@ type stakingRewards struct {
 func (s *PrecompileTestSuite) prepareStakingRewards(stkRs ...stakingRewards) {
 	for _, r := range stkRs {
 		// fund account to make delegation
-		err := shidoutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, r.Delegator, r.RewardAmt.Int64())
+		err := anrytonutil.FundAccountWithBaseDenom(s.ctx, s.app.BankKeeper, r.Delegator, r.RewardAmt.Int64())
 		s.Require().NoError(err)
 		// set distribution module account balance which pays out the rewards
 		distrAcc := s.app.DistrKeeper.GetDistributionAccount(s.ctx)
-		err = shidoutil.FundModuleAccount(s.ctx, s.app.BankKeeper, distrAcc.GetName(), sdk.NewCoins(sdk.NewCoin(s.bondDenom, r.RewardAmt)))
+		err = anrytonutil.FundModuleAccount(s.ctx, s.app.BankKeeper, distrAcc.GetName(), sdk.NewCoins(sdk.NewCoin(s.bondDenom, r.RewardAmt)))
 		s.Require().NoError(err)
 
 		// make a delegation
@@ -242,7 +242,7 @@ func (s *PrecompileTestSuite) prepareStakingRewards(stkRs ...stakingRewards) {
 // NextBlock commits the current block and sets up the next block.
 func (s *PrecompileTestSuite) NextBlock() {
 	var err error
-	s.ctx, err = shidoutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second, s.valSet)
+	s.ctx, err = anrytonutil.CommitAndCreateNewCtx(s.ctx, s.app, time.Second, s.valSet)
 	s.Require().NoError(err)
 }
 

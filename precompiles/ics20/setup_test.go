@@ -4,6 +4,11 @@ import (
 	"testing"
 	"time"
 
+	anrytonapp "github.com/anryton/anryton/v2/app"
+	anrytonibc "github.com/anryton/anryton/v2/ibc/testing"
+	"github.com/anryton/anryton/v2/precompiles/ics20"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	tmtypes "github.com/cometbft/cometbft/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
@@ -12,11 +17,6 @@ import (
 	ibctesting "github.com/cosmos/ibc-go/v7/testing"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	shidoapp "github.com/shido/shido/v2/app"
-	shidoibc "github.com/shido/shido/v2/ibc/testing"
-	"github.com/shido/shido/v2/precompiles/ics20"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -29,7 +29,7 @@ type PrecompileTestSuite struct {
 	suite.Suite
 
 	ctx           sdk.Context
-	app           *shidoapp.Shido
+	app           *anrytonapp.Anryton
 	address       common.Address
 	differentAddr common.Address
 	validators    []stakingtypes.Validator
@@ -45,7 +45,7 @@ type PrecompileTestSuite struct {
 	coordinator    *ibctesting.Coordinator
 	chainA         *ibctesting.TestChain
 	chainB         *ibctesting.TestChain
-	transferPath   *shidoibc.Path
+	transferPath   *anrytonibc.Path
 	queryClientEVM evmtypes.QueryClient
 
 	defaultExpirationDuration time.Time

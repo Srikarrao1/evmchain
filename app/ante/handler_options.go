@@ -14,19 +14,19 @@ import (
 	ibcante "github.com/cosmos/ibc-go/v7/modules/core/ante"
 	ibckeeper "github.com/cosmos/ibc-go/v7/modules/core/keeper"
 
+	cosmosante "github.com/anryton/anryton/v2/app/ante/cosmos"
+	evmante "github.com/anryton/anryton/v2/app/ante/evm"
+	anteutils "github.com/anryton/anryton/v2/app/ante/utils"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
-	cosmosante "github.com/shido/shido/v2/app/ante/cosmos"
-	evmante "github.com/shido/shido/v2/app/ante/evm"
-	anteutils "github.com/shido/shido/v2/app/ante/utils"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
+	vestingtypes "github.com/anryton/anryton/v2/x/vesting/types"
+	wasmkeeper "github.com/anryton/anryton/v2/x/wasm/keeper"
+	wasmTypes "github.com/anryton/anryton/v2/x/wasm/types"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	vestingtypes "github.com/shido/shido/v2/x/vesting/types"
-	wasmkeeper "github.com/shido/shido/v2/x/wasm/keeper"
-	wasmTypes "github.com/shido/shido/v2/x/wasm/types"
 )
 
-// HandlerOptions defines the list of module keepers required to run the Shido
+// HandlerOptions defines the list of module keepers required to run the Anryton
 // AnteHandler decorators.
 type HandlerOptions struct {
 	Cdc                    codec.BinaryCodec

@@ -1,8 +1,8 @@
 package keeper
 
 import (
+	"github.com/anryton/anryton/v2/x/vesting/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/shido/shido/v2/x/vesting/types"
 )
 
 // HasGovClawbackDisabled checks if the given account has governance clawback disabled.

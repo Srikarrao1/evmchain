@@ -17,9 +17,9 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	"github.com/shido/shido/v2/x/erc20/client/cli"
-	"github.com/shido/shido/v2/x/erc20/keeper"
-	"github.com/shido/shido/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/erc20/client/cli"
+	"github.com/anryton/anryton/v2/x/erc20/keeper"
+	"github.com/anryton/anryton/v2/x/erc20/types"
 )
 
 // consensusVersion defines the current x/erc20 module consensus version.

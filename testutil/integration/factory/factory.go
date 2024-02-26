@@ -17,19 +17,19 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	xauthsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 
+	"github.com/anryton/anryton/v2/testutil/integration/grpc"
+	"github.com/anryton/anryton/v2/testutil/integration/network"
+	"github.com/anryton/anryton/v2/types"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/shido/shido/v2/testutil/integration/grpc"
-	"github.com/shido/shido/v2/testutil/integration/network"
-	"github.com/shido/shido/v2/types"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
 
 	errorsmod "cosmossdk.io/errors"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/server/config"
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/server/config"
 )
 
 const (
@@ -139,7 +139,7 @@ func (tf *IntegrationTxFactory) ExecuteEthTx(
 
 // CosmosTxArgs contains the params to create a cosmos tx
 type CosmosTxArgs struct {
-	// ChainID is the chain's id in cosmos format, e.g. 'shido_9000-1'
+	// ChainID is the chain's id in cosmos format, e.g. 'anryton_9000-1'
 	ChainID string
 	// Gas to be used on the tx
 	Gas uint64

@@ -1,6 +1,6 @@
-def test_single_request_netversion(shido):
-    shido.use_websocket()
-    eth_ws = shido.w3.provider
+def test_single_request_netversion(anryton):
+    anryton.use_websocket()
+    eth_ws = anryton.w3.provider
 
     response = eth_ws.make_request("net_version", [])
 
@@ -16,13 +16,13 @@ def test_single_request_netversion(shido):
 # todo: follow https://github.com/ethereum/web3.py/issues/1402, add tests when complete
 
 
-def test_batch_request_netversion(shido):
+def test_batch_request_netversion(anryton):
     return
 
 
-def test_ws_subscribe_log(shido):
+def test_ws_subscribe_log(anryton):
     return
 
 
-def test_ws_subscribe_newheads(shido):
+def test_ws_subscribe_newheads(anryton):
     return

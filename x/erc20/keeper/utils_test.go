@@ -7,6 +7,19 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/anryton/anryton/v2/app"
+	"github.com/anryton/anryton/v2/contracts"
+	"github.com/anryton/anryton/v2/crypto/ethsecp256k1"
+	ibctesting "github.com/anryton/anryton/v2/ibc/testing"
+	"github.com/anryton/anryton/v2/server/config"
+	"github.com/anryton/anryton/v2/testutil"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	teststypes "github.com/anryton/anryton/v2/types/tests"
+	"github.com/anryton/anryton/v2/utils"
+	"github.com/anryton/anryton/v2/x/erc20/types"
+	"github.com/anryton/anryton/v2/x/evm/statedb"
+	evm "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -20,19 +33,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/shido/shido/v2/app"
-	"github.com/shido/shido/v2/contracts"
-	"github.com/shido/shido/v2/crypto/ethsecp256k1"
-	ibctesting "github.com/shido/shido/v2/ibc/testing"
-	"github.com/shido/shido/v2/server/config"
-	"github.com/shido/shido/v2/testutil"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	teststypes "github.com/shido/shido/v2/types/tests"
-	"github.com/shido/shido/v2/utils"
-	"github.com/shido/shido/v2/x/erc20/types"
-	"github.com/shido/shido/v2/x/evm/statedb"
-	evm "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -136,51 +136,51 @@ func (suite *KeeperTestSuite) DoSetupTest(t require.TestingT) {
 func (suite *KeeperTestSuite) SetupIBCTest() {
 	// initializes 3 test chains
 	suite.coordinator = ibctesting.NewCoordinator(suite.T(), 1, 2)
-	suite.ShidoChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(1))
+	suite.AnrytonChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(1))
 	suite.IBCOsmosisChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(2))
 	suite.IBCCosmosChain = suite.coordinator.GetChain(ibcgotesting.GetChainID(3))
-	suite.coordinator.CommitNBlocks(suite.ShidoChain, 2)
+	suite.coordinator.CommitNBlocks(suite.AnrytonChain, 2)
 	suite.coordinator.CommitNBlocks(suite.IBCOsmosisChain, 2)
 	suite.coordinator.CommitNBlocks(suite.IBCCosmosChain, 2)
 
-	s.app = suite.ShidoChain.App.(*app.Shido)
-	evmParams := s.app.EvmKeeper.GetParams(s.ShidoChain.GetContext())
+	s.app = suite.AnrytonChain.App.(*app.Anryton)
+	evmParams := s.app.EvmKeeper.GetParams(s.AnrytonChain.GetContext())
 	evmParams.EvmDenom = utils.BaseDenom
-	err := s.app.EvmKeeper.SetParams(s.ShidoChain.GetContext(), evmParams)
+	err := s.app.EvmKeeper.SetParams(s.AnrytonChain.GetContext(), evmParams)
 	suite.Require().NoError(err)
 
-	// s.app.FeeMarketKeeper.SetBaseFee(s.ShidoChain.GetContext(), big.NewInt(1))
+	// s.app.FeeMarketKeeper.SetBaseFee(s.AnrytonChain.GetContext(), big.NewInt(1))
 
 	// Set block proposer once, so its carried over on the ibc-go-testing suite
-	validators := s.app.StakingKeeper.GetValidators(suite.ShidoChain.GetContext(), 2)
+	validators := s.app.StakingKeeper.GetValidators(suite.AnrytonChain.GetContext(), 2)
 	cons, err := validators[0].GetConsAddr()
 	suite.Require().NoError(err)
-	suite.ShidoChain.CurrentHeader.ProposerAddress = cons.Bytes()
+	suite.AnrytonChain.CurrentHeader.ProposerAddress = cons.Bytes()
 
-	err = s.app.StakingKeeper.SetValidatorByConsAddr(suite.ShidoChain.GetContext(), validators[0])
+	err = s.app.StakingKeeper.SetValidatorByConsAddr(suite.AnrytonChain.GetContext(), validators[0])
 	suite.Require().NoError(err)
 
-	_, err = s.app.EvmKeeper.GetCoinbaseAddress(suite.ShidoChain.GetContext(), sdk.ConsAddress(suite.ShidoChain.CurrentHeader.ProposerAddress))
+	_, err = s.app.EvmKeeper.GetCoinbaseAddress(suite.AnrytonChain.GetContext(), sdk.ConsAddress(suite.AnrytonChain.CurrentHeader.ProposerAddress))
 	suite.Require().NoError(err)
-	// Mint coins locked on the shido account generated with secp.
+	// Mint coins locked on the anryton account generated with secp.
 	amt, ok := sdk.NewIntFromString("1000000000000000000000")
 	suite.Require().True(ok)
-	coinShido := sdk.NewCoin(utils.BaseDenom, amt)
-	coins := sdk.NewCoins(coinShido)
-	err = s.app.BankKeeper.MintCoins(suite.ShidoChain.GetContext(), "", coins)
+	coinAnryton := sdk.NewCoin(utils.BaseDenom, amt)
+	coins := sdk.NewCoins(coinAnryton)
+	err = s.app.BankKeeper.MintCoins(suite.AnrytonChain.GetContext(), "", coins)
 	suite.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.ShidoChain.GetContext(), "", suite.ShidoChain.SenderAccount.GetAddress(), coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToAccount(suite.AnrytonChain.GetContext(), "", suite.AnrytonChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
 	// we need some coins in the bankkeeper to be able to register the coins later
 	coins = sdk.NewCoins(sdk.NewCoin(teststypes.UosmoIbcdenom, sdk.NewInt(100)))
-	err = s.app.BankKeeper.MintCoins(s.ShidoChain.GetContext(), types.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(s.AnrytonChain.GetContext(), types.ModuleName, coins)
 	s.Require().NoError(err)
 	coins = sdk.NewCoins(sdk.NewCoin(teststypes.UatomIbcdenom, sdk.NewInt(100)))
-	err = s.app.BankKeeper.MintCoins(s.ShidoChain.GetContext(), types.ModuleName, coins)
+	err = s.app.BankKeeper.MintCoins(s.AnrytonChain.GetContext(), types.ModuleName, coins)
 	s.Require().NoError(err)
 
-	// Mint coins on the osmosis side which we'll use to unlock our shido
+	// Mint coins on the osmosis side which we'll use to unlock our anryton
 	coinOsmo := sdk.NewCoin("uosmo", sdk.NewInt(10000000))
 	coins = sdk.NewCoins(coinOsmo)
 	err = suite.IBCOsmosisChain.GetSimApp().BankKeeper.MintCoins(suite.IBCOsmosisChain.GetContext(), minttypes.ModuleName, coins)
@@ -188,7 +188,7 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 	err = suite.IBCOsmosisChain.GetSimApp().BankKeeper.SendCoinsFromModuleToAccount(suite.IBCOsmosisChain.GetContext(), minttypes.ModuleName, suite.IBCOsmosisChain.SenderAccount.GetAddress(), coins)
 	suite.Require().NoError(err)
 
-	// Mint coins on the cosmos side which we'll use to unlock our shido
+	// Mint coins on the cosmos side which we'll use to unlock our anryton
 	coinAtom := sdk.NewCoin("uatom", sdk.NewInt(10))
 	coins = sdk.NewCoins(coinAtom)
 	err = suite.IBCCosmosChain.GetSimApp().BankKeeper.MintCoins(suite.IBCCosmosChain.GetContext(), minttypes.ModuleName, coins)
@@ -211,24 +211,24 @@ func (suite *KeeperTestSuite) SetupIBCTest() {
 
 	params := types.DefaultParams()
 	params.EnableErc20 = true
-	err = s.app.Erc20Keeper.SetParams(suite.ShidoChain.GetContext(), params)
+	err = s.app.Erc20Keeper.SetParams(suite.AnrytonChain.GetContext(), params)
 	suite.Require().NoError(err)
 
-	suite.pathOsmosisShido = ibctesting.NewTransferPath(suite.IBCOsmosisChain, suite.ShidoChain) // clientID, connectionID, channelID empty
-	suite.pathCosmosShido = ibctesting.NewTransferPath(suite.IBCCosmosChain, suite.ShidoChain)
+	suite.pathOsmosisAnryton = ibctesting.NewTransferPath(suite.IBCOsmosisChain, suite.AnrytonChain) // clientID, connectionID, channelID empty
+	suite.pathCosmosAnryton = ibctesting.NewTransferPath(suite.IBCCosmosChain, suite.AnrytonChain)
 	suite.pathOsmosisCosmos = ibctesting.NewTransferPath(suite.IBCCosmosChain, suite.IBCOsmosisChain)
-	ibctesting.SetupPath(suite.coordinator, suite.pathOsmosisShido) // clientID, connectionID, channelID filled
-	ibctesting.SetupPath(suite.coordinator, suite.pathCosmosShido)
+	ibctesting.SetupPath(suite.coordinator, suite.pathOsmosisAnryton) // clientID, connectionID, channelID filled
+	ibctesting.SetupPath(suite.coordinator, suite.pathCosmosAnryton)
 	ibctesting.SetupPath(suite.coordinator, suite.pathOsmosisCosmos)
-	suite.Require().Equal("07-tendermint-0", suite.pathOsmosisShido.EndpointA.ClientID)
-	suite.Require().Equal("connection-0", suite.pathOsmosisShido.EndpointA.ConnectionID)
-	suite.Require().Equal("channel-0", suite.pathOsmosisShido.EndpointA.ChannelID)
+	suite.Require().Equal("07-tendermint-0", suite.pathOsmosisAnryton.EndpointA.ClientID)
+	suite.Require().Equal("connection-0", suite.pathOsmosisAnryton.EndpointA.ConnectionID)
+	suite.Require().Equal("channel-0", suite.pathOsmosisAnryton.EndpointA.ChannelID)
 
-	coinShido = sdk.NewCoin(utils.BaseDenom, sdk.NewInt(1000000000000000000))
-	coins = sdk.NewCoins(coinShido)
-	err = s.app.BankKeeper.MintCoins(suite.ShidoChain.GetContext(), types.ModuleName, coins)
+	coinAnryton = sdk.NewCoin(utils.BaseDenom, sdk.NewInt(1000000000000000000))
+	coins = sdk.NewCoins(coinAnryton)
+	err = s.app.BankKeeper.MintCoins(suite.AnrytonChain.GetContext(), types.ModuleName, coins)
 	suite.Require().NoError(err)
-	err = s.app.BankKeeper.SendCoinsFromModuleToModule(suite.ShidoChain.GetContext(), types.ModuleName, authtypes.FeeCollectorName, coins)
+	err = s.app.BankKeeper.SendCoinsFromModuleToModule(suite.AnrytonChain.GetContext(), types.ModuleName, authtypes.FeeCollectorName, coins)
 	suite.Require().NoError(err)
 }
 
@@ -348,12 +348,12 @@ func (suite *KeeperTestSuite) DeployContractDirectBalanceManipulation() (common.
 }
 
 // DeployContractToChain deploys the ERC20MinterBurnerDecimalsContract
-// to the Shido chain (used on IBC tests)
+// to the Anryton chain (used on IBC tests)
 func (suite *KeeperTestSuite) DeployContractToChain(name, symbol string, decimals uint8) (common.Address, error) {
 	return testutil.DeployContract(
-		s.ShidoChain.GetContext(),
-		s.ShidoChain.App.(*app.Shido),
-		suite.ShidoChain.SenderPrivKey,
+		s.AnrytonChain.GetContext(),
+		s.AnrytonChain.App.(*app.Anryton),
+		suite.AnrytonChain.SenderPrivKey,
 		suite.queryClientEvm,
 		contracts.ERC20MinterBurnerDecimalsContract,
 		name, symbol, decimals,
@@ -392,7 +392,7 @@ func (suite *KeeperTestSuite) SendAndReceiveMessage(path *ibctesting.Path, origi
 	suite.sendAndReceiveMessage(path, path.EndpointA, path.EndpointB, origin, coin, amount, sender, receiver, seq, ibcCoinMetadata)
 }
 
-// Send back coins (from path endpoint B to A). In case of IBC coins need to provide ibcCoinMetadata (<port>/<channel>/<denom>, e.g.: "transfer/channel-0/shido") as input parameter.
+// Send back coins (from path endpoint B to A). In case of IBC coins need to provide ibcCoinMetadata (<port>/<channel>/<denom>, e.g.: "transfer/channel-0/anryton") as input parameter.
 // We need this to instantiate properly a FungibleTokenPacketData https://github.com/cosmos/ibc-go/blob/main/docs/architecture/adr-001-coin-source-tracing.md
 func (suite *KeeperTestSuite) SendBackCoins(path *ibctesting.Path, origin *ibcgotesting.TestChain, coin string, amount int64, sender, receiver string, seq uint64, ibcCoinMetadata string) {
 	// Send coin from B to A

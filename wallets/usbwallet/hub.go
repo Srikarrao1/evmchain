@@ -10,8 +10,8 @@ import (
 	// #nosec
 	"runtime"
 
+	"github.com/anryton/anryton/v2/wallets/accounts"
 	gethaccounts "github.com/ethereum/go-ethereum/accounts"
-	"github.com/shido/shido/v2/wallets/accounts"
 	usb "github.com/zondax/hid"
 )
 

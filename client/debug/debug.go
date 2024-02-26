@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/anryton/anryton/v2/ethereum/eip712"
+	anryton "github.com/anryton/anryton/v2/types"
 	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 	"github.com/pkg/errors"
-	"github.com/shido/shido/v2/ethereum/eip712"
-	shido "github.com/shido/shido/v2/types"
 
 	"github.com/cometbft/cometbft/libs/bytes"
 	"github.com/spf13/cobra"
@@ -138,7 +138,7 @@ func LegacyEIP712Cmd() *cobra.Command {
 	return &cobra.Command{
 		Use:     "legacy-eip712 [file]",
 		Short:   "Output types of legacy eip712 typed data according to the given transaction",
-		Example: fmt.Sprintf(`$ %s debug legacy-eip712 tx.json --chain-id shidod_9000-1`, version.AppName),
+		Example: fmt.Sprintf(`$ %s debug legacy-eip712 tx.json --chain-id anrytond_9000-1`, version.AppName),
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -156,7 +156,7 @@ func LegacyEIP712Cmd() *cobra.Command {
 				return errors.Wrap(err, "encode tx")
 			}
 
-			chainID, err := shido.ParseChainID(clientCtx.ChainID)
+			chainID, err := anryton.ParseChainID(clientCtx.ChainID)
 			if err != nil {
 				return errors.Wrap(err, "invalid chain ID passed as argument")
 			}

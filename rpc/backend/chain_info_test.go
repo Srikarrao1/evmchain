@@ -14,11 +14,11 @@ import (
 	"github.com/cometbft/cometbft/abci/types"
 	tmrpctypes "github.com/cometbft/cometbft/rpc/core/types"
 
-	"github.com/shido/shido/v2/rpc/backend/mocks"
-	rpc "github.com/shido/shido/v2/rpc/types"
-	utiltx "github.com/shido/shido/v2/testutil/tx"
-	evmtypes "github.com/shido/shido/v2/x/evm/types"
-	feemarkettypes "github.com/shido/shido/v2/x/feemarket/types"
+	"github.com/anryton/anryton/v2/rpc/backend/mocks"
+	rpc "github.com/anryton/anryton/v2/rpc/types"
+	utiltx "github.com/anryton/anryton/v2/testutil/tx"
+	evmtypes "github.com/anryton/anryton/v2/x/evm/types"
+	feemarkettypes "github.com/anryton/anryton/v2/x/feemarket/types"
 )
 
 func (suite *BackendTestSuite) TestBaseFee() {
